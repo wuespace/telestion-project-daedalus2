@@ -6,10 +6,10 @@ Dependencies to the [main repo](https://github.com/TelestionTeam/telestion) are 
 
 ## Necessary Changes
 
-* [ ] `settings.gradle` - set `rootProject.name`
-* [ ] `Dockerfile` - replace `TelestionTemplate` in the CMD block by the new project name 
-* [ ] `build.gradle` - replace `group` by your group name
-* [ ] `.github/workflows/publishImage.yml` - update `ORGANIZATION_OR_USER_NAME/REPO_NAME/IMAGE_NAME`
+* [x] `settings.gradle` - set `rootProject.name`
+* [x] `Dockerfile` - replace `TelestionTemplate` in the CMD block by the new project name 
+* [x] `build.gradle` - replace `group` by your group name
+* [x] `.github/workflows/publishImage.yml` - update `ORGANIZATION_OR_USER_NAME/REPO_NAME/IMAGE_NAME`
 * [ ] `conf/config.json` - adapt to fit your needs
 * [ ] `src/main/java` - add your source code
 * [ ] Update readme
