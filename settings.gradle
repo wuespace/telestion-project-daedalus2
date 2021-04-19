@@ -1,0 +1,5 @@
+rootProject.name = 'TelestionTemplate'
+
+gradle.ext.sourceCompatibility = '14'
+gradle.ext.targetCompatibility = '14'
+
