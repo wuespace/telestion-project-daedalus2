@@ -4,7 +4,7 @@ plugins {
     id 'application'
 }
 
-group 'org.telestion.telestiontemplate'
+group 'de.wuespace.telestion.daedalus2'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = gradle.sourceCompatibility
