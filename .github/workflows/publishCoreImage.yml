@@ -1,4 +1,4 @@
-name: Publish Docker Image
+name: Publish Docker Image of Core
 on:
   release:
     types: [published]
@@ -14,13 +14,13 @@ jobs:
         with:
           java-version: 16
       - name: Build App
-        run: chmod +x gradlew && ./gradlew assembleDist
+        run: cd core && chmod +x gradlew && ./gradlew assembleDist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
         with:
-          path: ./
+          path: ./core/
           username: ${{ github.ACTOR }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com

@@ -1,8 +1,8 @@
-name: Test Java
+name: Test Core Module
 on: [push, pull_request]
 jobs:
-  push_to_registry:
-    name: Test Java
+  test_core_module:
+    name: Test Core Module
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -11,7 +11,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 16
-      - name: Build App
-        run: chmod +x gradlew && ./gradlew test
+      - name: Test App
+        run: cd core && chmod +x gradlew && ./gradlew test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
