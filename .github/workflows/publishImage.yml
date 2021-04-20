@@ -9,10 +9,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Set up JDK 14
+      - name: Set up JDK 16
         uses: actions/setup-java@v1
         with:
-          java-version: 14
+          java-version: 16
       - name: Build App
         run: chmod +x gradlew && ./gradlew assembleDist
         env:
