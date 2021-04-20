@@ -1,5 +1,5 @@
-rootProject.name = 'Daedalus2GroundStation'
+rootProject.name = 'Telestion Daedalus2 Client'
 
-gradle.ext.sourceCompatibility = '14'
-gradle.ext.targetCompatibility = '14'
+gradle.ext.sourceCompatibility = '16'
+gradle.ext.targetCompatibility = '16'
 
