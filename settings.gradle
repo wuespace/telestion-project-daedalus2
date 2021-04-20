@@ -1,4 +1,4 @@
-rootProject.name = 'Telestion Daedalus2 Client'
+rootProject.name = 'TelestionDaedalus2Client'
 
 gradle.ext.sourceCompatibility = '16'
 gradle.ext.targetCompatibility = '16'
