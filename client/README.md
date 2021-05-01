@@ -1,27 +1,77 @@
-# Telestion Client PSC
+# 
+[![Created using the @wuespace/telestion-client-cli](https://img.shields.io/badge/created%20using-%40wuespace%2Ftelestion--client--cli-%23452897)](https://github.com/wuespace/telestion-client/tree/main/packages/telestion-client-cli)
 
-It looks like you have not initialized a PSC yet!
+This Telestion PSC (_Project-Specific Client_) was bootstrapped with the
+[Telestion Client](https://github.com/wuespace/telestion-client) CLI.
 
-## Initialization
+## Getting started
 
 > **NOTE:** All commands below, unless otherwise specified,
-> should get executed in the cloned project's root folder (the git root).
+> should get executed in the cloned project's root folder (that contains the `package.json`) or a subfolder thereof.
 
-To set up a PSC for this application, please install an up to date version of:
+The first step is to install the development dependencies.
+They are defined in `package.json` and you can install them with the following command:
 
-- https://nodejs.org/en/
-- npm
-
-Then install our command line interface globally in your workspace:
-
-```shell
-npm install --global @wuespace/telestion-client-cli
+```shell script
+npm ci
 ```
 
-After the installation, initialize a new PSC:
+## Running
 
-```shell
-tc-cli init
+To build and run the project in development mode, execute:
+
+```shell script
+npm start
 ```
 
-Finished!
+## Build and deploy
+
+The build command generates a ready-to-deploy web application and native app.
+
+To build the entire project, run:
+
+```shell script
+npm run build
+```
+
+## Project structure
+
+The project structure is like the structure created by `create-react-app` (_CRA_), plus some special structures:
+
+```
+.
+├── public (static files, cf. CRA documentation)
+│   ├── index.html
+│   ├── favicon.ico
+│   └── [...]
+├── src
+│   ├── components
+│   │   ├── app.tsx (the overall PSC React App)
+│   │   ├── header.tsx (the header component)
+│   │   └── login-page.tsx (the login page)
+│   ├── model
+│   │   └── sample-user-config.ts (the initial user config)
+│   ├── widgets
+│   │   ├── sample-widget (a sample widget included in the template)
+│   │   │   ├── index.ts (widget meta model, including a unique widget name)
+│   │   │   └── widget.tsx (widget component definition)
+│   │   └── index.ts (array of widgets)
+│   ├── index.css
+│   ├── index.tsx
+│   └── [...]
+├── package.json
+├── README.md (you're here :P)
+├── telestion.config.js (configuration of the PSC, such as plugins, etc.)
+└── tsconfig.json (configuration for TypeScript compilation)
+```
+
+## Learn More
+
+To get started with PSC Development, you can take a look at the _PSC Developer Manual_. It contains many explanations of the most important concepts, practical guides, references, and more.
+
+You can find the latest versions (in PDF format) in the [Documentation Repo Releases](https://github.com/wuespace/telestion-docs/releases/latest).
+
+For a full API Reference of all the Telestion Client APIs, check out the documentation of the Telestion Client:
+https://wuespace.github.io/telestion-client/
+
+To learn React, check out the [React documentation](https://reactjs.org/).

@@ -1,0 +1,77 @@
+{
+	"name": "telestion-project-daedalus2",
+	"description": "telestion-project-daedalus2, a Telestion PSC generated using the telestion-client-cli",
+	"version": "0.0.0",
+	"homepage": ".",
+	"engines": {
+		"node": ">=14"
+	},
+	"scripts": {
+		"prepare": "node scripts/register-precommit-hook.js",
+		"start": "npm run start:electron",
+		"start:electron": "tc-cli start --electron",
+		"start:browser": "tc-cli start --browser",
+		"build": "tc-cli build",
+		"stats": "tc-cli stats",
+		"style": "prettier --write package.json '**/*{.ts,.tsx,.js,.jsx,.json,.html,.css,.scss,.sass,.yaml,.yml,.md}'",
+		"style:ci": "prettier --list-different package.json '**/*{.ts,.tsx,.js,.jsx,.json,.html,.css,.scss,.sass,.yaml,.yml,.md}'",
+		"lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern node_modules/ --no-error-on-unmatched-pattern src",
+		"ts": "tsc",
+		"clean": "rimraf build dist"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged"
+		}
+	},
+	"private": true,
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"dependencies": {
+		"@adobe/react-spectrum": "^3.6.0",
+		"@react-spectrum/tabs": "^3.0.0-alpha.3",
+		"@spectrum-icons/illustrations": "^3.2.0",
+		"@spectrum-icons/ui": "^3.2.0",
+		"@spectrum-icons/workflow": "^3.2.0",
+		"@wuespace/telestion-client-common": "^0.14.0",
+		"@wuespace/telestion-client-core": "^0.14.0",
+		"@wuespace/telestion-client-prop-types": "^0.14.0",
+		"electron": "^12.0.0",
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1",
+		"react-router-dom": "^5.2.0",
+		"zustand": "^3.2.0"
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "^5.11.9",
+		"@testing-library/react": "^11.2.3",
+		"@testing-library/user-event": "^13.0.0",
+		"@types/jest": "^26.0.20",
+		"@types/node": "^15.0.1",
+		"@types/react": "^17.0.0",
+		"@types/react-dom": "^17.0.0",
+		"@wuespace/telestion-client-cli": "^0.14.0",
+		"@wuespace/telestion-client-types": "^0.14.0",
+		"prettier": "^2.2.1",
+		"pretty-quick": "^3.1.0",
+		"react-scripts": "^4.0.1",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.1.3"
+	}
+}
