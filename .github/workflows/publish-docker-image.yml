@@ -38,7 +38,7 @@ jobs:
           path: ${{ github.workspace }}
 
       - name: Import environment ⛓
-        run: cat .build-env >> $GITHUB_ENV
+        run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
 
       - name: Cache Docker layers ♻️
         uses: actions/cache@v2.1.5

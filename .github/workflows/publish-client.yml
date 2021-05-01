@@ -12,7 +12,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     strategy:
-      os: [ubuntu-latest, windows-latest, macos-latest]
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     defaults:
       run:
         working-directory: ./client
@@ -36,9 +37,9 @@ jobs:
           name: build-env
           path: ${{ github.workspace }}
 
-      - name: Import build environment ⛓
-        run: cat .build-env >> $GITHUB_ENV
-      
+      - name: Import environment ⛓
+        run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
+
       - name: Install development dependencies 📚
         run: npm ci
 
