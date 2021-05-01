@@ -1,3 +1,12 @@
+## [0.1.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.0...v0.1.1) (2021-05-01)
+
+
+### Bug Fixes
+
+* Workflow syntax and build-env file ([552df47](https://github.com/wuespace/telestion-project-daedalus2/commit/552df475cede2ee39c395e8944cc6567b5e4f86a))
+
+
+
 # [0.1.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.0.5-test...v0.1.0) (2021-05-01)
 
 
