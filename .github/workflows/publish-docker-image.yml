@@ -1,0 +1,95 @@
+name: Publish Docker Image
+
+# Events that trigger this workflow
+on:
+  workflow_run:
+    workflows: ["Release"]
+    types: [completed]
+
+jobs:
+  push-to-registry:
+    name: Build and push Docker image to GitHub Container Registry
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    defaults:
+      run:
+        working-directory: ./application
+    steps:
+      - name: Checkout 📥
+        uses: actions/checkout@v2.3.4
+        with:
+          submodules: true
+
+      - name: Set up JDK 16 💿
+        uses: actions/setup-java@v2.0.0
+        with:
+          distribution: 'zulu'
+          java-version: '16'
+          java-package: jdk
+      - name: Set up Docker Buildx ⬆
+        uses: docker/setup-buildx-action@v1.3.0
+
+      - name: Download build environment 📥
+        uses: dawidd6/action-download-artifact@v2.14.0
+        with:
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+          workflow_conclusion: success
+          name: build-env
+          path: ${{ github.workspace }}
+
+      - name: Import environment ⛓
+        run: cat .build-env >> $GITHUB_ENV
+
+      - name: Cache Docker layers ♻️
+        uses: actions/cache@v2.1.5
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Install dependencies 📚
+        run: chmod +x gradlew && ./gradlew
+        env:
+          GITHUB_TOKEN: ${{ secrets.READ_PACKAGES }}
+
+      - name: Build App 🛠️
+        run: ./gradlew assembleDist
+        env:
+          GITHUB_TOKEN: ${{ secrets.READ_PACKAGES }}
+
+      # You may need to manage write and read access of GitHub Actions
+      # for this repository in the container settings.
+      #
+      # You can also use a personal access token (PAT) with the appropriate scopes.
+      #
+      # Please see:
+      # https://github.com/marketplace/actions/docker-login#github-container-registry
+      - name: Login to GitHub Container Registry 🛂
+        uses: docker/login-action@v1.9.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push docker image 🗜
+        uses: docker/build-push-action@v2.4.0
+        with:
+          context: .
+          pull: true
+          push: true
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          tags: "ghcr.io/${{ github.repository }}:latest"
+
+      # Temporary fix for growing caches
+      # https://github.com/docker/build-push-action/issues/252
+      # https://github.com/moby/buildkit/issues/1896
+      #
+      # Please see:
+      # https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
+      - name: Move cache ♻️
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache

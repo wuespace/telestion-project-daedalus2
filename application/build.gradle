@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'application'
+}
+
+group '##GROUP_ID##'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = gradle.sourceCompatibility
+targetCompatibility = gradle.targetCompatibility
+
+application {
+    mainClassName = 'de.wuespace.telestion.application.Application'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/wuespace/telestion-core/")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR") == null ? GITHUB_ACTOR : System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+
+dependencies {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+    implementation "io.vertx:vertx-core:4.0.3"
+    implementation 'de.wuespace.telestion:telestion-api:0.1.2'
+    implementation 'de.wuespace.telestion:telestion-application:0.1.2'
+    implementation 'de.wuespace.telestion:telestion-services:0.1.2'
+    implementation 'de.wuespace.telestion:telestion-examples:0.1.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+task loadEnvironmentVariables {
+    if (file('.github.credentials').exists()) {
+        file('.github.credentials').readLines().each() {
+            if (!it.isEmpty() && !it.startsWith("#")) {
+                def pos = it.indexOf("=")
+                def key = it.substring(0, pos)
+                def value = it.substring(pos + 1)
+
+                if (key.equals("GITHUB_ACTOR")) {
+                    GITHUB_ACTOR = value
+                }
+
+                if (key.equals("GITHUB_TOKEN")) {
+                    GITHUB_TOKEN = value
+                }
+            }
+        }
+    }
+}
+
+assemble.dependsOn(loadEnvironmentVariables)
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+    reports {
+        junitXml.enabled = true
+    }
+}
