@@ -54,5 +54,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.tag }}
-          file: ./dist/telestion-project-daedalus2*.*
+          file: ./client/dist/telestion-project-daedalus2*.*
           file_glob: true
