@@ -16,7 +16,9 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./client
     steps:
       - name: Checkout 📥
         uses: actions/checkout@v2.3.4
@@ -49,6 +51,7 @@ jobs:
           eslint: true
           eslint_extensions: 'js,jsx,ts,tsx'
           eslint_args: '--ignore-pattern node_modules/ --no-error-on-unmatched-pattern'
-          eslint_dir: 'src'
+          eslint_dir: 'client/src'
           prettier: true
           prettier_extensions: 'ts,tsx,js,jsx,json,html,css,scss,sass,yaml,yml,md'
+          prettier_dir: 'client'
