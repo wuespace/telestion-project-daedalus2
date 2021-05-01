@@ -12,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     defaults:
@@ -38,6 +39,7 @@ jobs:
           path: ${{ github.workspace }}
 
       - name: Import environment ⛓
+        shell: bash
         run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
 
       - name: Install development dependencies 📚
