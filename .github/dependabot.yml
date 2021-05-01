@@ -11,15 +11,30 @@ updates:
       interval: 'daily'
       time: '04:00'
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
 
   - package-ecosystem: 'github-actions'
     directory: '/application'
     schedule:
       interval: 'daily'
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
 
-  - package-ecosystem: 'github-actions' # See documentation for possible values
-    directory: '/' # Location of package manifests
+  - package-ecosystem: 'npm'
+    directory: '/client'
+    schedule:
+      interval: 'daily'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
       interval: 'daily'
     open-pull-requests-limit: 10
