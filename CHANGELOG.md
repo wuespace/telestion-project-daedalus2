@@ -1,3 +1,13 @@
+## [0.1.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.1...v0.1.2) (2021-05-01)
+
+
+### Bug Fixes
+
+* Explicit set Dockerfile on build and push ([044ba2d](https://github.com/wuespace/telestion-project-daedalus2/commit/044ba2dca3fbc0f0e02d77e75c440120ffbfe145))
+* Publish client binaries workflow ([4773d57](https://github.com/wuespace/telestion-project-daedalus2/commit/4773d5758029aa33830cff26ee2d39e7921dd6dd))
+
+
+
 ## [0.1.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.0...v0.1.1) (2021-05-01)
 
 
