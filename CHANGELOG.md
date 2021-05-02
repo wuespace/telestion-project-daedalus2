@@ -1,3 +1,13 @@
+## [0.1.5](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.4...v0.1.5) (2021-05-02)
+
+
+### Bug Fixes
+
+* Docker build and publish path ([ad6d373](https://github.com/wuespace/telestion-project-daedalus2/commit/ad6d37321dab456f11c3d8c9c5f6fa6d2dc82561))
+* Publish Client workflow updates package version ([50d4d0d](https://github.com/wuespace/telestion-project-daedalus2/commit/50d4d0d5071bbf26a9151af347e456ae084142fb))
+
+
+
 ## [0.1.4](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.3...v0.1.4) (2021-05-01)
 
 
