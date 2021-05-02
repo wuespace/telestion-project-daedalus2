@@ -42,9 +42,9 @@ jobs:
 
       - name: Extract semver numbers ⛓
         run: |
-          echo "major=$(echo "VERSION" | cut -d '.' -f 1 -)" >> $GITHUB_ENV
-          echo "minor=$(echo "VERSION" | cut -d '.' -f 2 -)" >> $GITHUB_ENV
-          echo "patch=$(echo "VERSION" | cut -d '.' -f 3 -)" >> $GITHUB_ENV
+          echo "major=$(echo "$VERSION" | cut -d '.' -f 1 -)" >> $GITHUB_ENV
+          echo "minor=$(echo "$VERSION" | cut -d '.' -f 2 -)" >> $GITHUB_ENV
+          echo "patch=$(echo "$VERSION" | cut -d '.' -f 3 -)" >> $GITHUB_ENV
         env:
           VERSION: ${{ env.version }}
 
