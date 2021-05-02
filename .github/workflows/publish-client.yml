@@ -64,6 +64,11 @@ jobs:
         with:
           node-version: 14
 
+      # Remove, when checkout error is resolved
+      # See https://github.com/actions/checkout/issues/439
+      - name: Pull latest changes
+        run: git pull origin main
+
       # Remove, when setup-node action supports specifying the node version
       - name: Install npm v7 ⬆
         run: npm install --global npm@v7
