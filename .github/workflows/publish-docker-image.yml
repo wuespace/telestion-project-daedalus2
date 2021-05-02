@@ -40,13 +40,21 @@ jobs:
       - name: Import environment ⛓
         run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
 
-      # - name: Cache Docker layers ♻️
-      #   uses: actions/cache@v2.1.5
-      #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-buildx-
+      - name: Extract semver numbers ⛓
+        run: |
+          echo "major=$(echo "VERSION" | cut -d '.' -f 1 -)" >> $GITHUB_ENV
+          echo "minor=$(echo "VERSION" | cut -d '.' -f 2 -)" >> $GITHUB_ENV
+          echo "patch=$(echo "VERSION" | cut -d '.' -f 3 -)" >> $GITHUB_ENV
+        env:
+          VERSION: ${{ env.version }}
+
+      - name: Cache Docker layers ♻️
+        uses: actions/cache@v2.1.5
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
       - name: Install dependencies 📚
         run: chmod +x gradlew && ./gradlew
@@ -82,7 +90,11 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          tags: "ghcr.io/${{ github.repository }}:latest"
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ env.version }}
+            ghcr.io/${{ github.repository }}:${{ env.major }}.${{ env.minor }}
+            ghcr.io/${{ github.repository }}:${{ env.major }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
@@ -93,7 +105,7 @@ jobs:
       #
       # Please see:
       # https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
-      # - name: Move cache ♻️
-      #   run: |
-      #     rm -rf /tmp/.buildx-cache
-      #     mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      - name: Move cache ♻️
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
