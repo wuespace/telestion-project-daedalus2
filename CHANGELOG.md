@@ -1,3 +1,13 @@
+## [0.1.6](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.5...v0.1.6) (2021-05-02)
+
+
+### Bug Fixes
+
+* Add more tags to published docker images ([62a91f2](https://github.com/wuespace/telestion-project-daedalus2/commit/62a91f22f80b47f306568c2a3b3b64663876ed46))
+* Client Build jobs don't receive the latest commits ([70f7aca](https://github.com/wuespace/telestion-project-daedalus2/commit/70f7aca4ee3cb33cf4d0f0b8260fb3bbcb6a79ed))
+
+
+
 ## [0.1.5](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.4...v0.1.5) (2021-05-02)
 
 
