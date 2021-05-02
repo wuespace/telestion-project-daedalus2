@@ -1,3 +1,12 @@
+## [0.1.7](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.6...v0.1.7) (2021-05-02)
+
+
+### Bug Fixes
+
+* Docker images tags ([f276892](https://github.com/wuespace/telestion-project-daedalus2/commit/f27689221326d9db9d6ed1c7ecb7c0b38482fc15))
+
+
+
 ## [0.1.6](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.5...v0.1.6) (2021-05-02)
 
 
