@@ -1,3 +1,16 @@
+## [0.1.4](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.3...v0.1.4) (2021-05-01)
+
+
+
+## [0.1.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.2...v0.1.3) (2021-05-01)
+
+
+### Bug Fixes
+
+* Paths in workflows ([1ad8f9e](https://github.com/wuespace/telestion-project-daedalus2/commit/1ad8f9e5b9a7393fd4f4c0fc8c864ac63b681dcf))
+
+
+
 ## [0.1.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.1...v0.1.2) (2021-05-01)
 
 
