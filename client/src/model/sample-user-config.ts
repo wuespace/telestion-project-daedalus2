@@ -5,14 +5,15 @@ export const userConfig: UserConfig = {
 		dashboards: [
 			{
 				title: 'Overview',
-				columns: 4,
-				rows: 4,
+				columns: 1,
+				rows: 1,
 				widgets: [
 					{
-						widgetName: 'sampleWidget',
-						width: 4,
+						widgetName: 'pgraphWidget',
+						width: 1,
 						height: 1,
-						title: 'Widget 1'
+						title: 'PGraph',
+						initialProps: {}
 					},
 					{
 						widgetName: 'Widget2',

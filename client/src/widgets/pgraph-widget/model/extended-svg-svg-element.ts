@@ -1,5 +1,5 @@
 import { DataSample } from '../../../model/data-sample';
 
 export type ExtendedSVGSVGElement = SVGSVGElement & {
-	update(data: DataSample[]): DataSample[];
+	update(data: DataSample[]): void;
 };

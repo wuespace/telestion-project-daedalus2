@@ -14,7 +14,7 @@ export interface PGraphProps {
 
 export function PGraph({ width, height, address, options }: PGraphProps) {
 	const [element, node] = useD3(createNode, [width, height, options]);
-	useDynamicData(node, address);
+	useDynamicData(node, address, options);
 
 	return <div ref={element} />;
 }
