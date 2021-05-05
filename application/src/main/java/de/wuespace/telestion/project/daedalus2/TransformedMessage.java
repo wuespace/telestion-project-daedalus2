@@ -7,4 +7,8 @@ public record TransformedMessage(
 		@JsonProperty
 		String zeug
 ) implements JsonMessage {
+	@SuppressWarnings("unused")
+	public TransformedMessage() {
+		this(null);
+	}
 }
