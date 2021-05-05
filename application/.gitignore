@@ -3,6 +3,7 @@
 
 # GitHub credentials
 .github.credentials
+gradle.properties
 
 ### Kotlin template
 # Compiled class file
