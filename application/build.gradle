@@ -17,13 +17,21 @@ application {
 repositories {
     mavenCentral()
     maven {
-        name = "GitHubPackages"
+        name = "GitHubCorePackages"
         url = uri("https://maven.pkg.github.com/wuespace/telestion-core/")
         credentials {
             username = System.getenv("GITHUB_ACTOR") == null ? GITHUB_ACTOR : System.getenv("GITHUB_ACTOR")
             password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
         }
     }
+	maven {
+		name = "GitHubMavlink"
+		url = uri("https://mavemn.pkg.github.com/wuespace/telestion-extension-mavlink/")
+		credentials {
+			username = System.getenv("GITHUB_ACTOR") == null ? GITHUB_ACTOR : System.getenv("GITHUB_ACTOR")
+			password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
+		}
+	}
 }
 
 dependencies {
@@ -34,31 +42,10 @@ dependencies {
     implementation 'de.wuespace.telestion:telestion-application:0.1.2'
     implementation 'de.wuespace.telestion:telestion-services:0.1.2'
     implementation 'de.wuespace.telestion:telestion-examples:0.1.2'
+	implementation 'de.wuespace.telestion.extension.mavlink:telestion-extension-mavlink:0.2.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
-
-task loadEnvironmentVariables {
-    if (file('.github.credentials').exists()) {
-        file('.github.credentials').readLines().each() {
-            if (!it.isEmpty() && !it.startsWith("#")) {
-                def pos = it.indexOf("=")
-                def key = it.substring(0, pos)
-                def value = it.substring(pos + 1)
-
-                if (key.equals("GITHUB_ACTOR")) {
-                    GITHUB_ACTOR = value
-                }
-
-                if (key.equals("GITHUB_TOKEN")) {
-                    GITHUB_TOKEN = value
-                }
-            }
-        }
-    }
-}
-
-assemble.dependsOn(loadEnvironmentVariables)
 
 test {
     useJUnitPlatform()
