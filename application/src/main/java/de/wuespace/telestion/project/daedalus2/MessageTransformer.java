@@ -16,6 +16,9 @@ import io.vertx.core.Promise;
  * <p>
  * It gets configured using {@link Configuration} with {@link Configuration#inAddress} (which it listens to) and
  * {@link Configuration#outAddress}, which it publishes to.
+ *
+ * @author Pablo Klaschka
+ * @version 2021-05-05
  */
 public class MessageTransformer extends AbstractVerticle {
 	private Configuration config;
@@ -96,6 +99,8 @@ public class MessageTransformer extends AbstractVerticle {
 	 *
 	 * @param inAddress  the address the verticle listens to
 	 * @param outAddress the address the verticle publishes to
+	 * @author Pablo Klaschka
+	 * @version 2021-05-05
 	 */
 	public record Configuration(
 			@JsonProperty
