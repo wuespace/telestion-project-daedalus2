@@ -8,26 +8,26 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 
 public class MessageTransformer extends AbstractVerticle {
-	private Configuration configuration;
+	private Configuration config;
 
 	@SuppressWarnings("unused")
 	public MessageTransformer() {
 		this(null);
 	}
 
-	public MessageTransformer(Configuration configuration) {
-		this.configuration = configuration;
+	public MessageTransformer(Configuration config) {
+		this.config = config;
 	}
 
 	@Override
 	public void start(Promise<Void> startPromise) {
 		var eb = vertx.eventBus();
 
-		this.configuration = Config.get(this.configuration, config(), Configuration.class);
+		this.config = Config.get(this.config, config(), Configuration.class);
 
-		eb.consumer(this.configuration.inAddress(), raw -> JsonMessage.on(MavlinkMessage.class, raw, message -> {
+		eb.consumer(this.config.inAddress(), raw -> JsonMessage.on(MavlinkMessage.class, raw, message -> {
 			var beautifulMessage = new TransformedMessage("fjei");
-			eb.publish(this.configuration.outAddress(), beautifulMessage.json());
+			eb.publish(this.config.outAddress(), beautifulMessage.json());
 		}));
 
 
