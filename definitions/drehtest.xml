@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<mavlink>
+
+    <include>common.xml</include>
+    <!-- <version>9</version> -->
+    <dialect>1</dialect>
+
+    <enums>
+        <!-- Enums are defined here (optional) -->
+    </enums>
+
+    <messages>
+		<message id="10005" name="DREHTEST">
+			<description> Contains the some Seeds system_t information + local time.</description>
+			<field type="int64_t" name="time_local">Seed local time</field>
+			<field type="float" name="imu_acc_x"> acceleration along x-axis, multiple of g</field>
+			<field type="float" name="imu_acc_y"> acceleration along y-axis, multiple of g</field>
+			<field type="float" name="imu_acc_z"> acceleration along z-axis, multiple of g</field>
+			<field type="float" name="imu_gyro_x">angular velocity around x-axis </field>
+			<field type="float" name="imu_gyro_y">angular velocity around y-axis </field>
+			<field type="float" name="imu_gyro_z">angular velocity around z-axis </field>
+			<field type="float" name="tacho_rot_rate">rotation rate of the rotor in rad/s </field>
+			<field type="float[4]" name="servo_amps">contains swashplate_servo1_amps, swashplate_servo2_amps, swashplate_servo3_amps and fin_servo_amps in this order. </field>
+			<field type="float[2]" name="bat_volts"> bat1_volts (Battery block 1 voltage), bat2_volts (Battery block 2 voltage)</field>
+			<field type="float" name="filter_vel_vertical">vertical velocity of the seed in m/s – negative if seed is falling</field>
+			<field type="float" name="filter_height_ground">height above ground in m</field>
+			<field type="float" name="filter_rotor_rot_rate">absolute (to air/world frame) rotation rate of the rotor in rad/s" </field>
+			<field type="float" name="filter_body_rot_rate">absolute (to air/world frame) rotation rate of the body in rad/s"</field>
+			<field type="float" name="filter_vel_vertical_ind">induced vertical velocity (lift)  in m/s</field>
+			<field type="float" name="controller_blade_pitch">setpoint for the pitch angle for the servos </field>
+			<field type="float" name="controller_fin_angle">desired fin angle </field>
+			<field type="uint8_t" name="controller_id">indentifier for controller type/state</field>
+			<field type="uint8_t" name="available_status">imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, servo_amps_avail, bat_temp_avail, volts_avail in this order with individual size of 1 bit</field>
+		</message>
+	</messages>
+</mavlink>
