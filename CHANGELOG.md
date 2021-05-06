@@ -1,3 +1,19 @@
+# [0.2.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.7...v0.2.0) (2021-05-06)
+
+
+### Bug Fixes
+
+* **application:** Verticle classnames matching new telestion-core package structure ([d724657](https://github.com/wuespace/telestion-project-daedalus2/commit/d7246578c7466abec7ff72832170502d19a9977e))
+* **deps:** Fix java maven dependencies ([94e3165](https://github.com/wuespace/telestion-project-daedalus2/commit/94e3165a997d121e3d07eca4fe3e9220aa9fe3e3))
+* **gradle:** Fix main class name ([0e649df](https://github.com/wuespace/telestion-project-daedalus2/commit/0e649df6b9d5a7aa5299d5b1d831d5d9cf02adc3))
+
+
+### Features
+
+* Add mavlink definitions and current Drehtest-Record ([baa1b52](https://github.com/wuespace/telestion-project-daedalus2/commit/baa1b52c2e9e5475784502cbf4f28008cffa1bef))
+
+
+
 ## [0.1.7](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.6...v0.1.7) (2021-05-02)
 
 
