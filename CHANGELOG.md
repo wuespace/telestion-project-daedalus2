@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.2.0...v0.2.1) (2021-05-06)
+
+
+### Bug Fixes
+
+* **application:** Docker binary working directory ([4611cdf](https://github.com/wuespace/telestion-project-daedalus2/commit/4611cdfe95e8e07c41cc1e45c7467cac5eae978a))
+
+
+
 # [0.2.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.1.7...v0.2.0) (2021-05-06)
 
 
