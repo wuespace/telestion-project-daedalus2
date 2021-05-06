@@ -7,4 +7,7 @@ public record Imu(
 		@JsonProperty Accelerometer acc,
 		@JsonProperty Gyro gyro
 ) implements JsonMessage {
+	public Imu() {
+		this(new Accelerometer(), new Gyro());
+	}
 }
