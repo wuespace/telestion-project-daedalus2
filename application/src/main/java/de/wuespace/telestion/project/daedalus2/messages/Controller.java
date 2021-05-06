@@ -7,4 +7,7 @@ public record Controller(
 		@JsonProperty float bladePitch,
 		@JsonProperty float finAngle
 ) implements JsonMessage {
+	public Controller() {
+		this(0, 0);
+	}
 }

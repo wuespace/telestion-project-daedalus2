@@ -9,4 +9,7 @@ public record ServoAmps(
 		@JsonProperty float swashplate_servo3_amps,
 		@JsonProperty float fin_servo_amps
 ) implements JsonMessage {
+	public ServoAmps() {
+		this(0, 0, 0, 0);
+	}
 }

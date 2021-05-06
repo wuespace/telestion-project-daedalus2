@@ -8,4 +8,7 @@ public record Accelerometer(
 		@JsonProperty float y,
 		@JsonProperty float z
 ) implements JsonMessage {
+	public Accelerometer() {
+		this(0, 0, 0);
+	}
 }

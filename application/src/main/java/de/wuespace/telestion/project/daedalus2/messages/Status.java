@@ -14,4 +14,10 @@ public record Status(
 		@JsonProperty boolean voltsAvail
 
 ) implements JsonMessage {
+	public Status() {
+		this(
+				false, false, false, false,
+				false, false, false, false
+		);
+	}
 }

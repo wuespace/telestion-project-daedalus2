@@ -5,6 +5,7 @@ import de.wuespace.telestion.api.message.JsonMessage;
 
 /**
  * A beautiful version of the Drehtest message
+ *
  * @param timeLocal Seed local time
  */
 public record SystemT(
@@ -35,4 +36,17 @@ public record SystemT(
 		@JsonProperty
 		Status status
 ) implements JsonMessage {
+	public SystemT() {
+		this(
+				0,
+				new Imu(),
+				0,
+				new ServoAmps(),
+				new BatVolts(),
+				new Filter(),
+				new Controller(),
+				0,
+				new Status()
+		);
+	}
 }

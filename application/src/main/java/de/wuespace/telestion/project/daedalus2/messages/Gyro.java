@@ -8,4 +8,7 @@ public record Gyro(
 		@JsonProperty float y,
 		@JsonProperty float z
 ) implements JsonMessage {
+	public Gyro() {
+		this(0, 0, 0);
+	}
 }

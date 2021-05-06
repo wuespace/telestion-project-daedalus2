@@ -10,4 +10,7 @@ public record Filter(
 		@JsonProperty float rotorRotRate,
 		@JsonProperty float bodyRotRate
 ) implements JsonMessage {
+	public Filter() {
+		this(0, 0, 0, 0, 0);
+	}
 }

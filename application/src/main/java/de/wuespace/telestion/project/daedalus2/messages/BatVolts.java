@@ -7,4 +7,7 @@ public record BatVolts(
 		@JsonProperty float bat1_volts,
 		@JsonProperty float bat2_volts
 ) implements JsonMessage {
+	public BatVolts() {
+		this(0, 0);
+	}
 }
