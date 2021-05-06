@@ -3,7 +3,7 @@ import { ChannelAddress } from '@wuespace/telestion-client-types';
 import { useD3 } from '../../hooks';
 import { useDynamicData } from '../hooks';
 import { Options } from '../model';
-import { createNode } from './create-node';
+import { createNode } from '../lib';
 
 export interface PGraphProps {
 	width: number;

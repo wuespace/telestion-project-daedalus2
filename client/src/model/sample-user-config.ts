@@ -13,37 +13,12 @@ export const userConfig: UserConfig = {
 						width: 1,
 						height: 1,
 						title: 'PGraph',
-						initialProps: {}
-					},
-					{
-						widgetName: 'Widget2',
-						width: 2,
-						height: 2,
-						title: 'Widget 2'
-					},
-					{
-						widgetName: 'Widget3',
-						width: 2,
-						height: 1,
-						title: 'Widget 3'
-					},
-					{
-						widgetName: 'Widget4',
-						width: 1,
-						height: 1,
-						title: 'Widget 4'
-					},
-					{
-						widgetName: 'Widget5',
-						width: 1,
-						height: 2,
-						title: 'Widget 5'
-					},
-					{
-						widgetName: 'Widget6',
-						width: 1,
-						height: 3,
-						title: 'Widget 6'
+						initialProps: {
+							fill: 'white',
+							period: 10 * 1000,
+							minimum: 0,
+							maximum: 10
+						}
 					}
 				]
 			}
