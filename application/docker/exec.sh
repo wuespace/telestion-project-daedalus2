@@ -19,4 +19,5 @@ mkdir -p "$PROJECT_IMAGE/conf"
 cp "$CONFIG_PATH" "$PROJECT_IMAGE/conf/"
 
 # execute binary
-sh -c "$PROJECT_IMAGE/bin/$PROJECT_IMAGE"
+cd "$PROJECT_IMAGE"
+sh -c "./bin/$PROJECT_IMAGE"
