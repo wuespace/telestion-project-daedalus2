@@ -10,7 +10,7 @@ export function createNode(
 	height: number,
 	options: Options
 ): ExtendedSVGSVGElement {
-	const { fill, minimum, maximum } = options;
+	const { fill, period, minimum, maximum } = options;
 	// build svg frame
 	const chart = d3.create('svg').attr('width', width).attr('height', height);
 
@@ -27,8 +27,9 @@ export function createNode(
 
 	return Object.assign(chart.node(), {
 		update(data: DataSample[]) {
+			const currentDate = Date.now();
 			// determine new axis domains
-			const xDomain = d3.extent(data.map(d => d.timeStamp)) as [number, number];
+			const xDomain = [currentDate - period, currentDate];
 			const yDomain = [minimum, maximum];
 
 			// build axis maps
