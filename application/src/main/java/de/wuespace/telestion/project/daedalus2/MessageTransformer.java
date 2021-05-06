@@ -90,7 +90,6 @@ public class MessageTransformer extends AbstractVerticle {
 			eb.publish(this.config.outAddress(), beautifulMessage.json());
 		}));
 
-
 		startPromise.complete();
 	}
 
