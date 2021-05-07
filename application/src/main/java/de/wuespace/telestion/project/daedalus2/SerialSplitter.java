@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class SerialSplitter extends AbstractVerticle {
 	private Configuration config;
 
-	private ArrayList<byte> dataQueue;
+	private ArrayList<Byte> dataQueue;
 
 	@SuppressWarnings("unused")
 	public SerialSplitter() {
@@ -41,7 +41,7 @@ public class SerialSplitter extends AbstractVerticle {
 
 		this.config = Config.get(this.config, config(), Configuration.class);
 
-		this.dataQueue = new ArrayList<byte>();
+		this.dataQueue = new ArrayList<>();
 
 		eb.consumer(this.config.inAddress(), raw -> JsonMessage.on(RawMessage.class, raw, message -> {
 			// Add the bytes to the buffer/queue
