@@ -34,7 +34,7 @@ public record SystemT(
 		int controllerId,
 
 		@JsonProperty
-		Status status
+		AvailableStatus availableStatus
 ) implements JsonMessage {
 	public SystemT() {
 		this(
@@ -46,7 +46,7 @@ public record SystemT(
 				new Filter(),
 				new Controller(),
 				0,
-				new Status()
+				new AvailableStatus()
 		);
 	}
 }

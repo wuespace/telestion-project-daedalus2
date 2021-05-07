@@ -3,7 +3,7 @@ package de.wuespace.telestion.project.daedalus2.messages;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.wuespace.telestion.api.message.JsonMessage;
 
-public record Status(
+public record AvailableStatus(
 		@JsonProperty boolean imuAccAvail,
 		@JsonProperty boolean imuGyroAvail,
 		@JsonProperty boolean baroAvail,
@@ -14,7 +14,7 @@ public record Status(
 		@JsonProperty boolean voltsAvail
 
 ) implements JsonMessage {
-	public Status() {
+	public AvailableStatus() {
 		this(
 				false, false, false, false,
 				false, false, false, false
