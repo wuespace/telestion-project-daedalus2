@@ -76,7 +76,7 @@ public class MessageTransformer extends AbstractVerticle {
 							message.controllerFinAngle()
 					),
 					message.controllerId(),
-					new Status(
+					new AvailableStatus(
 							(message.availableStatus() & 0b00000001) > 0,
 							(message.availableStatus() & 0b00000010) > 0,
 							(message.availableStatus() & 0b00000100) > 0,
