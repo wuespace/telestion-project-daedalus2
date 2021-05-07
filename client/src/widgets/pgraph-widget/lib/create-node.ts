@@ -19,8 +19,31 @@ export function createNode(
 		.append('g')
 		.attr('transform', `translate(0, ${height - margin})`);
 
+	let backPath = chart.append('path').attr('fill', '#5e5e5e');
+
+	// minimum path
+	// let minPath = chart
+	// 	.append('path')
+	// 	//.attr('shape-rendering', 'optimizeSpeed')
+	// 	.attr('stroke', 'rgba(31,31,31,0)')
+	// 	.attr('fill', '#00000000')
+	// 	.attr('stroke-width', 0.5);
+
+	// maximum path
+	// let maxPath = chart
+	// 	.append('path')
+	// 	//.attr('shape-rendering', 'optimizeSpeed')
+	// 	.attr('stroke', 'rgba(0,0,0,0)')
+	// 	.attr('fill', '#00000000')
+	// 	.attr('stroke-width', 0.5);
+
 	// average path
-	let avgPath = chart.append('path').attr('stroke', fill).attr('fill', fill);
+	let avgPath = chart
+		.append('path')
+		//.attr('shape-rendering', 'optimizeSpeed')
+		.attr('stroke', 'rgb(255,255,255)')
+		.attr('fill', 'rgba(0,0,0,0)')
+		.attr('stroke-width', 0.8);
 
 	// y axis
 	const yG = chart.append('g');
@@ -56,36 +79,61 @@ export function createNode(
 			) =>
 				g
 					.attr('transform', `translate(${x.range()[0]})`)
-					.call(d3.axisLeft(y).ticks(3).tickSizeOuter(margin))
-					.call(g => g.style('fill', 'white'))
-					.call(g => g.select('.domain').style('stroke', 'white'))
-					.call(g => g.selectAll('.tick > text').attr('dx', -margin * 0.2))
-					.call(g =>
-						g
-							.selectAll('.tick > line')
-							.attr('x1', -margin * 0.2)
-							.attr('x2', -margin * 0.4)
-					);
+					.call(d3.axisLeft(y).ticks(3).tickSizeOuter(margin));
+			// .call(g => g.selectAll('.tick > text').attr('dx', -margin * 0.2))
+			// .call(g =>
+			// 	g
+			// 		.selectAll('.tick > line')
+			// 		.attr('x1', -margin * 0.2)
+			// 		.attr('x2', -margin * 0.4)
+			// );
+
+			const backRender = d3
+				.area<DataSample>()
+				.curve(d3.curveLinear)
+				.x(d => x(d.timeStamp))
+				.y0(d => y(d.min))
+				.y1(d => y(d.max));
 
 			// average line renderer
-			const avgLine = d3
+			const avgLineRender = d3
 				.line<DataSample>()
 				.curve(d3.curveLinear)
 				.x(d => x(d.timeStamp))
 				.y(d => y(d.avg));
 
+			// minimum line renderer
+			// const minLineRender = d3
+			// 	.line<DataSample>()
+			// 	.curve(d3.curveLinear)
+			// 	.x(d => x(d.timeStamp))
+			// 	.y(d => y(d.min));
+
+			// maximum line renderer
+			// const maxLineRender = d3
+			// 	.line<DataSample>()
+			// 	.curve(d3.curveLinear)
+			// 	.x(d => x(d.timeStamp))
+			// 	.y(d => y(d.max));
+
 			// apply renderer to dom elements
 			// @ts-ignore
-			avgPath = avgPath
-				.datum(data)
-				.attr('transform', 'translate(0)')
-				.attr('d', avgLine);
+			backPath = backPath.datum(data).attr('d', backRender);
+
+			// @ts-ignore
+			// minPath = minPath
+			// 	.datum(data)
+			// 	.attr('d', minLineRender);
+
+			// @ts-ignore
+			// maxPath = maxPath
+			// 	.datum(data)
+			// 	.attr('d', maxLineRender);
+
+			// @ts-ignore
+			avgPath = avgPath.datum(data).attr('d', avgLineRender);
 
 			yG.call(yAxis);
-			avgPath.attr(
-				'transform',
-				`translate(${x(data[0].timeStamp) - 2 * margin})`
-			);
 			xG.call(xAxis);
 		}
 	});

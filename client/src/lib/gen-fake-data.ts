@@ -8,16 +8,16 @@ const MAX_SLOPE_PERCENT = 10; // 10% of range per call
 
 // ------
 const MIDDLE = (MAX - MIN) / 2;
-const PERCENTILE = (MAX - MIN) / 100; // 1% of range
-const MAX_SLOPE = MAX_SLOPE_PERCENT * PERCENTILE;
+const PERCENTILE = (MAX - MIN) / 1000; // 1% of range
+const MAX_SLOPE = MAX_SLOPE_PERCENT * 13 * PERCENTILE;
 
 let direction = Math.random() < 0.5; // true -> up; false -> down
 let tippingPoint = Math.random();
 
 // initialization
 let avg = MIDDLE; // 50%
-let min = MIDDLE - MIDDLE / 2; // 25%
-let max = MIDDLE + MIDDLE / 2; // 75%
+let min = MIDDLE - MIDDLE / 4; // 25%
+let max = MIDDLE + MIDDLE / 4; // 75%
 
 let lastCall: number | undefined = undefined;
 

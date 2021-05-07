@@ -12,6 +12,6 @@ import { widget as pgraphWidget } from './pgraph-widget';
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
-	pgraphWidget,
+	pgraphWidget as Widget,
 	sampleWidget
 ];

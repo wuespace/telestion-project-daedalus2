@@ -14,10 +14,11 @@ export const userConfig: UserConfig = {
 						height: 1,
 						title: 'PGraph',
 						initialProps: {
+							address: 'fake-channel',
 							fill: 'white',
-							period: 10 * 1000,
-							minimum: 0,
-							maximum: 10
+							period: 60 * 1000,
+							minimum: -3,
+							maximum: 13
 						}
 					}
 				]

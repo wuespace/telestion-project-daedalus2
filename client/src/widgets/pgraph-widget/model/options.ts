@@ -1,4 +1,11 @@
+import { ChannelAddress } from '@wuespace/telestion-client-types';
+
 export interface Options {
+	/**
+	 * The address the data samples come from.
+	 */
+	address: ChannelAddress;
+
 	/**
 	 * The color of average path.
 	 */

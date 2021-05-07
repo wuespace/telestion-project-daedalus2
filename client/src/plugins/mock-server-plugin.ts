@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import { Logger, ChalkLogger } from '@fliegwerk/logsemts';
 import { MockServer, OnClose, OnInit } from '@wuespace/vertx-mock-server';
 import { genFakeData } from '../lib/gen-fake-data';
+import { genRandomData } from '../lib/gen-random-data';
 
 class RocketSoundMockServer extends MockServer implements OnInit, OnClose {
 	intervalId: any;
@@ -12,7 +13,7 @@ class RocketSoundMockServer extends MockServer implements OnInit, OnClose {
 		this.intervalId = setInterval(() => {
 			const sample = genFakeData();
 			this.send(RocketSoundMockServer.fakeChannel, sample);
-		}, 100); // send every 1 second new data
+		}, 33); // send every 1 second new data
 	}
 
 	onClose() {

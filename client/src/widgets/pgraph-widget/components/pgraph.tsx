@@ -1,5 +1,3 @@
-import { ChannelAddress } from '@wuespace/telestion-client-types';
-
 import { useD3 } from '../../hooks';
 import { useDynamicData } from '../hooks';
 import { Options } from '../model';
@@ -8,13 +6,12 @@ import { createNode } from '../lib';
 export interface PGraphProps {
 	width: number;
 	height: number;
-	address: ChannelAddress;
 	options: Options;
 }
 
-export function PGraph({ width, height, address, options }: PGraphProps) {
+export function PGraph({ width, height, options }: PGraphProps) {
 	const [element, node] = useD3(createNode, [width, height, options]);
-	useDynamicData(node, address, options);
+	useDynamicData(node, options);
 
 	return <div ref={element} />;
 }
