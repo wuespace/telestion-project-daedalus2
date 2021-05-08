@@ -1,8 +1,8 @@
 import { UserConfig } from '@wuespace/telestion-client-types';
-import { PGraphTest } from './dashboards';
+import { PGraphTest, CurrentValuesTest } from './dashboards';
 
 export const userConfig: UserConfig = {
 	admin: {
-		dashboards: [PGraphTest]
+		dashboards: [CurrentValuesTest, PGraphTest]
 	}
 };
