@@ -52,6 +52,10 @@ public class MavlinkRegistrar extends AbstractVerticle {
 		}
 	}
 
+	public MavlinkRegistrar() {
+		this(null);
+	}
+
 	public MavlinkRegistrar(Configuration forcedConfig) {
 		this.forcedConfig = forcedConfig;
 	}
