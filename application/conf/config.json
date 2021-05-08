@@ -77,6 +77,41 @@
 		  "outAddress": "beautiful-data"
 		}
 	  },
+	  {
+		"name": "Data Listener",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.DataListener",
+		"magnitude": 1,
+		"config": {
+		  "listeningAddresses": [
+			"beautiful-data"
+		  ]
+		}
+	  },
+	  {
+		"name": "Mongo Database Service",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.MongoDatabaseService",
+		"magnitude": 1,
+		"config": {
+		  "dbConfig": {
+			"db_name": "daedalus2",
+			"useObjectId": true,
+			"host": "host.docker.internal",
+			"port": 27017
+		  },
+		  "dbPoolName": "d2Pool"
+		}
+	  },
+	  {
+		"name": "Periodic Data Aggregator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
+		"magnitude": 1,
+		"config": {
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.System_T",
+		  "field": "imu.acc.x",
+		  "rate": 10,
+		  "outAddress": "aggregated-imu.acc.x"
+		}
+	  },
       {
         "name": "Eventbus Tcp Bridge",
         "verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",
