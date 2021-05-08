@@ -20,11 +20,6 @@ public class MavlinkRegistrar extends AbstractVerticle {
 			for (var name : config.classNames()) {
 				var clazz = Class.forName(name);
 
-				if (!clazz.isAssignableFrom(MavlinkMessage.class)) {
-					logger.warn("MAVLink message " + name + " could not be loaded");
-					return;
-				}
-
 				@SuppressWarnings("unchecked")
 				var mavClass = (Class<MavlinkMessage>) clazz;
 
@@ -35,7 +30,7 @@ public class MavlinkRegistrar extends AbstractVerticle {
 				}
 			}
 		} catch(ClassNotFoundException e) {
-			logger.error("Configured MAVLink message could not be found!", e);
+			logger.error("Configured MAVLink message could not be found or not be loaded!", e);
 		}
 
 		startPromise.complete();
