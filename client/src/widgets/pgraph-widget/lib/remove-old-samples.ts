@@ -1,15 +1,15 @@
 import { DataSample } from '../../../model/data-sample';
 
 /**
- * Removes old samples from the store which no longer fit in the current time period.
- * @param store - the store to clean up
- * @param period - the time period for valid samples in milliseconds
- * @returns the cleaned store (as a new array)
+ * Removes old samples from all connections in the store.
+ * @param store - the store which holds all connection samples
+ * @param min - the minimum valid timestamp
  */
 export function removeOldSamples(
-	store: DataSample[],
-	period: number
-): DataSample[] {
-	const minimumValidTime = Date.now() - period;
-	return store.filter(sample => sample.timeStamp >= minimumValidTime);
+	store: DataSample[][],
+	min: number
+): DataSample[][] {
+	return store.map(connection =>
+		connection.filter(sample => sample.timeStamp > min)
+	);
 }

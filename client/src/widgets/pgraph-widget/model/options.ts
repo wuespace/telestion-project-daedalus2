@@ -1,15 +1,11 @@
-import { ChannelAddress } from '@wuespace/telestion-client-types';
+import { JsonSerializable } from '@wuespace/telestion-client-types';
+import { ChartConnection } from './chart-connection';
 
-export interface Options {
+export interface Options extends Record<string, JsonSerializable | undefined> {
 	/**
-	 * The address the data samples come from.
+	 * Connections to get data from.
 	 */
-	address: ChannelAddress;
-
-	/**
-	 * The color of average path.
-	 */
-	fill: string;
+	connections: ChartConnection[];
 
 	/**
 	 * The viewable period in milliseconds.
@@ -18,11 +14,18 @@ export interface Options {
 
 	/**
 	 * The minimum possible value that should be displayed in the diagram.
+	 * Optional. If not set, the maximum value in the current set is used.
 	 */
-	minimum: number;
+	minimum?: number;
 
 	/**
 	 * The maximum possible value that should be displayed in the diagram.
+	 * Optional. If not set, the minimum value in the current set is used.
 	 */
-	maximum: number;
+	maximum?: number;
+
+	/**
+	 * Renders per second.
+	 */
+	rps: number;
 }

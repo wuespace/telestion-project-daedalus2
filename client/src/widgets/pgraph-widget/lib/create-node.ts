@@ -1,69 +1,67 @@
 import * as d3 from 'd3';
 import { DataSample } from '../../../model/data-sample';
-import { ExtendedSVGSVGElement, Options } from '../model';
+import { ExtendedSVGSVGElement, GraphDimensions } from '../model';
+import { ChartConnection } from '../model/chart-connection';
 
 const margin = 25;
-//const tickInterval = 500;
 
 export function createNode(
 	width: number,
 	height: number,
-	options: Options
+	connections: ChartConnection[],
+	strokeColors: string[],
+	fillColors: string[]
 ): ExtendedSVGSVGElement {
-	const { fill, period, minimum, maximum } = options;
 	// build svg frame
 	const chart = d3.create('svg').attr('width', width).attr('height', height);
+
+	const backNodes: d3.Selection<
+		SVGPathElement,
+		undefined,
+		null,
+		undefined
+	>[] = [];
+	const lineNodes: d3.Selection<
+		SVGPathElement,
+		undefined,
+		null,
+		undefined
+	>[] = [];
+
+	for (let i = 0; i < connections.length; i++) {
+		backNodes[i] = chart
+			.append('path')
+			.attr('fill', fillColors[i])
+			.attr('opacity', 0.6);
+	}
+
+	for (let i = 0; i < connections.length; i++) {
+		lineNodes[i] = chart
+			.append('path')
+			.attr('stroke', strokeColors[i])
+			.attr('fill', 'rgba(0,0,0,0)')
+			.attr('stroke-width', 2);
+	}
 
 	// x axis
 	const xG = chart
 		.append('g')
 		.attr('transform', `translate(0, ${height - margin})`);
 
-	let backPath = chart.append('path').attr('fill', '#5e5e5e');
-
-	// minimum path
-	// let minPath = chart
-	// 	.append('path')
-	// 	//.attr('shape-rendering', 'optimizeSpeed')
-	// 	.attr('stroke', 'rgba(31,31,31,0)')
-	// 	.attr('fill', '#00000000')
-	// 	.attr('stroke-width', 0.5);
-
-	// maximum path
-	// let maxPath = chart
-	// 	.append('path')
-	// 	//.attr('shape-rendering', 'optimizeSpeed')
-	// 	.attr('stroke', 'rgba(0,0,0,0)')
-	// 	.attr('fill', '#00000000')
-	// 	.attr('stroke-width', 0.5);
-
-	// average path
-	let avgPath = chart
-		.append('path')
-		//.attr('shape-rendering', 'optimizeSpeed')
-		.attr('stroke', 'rgb(255,255,255)')
-		.attr('fill', 'rgba(0,0,0,0)')
-		.attr('stroke-width', 0.8);
-
 	// y axis
 	const yG = chart.append('g');
 
 	return Object.assign(chart.node(), {
-		update(data: DataSample[]) {
-			const currentDate = Date.now();
-			// determine new axis domains
-			const xDomain = [currentDate - period, currentDate];
-			const yDomain = [minimum, maximum];
-
+		update(data: DataSample[][], dimensions: GraphDimensions) {
 			// build axis maps
 			const x = d3
 				.scaleTime()
-				.domain(xDomain)
+				.domain([dimensions.minX, dimensions.maxX])
 				.range([margin * 2, width + margin]);
 
 			const y = d3
 				.scaleLinear()
-				.domain(yDomain)
+				.domain([dimensions.minY, dimensions.maxY])
 				.range([height - margin, margin * 0.5]);
 
 			// build axis renderer
@@ -80,14 +78,8 @@ export function createNode(
 				g
 					.attr('transform', `translate(${x.range()[0]})`)
 					.call(d3.axisLeft(y).ticks(3).tickSizeOuter(margin));
-			// .call(g => g.selectAll('.tick > text').attr('dx', -margin * 0.2))
-			// .call(g =>
-			// 	g
-			// 		.selectAll('.tick > line')
-			// 		.attr('x1', -margin * 0.2)
-			// 		.attr('x2', -margin * 0.4)
-			// );
 
+			// build graph renderer
 			const backRender = d3
 				.area<DataSample>()
 				.curve(d3.curveLinear)
@@ -96,42 +88,20 @@ export function createNode(
 				.y1(d => y(d.max));
 
 			// average line renderer
-			const avgLineRender = d3
+			const lineRender = d3
 				.line<DataSample>()
 				.curve(d3.curveLinear)
 				.x(d => x(d.timeStamp))
 				.y(d => y(d.avg));
 
-			// minimum line renderer
-			// const minLineRender = d3
-			// 	.line<DataSample>()
-			// 	.curve(d3.curveLinear)
-			// 	.x(d => x(d.timeStamp))
-			// 	.y(d => y(d.min));
+			// update all graph nodes with current data
+			for (let i = 0; i < connections.length; i++) {
+				// @ts-ignore
+				backNodes[i].back = backNodes[i].datum(data[i]).attr('d', backRender);
 
-			// maximum line renderer
-			// const maxLineRender = d3
-			// 	.line<DataSample>()
-			// 	.curve(d3.curveLinear)
-			// 	.x(d => x(d.timeStamp))
-			// 	.y(d => y(d.max));
-
-			// apply renderer to dom elements
-			// @ts-ignore
-			backPath = backPath.datum(data).attr('d', backRender);
-
-			// @ts-ignore
-			// minPath = minPath
-			// 	.datum(data)
-			// 	.attr('d', minLineRender);
-
-			// @ts-ignore
-			// maxPath = maxPath
-			// 	.datum(data)
-			// 	.attr('d', maxLineRender);
-
-			// @ts-ignore
-			avgPath = avgPath.datum(data).attr('d', avgLineRender);
+				// @ts-ignore
+				lineNodes[i].line = lineNodes[i].datum(data[i]).attr('d', lineRender);
+			}
 
 			yG.call(yAxis);
 			xG.call(xAxis);
