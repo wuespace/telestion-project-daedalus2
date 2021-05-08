@@ -2,8 +2,8 @@ import { SpectrumColor, StaticSpectrumColor } from '../../model/spectrum-color';
 import { useDarkColorScheme } from './use-dark-color-scheme';
 
 export const staticColors: { [key in StaticSpectrumColor]: string } = {
-	black: '#000',
-	white: '#fff',
+	'static-black': '#000',
+	'static-white': '#fff',
 
 	'static-gray-50': '#fff',
 	'static-gray-75': '#fff',

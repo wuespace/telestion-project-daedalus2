@@ -3,7 +3,7 @@ import { DataSample } from '../../../model/data-sample';
 import { ExtendedSVGSVGElement, GraphDimensions } from '../model';
 import { ChartConnection } from '../model/chart-connection';
 
-const margin = 25;
+const margin = 20;
 
 export function createNode(
 	width: number,

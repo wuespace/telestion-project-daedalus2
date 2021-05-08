@@ -6,8 +6,8 @@ type r200800 = r200700 | 800;
 type r50900 = 50 | 75 | 100 | r200800 | 900;
 
 export type StaticSpectrumColor =
-	| 'black'
-	| 'white'
+	| 'static-black'
+	| 'static-white'
 	| `static-${'gray'}-${r50900}`
 	| `static-${'red' | 'orange' | 'green' | 'fuchsia'}-${r400700}`
 	| `static-${'chartreuse'}-${r300700}`
