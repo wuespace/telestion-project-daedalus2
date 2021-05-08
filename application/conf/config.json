@@ -8,12 +8,75 @@
         "magnitude": 1,
         "config": {}
       },
-      {
-        "name": "Random Position Publisher",
-        "verticle": "de.wuespace.telestion.example.RandomPositionPublisher",
-        "magnitude": 1,
-        "config": {}
-      },
+	  {
+		"name": "Serial Receiver",
+		"verticle": "de.wuespace.telestion.services.connection.rework.serial.SerialConn",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "n/a (not a real address)",
+		  "outAddress": "raw-serial",
+		  "serialPort": "/dev/telestion-serial",
+		  "sampleTime": 200
+		}
+	  },
+	  {
+		"name": "Serial Splitter",
+		"verticle": "de.wuespace.telestion.project.daedalus2.SerialSplitter",
+		"magnitude": 1,
+		"config": {
+		  "longestMessageLength": 280,
+		  "inAddress": "raw-serial",
+		  "outAddress": "nice-serial"
+		}
+	  },
+	  {
+		"name": "Mavlink v2 Validator",
+		"verticle": "de.wuespace.telestion.extension.mavlink.ValidatorMavlink2",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "nice-serial",
+		  "packetOutAddress": "mavlink-raw-logger",
+		  "parserInAddress": "mavlink-payload-parser-in",
+		  "password": "AQ=="
+		}
+	  },
+	  {
+		"name": "MavLink Logger",
+		"verticle": "de.wuespace.telestion.extension.mavlink.logger.RawLogger",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "mavlink-raw-logger",
+		  "filePath": "/data/mavlink-logger/"
+		}
+	  },
+	  {
+		"name": "Payload Parser",
+		"verticle": "de.wuespace.telestion.extension.mavlink.PayloadParser",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "mavlink-payload-parser-in",
+		  "outAddress": "parsed-payload"
+		}
+	  },
+	  {
+		"name": "Mavlink Message Registrar",
+		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkRegistrar",
+		"magnitude": 1,
+		"config": {
+		  "classNames": [
+			"de.wuespace.telestion.project.daedalus2.mavlink.SeedSystemT"
+		  ]
+		}
+	  },
+	  {
+		"name": "MessageTransformer",
+		"verticle": "de.wuespace.telestion.project.daedalus2.MessageTransformer",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "parsed-payload",
+		  "outAddress": "beautiful-data"
+		}
+	  },
       {
         "name": "Eventbus Tcp Bridge",
         "verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",

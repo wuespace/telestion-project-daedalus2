@@ -3,6 +3,7 @@ package de.wuespace.telestion.project.daedalus2;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.wuespace.telestion.api.config.Config;
 import de.wuespace.telestion.api.message.JsonMessage;
+import de.wuespace.telestion.services.connection.rework.ConnectionData;
 import de.wuespace.telestion.services.connection.rework.RawMessage;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * at least this many bytes remaining to "look" for new messages within the raw data input.
  *
  * @author Pablo Klaschka
- * @version 2021-05-05
+ * @version 2021-05-08
  */
 public class SerialSplitter extends AbstractVerticle {
 	private Configuration config;
@@ -43,15 +44,18 @@ public class SerialSplitter extends AbstractVerticle {
 
 		this.dataQueue = new ArrayList<>();
 
-		eb.consumer(this.config.inAddress(), raw -> JsonMessage.on(RawMessage.class, raw, message -> {
-			// Add the bytes to the buffer/queue
-			for (var b : message.data()) {
-				dataQueue.add(b);
-			}
+		eb.consumer(this.config.inAddress(), raw -> {
+			JsonMessage.on(ConnectionData.class, raw, message -> {
+				// Add the bytes to the buffer/queue
 
-			// flush all potential messages of the current queue
-			flush();
-		}));
+				for (var b : message.rawData()) {
+					dataQueue.add(b);
+				}
+
+				// flush all potential messages of the current queue
+				flush();
+			});
+		});
 
 		startPromise.complete();
 	}
@@ -64,9 +68,9 @@ public class SerialSplitter extends AbstractVerticle {
 	private void flush() {
 		while (this.dataQueue.size() >= this.config.longestMessageLength()) {
 			if (this.dataQueue.get(0) == (byte) 0xFD) {
-				var length = this.dataQueue.get(1) + 11; // TODO: Support messages with signatures (going to n+25)
+				var length = Byte.toUnsignedInt(this.dataQueue.get(1)) + 12; // TODO: Support messages with signatures (going to n+25)
 
-				if (length <= this.dataQueue.size()) {
+				if (length <= this.dataQueue.size() && length > 0) {
 					// We found a potential message
 					var rawMessageCandidate = new byte[length];
 
@@ -76,7 +80,7 @@ public class SerialSplitter extends AbstractVerticle {
 					}
 
 					// ... and send it away
-					vertx.eventBus().publish(this.config.outAddress(), new RawMessage(rawMessageCandidate).json());
+					vertx.eventBus().publish(this.config.outAddress(), new ConnectionData(rawMessageCandidate, null).json());
 				}
 			}
 
