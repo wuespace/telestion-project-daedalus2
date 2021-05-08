@@ -12,7 +12,10 @@ export function LoginPage() {
 			<LoginLogo />
 			<LoginTitle />
 			<LoginDescription />
-			<LoginForm initialServerURL="http://localhost:9870/bridge" />
+			<LoginForm
+				initialServerURL="http://localhost:9870/bridge"
+				initialUsername="admin"
+			/>
 		</TCLoginPage>
 	);
 }

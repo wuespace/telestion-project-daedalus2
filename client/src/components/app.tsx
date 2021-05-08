@@ -12,8 +12,9 @@ import {
 	useUserConfig
 } from '@wuespace/telestion-client-common';
 
-import { userConfig } from '../model/sample-user-config';
+import { userConfig } from '../model/user-config';
 import { projectWidgets } from '../widgets';
+import appLogo from '../assets/app-logo.png';
 
 import { Header } from './header';
 import { LoginPage } from './login-page';
@@ -32,9 +33,9 @@ export function App() {
 
 	return (
 		<TelestionClient
-			title="Telestion Groundstation"
+			title="Daedalus 2 Groundstation"
 			wrapper={children => (
-				<CommonWrapper widgets={widgets}>
+				<CommonWrapper widgets={widgets} appLogo={appLogo}>
 					<>{children}</>
 				</CommonWrapper>
 			)}
