@@ -80,7 +80,8 @@ export class FakeDataGenerator {
 			avg: this.lastAvg + avgNoise,
 			min: this.lastMin + minNoise,
 			max: this.lastMax + maxNoise,
-			timeStamp: thisCall
+			last: this.lastAvg + maxNoise,
+			time: thisCall
 		};
 	}
 }

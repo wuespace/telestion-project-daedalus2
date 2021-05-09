@@ -55,6 +55,7 @@ export function genFakeData(): DataSample {
 		avg: avg + avgNoise,
 		min: min + minNoise,
 		max: max + maxNoise,
-		timeStamp: thisCall
+		last: avg,
+		time: thisCall
 	};
 }

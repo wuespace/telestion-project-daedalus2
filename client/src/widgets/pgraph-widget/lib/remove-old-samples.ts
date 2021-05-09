@@ -10,6 +10,6 @@ export function removeOldSamples(
 	min: number
 ): DataSample[][] {
 	return store.map(connection =>
-		connection.filter(sample => sample.timeStamp > min)
+		connection.filter(sample => sample.time > min)
 	);
 }

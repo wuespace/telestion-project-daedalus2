@@ -18,6 +18,7 @@ export function genRandomData(): DataSample {
 		avg,
 		min,
 		max,
-		timeStamp: Date.now()
+		last: max,
+		time: Date.now()
 	};
 }

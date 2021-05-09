@@ -83,7 +83,7 @@ export function createNode(
 			const backRender = d3
 				.area<DataSample>()
 				.curve(d3.curveLinear)
-				.x(d => x(d.timeStamp))
+				.x(d => x(d.time))
 				.y0(d => y(d.min))
 				.y1(d => y(d.max));
 
@@ -91,7 +91,7 @@ export function createNode(
 			const lineRender = d3
 				.line<DataSample>()
 				.curve(d3.curveLinear)
-				.x(d => x(d.timeStamp))
+				.x(d => x(d.time))
 				.y(d => y(d.avg));
 
 			// update all graph nodes with current data

@@ -65,7 +65,7 @@ export function useDynamicData(
 					storeRef[index].push(...newSamples);
 					// calculate minimum and maximum timestamp
 					dimensionsRef.maxX = Math.max(
-						d3.max(newSamples.map(sample => sample.timeStamp)) as number,
+						d3.max(newSamples.map(sample => sample.time)) as number,
 						dimensions.current.maxX
 					);
 					dimensionsRef.minX = dimensionsRef.maxX - period;
