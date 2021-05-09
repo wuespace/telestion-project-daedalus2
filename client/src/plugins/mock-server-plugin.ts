@@ -6,9 +6,9 @@ import { FakeDataGenerator } from '../lib/fake-data-generator';
 class RocketSoundMockServer extends MockServer implements OnInit, OnClose {
 	intervalId: any;
 
-	readonly fakeChannel1 = 'fake-channel1';
-	readonly fakeChannel2 = 'fake-channel2';
-	readonly fakeChannel3 = 'fake-channel3';
+	readonly fakeChannel1 = 'aggregated-imu.acc.x';
+	readonly fakeChannel2 = 'aggregated-imu.acc.y';
+	readonly fakeChannel3 = 'aggregated-imu.acc.z';
 
 	readonly fakeDataGen1: FakeDataGenerator;
 	readonly fakeDataGen2: FakeDataGenerator;
