@@ -61,7 +61,7 @@ public final class PeriodicDataAggregator extends AbstractVerticle {
 		config = Config.get(forcedConfig, config(), Configuration.class);
 		dbRequest = getDbRequestFromConfig();
 		timer = getRateInMillis(config.rate());
-		logger.info("Timer is: " + String.valueOf(timer));
+		logger.info("Timer is: " + timer);
 		timeOfLastDataSet = getISO8601StringForDate(new Date());
 		reqTimer = id -> {
 			logger.info("Executing aggregation request...");
@@ -144,7 +144,8 @@ public final class PeriodicDataAggregator extends AbstractVerticle {
 	}
 
 	private static String getISO8601StringForDate(Date date) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMANY);
+		// TODO: Handle timezones better
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'+02:00'", Locale.GERMANY);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("CET"));
 		return dateFormat.format(date);
 	}

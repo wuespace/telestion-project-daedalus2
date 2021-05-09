@@ -51,8 +51,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	 * @param dbPoolName		the name of the database pool
 	 */
 	public MongoDatabaseService(String dbName, String dbPoolName) {
-		this.forcedConfig = new Configuration(
-				new JsonObject().put("db_name", dbName).put("useObjectId", true), dbPoolName);
+		this.forcedConfig = new Configuration(dbPoolName);
 	}
 
 	/**
@@ -65,7 +64,8 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		config = Config.get(forcedConfig, config(), Configuration.class);
-		this.client = MongoClient.createShared(vertx, config.dbConfig, config.dbPoolName);
+		var dbConfig = new JsonObject().put("db_name", "daedalus2").put("useObjectId", true);
+		this.client = MongoClient.createShared(vertx, dbConfig, config.dbPoolName);
 		this.registerConsumers();
 		startPromise.complete();
 	}
@@ -200,8 +200,15 @@ public final class MongoDatabaseService extends AbstractVerticle {
 						.put("avg", "$avg")
 						.put("max", "$max")
 						.put("last", "$last")
-						.put("time", new JsonObject().put("$toLong", "$time"))));
+						.put("time", new JsonObject().put("$toLong", "$time"))))
+				.add(new JsonObject()
+				.put("$sort", new JsonObject()
+						.put("datetime", 1) // TODO: Don't hard-code this
+				)
+				);
 		command.put("cursor", new JsonObject());
+
+		logger.info("Pipeline: " + command.getJsonArray("pipeline").toString());
 		client.runCommand("aggregate", command, result -> {
 			if (result.failed()) {
 				logger.error("Aggregation failed: ", result.cause().getMessage());
@@ -219,7 +226,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 		group.put("avg", new JsonObject().put("$avg", "$" + field));
 		group.put("max", new JsonObject().put("$max", "$" + field));
 		group.put("last", new JsonObject().put("$last", "$" + field));
-		group.put("time", new JsonObject().put("$first", "$datetime"));
+		group.put("time", new JsonObject().put("$last", "$datetime"));
 		return group;
 	}
 
@@ -291,9 +298,9 @@ public final class MongoDatabaseService extends AbstractVerticle {
 		return dateFormat.format(date);
 	}
 
-	private static record Configuration(@JsonProperty JsonObject dbConfig, @JsonProperty String dbPoolName) {
+	private static record Configuration(@JsonProperty String dbPoolName) {
 		private Configuration() {
-			this(new JsonObject().put("db_name", "daedalus2").put("useObjectId", true), "d2Pool");
+			this("d2Pool");
 		}
 	}
 }

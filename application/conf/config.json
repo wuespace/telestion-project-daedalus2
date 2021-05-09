@@ -15,7 +15,7 @@
 		"config": {
 		  "inAddress": "n/a (not a real address)",
 		  "outAddress": "raw-serial",
-		  "serialPort": "/dev/telestion-serial",
+		  "serialPort": "COM1",
 		  "sampleTime": 200
 		}
 	  },
@@ -46,7 +46,7 @@
 		"magnitude": 1,
 		"config": {
 		  "inAddress": "mavlink-raw-logger",
-		  "filePath": "/data/mavlink-logger/"
+		  "filePath": "data/mavlink-logger/"
 		}
 	  },
 	  {
@@ -92,12 +92,6 @@
 		"verticle": "de.wuespace.telestion.project.daedalus2.database.MongoDatabaseService",
 		"magnitude": 1,
 		"config": {
-		  "dbConfig": {
-			"db_name": "daedalus2",
-			"useObjectId": true,
-			"host": "host.docker.internal",
-			"port": 27017
-		  },
 		  "dbPoolName": "d2Pool"
 		}
 	  },
@@ -106,7 +100,7 @@
 		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
 		"magnitude": 1,
 		"config": {
-		  "collection": "de.wuespace.telestion.project.daedalus2.messages.System_T",
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
 		  "field": "imu.acc.x",
 		  "rate": 10,
 		  "outAddress": "aggregated-imu.acc.x"
@@ -120,7 +114,7 @@
           "host": "0.0.0.0",
           "port": 9870,
           "inboundPermitted": [],
-          "outboundPermitted": []
+          "outboundPermitted": ["aggregated-imu.acc.x", "aggregated-imu.acc.y"]
         }
       }
     ]
