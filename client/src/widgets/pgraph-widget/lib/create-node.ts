@@ -15,18 +15,10 @@ export function createNode(
 	// build svg frame
 	const chart = d3.create('svg').attr('width', width).attr('height', height);
 
-	const backNodes: d3.Selection<
-		SVGPathElement,
-		undefined,
-		null,
-		undefined
-	>[] = [];
-	const lineNodes: d3.Selection<
-		SVGPathElement,
-		undefined,
-		null,
-		undefined
-	>[] = [];
+	const backNodes: d3.Selection<SVGPathElement, undefined, null, undefined>[] =
+		[];
+	const lineNodes: d3.Selection<SVGPathElement, undefined, null, undefined>[] =
+		[];
 
 	for (let i = 0; i < connections.length; i++) {
 		backNodes[i] = chart
