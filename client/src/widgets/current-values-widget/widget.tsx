@@ -11,7 +11,7 @@ import { BaseRendererProps } from '@wuespace/telestion-client-types';
 
 import { WidgetProps } from './model';
 import { OverflowFix } from './components/overflow-fix';
-import { LiveDisplay } from './components/live-display';
+import { LiveWidget } from './components/live-widget';
 
 export function Widget({ title, connections }: BaseRendererProps<WidgetProps>) {
 	return (
@@ -28,13 +28,13 @@ export function Widget({ title, connections }: BaseRendererProps<WidgetProps>) {
 				<Divider size="S" />
 				<OverflowFix>
 					<Grid
-						columns={repeat('auto-fit', minmax('size-2000', '1fr'))}
+						columns={repeat('auto-fit', minmax('size-2400', '1fr'))}
 						justifyContent="center"
 						gap="size-100"
 						margin="size-100"
 					>
 						{connections.map((connection, index) => (
-							<LiveDisplay
+							<LiveWidget
 								key={`${index}-${connection.title}`}
 								connection={connection}
 							/>
