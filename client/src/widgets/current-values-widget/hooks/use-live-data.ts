@@ -10,10 +10,8 @@ import { useSpectrumColor } from '../../hooks';
 import { Connection } from '../model';
 import { newStatusTimeout, updateStatusNode, StatusType } from '../lib';
 
-const selector: StateSelector<
-	EventBusState,
-	EventBusState['eventBus']
-> = state => state.eventBus;
+const selector: StateSelector<EventBusState, EventBusState['eventBus']> =
+	state => state.eventBus;
 
 export interface ReturnType {
 	valueNode: RefObject<HTMLDivElement>;
