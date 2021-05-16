@@ -4,11 +4,12 @@ import { MockServer, OnClose, OnInit } from '@wuespace/vertx-mock-server';
 import { FakeDataGenerator } from '../lib/fake-data-generator';
 
 class RocketSoundMockServer extends MockServer implements OnInit, OnClose {
-	intervalId: any;
+	intervalId1: any;
+	intervalId2: any;
 
-	readonly fakeChannel1 = 'fake-channel1';
-	readonly fakeChannel2 = 'fake-channel2';
-	readonly fakeChannel3 = 'fake-channel3';
+	readonly fakeChannel1 = 'aggregated-imu.acc.x';
+	readonly fakeChannel2 = 'aggregated-imu.acc.y';
+	readonly fakeChannel3 = 'aggregated-imu.acc.z';
 
 	readonly fakeDataGen1: FakeDataGenerator;
 	readonly fakeDataGen2: FakeDataGenerator;
@@ -22,20 +23,23 @@ class RocketSoundMockServer extends MockServer implements OnInit, OnClose {
 	}
 
 	onInit() {
-		this.intervalId = setInterval(() => {
+		this.intervalId1 = setInterval(() => {
 			let sample = this.fakeDataGen1.getDataSample();
 			this.send(this.fakeChannel1, [sample]);
 
 			sample = this.fakeDataGen2.getDataSample();
 			this.send(this.fakeChannel2, [sample]);
-
-			sample = this.fakeDataGen3.getDataSample();
-			this.send(this.fakeChannel3, [sample]);
 		}, 33); // send every 1 second new data
+
+		this.intervalId2 = setInterval(() => {
+			let sample = this.fakeDataGen3.getDataSample();
+			this.send(this.fakeChannel3, [sample]);
+		}, 30000);
 	}
 
 	onClose() {
-		clearInterval(this.intervalId);
+		clearInterval(this.intervalId1);
+		clearInterval(this.intervalId2);
 	}
 }
 

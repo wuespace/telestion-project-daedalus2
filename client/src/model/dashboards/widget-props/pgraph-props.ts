@@ -3,22 +3,22 @@ import { PGraphWidgetProps } from '../../../widgets/pgraph-widget';
 export const fakeProps: PGraphWidgetProps = {
 	connections: [
 		{
-			address: 'fake-channel1',
-			title: 'Fake Data 1',
+			address: 'aggregated-imu.acc.x',
+			title: 'Accelerometer X',
 			stroke: 'orange-700',
 			fill: 'orange-400'
 		},
 		{
-			address: 'fake-channel2',
-			title: 'Fake Data 2',
-			stroke: 'celery-700',
-			fill: 'celery-400'
-		},
-		{
-			address: 'fake-channel3',
-			title: 'Fake Data 3',
+			address: 'aggregated-imu.acc.y',
+			title: 'Accelerometer Y',
 			stroke: 'seafoam-700',
 			fill: 'seafoam-400'
+		},
+		{
+			address: 'aggregated-imu.acc.z',
+			title: 'Accelerometer Z',
+			stroke: 'blue-700',
+			fill: 'blue-400'
 		}
 	],
 	period: 2 * 60 * 1000,

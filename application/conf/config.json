@@ -106,6 +106,7 @@
           "outAddress": "aggregated-imu.acc.x"
         }
       },
+
       {
         "name": "Eventbus Tcp Bridge",
         "verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",

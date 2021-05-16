@@ -15,18 +15,10 @@ export function createNode(
 	// build svg frame
 	const chart = d3.create('svg').attr('width', width).attr('height', height);
 
-	const backNodes: d3.Selection<
-		SVGPathElement,
-		undefined,
-		null,
-		undefined
-	>[] = [];
-	const lineNodes: d3.Selection<
-		SVGPathElement,
-		undefined,
-		null,
-		undefined
-	>[] = [];
+	const backNodes: d3.Selection<SVGPathElement, undefined, null, undefined>[] =
+		[];
+	const lineNodes: d3.Selection<SVGPathElement, undefined, null, undefined>[] =
+		[];
 
 	for (let i = 0; i < connections.length; i++) {
 		backNodes[i] = chart
@@ -83,7 +75,7 @@ export function createNode(
 			const backRender = d3
 				.area<DataSample>()
 				.curve(d3.curveLinear)
-				.x(d => x(d.timeStamp))
+				.x(d => x(d.time))
 				.y0(d => y(d.min))
 				.y1(d => y(d.max));
 
@@ -91,7 +83,7 @@ export function createNode(
 			const lineRender = d3
 				.line<DataSample>()
 				.curve(d3.curveLinear)
-				.x(d => x(d.timeStamp))
+				.x(d => x(d.time))
 				.y(d => y(d.avg));
 
 			// update all graph nodes with current data

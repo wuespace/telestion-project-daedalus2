@@ -15,10 +15,8 @@ const initialDimensions: GraphDimensions = {
 	maxY: 1
 };
 
-const selector: StateSelector<
-	EventBusState,
-	EventBusState['eventBus']
-> = store => store.eventBus;
+const selector: StateSelector<EventBusState, EventBusState['eventBus']> =
+	store => store.eventBus;
 
 /**
  * Registers to given event bus channel,
@@ -31,9 +29,10 @@ export function useDynamicData(
 	node: MutableRefObject<ExtendedSVGSVGElement | undefined>,
 	options: Options
 ): MutableRefObject<DataSample[][]> {
-	const initialStore = useMemo(() => options.connections.map(() => []), [
-		options
-	]);
+	const initialStore = useMemo(
+		() => options.connections.map(() => []),
+		[options]
+	);
 	const store = useRef<DataSample[][]>(initialStore);
 	const dimensions = useRef<GraphDimensions>(initialDimensions);
 
@@ -65,7 +64,7 @@ export function useDynamicData(
 					storeRef[index].push(...newSamples);
 					// calculate minimum and maximum timestamp
 					dimensionsRef.maxX = Math.max(
-						d3.max(newSamples.map(sample => sample.timeStamp)) as number,
+						d3.max(newSamples.map(sample => sample.time)) as number,
 						dimensions.current.maxX
 					);
 					dimensionsRef.minX = dimensionsRef.maxX - period;

@@ -14,7 +14,11 @@ export interface DataSample extends Record<string, JsonSerializable> {
 	 */
 	max: number;
 	/**
-	 * The time stamp of the last data sample in the aggregation.
+	 * The latest (last) value in the aggregation
 	 */
-	timeStamp: number;
+	last: number;
+	/**
+	 * The time of the last data sample in the aggregation.
+	 */
+	time: number;
 }
