@@ -1,3 +1,27 @@
+# [0.4.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.3.0...v0.4.0) (2021-05-24)
+
+
+### Bug Fixes
+
+* **application:** Fix and test reading, parsing, and dumping (to a file) MavLink messages from a (virtual) serial device ([52d99e0](https://github.com/wuespace/telestion-project-daedalus2/commit/52d99e003acc3f90ca1e8a71150f234599175872))
+* **client:** Adjust to updated aggregation data sample type from backend and listen to "real" addresses ([d76afbd](https://github.com/wuespace/telestion-project-daedalus2/commit/d76afbdc8286202728168ccfaa45ce1f2731b874))
+* **client:** Use new event bus addresses for the fake data in the current values configuration ([cc174e1](https://github.com/wuespace/telestion-project-daedalus2/commit/cc174e183eb1ef13548058a281ba85ee5d3d0681))
+* **database:** Fix database config and implementation to get it working ([0475e1b](https://github.com/wuespace/telestion-project-daedalus2/commit/0475e1bed776d550f326138de0d51e98729b197f))
+* Add missing default constructor for MavlinkRegistrar ([fe9121b](https://github.com/wuespace/telestion-project-daedalus2/commit/fe9121b6139edc7dd465b955756974732bd8161d))
+* Register MAVLink Registrar ([962a8ab](https://github.com/wuespace/telestion-project-daedalus2/commit/962a8ab747147d04c002d4485cb8ed69021db8b0))
+
+
+### Features
+
+* **database:** added working database implementation ([4ebf9b9](https://github.com/wuespace/telestion-project-daedalus2/commit/4ebf9b909e9950876b11aada5585c5d99a48b474))
+* **widget:** Add placeholder widget ([82e9a49](https://github.com/wuespace/telestion-project-daedalus2/commit/82e9a494b719198165a7516c5f410fce84dbb29a))
+* **widget:** Implement current values widget ([0b13d67](https://github.com/wuespace/telestion-project-daedalus2/commit/0b13d6768b3e47bd3c2106c951170a08e0f8d4f2))
+* **widget:** Implement delay status and context based text color in current-values widget ([f0dab65](https://github.com/wuespace/telestion-project-daedalus2/commit/f0dab65bdb5e25c71956b737f54e1a53208223d7))
+* **widget:** Initialize current values widget ([d6c40bd](https://github.com/wuespace/telestion-project-daedalus2/commit/d6c40bd6be8180dbdee8c42cde0a0f69e7ad82d9))
+* Add MAVLink Message registrar for the parser to work ([ac761a3](https://github.com/wuespace/telestion-project-daedalus2/commit/ac761a37e2f6e6bf18728034fe37e4f7398ed17b))
+
+
+
 # [0.3.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.2.1...v0.3.0) (2021-05-08)
 
 
