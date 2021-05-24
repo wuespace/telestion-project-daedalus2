@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.4.0...v0.5.0) (2021-05-24)
+
+
+### Features
+
+* **application:** Update application config for integration test ([6afd410](https://github.com/wuespace/telestion-project-daedalus2/commit/6afd4101d0d4c46b8645fd87c2a9af4f49507899))
+
+
+
 # [0.4.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.3.0...v0.4.0) (2021-05-24)
 
 
