@@ -15,7 +15,7 @@
 		"config": {
 		  "inAddress": "n/a (not a real address)",
 		  "outAddress": "raw-serial",
-		  "serialPort": "COM1",
+		  "serialPort": "/dev/telestion-serial",
 		  "sampleTime": 200
 		}
 	  },
@@ -104,6 +104,28 @@
 		  "field": "imu.acc.x",
 		  "rate": 10,
 		  "outAddress": "aggregated-imu.acc.x"
+		}
+	  },
+	  {
+		"name": "Periodic Data Aggregator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
+		"magnitude": 1,
+		"config": {
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+		  "field": "imu.acc.y",
+		  "rate": 10,
+		  "outAddress": "aggregated-imu.acc.y"
+		}
+	  },
+	  {
+		"name": "Periodic Data Aggregator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
+		"magnitude": 1,
+		"config": {
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+		  "field": "imu.acc.z",
+		  "rate": 10,
+		  "outAddress": "aggregated-imu.acc.z"
 		}
 	  },
       {
