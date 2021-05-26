@@ -1,3 +1,12 @@
+## [0.6.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.2...v0.6.3) (2021-05-26)
+
+
+### Bug Fixes
+
+* **application:** Fix Docker problems ;) ([1b8d9bb](https://github.com/wuespace/telestion-project-daedalus2/commit/1b8d9bb6e445c481f8177410a9cdb87e9d826b6b))
+
+
+
 ## [0.6.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.1...v0.6.2) (2021-05-26)
 
 
