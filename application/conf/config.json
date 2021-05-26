@@ -92,7 +92,13 @@
 		"verticle": "de.wuespace.telestion.project.daedalus2.database.MongoDatabaseService",
 		"magnitude": 1,
 		"config": {
-		  "dbPoolName": "d2Pool"
+			"dbConfig": {
+				"db_name": "daedalus2",
+				"useObjectId": true,
+				"host": "host.docker.internal",
+				"port": 27017
+			},
+			"dbPoolName": "d2Pool"
 		}
 	  },
 	  {
