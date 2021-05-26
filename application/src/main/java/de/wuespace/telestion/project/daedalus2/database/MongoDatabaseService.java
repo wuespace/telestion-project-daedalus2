@@ -67,7 +67,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 		var dbConfig = new JsonObject()
 				.put("db_name", "daedalus2")
 				.put("useObjectId", true)
-				.put("host", "localhost")
+				.put("host", "host.docker.internal")
 				.put("port", 27017);
 		this.client = MongoClient.createShared(vertx, dbConfig, config.dbPoolName);
 		this.registerConsumers();

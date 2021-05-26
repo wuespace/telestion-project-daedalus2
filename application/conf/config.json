@@ -1,13 +1,13 @@
 {
   "org.telestion.configuration": {
-    "app_name": "telestion-project-daedalus2",
-    "verticles": [
-      {
-        "name": "Message Logger",
-        "verticle": "de.wuespace.telestion.services.monitoring.MessageLogger",
-        "magnitude": 1,
-        "config": {}
-      },
+	"app_name": "telestion-project-daedalus2",
+	"verticles": [
+	  {
+		"name": "Message Logger",
+		"verticle": "de.wuespace.telestion.services.monitoring.MessageLogger",
+		"magnitude": 1,
+		"config": {}
+	  },
 	  {
 		"name": "Serial Receiver",
 		"verticle": "de.wuespace.telestion.services.connection.rework.serial.SerialConn",
