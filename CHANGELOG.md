@@ -1,3 +1,12 @@
+## [0.6.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.0...v0.6.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* Fix config problem (and database configuration) in a quick and dirty manner ([3ef2cbf](https://github.com/wuespace/telestion-project-daedalus2/commit/3ef2cbf5fdbdced603b0840c688536932e1205be))
+
+
+
 # [0.6.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.5.0...v0.6.0) (2021-05-26)
 
 
