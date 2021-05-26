@@ -1,3 +1,12 @@
+## [0.6.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.1...v0.6.2) (2021-05-26)
+
+
+### Bug Fixes
+
+* Try to fix Docker issues with host-system host alias. This will require binding the host's network to the docker image's network. To do this, use `--net=host` (Linux-only!) ([495ed15](https://github.com/wuespace/telestion-project-daedalus2/commit/495ed156cf13be1f5af11552c05d7d6c71623ec4))
+
+
+
 ## [0.6.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.0...v0.6.1) (2021-05-26)
 
 
