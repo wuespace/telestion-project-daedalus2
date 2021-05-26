@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.5.0...v0.6.0) (2021-05-26)
+
+
+### Features
+
+* Update Backstein DB config for application ([2e6e1dc](https://github.com/wuespace/telestion-project-daedalus2/commit/2e6e1dcbc8afec3e5bed6ea168545b7dae4d7235))
+
+
+
 # [0.5.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.4.0...v0.5.0) (2021-05-24)
 
 
