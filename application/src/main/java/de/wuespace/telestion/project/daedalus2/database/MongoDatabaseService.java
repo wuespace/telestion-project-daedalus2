@@ -47,8 +47,8 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * This constructor supplies default options.
 	 *
-	 * @param dbName			the name of the local running database
-	 * @param dbPoolName		the name of the database pool
+	 * @param dbName     the name of the local running database
+	 * @param dbPoolName the name of the database pool
 	 */
 	public MongoDatabaseService(String dbName, String dbPoolName) {
 		this.forcedConfig = new Configuration(dbPoolName);
@@ -64,7 +64,11 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		config = Config.get(forcedConfig, config(), Configuration.class);
-		var dbConfig = new JsonObject().put("db_name", "daedalus2").put("useObjectId", true);
+		var dbConfig = new JsonObject()
+				.put("db_name", "daedalus2")
+				.put("useObjectId", true)
+				.put("host", "host.docker.internal")
+				.put("port", 27017);
 		this.client = MongoClient.createShared(vertx, dbConfig, config.dbPoolName);
 		this.registerConsumers();
 		startPromise.complete();
@@ -118,7 +122,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	private void save(JsonMessage document) {
 		var object = document.json();
 		var dateString = getISO8601StringForDate(new Date());
-		object.put("datetime",	new JsonObject().put("$date", dateString));
+		object.put("datetime", new JsonObject().put("$date", dateString));
 		client.save(document.className(), object, res -> {
 			if (res.failed()) {
 				logger.error("DB Save failed: ", res.cause());
@@ -139,8 +143,8 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * Find the latest entry of the requested data type.
 	 *
-	 * @param request	{@link de.wuespace.telestion.services.database.DbRequest}
-	 * @param handler	result handler, can be failed or succeeded
+	 * @param request {@link de.wuespace.telestion.services.database.DbRequest}
+	 * @param handler result handler, can be failed or succeeded
 	 */
 	@SuppressWarnings("unused")
 	private void findLatest(DbRequest request, Handler<AsyncResult<JsonObject>> handler) {
@@ -161,8 +165,8 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * Find all requested entries in the MongoDB.
 	 *
-	 * @param request	query options are defined by {@link de.wuespace.telestion.services.database.DbRequest}.
-	 * @param handler	result handler, can be failed or succeeded.
+	 * @param request query options are defined by {@link de.wuespace.telestion.services.database.DbRequest}.
+	 * @param handler result handler, can be failed or succeeded.
 	 */
 	private void find(DbRequest request, Handler<AsyncResult<JsonObject>> handler) {
 		client.findWithOptions(
@@ -187,24 +191,24 @@ public final class MongoDatabaseService extends AbstractVerticle {
 				.put("pipeline", new JsonArray());
 		command.getJsonArray("pipeline")
 				.add(new JsonObject()
-				.put("$match", getJsonQueryFromString(request.query())));
+						.put("$match", getJsonQueryFromString(request.query())));
 		// For each field in specified collection document you need to define the field and the operations
 		// Outsource in helper function
 		command.getJsonArray("pipeline")
 				.add(new JsonObject()
-				.put("$group", getGroupStageFromFields(request.aggregate())))
+						.put("$group", getGroupStageFromFields(request.aggregate())))
 				.add(new JsonObject()
-				.put("$project", new JsonObject()
-						.put("_id", 0)
-						.put("min", "$min")
-						.put("avg", "$avg")
-						.put("max", "$max")
-						.put("last", "$last")
-						.put("time", new JsonObject().put("$toLong", "$time"))))
+						.put("$project", new JsonObject()
+								.put("_id", 0)
+								.put("min", "$min")
+								.put("avg", "$avg")
+								.put("max", "$max")
+								.put("last", "$last")
+								.put("time", new JsonObject().put("$toLong", "$time"))))
 				.add(new JsonObject()
-				.put("$sort", new JsonObject()
-						.put("datetime", 1) // TODO: Don't hard-code this
-				)
+						.put("$sort", new JsonObject()
+								.put("datetime", 1) // TODO: Don't hard-code this
+						)
 				);
 		command.put("cursor", new JsonObject());
 
@@ -234,9 +238,9 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	 * Helper function to set the {@link io.vertx.ext.mongo.FindOptions}
 	 * for the {@link io.vertx.ext.mongo.MongoClient#findWithOptions(String, JsonObject, FindOptions)}.
 	 *
-	 * @param limit		Limits the amount of returned entries. -1 equals all entries found.
-	 * @param skip		Specifies if and how many entries should be skipped.
-	 * @return			{@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
+	 * @param limit Limits the amount of returned entries. -1 equals all entries found.
+	 * @param skip  Specifies if and how many entries should be skipped.
+	 * @return            {@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
 	 */
 	private FindOptions setFindOptions(List<String> fields, List<String> sort, int limit, int skip) {
 		return setFindOptions(fields, sort).setLimit(limit).setSkip(skip);
@@ -246,9 +250,9 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	 * Helper function to set the {@link io.vertx.ext.mongo.FindOptions}
 	 * for the {@link io.vertx.ext.mongo.MongoClient#findWithOptions(String, JsonObject, FindOptions)}.
 	 *
-	 * @param fields	List of key Strings in the collection limiting the fields that should be returned.
-	 * @param sort		List of key Strings that the returned data should be sorted by.
-	 * @return			{@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
+	 * @param fields List of key Strings in the collection limiting the fields that should be returned.
+	 * @param sort   List of key Strings that the returned data should be sorted by.
+	 * @return            {@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
 	 */
 	private FindOptions setFindOptions(List<String> fields, List<String> sort) {
 		FindOptions findOptions = new FindOptions();
@@ -268,7 +272,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * Helper function to parse a query string to a {@link io.vertx.core.json.JsonObject}.
 	 *
-	 * @param query	JSON String - "{"key":"value"}, ..."
+	 * @param query JSON String - "{"key":"value"}, ..."
 	 * @return {@link io.vertx.core.json.JsonObject} query for
 	 * {@link io.vertx.ext.mongo.MongoClient#findWithOptions(String, JsonObject, FindOptions)}
 	 */
@@ -288,8 +292,8 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * Helper function to convert a {@link java.util.Date} to a ISO-8601 Date/Time string.
 	 *
-	 * @param date	{@link java.util.Date} that should be converted.
-	 * @return	ISO-8601 Date/Time string representation
+	 * @param date {@link java.util.Date} that should be converted.
+	 * @return ISO-8601 Date/Time string representation
 	 */
 	private static String getISO8601StringForDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.GERMANY);
