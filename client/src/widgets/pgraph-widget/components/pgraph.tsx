@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useSpectrumColor, useD3 } from '../../hooks';
+import { useSpectrumColor } from '@wuespace/telestion-client-common';
+import { useD3 } from '../../hooks';
 
 import { useDynamicData } from '../hooks';
 import { Options } from '../model';
