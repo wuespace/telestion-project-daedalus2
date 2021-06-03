@@ -1,3 +1,13 @@
+# [0.8.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.7.1...v0.8.0) (2021-06-03)
+
+
+### Features
+
+* **client:** Update to telestion-client v0.15 and clean up some code dependencies ([71d4adf](https://github.com/wuespace/telestion-project-daedalus2/commit/71d4adfc69f651285947f783111e4cdc37acced3))
+* Add application runner shell script ([56a3c12](https://github.com/wuespace/telestion-project-daedalus2/commit/56a3c12bdb424952b96dac9c12250f38bf3c94e9))
+
+
+
 ## [0.7.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.7.0...v0.7.1) (2021-06-03)
 
 
