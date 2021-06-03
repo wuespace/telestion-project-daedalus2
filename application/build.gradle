@@ -14,15 +14,15 @@ application {
 }
 
 repositories {
-    mavenCentral()
-    maven {
-        name = "GitHubCorePackages"
-        url = uri("https://maven.pkg.github.com/wuespace/telestion-core/")
-        credentials {
-            username = System.getenv("GITHUB_ACTOR") == null ? GITHUB_ACTOR : System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
-        }
-    }
+	mavenCentral()
+	maven {
+		name = "GitHubCorePackages"
+		url = uri("https://maven.pkg.github.com/wuespace/telestion-core/")
+		credentials {
+			username = System.getenv("GITHUB_ACTOR") == null ? GITHUB_ACTOR : System.getenv("GITHUB_ACTOR")
+			password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
+		}
+	}
 	maven {
 		name = "GitHubMavlink"
 		url = uri("https://maven.pkg.github.com/wuespace/telestion-extension-mavlink/")
@@ -34,31 +34,31 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
-    implementation "io.vertx:vertx-core:4.0.3"
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
+	implementation "io.vertx:vertx-core:4.0.3"
 	implementation "io.vertx:vertx-mongo-client:4.0.3"
 
 	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.6'
 
-	implementation 'de.wuespace.telestion:telestion-api:0.3.+'
-	implementation 'de.wuespace.telestion:telestion-application:0.3.+'
-	implementation 'de.wuespace.telestion:telestion-services:0.3.+'
-	implementation 'de.wuespace.telestion:telestion-examples:0.3.+'
+	implementation 'de.wuespace.telestion:telestion-api:1.0.0'
+	implementation 'de.wuespace.telestion:telestion-application:1.0.0'
+	implementation 'de.wuespace.telestion:telestion-services:1.0.0'
+	implementation 'de.wuespace.telestion:telestion-examples:1.0.0'
 	implementation 'de.wuespace.telestion.extension.mavlink:telestion-extension-mavlink:0.3.5'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
 
 tasks.withType(Test) {
-    ignoreFailures = true
-    reports {
-        junitXml.enabled = true
-    }
+	ignoreFailures = true
+	reports {
+		junitXml.enabled = true
+	}
 }
