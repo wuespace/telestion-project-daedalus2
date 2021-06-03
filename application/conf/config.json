@@ -16,6 +16,7 @@
 		  "inAddress": "n/a (not a real address)",
 		  "outAddress": "raw-serial",
 		  "serialPort": "/dev/telestion-serial",
+                  "baudRate": 38400,
 		  "sampleTime": 200
 		}
 	  },
