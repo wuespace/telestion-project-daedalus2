@@ -3,10 +3,9 @@ import { StateSelector } from 'zustand';
 import { DOMRefValue } from '@react-types/shared';
 import { Callback } from '@wuespace/telestion-client-types';
 import { EventBusState, useEventBus } from '@wuespace/telestion-client-core';
+import { useSpectrumColor } from '@wuespace/telestion-client-common';
 
 import { DataSample } from '../../../model/data-sample';
-import { useSpectrumColor } from '../../hooks';
-
 import { Connection } from '../model';
 import { newStatusTimeout, updateStatusNode, StatusType } from '../lib';
 

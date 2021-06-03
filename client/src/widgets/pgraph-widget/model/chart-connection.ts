@@ -1,8 +1,8 @@
 import {
 	ChannelAddress,
-	JsonSerializable
+	JsonSerializable,
+	SpectrumColor
 } from '@wuespace/telestion-client-types';
-import { SpectrumColor } from '../../../model/spectrum-color';
 
 export interface ChartConnection extends Record<string, JsonSerializable> {
 	/**

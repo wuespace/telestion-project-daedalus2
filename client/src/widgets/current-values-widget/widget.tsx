@@ -7,10 +7,10 @@ import {
 	repeat,
 	minmax
 } from '@adobe/react-spectrum';
+import { OverflowFix } from '@wuespace/telestion-client-common';
 import { BaseRendererProps } from '@wuespace/telestion-client-types';
 
 import { WidgetProps } from './model';
-import { OverflowFix } from './components/overflow-fix';
 import { LiveWidget } from './components/live-widget';
 
 export function Widget({ title, connections }: BaseRendererProps<WidgetProps>) {
