@@ -1,3 +1,12 @@
+# [0.7.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.3...v0.7.0) (2021-06-03)
+
+
+### Features
+
+* **application:** Set baud rate in configuration ([30f92fe](https://github.com/wuespace/telestion-project-daedalus2/commit/30f92fe44d5e96b01652268b5481d38a12c25a90))
+
+
+
 ## [0.6.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.2...v0.6.3) (2021-05-26)
 
 
