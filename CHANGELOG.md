@@ -1,3 +1,12 @@
+## [0.7.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.7.0...v0.7.1) (2021-06-03)
+
+
+### Bug Fixes
+
+* **application:** Update host address for MongoDB ([5580281](https://github.com/wuespace/telestion-project-daedalus2/commit/558028144ac4460bbe5c283984edb25f2f11b275))
+
+
+
 # [0.7.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.6.3...v0.7.0) (2021-06-03)
 
 
