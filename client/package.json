@@ -73,7 +73,7 @@
 		"@wuespace/telestion-client-cli": "^0.15.1",
 		"@wuespace/telestion-client-types": "^0.15.1",
 		"@wuespace/vertx-mock-server": "^0.15.0",
-		"prettier": "^2.3.0",
+		"prettier": "^2.3.1",
 		"pretty-quick": "^3.1.0",
 		"react-scripts": "^4.0.1",
 		"rimraf": "^3.0.2",
