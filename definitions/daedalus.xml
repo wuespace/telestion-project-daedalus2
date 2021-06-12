@@ -63,6 +63,12 @@
 		<field type="float" name="controller_fin_angle">desired fin angle </field>
 		<field type="uint8_t" name="controller_id">indentifier for controller type/state</field>
 		<field type="uint8_t" name="available_status">imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, servo_amps_avail, bat_temp_avail, volts_avail in this order with individual size of 1 bit</field>
-		</message>	
+		</message>
+		
+		<message id="10004" name="CON_CMD">
+		<description> Freetext command input, one command per message.
+		</description>
+		<field type="char[255]" name="con_cmd">CMD content</field>
+		</message>
 	</messages>
 </mavlink>
