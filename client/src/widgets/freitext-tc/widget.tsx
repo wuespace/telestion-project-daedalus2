@@ -24,7 +24,7 @@ export function Widget({ targetLabels, title }: WidgetProps) {
 	const onSubmit = useCallback(() => {
 		logger.debug('Sending TC', cmd, 'to', target);
 		sendTC(cmd);
-	}, [sendTC, cmd]);
+	}, [sendTC, cmd, logger, target]);
 
 	return (
 		<Flex margin={'size-200'} direction={'column'}>
