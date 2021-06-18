@@ -20,6 +20,37 @@ export const CurrentValuesTest: Dashboard = {
 			height: 4,
 			title: 'Fake Data',
 			initialProps: pgraphWidgetProps
+		},
+		{
+			widgetName: 'cameraWidget',
+			width: 4,
+			height: 4,
+			title: 'Camera Widget Seed 1',
+			initialProps: {
+				tcChannel: 'seed1-tc'
+			}
+		},
+		{
+			widgetName: 'cameraWidget',
+			width: 4,
+			height: 4,
+			title: 'Camera Widget Seed 2',
+			initialProps: {
+				tcChannel: 'seed2-tc'
+			}
+		},
+		{
+			widgetName: 'freitextTc',
+			width: 4,
+			height: 4,
+			title: 'Freitext Telecommand Widget',
+			initialProps: {
+				targetLabels: {
+					seedA: 'Seed A',
+					seedB: 'Seed B',
+					ejector: 'Ejector'
+				}
+			}
 		}
 	]
 };
