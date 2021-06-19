@@ -13,6 +13,7 @@ import { widget as placeholderWidget } from './placeholder-widget';
 import { widget as cameraWidget } from './camera-widget';
 import { widget as freitextTcWidget } from './freitext-tc-widget';
 import { widget as noteWidget } from './note-widget';
+import { widget as stateWidget } from './state-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
@@ -21,7 +22,8 @@ export const projectWidgets: Widget[] = [
 	freitextTcWidget as Widget,
 	cameraWidget as Widget,
 	placeholderWidget,
-	currentValuesWidget as Widget,
 	pgraphWidget as Widget,
-	sampleWidget
+	sampleWidget,
+	currentValuesWidget as Widget,
+	stateWidget
 ];
