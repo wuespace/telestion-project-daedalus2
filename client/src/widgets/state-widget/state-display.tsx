@@ -10,10 +10,11 @@ import { Badge } from './badge';
 import { State } from './model';
 
 export interface StateDisplayProps {
-	state: State;
+	stateSeed: State;
+	stateEjector: State;
 }
 
-export function StateDisplay({ state }: StateDisplayProps) {
+export function StateDisplay({ stateSeed, stateEjector }: StateDisplayProps) {
 	return (
 		<View padding="size-200">
 			<Flex direction="column" alignItems="start">
@@ -23,22 +24,42 @@ export function StateDisplay({ state }: StateDisplayProps) {
 
 				<Divider size="M" />
 
+				<Heading level={2}>Seed State</Heading>
 				<Text marginTop="size-200">Current State:</Text>
 
 				<Flex gap="size-200" marginTop="size-100" alignItems="center">
 					<Content UNSAFE_style={{ fontSize: '1.5em' }}>
-						{state.currentState}
+						{stateSeed.currentState}
 					</Content>
-					<Badge special={state.isSpecial}>{state.tagName}</Badge>
+					<Badge special={stateSeed.isSpecial}>{stateSeed.tagName}</Badge>
 				</Flex>
 
 				<Divider size="M" marginY="size-200" />
 
 				<Text>Next State:</Text>
 				<Content marginTop="size-100" UNSAFE_style={{ fontSize: '1.5em' }}>
-					{state.nextState}
+					{stateSeed.nextState}
 				</Content>
 			</Flex>
+
+			<Divider size="M" />
+
+			<Heading level={2}>Ejector State</Heading>
+			<Text marginTop="size-200">Current State:</Text>
+
+			<Flex gap="size-200" marginTop="size-100" alignItems="center">
+				<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+					{stateEjector.currentState}
+				</Content>
+				<Badge special={stateEjector.isSpecial}>{stateEjector.tagName}</Badge>
+			</Flex>
+
+			<Divider size="M" marginY="size-200" />
+
+			<Text>Next State:</Text>
+			<Content marginTop="size-100" UNSAFE_style={{ fontSize: '1.5em' }}>
+				{stateEjector.nextState}
+			</Content>
 		</View>
 	);
 }
