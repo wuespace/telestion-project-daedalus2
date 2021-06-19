@@ -17,12 +17,21 @@ export const currentValuesDashboard: Dashboard = {
 		{
 			id: 'current-values-1',
 			widgetName: 'pgraphWidget',
-			width: 12,
+			width: 9,
 			height: 4,
 			initialProps: pgraphWidgetProps
 		},
 		{
 			id: 'current-values-2',
+			widgetName: 'stateWidget',
+			width: 3,
+			height: 4,
+			initialProps: {
+				title: 'State Widget'
+			}
+		},
+		{
+			id: 'current-values-3',
 			widgetName: 'cameraWidget',
 			width: 4,
 			height: 5,
@@ -33,7 +42,7 @@ export const currentValuesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'current-values-3',
+			id: 'current-values-4',
 			widgetName: 'cameraWidget',
 			width: 4,
 			height: 5,
@@ -44,7 +53,7 @@ export const currentValuesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'current-values-4',
+			id: 'current-values-5',
 			widgetName: 'freitextTcWidget',
 			width: 4,
 			height: 5,
