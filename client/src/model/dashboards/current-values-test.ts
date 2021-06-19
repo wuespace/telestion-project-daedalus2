@@ -20,6 +20,12 @@ export const CurrentValuesTest: Dashboard = {
 			height: 4,
 			title: 'Fake Data',
 			initialProps: pgraphWidgetProps
+		},
+		{
+			widgetName: 'stateWidget',
+			width: 12,
+			height: 4,
+			title: 'State Machine'
 		}
 	]
 };

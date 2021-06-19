@@ -10,12 +10,14 @@ import { widget as sampleWidget } from './sample-widget';
 import { widget as pgraphWidget } from './pgraph-widget';
 import { widget as currentValuesWidget } from './current-values-widget';
 import { widget as placeholderWidget } from './placeholder-widget';
+import { widget as stateWidget } from './state-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
 	placeholderWidget,
-	currentValuesWidget as Widget,
 	pgraphWidget as Widget,
-	sampleWidget
+	sampleWidget,
+	currentValuesWidget as Widget,
+	stateWidget
 ];
