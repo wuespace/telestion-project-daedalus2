@@ -1,6 +1,7 @@
 import { PGraphWidgetProps } from '../../../widgets/pgraph-widget';
 
 export const fakeProps: PGraphWidgetProps = {
+	title: 'Fake Data',
 	connections: [
 		{
 			address: 'aggregated-imu.acc.x',

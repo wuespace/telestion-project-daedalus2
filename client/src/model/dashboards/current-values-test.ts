@@ -8,43 +8,46 @@ export const CurrentValuesTest: Dashboard = {
 	rows: 12,
 	widgets: [
 		{
+			id: '0-0',
 			widgetName: 'currentValuesWidget',
 			width: 12,
 			height: 3,
-			title: 'Latest fake data',
 			initialProps: currentValuesProps
 		},
 		{
+			id: '0-1',
 			widgetName: 'pgraphWidget',
 			width: 12,
 			height: 4,
-			title: 'Fake Data',
 			initialProps: pgraphWidgetProps
 		},
 		{
+			id: '0-2',
 			widgetName: 'cameraWidget',
 			width: 4,
-			height: 4,
-			title: 'Camera Widget Seed 1',
+			height: 5,
 			initialProps: {
+				title: 'Camera Widget Seed 1',
 				tcChannel: 'seed1-tc'
 			}
 		},
 		{
+			id: '0-3',
 			widgetName: 'cameraWidget',
 			width: 4,
-			height: 4,
-			title: 'Camera Widget Seed 2',
+			height: 5,
 			initialProps: {
+				title: 'Camera Widget Seed 2',
 				tcChannel: 'seed2-tc'
 			}
 		},
 		{
-			widgetName: 'freitextTc',
+			id: '0-4',
+			widgetName: 'freitextTcWidget',
 			width: 4,
-			height: 4,
-			title: 'Freitext Telecommand Widget',
+			height: 5,
 			initialProps: {
+				title: 'Freitext Telecommand Widget',
 				targetLabels: {
 					seedA: 'Seed A',
 					seedB: 'Seed B',

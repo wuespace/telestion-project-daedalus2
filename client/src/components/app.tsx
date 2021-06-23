@@ -6,6 +6,7 @@ import {
 	useEventBusManager
 } from '@wuespace/telestion-client-core';
 import {
+	commonWidgets,
 	CommonWrapper,
 	DashboardPage,
 	NotFoundPage,
@@ -19,7 +20,7 @@ import appLogo from '../assets/app-logo.png';
 import { Header } from './header';
 import { LoginPage } from './login-page';
 
-const widgets: Array<Widget> = [...projectWidgets];
+const widgets: Array<Widget> = [...commonWidgets, ...projectWidgets];
 
 export function App() {
 	useEventBusManager();
