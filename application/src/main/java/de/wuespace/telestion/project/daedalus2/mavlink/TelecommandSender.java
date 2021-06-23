@@ -64,6 +64,7 @@ public class TelecommandSender extends AbstractVerticle {
 			@JsonProperty
 			String conDetails
 	) implements JsonMessage {
+		@SuppressWarnings("unused")
 		public Configuration() {
 			this(null, null, null, null, 0, null);
 		}
@@ -76,8 +77,8 @@ public class TelecommandSender extends AbstractVerticle {
 	public TelecommandSender(Configuration config) {
 		this.config = config;
 
-		this.packetCount = new HashMap<int, AtomicInteger>();
-		this.nameMapping = new HashMap<String, int>();
+		this.packetCount = new HashMap<>();
+		this.nameMapping = new HashMap<>();
 	}
 
 	private void buildMessage(Telecommand tc) {
@@ -87,7 +88,7 @@ public class TelecommandSender extends AbstractVerticle {
 		var compatFlags = 0x0;
 
 		var sysId = config.sysId();
-		var compId = nameMapping.get(tc.target());
+		int compId = nameMapping.get(tc.target());
 		var seq = packetCount.get(compId).getAndIncrement();
 
 		var msgId = Telecommand.class.getAnnotation(MavInfo.class).id();
@@ -121,8 +122,8 @@ public class TelecommandSender extends AbstractVerticle {
 	}
 
 	private Configuration config;
-	private final HashMap<int, AtomicInteger> packetCount;
-	private final HashMap<String, int> nameMapping;
+	private final HashMap<Integer, AtomicInteger> packetCount;
+	private final HashMap<String, Integer> nameMapping;
 	private ConnectionDetails dets;
 
 	private final static Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
