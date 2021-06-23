@@ -1,6 +1,7 @@
 import { CurrentValuesWidgetProps } from '../../../widgets/current-values-widget';
 
 export const fakeProps: CurrentValuesWidgetProps = {
+	title: 'Latest fake data',
 	connections: [
 		{
 			address: 'aggregated-imu.acc.x',

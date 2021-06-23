@@ -4,6 +4,8 @@ import { WidgetProps } from './model';
 
 export const widget: Widget<WidgetProps> = {
 	name: 'currentValuesWidget',
+	title: 'Current Values',
+	version: '0.1.0',
 	Widget: WidgetRenderer
 };
 

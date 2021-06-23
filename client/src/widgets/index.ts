@@ -11,13 +11,13 @@ import { widget as pgraphWidget } from './pgraph-widget';
 import { widget as currentValuesWidget } from './current-values-widget';
 import { widget as placeholderWidget } from './placeholder-widget';
 import { widget as cameraWidget } from './camera-widget';
-import { widget as freitextTc } from './freitext-tc';
+import { widget as freitextTcWidget } from './freitext-tc-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
-	freitextTc as Widget,
-	cameraWidget,
+	freitextTcWidget as Widget,
+	cameraWidget as Widget,
 	placeholderWidget,
 	currentValuesWidget as Widget,
 	pgraphWidget as Widget,
