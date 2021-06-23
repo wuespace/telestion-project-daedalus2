@@ -3,7 +3,8 @@ import {
 	Divider,
 	Flex,
 	Heading,
-	Text, View
+	Text,
+	View
 } from '@adobe/react-spectrum';
 import { BaseRendererProps } from '@wuespace/telestion-client-types';
 
