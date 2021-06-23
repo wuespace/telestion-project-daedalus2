@@ -71,7 +71,7 @@
 		"@types/react-dom": "^17.0.8",
 		"@types/react-virtualized-auto-sizer": "^1.0.0",
 		"@wuespace/telestion-client-cli": "^0.15.1",
-		"@wuespace/telestion-client-types": "^0.15.1",
+		"@wuespace/telestion-client-types": "^0.16.0",
 		"@wuespace/vertx-mock-server": "^0.15.0",
 		"prettier": "^2.3.1",
 		"pretty-quick": "^3.1.1",
