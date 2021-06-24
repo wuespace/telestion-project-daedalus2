@@ -13,7 +13,7 @@ import Circle from '@spectrum-icons/workflow/Circle';
 import Stop from '@spectrum-icons/workflow/Stop';
 import Light from '@spectrum-icons/workflow/Light';
 
-import { useTcSendFunction } from '../hooks/use-tc-send-function';
+import { useTcSendFunction } from '../hooks';
 import { WidgetProps } from './model';
 
 export function Widget({

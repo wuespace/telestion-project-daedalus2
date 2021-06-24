@@ -12,7 +12,7 @@ import {
 } from '@adobe/react-spectrum';
 import { BaseRendererProps } from '@wuespace/telestion-client-types';
 
-import { useTcSendFunction } from '../hooks/use-tc-send-function';
+import { useTcSendFunction } from '../hooks';
 import { WidgetProps } from './model';
 
 export function Widget({
