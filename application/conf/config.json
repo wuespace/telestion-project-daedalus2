@@ -9,6 +9,144 @@
 		"config": {}
 	  },
 	  {
+		"name": "Serial Receiver",
+		"verticle": "de.wuespace.telestion.services.connection.rework.serial.SerialConn",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "n/a (not a real address)",
+		  "outAddress": "raw-serial",
+		  "serialPort": "/dev/telestion-serial",
+		  "baudRate": 38400,
+		  "sampleTime": 200
+		}
+	  },
+	  {
+		"name": "Serial Splitter",
+		"verticle": "de.wuespace.telestion.project.daedalus2.SerialSplitter",
+		"magnitude": 1,
+		"config": {
+		  "longestMessageLength": 280,
+		  "inAddress": "raw-serial",
+		  "outAddress": "nice-serial"
+		}
+	  },
+	  {
+		"name": "Mavlink v2 Validator",
+		"verticle": "de.wuespace.telestion.extension.mavlink.ValidatorMavlink2",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "nice-serial",
+		  "packetOutAddress": "mavlink-raw-logger",
+		  "parserInAddress": "mavlink-payload-parser-in",
+		  "password": "AQ=="
+		}
+	  },
+	  {
+		"name": "MavLink Logger",
+		"verticle": "de.wuespace.telestion.extension.mavlink.logger.RawLogger",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "mavlink-raw-logger",
+		  "filePath": "data/mavlink-logger/"
+		}
+	  },
+	  {
+		"name": "Payload Parser",
+		"verticle": "de.wuespace.telestion.extension.mavlink.PayloadParser",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "mavlink-payload-parser-in",
+		  "outAddress": "parsed-payload"
+		}
+	  },
+	  {
+		"name": "Mavlink Message Registrar",
+		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkRegistrar",
+		"magnitude": 1,
+		"config": {
+		  "classNames": [
+			"de.wuespace.telestion.project.daedalus2.mavlink.SeedSystemT"
+		  ]
+		}
+	  },
+	  {
+		"name": "MessageTransformer",
+		"verticle": "de.wuespace.telestion.project.daedalus2.MessageTransformer",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "parsed-payload",
+		  "outAddress": "beautiful-data"
+		}
+	  },
+	  {
+		"name": "Data Listener",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.DataListener",
+		"magnitude": 1,
+		"config": {
+		  "listeningAddresses": [
+			"beautiful-data"
+		  ]
+		}
+	  },
+	  {
+		"name": "Mongo Database Service",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.MongoDatabaseService",
+		"magnitude": 1,
+		"config": {
+		  "dbPoolName": "d2Pool"
+		}
+	  },
+	  {
+		"name": "Periodic Data Aggregator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
+		"magnitude": 1,
+		"config": {
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+		  "field": "imu.acc.x",
+		  "rate": 10,
+		  "outAddress": "aggregated-imu.acc.x"
+		}
+	  },
+	  {
+		"name": "Periodic Data Aggregator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
+		"magnitude": 1,
+		"config": {
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+		  "field": "imu.acc.y",
+		  "rate": 10,
+		  "outAddress": "aggregated-imu.acc.y"
+		}
+	  },
+	  {
+		"name": "Periodic Data Aggregator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator",
+		"magnitude": 1,
+		"config": {
+		  "collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+		  "field": "imu.acc.z",
+		  "rate": 10,
+		  "outAddress": "aggregated-imu.acc.z"
+		}
+	  },
+	  {
+		"name": "Eventbus Tcp Bridge",
+		"verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",
+		"magnitude": 1,
+		"config": {
+		  "host": "0.0.0.0",
+		  "port": 9870,
+		  "inboundPermitted": [
+			"tc-sender"
+		  ],
+		  "outboundPermitted": [
+			"aggregated-imu.acc.x",
+			"aggregated-imu.acc.y",
+			"aggregated-imu.acc.z"
+		  ]
+		}
+	  },
+	  {
 		"name": "Telecommand Sender",
 		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TelecommandSender",
 		"magnitude": 1,
@@ -26,22 +164,7 @@
 			"className": "de.wuespace.telestion.services.connection.rework.serial.SerialDetails"
 		  }
 		}
-	  },
-      {
-        "name": "Eventbus Tcp Bridge",
-        "verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",
-        "magnitude": 1,
-        "config": {
-          "host": "0.0.0.0",
-          "port": 9870,
-          "inboundPermitted": ["tc-sender"],
-          "outboundPermitted": [
-			"aggregated-imu.acc.x",
-			"aggregated-imu.acc.y",
-			"aggregated-imu.acc.z"
-		  ]
-        }
-      }
-    ]
+	  }
+	]
   }
 }
