@@ -6,8 +6,7 @@ import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.extension.mavlink.annotation.MavInfo;
 import de.wuespace.telestion.extension.mavlink.security.X25Checksum;
 import de.wuespace.telestion.project.daedalus2.mavlink.internal.Telecommand;
-import de.wuespace.telestion.services.connection.rework.ConnectionData;
-import de.wuespace.telestion.services.connection.rework.ConnectionDetails;
+import de.wuespace.telestion.services.connection.rework.RawMessage;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import org.slf4j.Logger;
@@ -49,13 +48,11 @@ public class TelecommandSender extends AbstractVerticle {
 			@JsonProperty
 			Map<String, Integer> compIdAliasMapping,
 			@JsonProperty
-			int sysId,
-			@JsonProperty
-			ConnectionDetails conDetails
+			int sysId
 	) implements JsonMessage {
 		@SuppressWarnings("unused")
 		public Configuration() {
-			this(null, null, null, 0, null);
+			this(null, null, null, 0);
 		}
 	}
 
@@ -108,7 +105,7 @@ public class TelecommandSender extends AbstractVerticle {
 
 		vertx.eventBus().publish(
 				config.outAddress(),
-				new ConnectionData(finalBuffer.array(), config.conDetails()).json()
+				new RawMessage(finalBuffer.array()).json()
 		);
 	}
 
