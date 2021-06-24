@@ -17,7 +17,7 @@ export const currentValuesDashboard: Dashboard = {
 		{
 			id: 'current-values-1',
 			widgetName: 'pgraphWidget',
-			width: 9,
+			width: 12,
 			height: 4,
 			initialProps: pgraphWidgetProps
 		},
@@ -33,7 +33,7 @@ export const currentValuesDashboard: Dashboard = {
 		{
 			id: 'current-values-3',
 			widgetName: 'cameraWidget',
-			width: 4,
+			width: 3,
 			height: 5,
 			initialProps: {
 				title: 'Camera Widget Seed A',
@@ -44,7 +44,7 @@ export const currentValuesDashboard: Dashboard = {
 		{
 			id: 'current-values-4',
 			widgetName: 'cameraWidget',
-			width: 4,
+			width: 3,
 			height: 5,
 			initialProps: {
 				title: 'Camera Widget Seed B',
@@ -55,7 +55,7 @@ export const currentValuesDashboard: Dashboard = {
 		{
 			id: 'current-values-5',
 			widgetName: 'freitextTcWidget',
-			width: 4,
+			width: 3,
 			height: 5,
 			initialProps: {
 				title: 'Freitext Telecommand Widget',
@@ -66,6 +66,15 @@ export const currentValuesDashboard: Dashboard = {
 					ejector: 'Ejector'
 				}
 			}
-		}
+		},
+		{
+			id: '0-5',
+			widgetName: 'stateWidget',
+			width: 3,
+			height: 5,
+			initialProps: {
+				title: 'State Widget'
+			}
+		},
 	]
 };
