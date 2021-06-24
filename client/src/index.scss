@@ -1,3 +1,5 @@
+@import '~highlight.js/scss/github-dark';
+
 * {
 	box-sizing: border-box;
 }
@@ -29,4 +31,9 @@ button svg {
 	-webkit-user-drag: none;
 	-webkit-app-region: no-drag;
 	cursor: default;
+}
+
+/* Remove styled background because it does not fit to the current application theme. */
+.hljs {
+  background: unset !important;
 }
