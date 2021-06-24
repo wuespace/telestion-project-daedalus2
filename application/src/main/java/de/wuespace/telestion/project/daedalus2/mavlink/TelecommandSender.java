@@ -79,7 +79,7 @@ public class TelecommandSender extends AbstractVerticle {
 		int compId = config.compIdAliasMapping().get(tc.target());
 		var seq = packetCount.get(compId).getAndIncrement();
 
-		var msgId = Telecommand.class.getAnnotation(MavInfo.class).id();
+		var msgId = ConCmd.class.getAnnotation(MavInfo.class).id();
 
 		var payload = tc.msg().getBytes(StandardCharsets.ISO_8859_1);
 		var len = payload.length;
@@ -96,7 +96,7 @@ public class TelecommandSender extends AbstractVerticle {
 				.put((byte) (msgId >> 16));
 		buffer.put(payload);
 
-		var checksum = X25Checksum.calculate(buffer.array());
+		var checksum = X25Checksum.calculate(buffer.array(), ConCmd.class.getAnnotation(MavInfo.class).crc());
 
 		logger.debug("Sending Telecommand");
 
