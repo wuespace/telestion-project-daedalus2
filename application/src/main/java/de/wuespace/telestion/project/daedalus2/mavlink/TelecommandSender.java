@@ -10,7 +10,6 @@ import de.wuespace.telestion.services.connection.rework.ConnectionData;
 import de.wuespace.telestion.services.connection.rework.ConnectionDetails;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
-import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,11 +27,6 @@ public class TelecommandSender extends AbstractVerticle {
 		// From here on there will be no more changes to the config
 		config.compIdAliasMapping().values()
 				.forEach(s -> packetCount.put(s, new AtomicInteger(0)));
-
-		if (!JsonMessage.on(ConnectionDetails.class,
-				JsonObject.mapFrom(config.conDetails()), handle -> details = handle)) {
-			startPromise.fail("ConDetails for the TCs could not be interpreted");
-		}
 
 		vertx.eventBus().consumer(config.inAddress(),
 				raw -> JsonMessage.on(Telecommand.class, raw, this::buildMessage));
@@ -57,7 +51,7 @@ public class TelecommandSender extends AbstractVerticle {
 			@JsonProperty
 			int sysId,
 			@JsonProperty
-			String conDetails
+			ConnectionDetails conDetails
 	) implements JsonMessage {
 		@SuppressWarnings("unused")
 		public Configuration() {
@@ -76,7 +70,7 @@ public class TelecommandSender extends AbstractVerticle {
 	}
 
 	private void buildMessage(Telecommand tc) {
-		var magicByte = 0xFD;	// Mavlink v2
+		var magicByte = 0xFD;    // Mavlink v2
 
 		var incompatFlags = 0x0;
 		var compatFlags = 0x0;
@@ -112,12 +106,14 @@ public class TelecommandSender extends AbstractVerticle {
 		finalBuffer.put(buffer.array());
 		finalBuffer.put((byte) checksum).put((byte) (checksum >> 8));
 
-		vertx.eventBus().publish(config.outAddress(), new ConnectionData(finalBuffer.array(), details).json());
+		vertx.eventBus().publish(
+				config.outAddress(),
+				new ConnectionData(finalBuffer.array(), config.conDetails()).json()
+		);
 	}
 
 	private Configuration config;
 	private final HashMap<Integer, AtomicInteger> packetCount;
-	private ConnectionDetails details;
 
 	private final static Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
 }
