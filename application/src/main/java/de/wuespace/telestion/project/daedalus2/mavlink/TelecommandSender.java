@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TelecommandSender extends AbstractVerticle {
@@ -25,14 +26,11 @@ public class TelecommandSender extends AbstractVerticle {
 		config = Config.get(config, config(), Configuration.class);
 
 		// From here on there will be no more changes to the config
-		for (int i = 0; i < config.compIds().length; i++) {
-			nameMapping.put(config.compIdAlias()[i], config.compIds()[i]);
-			packetCount.put(config.compIds()[i], new AtomicInteger(0));
-		}
+		config.compIdAliasMapping().values()
+				.forEach(s -> packetCount.put(s, new AtomicInteger(0)));
 
-		if (!JsonMessage.on(ConnectionDetails.class, JsonObject.mapFrom(config.conDetails()), handle -> {
-			dets = handle;
-		})) {
+		if (!JsonMessage.on(ConnectionDetails.class,
+				JsonObject.mapFrom(config.conDetails()), handle -> details = handle)) {
 			startPromise.fail("ConDetails for the TCs could not be interpreted");
 		}
 
@@ -44,7 +42,6 @@ public class TelecommandSender extends AbstractVerticle {
 
 	@Override
 	public void stop(Promise<Void> stopPromise) throws Exception {
-		nameMapping.clear();
 		packetCount.clear();
 
 		super.stop(stopPromise);
@@ -56,9 +53,7 @@ public class TelecommandSender extends AbstractVerticle {
 			@JsonProperty
 			String outAddress,
 			@JsonProperty
-			String[] compIdAlias,
-			@JsonProperty
-			int[] compIds,
+			Map<String, Integer> compIdAliasMapping,
 			@JsonProperty
 			int sysId,
 			@JsonProperty
@@ -66,7 +61,7 @@ public class TelecommandSender extends AbstractVerticle {
 	) implements JsonMessage {
 		@SuppressWarnings("unused")
 		public Configuration() {
-			this(null, null, null, null, 0, null);
+			this(null, null, null, 0, null);
 		}
 	}
 
@@ -78,7 +73,6 @@ public class TelecommandSender extends AbstractVerticle {
 		this.config = config;
 
 		this.packetCount = new HashMap<>();
-		this.nameMapping = new HashMap<>();
 	}
 
 	private void buildMessage(Telecommand tc) {
@@ -88,7 +82,7 @@ public class TelecommandSender extends AbstractVerticle {
 		var compatFlags = 0x0;
 
 		var sysId = config.sysId();
-		int compId = nameMapping.get(tc.target());
+		int compId = config.compIdAliasMapping().get(tc.target());
 		var seq = packetCount.get(compId).getAndIncrement();
 
 		var msgId = Telecommand.class.getAnnotation(MavInfo.class).id();
@@ -118,13 +112,12 @@ public class TelecommandSender extends AbstractVerticle {
 		finalBuffer.put(buffer.array());
 		finalBuffer.put((byte) checksum).put((byte) (checksum >> 8));
 
-		vertx.eventBus().publish(config.outAddress(), new ConnectionData(finalBuffer.array(), dets).json());
+		vertx.eventBus().publish(config.outAddress(), new ConnectionData(finalBuffer.array(), details).json());
 	}
 
 	private Configuration config;
 	private final HashMap<Integer, AtomicInteger> packetCount;
-	private final HashMap<String, Integer> nameMapping;
-	private ConnectionDetails dets;
+	private ConnectionDetails details;
 
 	private final static Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
 }
