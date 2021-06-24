@@ -16,8 +16,12 @@ import Light from '@spectrum-icons/workflow/Light';
 import { useTcSendFunction } from '../hooks/use-tc-send-function';
 import { WidgetProps } from './model';
 
-export function Widget({ tcChannel, title }: BaseRendererProps<WidgetProps>) {
-	const sendTC = useTcSendFunction(tcChannel);
+export function Widget({
+	channel,
+	title,
+	target
+}: BaseRendererProps<WidgetProps>) {
+	const sendTC = useTcSendFunction(channel);
 
 	return (
 		<View padding="size-200">
@@ -34,11 +38,11 @@ export function Widget({ tcChannel, title }: BaseRendererProps<WidgetProps>) {
 				</Heading>
 				<Flex>
 					<div>
-						<ActionButton onPress={() => sendTC('camrec 1')}>
+						<ActionButton onPress={() => sendTC(target, 'camrec 1')}>
 							<Circle color="negative" />
 							<Text>Start</Text>
 						</ActionButton>
-						<ActionButton onPress={() => sendTC('camrec 0')}>
+						<ActionButton onPress={() => sendTC(target, 'camrec 0')}>
 							<Stop />
 							<Text>Stop</Text>
 						</ActionButton>
@@ -51,10 +55,10 @@ export function Widget({ tcChannel, title }: BaseRendererProps<WidgetProps>) {
 					</Flex>
 				</Heading>
 				<Flex>
-					<ActionButton onPress={() => sendTC('enableTestLED')}>
+					<ActionButton onPress={() => sendTC(target, 'enableTestLED')}>
 						Enable
 					</ActionButton>
-					<ActionButton onPress={() => sendTC('disableTestLED')}>
+					<ActionButton onPress={() => sendTC(target, 'disableTestLED')}>
 						Disable
 					</ActionButton>
 				</Flex>

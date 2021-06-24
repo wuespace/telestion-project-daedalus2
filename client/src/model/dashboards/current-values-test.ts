@@ -27,8 +27,9 @@ export const CurrentValuesTest: Dashboard = {
 			width: 4,
 			height: 5,
 			initialProps: {
-				title: 'Camera Widget Seed 1',
-				tcChannel: 'seed1-tc'
+				title: 'Camera Widget Seed A',
+				channel: 'tc-sender',
+				target: 'seedA'
 			}
 		},
 		{
@@ -37,8 +38,9 @@ export const CurrentValuesTest: Dashboard = {
 			width: 4,
 			height: 5,
 			initialProps: {
-				title: 'Camera Widget Seed 2',
-				tcChannel: 'seed2-tc'
+				title: 'Camera Widget Seed B',
+				channel: 'tc-sender',
+				target: 'seedB'
 			}
 		},
 		{
@@ -48,7 +50,8 @@ export const CurrentValuesTest: Dashboard = {
 			height: 5,
 			initialProps: {
 				title: 'Freitext Telecommand Widget',
-				targetLabels: {
+				channel: 'tc-sender',
+				targets: {
 					seedA: 'Seed A',
 					seedB: 'Seed B',
 					ejector: 'Ejector'
