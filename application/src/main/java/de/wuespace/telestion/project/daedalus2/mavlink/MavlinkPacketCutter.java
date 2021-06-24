@@ -32,7 +32,7 @@ public class MavlinkPacketCutter extends AbstractVerticle {
 				return;
 			}
 
-			vertx.eventBus().publish(addr, msg);
+			vertx.eventBus().publish(addr, msg.json());
 		}));
 
 		startPromise.complete();
