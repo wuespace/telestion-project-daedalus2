@@ -75,6 +75,6 @@ export const currentValuesDashboard: Dashboard = {
 			initialProps: {
 				title: 'State Widget'
 			}
-		},
+		}
 	]
 };
