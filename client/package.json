@@ -7,7 +7,7 @@
 		"node": ">=14"
 	},
 	"scripts": {
-		"prepare": "node scripts/register-precommit-hook.js",
+		"prepare": "npm run meta:register-precommit && npm run meta:setup-hljs",
 		"start": "npm run start:electron",
 		"start:electron": "tc-cli start --electron",
 		"start:browser": "tc-cli start --browser",
@@ -17,7 +17,9 @@
 		"style:ci": "prettier --list-different package.json '**/*{.ts,.tsx,.js,.jsx,.json,.html,.css,.scss,.sass,.yaml,.yml,.md}'",
 		"lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern node_modules/ --no-error-on-unmatched-pattern src",
 		"ts": "tsc",
-		"clean": "rimraf build dist"
+		"clean": "rimraf build dist",
+		"meta:register-precommit": "node scripts/register-precommit-hook.js",
+		"meta:setup-hljs": "node scripts/setup-hljs.js"
 	},
 	"husky": {
 		"hooks": {
