@@ -13,7 +13,7 @@
 		"verticle": "de.wuespace.telestion.services.connection.rework.serial.SerialConn",
 		"magnitude": 1,
 		"config": {
-		  "inAddress": "n/a (not a real address)",
+		  "inAddress": "raw-commands",
 		  "outAddress": "raw-serial",
 		  "serialPort": "/dev/telestion-serial",
 		  "baudRate": 38400,
@@ -51,22 +51,23 @@
 		}
 	  },
 	  {
+		"name": "Mavlink Message Registrar",
+		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkRegistrar",
+		"magnitude": 1,
+		"config": {
+		  "classNames": [
+			"de.wuespace.telestion.project.daedalus2.mavlink.SeedSystemT",
+			"de.wuespace.telestion.project.daedalus2.mavlink.ConCmd"
+		  ]
+		}
+	  },
+	  {
 		"name": "Payload Parser",
 		"verticle": "de.wuespace.telestion.extension.mavlink.PayloadParser",
 		"magnitude": 1,
 		"config": {
 		  "inAddress": "mavlink-payload-parser-in",
 		  "outAddress": "parsed-payload"
-		}
-	  },
-	  {
-		"name": "Mavlink Message Registrar",
-		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkRegistrar",
-		"magnitude": 1,
-		"config": {
-		  "classNames": [
-			"de.wuespace.telestion.project.daedalus2.mavlink.SeedSystemT"
-		  ]
 		}
 	  },
 	  {
@@ -152,17 +153,43 @@
 		"magnitude": 1,
 		"config": {
 		  "inAddress": "tc-sender",
-		  "outAddress": "bla",
+		  "outAddress": "static-sender",
 		  "compIdAliasMapping": {
 			"seedA": 0,
 			"seedB": 1,
 			"ejector": 2
 		  },
-		  "sysId": 64,
-		  "conDetails": {
-			"serialPort": "12345",
+		  "sysId": 64
+		}
+	  },
+	  {
+		"name": "Static Sender",
+		"verticle": "de.wuespace.telestion.services.connection.rework.StaticSender",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "static-sender",
+		  "outAddress": "sender",
+		  "staticDetails": {
+			"serialPort": "/dev/telestion-serial",
 			"className": "de.wuespace.telestion.services.connection.rework.serial.SerialDetails"
 		  }
+		}
+	  },
+	  {
+		"name": "Sender",
+		"verticle": "de.wuespace.telestion.services.connection.rework.Sender",
+		"magnitude": 1,
+		"config": {
+		  "inputAddress": "sender",
+		  "connectionAddresses": ["raw-commands"]
+		}
+	  },
+	  {
+		"name": "Serial Printer",
+		"verticle": "de.wuespace.telestion.project.daedalus2.SerialPrinter",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "raw-commands"
 		}
 	  }
 	]
