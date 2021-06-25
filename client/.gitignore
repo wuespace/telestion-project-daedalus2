@@ -42,3 +42,7 @@ cypress/screenshots
 
 # eslint cache
 .eslintcache
+
+# dynamic styles
+public/light.css
+public/dark.css

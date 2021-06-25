@@ -6,3 +6,5 @@ build
 dist
 package-lock.json
 CHANGELOG.md
+public/light.css
+public/dark.css
