@@ -5,6 +5,9 @@
 .github.credentials
 gradle.properties
 
+# generated data
+data
+
 ### Kotlin template
 # Compiled class file
 *.class
