@@ -14,7 +14,7 @@ const states: { [key: number]: State } = {
 	//according to gitlab Wiki: 13-15 are only present in EjectorStateMachine (?)
 	0: {
 		currentState: 'kInvalid',
-		nextState: '-',
+		nextState: '', //not defined, multiple states possible after invalid
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
@@ -27,226 +27,226 @@ const states: { [key: number]: State } = {
 	},
 	2: {
 		currentState: 'kPost',
-		nextState: '',
+		nextState: 'kPostExit',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	3: {
 		currentState: 'kPostExit',
-		nextState: '',
+		nextState: 'kPreFlightEntry',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	4: {
 		currentState: 'kPreFlightEntry',
-		nextState: '',
+		nextState: 'kPreFlight',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	5: {
 		currentState: 'kPreFlight',
-		nextState: '',
+		nextState: 'kPreFlightExit', //a 'main state' (without entry or exit suffix) is repeated until a certain event toggles the transition to the next state, so this next state indicator indicates which states comes after the certain event
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	6: {
 		currentState: 'kPreFlightExit',
-		nextState: '',
+		nextState: 'kArmedForFlightEntry',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	7: {
 		currentState: 'kArmedForFlightEntry',
-		nextState: '',
+		nextState: 'kArmedForFlight',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	8: {
 		currentState: 'kArmedForFlight',
-		nextState: '',
+		nextState: 'kArmedForFlightExit',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	9: {
 		currentState: 'kArmedForFlightExit',
-		nextState: '',
+		nextState: 'kRocketFlightEntry',
 		tagName: 'Pre-Launch',
 		isSpecial: false
 	},
 	10: {
 		currentState: 'kRocketFlightEntry',
-		nextState: '',
+		nextState: 'kRocketFlight',
 		tagName: 'RocketFlight',
 		isSpecial: false
 	},
 	11: {
 		currentState: 'kRocketFlight',
-		nextState: '',
+		nextState: 'kRocketFlightExit',
 		tagName: 'RocketFlight',
 		isSpecial: false
 	},
 	12: {
 		currentState: 'kRocketFlightExit',
-		nextState: '',
+		nextState: 'kEjectionEntry',
 		tagName: 'RocketFlight',
 		isSpecial: false
 	},
 	13: {
 		currentState: 'kEjectionEntry',
-		nextState: '',
+		nextState: 'kEjection',
 		tagName: 'RocketFlight',
 		isSpecial: false
 	},
 	14: {
 		currentState: 'kEjection',
-		nextState: '',
+		nextState: 'kEjectionExit',
 		tagName: 'RocketFlight',
 		isSpecial: false
 	},
 	15: {
 		currentState: 'kEjectionExit',
-		nextState: '',
+		nextState: 'kFallingEntry', //transition to the Seed State Machine being separate from the Ejector State Machine
 		tagName: 'RocketFlight',
 		isSpecial: false
 	},
 	//16 - 30 are states only present in the SeedStateMachine
 	16: {
 		currentState: 'kFallingEntry',
-		nextState: '',
+		nextState: 'kFalling',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	17: {
 		currentState: 'kFalling',
-		nextState: '',
+		nextState: 'kFallingExit',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	18: {
 		currentState: 'kFallingExit',
-		nextState: '',
+		nextState: 'kMidAirBreakingEntry',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	19: {
 		currentState: 'kMidAirBreakingEntry',
-		nextState: '',
+		nextState: 'kMidAirBreaking',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	20: {
 		currentState: 'kMidAirBreaking',
-		nextState: '',
+		nextState: 'kMidAirBreakingExit',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	21: {
 		currentState: 'kMidAirBreakingExit',
-		nextState: '',
+		nextState: 'kFalling2Entry',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	22: {
 		currentState: 'kFalling2Entry',
-		nextState: '',
+		nextState: 'kFalling2',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	23: {
 		currentState: 'kFalling2',
-		nextState: '',
+		nextState: 'kFalling2Exit',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	24: {
 		currentState: 'kFalling2Exit',
-		nextState: '',
+		nextState: 'kLandingEntry',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	25: {
 		currentState: 'kLandingEntry',
-		nextState: '',
+		nextState: 'kLanding',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	26: {
 		currentState: 'kLanding',
-		nextState: '',
+		nextState: 'kLandingExit',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	27: {
 		currentState: 'kLandingExit',
-		nextState: '',
+		nextState: 'kRecoveryEntry',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	28: {
 		currentState: 'kRecoveryEntry',
-		nextState: '',
+		nextState: 'kRecovery',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	29: {
 		currentState: 'kRecovery',
-		nextState: '',
+		nextState: 'kRecoveryExit',
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	30: {
 		currentState: 'kRecoveryExit',
-		nextState: '',
+		nextState: '-', //end
 		tagName: 'PostEjection',
 		isSpecial: false
 	},
 	//121-126 are Debug-/RadioSilence-States (shared: Seed and Ejector)
 	121: {
 		currentState: 'kRadioSilenceEntry',
-		nextState: '',
+		nextState: 'kRadioSilence',
 		tagName: 'Debug / RadioSilence',
 		isSpecial: true
 	},
 	122: {
 		currentState: 'kRadioSilence',
-		nextState: '',
+		nextState: 'kRadioSilenceExit',
 		tagName: 'Debug / RadioSilence',
 		isSpecial: true
 	},
 	123: {
 		currentState: 'kRadioSilenceExit',
-		nextState: '',
+		nextState: '', //multiple next States possible after RadioSilence
 		tagName: 'Debug / RadioSilence',
 		isSpecial: true
 	},
 	124: {
 		currentState: 'kDebugEntry',
-		nextState: '',
+		nextState: 'kDebug',
 		tagName: 'Debug / RadioSilence',
 		isSpecial: true
 	},
 	125: {
 		currentState: 'kDebug',
-		nextState: '',
+		nextState: 'kDebugExit',
 		tagName: 'Debug / RadioSilence',
 		isSpecial: true
 	},
 	126: {
 		currentState: 'kDebugExit',
-		nextState: '',
+		nextState: '', //multiple next States possible after debug
 		tagName: 'Debug / RadioSilence',
 		isSpecial: true
 	},
 	//99-100 are TestStates (only used at wind tunnel tests, shared: Seed and Ejector)
 	99: {
 		currentState: 'kSTATIC_TEST_ENTRY',
-		nextState: '',
+		nextState: 'kSTATIC_TEST',
 		tagName: 'Test',
 		isSpecial: true
 	},
 	100: {
 		currentState: 'kSTATIC_TEST',
-		nextState: '',
+		nextState: '-', //end
 		tagName: 'Test',
 		isSpecial: true
 	}
