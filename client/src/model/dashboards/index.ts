@@ -1,2 +1,3 @@
-export * from './pgraph-test';
-export * from './current-values-test';
+export * from './notes-dashboard';
+export * from './graph-dashboard';
+export * from './current-values-dashboard';

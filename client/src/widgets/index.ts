@@ -12,10 +12,12 @@ import { widget as currentValuesWidget } from './current-values-widget';
 import { widget as placeholderWidget } from './placeholder-widget';
 import { widget as cameraWidget } from './camera-widget';
 import { widget as freitextTcWidget } from './freitext-tc-widget';
+import { widget as noteWidget } from './note-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	noteWidget as Widget,
 	freitextTcWidget as Widget,
 	cameraWidget as Widget,
 	placeholderWidget,
