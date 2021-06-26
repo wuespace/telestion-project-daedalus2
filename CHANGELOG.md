@@ -1,3 +1,17 @@
+# [0.10.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.9.0...v0.10.0) (2021-06-26)
+
+
+### Bug Fixes
+
+* Hotfix SeedSystemT ([23862b6](https://github.com/wuespace/telestion-project-daedalus2/commit/23862b6cfbee121500016e2337172053481adbd9))
+
+
+### Features
+
+* **widget:** Add note widget ([128cc34](https://github.com/wuespace/telestion-project-daedalus2/commit/128cc3478aa199f8a00bc110df15ed0e31c665b0))
+
+
+
 # [0.9.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.8.0...v0.9.0) (2021-06-26)
 
 
