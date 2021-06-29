@@ -1,6 +1,6 @@
 package de.wuespace.telestion.project.daedalus2.database;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.api.config.Config;
 import de.wuespace.telestion.services.message.Address;
@@ -47,11 +47,18 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * This constructor supplies default options.
 	 *
-	 * @param dbName     the name of the local running database
-	 * @param dbPoolName the name of the database pool
+	 * @param host       The host the MongoDB instance is running. Defaults to {@code 127.0.0.1}.
+	 * @param port       The port the MongoDB instance is listening on. Defaults to {@code 27017}.
+	 * @param dbName     Name of the database in the MongoDB instance to use. Defaults to {@code daedalus2}.
+	 * @param username   The username to authenticate. Default is {@code null}. (meaning no authentication required)
+	 * @param password   The password to use to authenticate.
+	 * @param dbPoolName The data source name in MongoDB which is shared between other MongoDB verticles.
 	 */
-	public MongoDatabaseService(String dbName, String dbPoolName) {
-		this.forcedConfig = new Configuration(dbPoolName);
+	public MongoDatabaseService(String host, int port,
+								String dbName,
+								String username, String password,
+								String dbPoolName) {
+		this.forcedConfig = new Configuration(host, port, dbName, username, password, dbPoolName);
 	}
 
 	/**
@@ -63,14 +70,17 @@ public final class MongoDatabaseService extends AbstractVerticle {
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		config = Config.get(forcedConfig, config(), Configuration.class);
+		config = Config.get(forcedConfig, new Configuration(), config(), Configuration.class);
 		var dbConfig = new JsonObject()
-				.put("db_name", "daedalus2")
+				.put("db_name", config.dbName)
 				.put("useObjectId", true)
-				.put("host", "172.17.0.1")
-				.put("port", 27017);
+				.put("host", config.host)
+				.put("port", config.port)
+				.put("username", config.username)
+				.put("password", config.password);
 		this.client = MongoClient.createShared(vertx, dbConfig, config.dbPoolName);
 		this.registerConsumers();
+
 		startPromise.complete();
 	}
 
@@ -240,7 +250,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	 *
 	 * @param limit Limits the amount of returned entries. -1 equals all entries found.
 	 * @param skip  Specifies if and how many entries should be skipped.
-	 * @return            {@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
+	 * @return {@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
 	 */
 	private FindOptions setFindOptions(List<String> fields, List<String> sort, int limit, int skip) {
 		return setFindOptions(fields, sort).setLimit(limit).setSkip(skip);
@@ -252,7 +262,7 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	 *
 	 * @param fields List of key Strings in the collection limiting the fields that should be returned.
 	 * @param sort   List of key Strings that the returned data should be sorted by.
-	 * @return            {@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
+	 * @return {@link io.vertx.ext.mongo.FindOptions} for the MongoClient.
 	 */
 	private FindOptions setFindOptions(List<String> fields, List<String> sort) {
 		FindOptions findOptions = new FindOptions();
@@ -302,9 +312,28 @@ public final class MongoDatabaseService extends AbstractVerticle {
 		return dateFormat.format(date);
 	}
 
-	private static record Configuration(@JsonProperty String dbPoolName) {
-		private Configuration() {
-			this("d2Pool");
+	/**
+	 * Configuration for the {@link MongoDatabaseService} verticle.
+	 * <br />
+	 * <a href="https://vertx.io/docs/4.1.0/vertx-mongo-client/java/">
+	 * https://vertx.io/docs/4.1.0/vertx-mongo-client/java/
+	 * </a>
+	 *
+	 * @param host       The host the MongoDB instance is running. Defaults to {@code 127.0.0.1}.
+	 * @param port       The port the MongoDB instance is listening on. Defaults to {@code 27017}.
+	 * @param dbName     Name of the database in the MongoDB instance to use. Defaults to {@code daedalus2}.
+	 * @param username   The username to authenticate. Default is {@code null}. (meaning no authentication required)
+	 * @param password   The password to use to authenticate.
+	 * @param dbPoolName The data source name in MongoDB which is shared between other MongoDB verticles.
+	 */
+	private static record Configuration(@JsonProperty String host,
+										@JsonProperty int port,
+										@JsonProperty String dbName,
+										@JsonProperty String username,
+										@JsonProperty String password,
+										@JsonProperty String dbPoolName) {
+		Configuration() {
+			this("127.0.0.1", 27017, "daedalus2", null, null, "d2Pool");
 		}
 	}
 }
