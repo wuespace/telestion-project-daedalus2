@@ -23,7 +23,10 @@ echo "Pulling Docker Image"
 sudo docker pull "$IMAGE"
 
 echo "Starting the docker image ;-)"
-if sudo docker run -it -p 9870:9870 --privileged --add-host=host.docker.internal:host-gateway --mount "type=bind,source=/data/app-data,target=/usr/telestion/telestion-project-daedalus2/data" --mount "type=bind,source=/usr/bin/nano,target=/usr/bin/nano" --mount "type=bind,source=${SERIAL_UART_DEVICE},target=/dev/telestion-serial" "$IMAGE" "$@"; then 
+if sudo docker run -it -p 9870:9870 --privileged --add-host=host.docker.internal:host-gateway \
+	--mount "type=bind,source=/data/app-data,target=/usr/telestion/telestion-project-daedalus2/data" \
+	--mount "type=bind,source=/usr/bin/nano,target=/usr/bin/nano" \
+	--mount "type=bind,source=${SERIAL_UART_DEVICE},target=/dev/telestion-serial" "$IMAGE" "$@"; then 
 	echo "If you see this, you've found a weird edge case :P"
 fi
 
