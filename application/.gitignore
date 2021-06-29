@@ -6,7 +6,8 @@
 gradle.properties
 
 # generated data
-data
+data/*
+!data/.gitkeep
 
 ### Kotlin template
 # Compiled class file
