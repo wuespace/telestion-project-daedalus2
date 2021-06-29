@@ -9,15 +9,14 @@
 		"config": {}
 	  },
 	  {
-		"name": "Serial Receiver",
-		"verticle": "de.wuespace.telestion.services.connection.rework.serial.SerialConn",
+		"name": "TCP Serial Connection",
+		"verticle": "de.wuespace.telestion.services.connection.rework.tcp.TcpServer",
 		"magnitude": 1,
 		"config": {
 		  "inAddress": "raw-commands",
 		  "outAddress": "raw-serial",
-		  "serialPort": "/dev/telestion-serial",
-		  "baudRate": 38400,
-		  "sampleTime": 200
+		  "hostAddress": "0.0.0.0",
+		  "port": 9871
 		}
 	  },
 	  {
@@ -94,7 +93,7 @@
 		"verticle": "de.wuespace.telestion.project.daedalus2.database.MongoDatabaseService",
 		"magnitude": 1,
 		"config": {
-		  "dbPoolName": "d2Pool"
+		  "host": "mongodb"
 		}
 	  },
 	  {
