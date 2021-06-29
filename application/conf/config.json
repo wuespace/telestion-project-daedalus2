@@ -10,12 +10,11 @@
 	  },
 	  {
 		"name": "TCP Serial Connection",
-		"verticle": "de.wuespace.telestion.services.connection.rework.tcp.TcpServer",
+		"verticle": "de.wuespace.telestion.project.daedalus2.connection.BroadcastTcpServer",
 		"magnitude": 1,
 		"config": {
 		  "inAddress": "raw-commands",
 		  "outAddress": "raw-serial",
-		  "hostAddress": "0.0.0.0",
 		  "port": 9871
 		}
 	  },
@@ -169,8 +168,10 @@
 		  "inAddress": "static-sender",
 		  "outAddress": "sender",
 		  "staticDetails": {
-			"serialPort": "/dev/telestion-serial",
-			"className": "de.wuespace.telestion.services.connection.rework.serial.SerialDetails"
+			"ip": "0.0.0.0",
+			"port": 0,
+			"packetId": -1,
+			"className": "de.wuespace.telestion.services.connection.rework.tcp.TcpDetails"
 		  }
 		}
 	  },
