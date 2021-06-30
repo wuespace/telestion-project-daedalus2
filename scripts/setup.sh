@@ -5,8 +5,8 @@ set -e
 # Downloads and sets up the Telestion Application on the current operating system.
 # by WüSpace e. V. (c) 2021
 
-REPO_OWNER="wuespace"
-REPO_NAME="telestion-project-daedalus2"
+REPO_OWNER="fussel178"
+REPO_NAME="telestion-project-automated-setup"
 
 REQUIRED_TOOLS="curl grep sudo docker docker-compose"
 RELEASE_FILES="telestion docker-compose.yml config.json"
@@ -93,7 +93,7 @@ done
 section "Create app directory..."
 info "Create folder..."
 
-mkdir "$APP_DIR"
+mkdir -p "$APP_DIR"
 cd "$APP_DIR"
 
 latest_release="$(curl --silent "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest" |
@@ -110,12 +110,15 @@ for file in $RELEASE_FILES; do
 done
 
 info "Setup folder structure..."
-mkdir conf data
-mv config.json conf/
+mkdir -p conf data
+mv -f config.json conf/
 chmod +x telestion
 
 section "Pull docker images..."
-sudo docker-compose --profile prod pull
+if ! sudo docker-compose --profile prod pull; then
+    error "Failed to pull docker images"
+    exit $EXIT_ERROR
+fi
 
 section "Cleaning up..."
 
