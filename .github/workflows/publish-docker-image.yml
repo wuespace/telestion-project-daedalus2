@@ -27,7 +27,7 @@ jobs:
           java-version: '16'
           java-package: jdk
       - name: Set up Docker Buildx ⬆
-        uses: docker/setup-buildx-action@v1.3.0
+        uses: docker/setup-buildx-action@v1.4.1
 
       - name: Download build environment 📥
         uses: dawidd6/action-download-artifact@v2.14.0
