@@ -41,7 +41,7 @@ In the background it uses `docker-compose` to manage the Docker containers.
 To start the Telestion Application, simply call:
 
 ```shell
-./telestion up
+./telestion up -d
 ```
 
 ### Connecting the Serial Device
