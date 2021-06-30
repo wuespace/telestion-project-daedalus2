@@ -18,7 +18,7 @@ https://github.com/wuespace/telestion-project-daedalus2/releases/latest
 
 Place this file somewhere in your file system, where you have write access.
 
-> On installation, the script creates a folder in the current working directory containing the needed folders, configurations and executables to run the Telestion Application.
+> On installation, the script creates a folder in the current working directory containing the needed configurations and executables to run the Telestion Application.
 
 Then, make the setup script executable and run it:
 
@@ -87,7 +87,8 @@ If you running the Telestion Application on the same system, you can _leave_ the
 Then enter your given credentials from the Telestion team and press "Login".
 
 The first dashboard should show up and the Connection Indicator in the navigation bar should switch to "Connected".
-If this is not the case, please log out again via the avatar menu in the upper right corner and re-chceck if the entered backend server URL is correct. If the Client still doesn't connect, please inform the Telestion team so we can debug this issue.
+If this is not the case, please log out again via the avatar menu in the upper right corner and re-check if the entered backend server URL is correct.
+When the Client still doesn't connect, please inform the Telestion team so we can debug this issue.
 
 ## Building
 
