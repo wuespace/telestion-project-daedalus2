@@ -153,11 +153,11 @@
 		  "inAddress": "tc-sender",
 		  "outAddress": "static-sender",
 		  "compIdAliasMapping": {
-			"seedA": 0,
-			"seedB": 1,
-			"ejector": 2
+			"seedA": 4,
+			"seedB": 6,
+			"ejector": 3
 		  },
-		  "sysId": 64
+		  "sysId": 192
 		}
 	  },
 	  {
