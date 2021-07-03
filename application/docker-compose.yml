@@ -8,7 +8,7 @@ services:
     restart: always
     ports:
       # passthrough mongodb listen port to host for debugging
-      - 27017:27017
+      - "127.0.0.1:27017:27017"
     volumes:
       # store database data for a later restart
       - type: volume
@@ -32,9 +32,9 @@ services:
     restart: always
     ports:
       # passthroughs TCP EventBus Bridge to allow connections from clients on host
-      - 9870:9870
+      - "127.0.0.1:9870:9870"
       # passthroughs TCP server to allow serial client connections from host
-      - 9871:9871
+      - "127.0.0.1:9871:9871"
     volumes:
       # mount data on host to allow later inspection off log messages etc.
       - type: bind
@@ -53,9 +53,9 @@ services:
     restart: always
     ports:
       # passthroughs TCP EventBus Bridge to allow connections from clients on host
-      - 9870:9870
+      - "127.0.0.1:9870:9870"
       # passthroughs TCP server to allow serial client connections from host
-      - 9871:9871
+      - "127.0.0.1:9871:9871"
     volumes:
       # mount data on host to allow later inspection off log messages etc.
       - type: bind
