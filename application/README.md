@@ -5,17 +5,17 @@ The application part of a Telestion Project.
 ## Prerequisites
 
 You will need Java 16 and Docker with `docker-compose` set up and ready to go.
-An text editor or IDE with auto-completion and gradle support is beneficial.
+A text editor or IDE with auto-completion and gradle support is beneficial.
 
 ## Setup
 
 To fetch the dependencies locally you need a Github personal access token with `packages:read` rights.
 Either add your github user name and the token as `GITHUB_ACTOR` and `GITHUB_TOKEN` to your environment variables 
-or make a copy of `gradle.properties.example` and name it `gradle.properties`.
+or make a copy of the `gradle.properties.example` and name it `gradle.properties`.
 Then insert your username and token into this file.
-No worry, this file should not be commited. (it's git ignored)
+No worry, this file should not be committed. (it's git ignored)
 
-Finally resync gradle to download an set up the Telestion Core dependencies.
+Finally, resync gradle to download and set up the Telestion Core dependencies.
 
 ## Usage and Testing
 
