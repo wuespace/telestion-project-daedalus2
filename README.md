@@ -55,7 +55,7 @@ Type in your terminal:
 docker-compose up -d
 ```
 
-and `docker-compose` do the rest for you. :wink:
+and `docker-compose` does the rest for you. :wink:
 
 ### Connecting the Serial Device
 
@@ -111,7 +111,7 @@ When the Client still doesn't connect, please inform the Telestion team so we ca
  - [Application](./application/README.md)
  - [Client](./client/README.md)
 
- ## This repository
+## This repository
 
 The overall file structure of this monorepo looks like this:
 
