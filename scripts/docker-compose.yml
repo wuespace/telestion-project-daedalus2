@@ -13,10 +13,10 @@ services:
       - type: volume
         source: mongodb-data
         target: "/data/db"
-    # setup authentication
-    #environment:
-    #  MONGO_INITDB_ROOT_USERNAME: 'root'
-    #  MONGO_INITDB_ROOT_PASSWORD: '12345'
+    # environment:
+    #   # mongodb authentication
+    #   MONGO_INITDB_ROOT_USERNAME: 'root'
+    #   MONGO_INITDB_ROOT_PASSWORD: '12345'
     # bind to open ip to allow incoming connections from other network devices
     command: "--bind_ip 0.0.0.0"
 
