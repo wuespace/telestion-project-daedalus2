@@ -1,4 +1,4 @@
-#
+# Telestion Project Client
 
 [![Created using the @wuespace/telestion-client-cli](https://img.shields.io/badge/created%20using-%40wuespace%2Ftelestion--client--cli-%23452897)](https://github.com/wuespace/telestion-client/tree/main/packages/telestion-client-cli)
 
