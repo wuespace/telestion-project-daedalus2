@@ -22,7 +22,6 @@ public class SystemTPublisher extends AbstractVerticle {
 				"aggregated-imu.acc.x"
 		));
 		vertx.deployVerticle(new DataListener(List.of("SystemT#out")));
-		// vertx.deployVerticle(new MessageLogger());
 		vertx.deployVerticle(new SystemTPublisher());
 	}
 

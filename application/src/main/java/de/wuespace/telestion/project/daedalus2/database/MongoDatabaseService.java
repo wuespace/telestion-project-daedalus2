@@ -47,10 +47,10 @@ public final class MongoDatabaseService extends AbstractVerticle {
 	/**
 	 * This constructor supplies default options.
 	 *
-	 * @param host       The host the MongoDB instance is running. Defaults to {@code 127.0.0.1}.
-	 * @param port       The port the MongoDB instance is listening on. Defaults to {@code 27017}.
-	 * @param dbName     Name of the database in the MongoDB instance to use. Defaults to {@code daedalus2}.
-	 * @param username   The username to authenticate. Default is {@code null}. (meaning no authentication required)
+	 * @param host       The host the MongoDB instance is running.
+	 * @param port       The port the MongoDB instance is listening on.
+	 * @param dbName     Name of the database in the MongoDB instance to use.
+	 * @param username   The username to authenticate.({@code null} meaning no authentication required)
 	 * @param password   The password to use to authenticate.
 	 * @param dbPoolName The data source name in MongoDB which is shared between other MongoDB verticles.
 	 */
