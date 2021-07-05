@@ -28,20 +28,27 @@ jobs:
       - name: Import environment ⛓
         shell: bash
         run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
+
+      - name: Copy required components
+        run: |
+          mkdir -p "${TEMP_DIR}/${BUILD_DIR}"
+          cp -r application/{conf,data,production.yml} "${TEMP_DIR}/${BUILD_DIR}/"
+          mv "${TEMP_DIR}/${BUILD_DIR}/production.yml" "${TEMP_DIR}/${BUILD_DIR}/docker-compose.yml"
+        env:
+          TEMP_DIR: ${{ runner.temp }}
+          BUILD_DIR: telestion-project-daedalus2-${{ env.tag }}
+
+      - name: Compress production workspace
+        run: |
+          zip -r "${TEMP_DIR}/${BUILD_DIR}.zip" "${TEMP_DIR}/${BUILD_DIR}"
+        env:
+          TEMP_DIR: ${{ runner.temp }}
+          BUILD_DIR: telestion-project-daedalus2-${{ env.tag }}
       
-      - name: Upload setup assets 🪡
+      - name: Upload release workspace 🪡
         if: ${{ env.skipped == 'false' }}
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.tag }}
-          file: "./scripts/+(setup.py|setup.sh|docker-compose.yml)"
-          file_glob: true
-      
-      - name: Upload application configuration 🪡
-        if: ${{ env.skipped == 'false' }}
-        uses: svenstaro/upload-release-action@2.2.1
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.tag }}
-          file: "./application/conf/config.json"      
+          file: ${{ runner.temp }}/telestion-project-daedalus2-${{ env.tag }}.zip
