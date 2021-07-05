@@ -1,8 +1,8 @@
 version: "3.7"
 
 services:
-	mongodb:
-		# most recent and stable version off mongodb
+  mongodb:
+    # most recent and stable version off mongodb
     image: "mongo:4"
     restart: always
     ports:
@@ -20,9 +20,9 @@ services:
     # bind to open ip to allow incoming connections from other network devices
     command: "--bind_ip 0.0.0.0"
 
-	telestion:
-		image: "ghcr.io/wuespace/telestion-project-daedalus2:latest"
-		restart: always
+  telestion:
+    image: "ghcr.io/wuespace/telestion-project-daedalus2:latest"
+    restart: always
     ports:
       # passthroughs TCP EventBus Bridge to allow connections from clients on host
       - "9870:9870"
