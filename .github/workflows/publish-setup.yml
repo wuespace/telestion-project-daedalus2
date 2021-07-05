@@ -37,3 +37,11 @@ jobs:
           tag: ${{ env.tag }}
           file: "./scripts/+(setup.py|setup.sh|docker-compose.yml)"
           file_glob: true
+      
+      - name: Upload application configuration 🪡
+        if: ${{ env.skipped == 'false' }}
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.tag }}
+          file: "./application/conf/config.json"      

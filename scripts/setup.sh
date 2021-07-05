@@ -5,11 +5,11 @@ set -e
 # Downloads and sets up the Telestion Application on the current operating system.
 # by WüSpace e. V. (c) 2021
 
-REPO_OWNER="fussel178"
-REPO_NAME="telestion-project-automated-setup"
+REPO_OWNER="wuespace"
+REPO_NAME="telestion-project-daedalus2"
 
 REQUIRED_TOOLS="curl grep sudo docker docker-compose"
-RELEASE_FILES="telestion docker-compose.yml config.json"
+RELEASE_FILES="docker-compose.yml config.json"
 
 # === OTHER SCRIPT REQUIRED VARIABLES ===
 PWD="$(pwd)"
