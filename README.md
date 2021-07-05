@@ -13,12 +13,16 @@ and visualizes incoming data in a clear way.
 
 ### The Application
 
-To set up the Telestion Application, please go to the latest release of the project and download the `setup.sh` file:
+To set up the Telestion Application, please go to the latest release of the project
+and download the `setup.sh` for Linux and macOS systems and the `setup.py` for Windows Systems:
 https://github.com/wuespace/telestion-project-daedalus2/releases/latest
 
 Place this file somewhere in your file system, where you have write access.
 
-> On installation, the script creates a folder in the current working directory containing the needed configurations and executables to run the Telestion Application.
+> On installation, the script creates a folder in the current working directory
+> containing the needed configurations and executables to run the Telestion Application.
+
+#### Linux and macOS
 
 Then, make the setup script executable and run it:
 
@@ -26,23 +30,32 @@ Then, make the setup script executable and run it:
 chmod +x setup.sh && ./setup.sh
 ```
 
+#### Windows
+
+Please install [python](https://www.python.org/) to continue.
+Now open a the CMD or powershell and type:
+```
+python .\setup.py
+```
+
+----
+
 Now, let the magic happen.
 
 After the setup script has finished, go into the newly created project folder:
 
 ```shell
-cd ./telestion-project-daedalus2
+cd telestion-project-daedalus2
 ```
 
-And look for the `telestion` script.
-This script manages the Telestion Application. It has many different options.
-In the background it uses `docker-compose` to manage the Docker containers.
-
-To start the Telestion Application, simply call:
+and start the application with `docker-compose`.
+Type in your terminal:
 
 ```shell
-./telestion up -d
+docker-compose up -d
 ```
+
+and `docker-compose` do the rest for you. :wink:
 
 ### Connecting the Serial Device
 
@@ -67,7 +80,7 @@ And thats it! The serial-to-tcp adapter transmits the information between the se
 When you want to stop the Application, call:
 
 ```
-./telestion down
+docker-compose down
 ```
 
 And terminate the serial-to-tcp adapter.
