@@ -1,10 +1,9 @@
-version: "3.9"
+version: "3.7"
 
 services:
-  mongodb:
-    # most recent and stable version off mongodb
+	mongodb:
+		# most recent and stable version off mongodb
     image: "mongo:4"
-    profiles: ["devel-native", "devel-docker", "prod"]
     restart: always
     ports:
       # passthrough mongodb listen port to host for debugging
@@ -21,34 +20,9 @@ services:
     # bind to open ip to allow incoming connections from other network devices
     command: "--bind_ip 0.0.0.0"
 
-  telestion-devel:
-    image: "telestion-devel"
-    profiles: ["devel-docker"]
-    build:
-      context: "."
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      # passthroughs TCP EventBus Bridge to allow connections from clients on host
-      - "127.0.0.1:9870:9870"
-      # passthroughs TCP server to allow serial client connections from host
-      - "127.0.0.1:9871:9871"
-    volumes:
-      # mount data on host to allow later inspection off log messages etc.
-      - type: bind
-        source: "./data"
-        target: "/usr/telestion/telestion-project-daedalus2/data"
-      # pass configuration to container
-      - type: bind
-        source: "./conf"
-        target: "/usr/telestion/telestion-project-daedalus2/conf"
-    depends_on:
-      - mongodb
-
-  telestion:
-    image: "ghcr.io/wuespace/telestion-project-daedalus2:latest"
-    profiles: ["prod"]
-    restart: always
+	telestion:
+		image: "ghcr.io/wuespace/telestion-project-daedalus2:latest"
+		restart: always
     ports:
       # passthroughs TCP EventBus Bridge to allow connections from clients on host
       - "9870:9870"

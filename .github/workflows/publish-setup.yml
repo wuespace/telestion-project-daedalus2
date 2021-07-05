@@ -1,0 +1,39 @@
+name: Publish setup
+
+# Events that trigger this workflow
+on:
+  workflow_run:
+    workflows: ["Release"]
+    types: [completed]
+
+jobs:
+  publish-setup:
+    name: Publish setup and configuration scripts
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout 📥
+        uses: actions/checkout@v2.3.4
+        with:
+          submodules: true
+
+      - name: Download build environment 📥
+        uses: dawidd6/action-download-artifact@v2.14.0
+        with:
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+          workflow_conclusion: success
+          name: build-env
+          path: ${{ github.workspace }}
+
+      - name: Import environment ⛓
+        shell: bash
+        run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
+      
+      - name: Upload setup assets 🪡
+        if: ${{ env.skipped == 'false' }}
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.tag }}
+          file: "./scripts/+(setup.py|setup.sh|docker-compose.yml)"
+          file_glob: true
