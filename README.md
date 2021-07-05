@@ -14,41 +14,12 @@ and visualizes incoming data in a clear way.
 ### The Application
 
 To set up the Telestion Application, please go to the latest release of the project
-and download the `setup.sh` for Linux and macOS systems and the `setup.py` for Windows Systems:
+and download the `telestion-project-daedalus2-vX.X.X.zip`:
 https://github.com/wuespace/telestion-project-daedalus2/releases/latest
 
-Place this file somewhere in your file system, where you have write access.
+Extract it with your favorite archiver.
 
-> On installation, the script creates a folder in the current working directory
-> containing the needed configurations and executables to run the Telestion Application.
-
-#### Linux and macOS
-
-Then, make the setup script executable and run it:
-
-```shell
-chmod +x setup.sh && ./setup.sh
-```
-
-#### Windows
-
-Please install [python](https://www.python.org/) to continue.
-Now open a the CMD or powershell and type:
-```
-python .\setup.py
-```
-
-----
-
-Now, let the magic happen.
-
-After the setup script has finished, go into the newly created project folder:
-
-```shell
-cd telestion-project-daedalus2
-```
-
-and start the application with `docker-compose`.
+Start the application with `docker-compose`.
 Type in your terminal:
 
 ```shell
