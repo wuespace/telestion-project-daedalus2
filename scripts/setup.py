@@ -4,13 +4,10 @@ import time
 import os
 import requests
 
-REPO_OWNER="fussel178"
-REPO_NAME="telestion-project-automated-setup"
+REPO_OWNER="wuespace"
+REPO_NAME="telestion-project-daedalus2"
 
-RELEASE_FILES=["telestion", "docker-compose.yml", "config.json"]
-
-#REPO_OWNER="wuespace"
-#REPO_NAME="telestion-project-daedalus2"
+RELEASE_FILES=["docker-compose.yml", "config.json"]
 
 PWD=os.getcwd()
 APP_DIR=os.path.join(PWD, REPO_NAME)
