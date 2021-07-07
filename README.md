@@ -1,6 +1,6 @@
 # Telestion Project Daedalus2
 
-This repository holds project-specific resources for Daedalus2.
+This repository holds project-specific resources for [Daedalus2](https://www.wuespace.de/daedalus/daedalus2/ "Project page").
 
 It contains the Telestion Application which connects to the Daedalus2 Interface,
 handles incoming data, stores them in a MongoDB database
@@ -64,13 +64,13 @@ https://github.com/wuespace/telestion-project-daedalus2/releases/latest
 Then install the Client and start it.
 
 A window should show up displaying a login page.
-Please first check the backend server URL and enter the URl given from the Application management script.
+Please first check the backend server URL and enter the URL given from the Application management script.
 It should look something like `http://192.168.0.10:9870/bridge`.
 If you running the Telestion Application on the same system, you can _leave_ the URL like it is.
 
 Then enter your given credentials from the Telestion team and press "Login".
 
-The first dashboard should show up and the Connection Indicator in the navigation bar should switch to "Connected".
+The first dashboard should show up and the connection indicator in the navigation bar should switch to "Connected".
 If this is not the case, please log out again via the avatar menu in the upper right corner and re-check if the entered backend server URL is correct.
 When the Client still doesn't connect, please inform the Telestion team so we can debug this issue.
 
