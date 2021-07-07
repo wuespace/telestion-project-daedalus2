@@ -1,3 +1,18 @@
+# [0.11.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.10.0...v0.11.0) (2021-07-07)
+
+
+### Features
+
+* Compress production folder on release ([2708b00](https://github.com/wuespace/telestion-project-daedalus2/commit/2708b00a9b697eecf5094afe65e9385ad2415e4c))
+* **application:** Add a default configuration to the MongoDatabaseService verticle ([6265f6e](https://github.com/wuespace/telestion-project-daedalus2/commit/6265f6e79c97588f2ddf733077e86df0982b24c8))
+* **application:** Add Broadcast TCP Server which sends incoming messages to all connected clients. ([6f7b383](https://github.com/wuespace/telestion-project-daedalus2/commit/6f7b38332df2bf6f9a20dbff2e18164b0db593a4))
+* **application:** Clean up Dockerfile for leaner Docker images ([8e4a9e0](https://github.com/wuespace/telestion-project-daedalus2/commit/8e4a9e0445bb58eac543a8820178cd65f144a518))
+* **application:** Introduce a Docker Compose configuration to configure and handle interconnections between database and application Docker containers. The MongoDB database now runs in its own Docker container which greatly decreases the setup effort for this Telestion project. ([16aae7d](https://github.com/wuespace/telestion-project-daedalus2/commit/16aae7df7d4129d9f12a1bc84823781dfd512969))
+* **application:** The serial connection now gets handled outside the Docker container and the packages are transmitted via a TCP connection from a server in the container to the client on the host system. ([fe36212](https://github.com/wuespace/telestion-project-daedalus2/commit/fe36212cc51974fee5eaf701521dc8611e74628d))
+* **application:** Update sysId and compIds in MavLink messages ([23e703d](https://github.com/wuespace/telestion-project-daedalus2/commit/23e703dab4c9693809add949d5b5d05e200bc09e))
+
+
+
 # [0.10.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.9.0...v0.10.0) (2021-06-26)
 
 
