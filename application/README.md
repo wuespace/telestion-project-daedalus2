@@ -13,7 +13,7 @@ To fetch the dependencies locally you need a Github personal access token with `
 Either add your github user name and the token as `GITHUB_ACTOR` and `GITHUB_TOKEN` to your environment variables 
 or make a copy of the `gradle.properties.example` and name it `gradle.properties`.
 Then insert your username and token into this file.
-No worry, this file should not be committed. (it's git ignored)
+No worries, this file should not be committed. (it's git ignored)
 
 Finally, resync gradle to download and set up the Telestion Core dependencies.
 
@@ -86,7 +86,7 @@ That's it!
 
 ### Production mode
 
-If you want to run the application in production mode using the latest release of the project, then you need to simply call:
+If you want to run the application in production mode using the latest release of the project, then you simply need to call:
 
 ```
 docker-compose --profile prod up -d

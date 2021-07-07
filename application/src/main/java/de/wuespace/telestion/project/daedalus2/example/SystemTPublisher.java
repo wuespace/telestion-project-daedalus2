@@ -14,7 +14,6 @@ import java.util.List;
 public class SystemTPublisher extends AbstractVerticle {
 	public static void main(String[] args) {
 		Vertx vertx = Vertx.vertx();
-		//vertx.deployVerticle(new MongoDatabaseService("daedalus2", "d2Pool"));
 		vertx.deployVerticle(new PeriodicDataAggregator(
 				"de.wuespace.telestion.project.daedalus2.messages.SystemT",
 				"imu.acc.x",
