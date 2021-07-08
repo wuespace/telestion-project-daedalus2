@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
 
-      - name: Copy required components
+      - name: Copy required components ✂️
         run: |
           mkdir -p "${TEMP_DIR}/${BUILD_DIR}"
           cp -r application/{conf,data,production.yml} "${TEMP_DIR}/${BUILD_DIR}/"
@@ -38,13 +38,13 @@ jobs:
           TEMP_DIR: ${{ runner.temp }}
           BUILD_DIR: telestion-project-daedalus2-${{ env.tag }}
 
-      - name: Compress production workspace
-        run: |
-          zip -r "${TEMP_DIR}/${BUILD_DIR}.zip" "${TEMP_DIR}/${BUILD_DIR}"
+      - name: Compress production workspace 📦
+        working-directory: ${{ runner.temp }}
+        run: zip -r "${BUILD_DIR}.zip" "${BUILD_DIR}"
         env:
           TEMP_DIR: ${{ runner.temp }}
           BUILD_DIR: telestion-project-daedalus2-${{ env.tag }}
-      
+
       - name: Upload release workspace 🪡
         if: ${{ env.skipped == 'false' }}
         uses: svenstaro/upload-release-action@2.2.1
