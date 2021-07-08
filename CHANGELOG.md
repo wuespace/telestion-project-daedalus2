@@ -1,3 +1,12 @@
+## [0.11.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.11.0...v0.11.1) (2021-07-08)
+
+
+### Bug Fixes
+
+* Fix the publish setup package containing root folder structure ([fed9291](https://github.com/wuespace/telestion-project-daedalus2/commit/fed9291d40e42f048807bc4f04930f022639b62f))
+
+
+
 # [0.11.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.10.0...v0.11.0) (2021-07-07)
 
 
