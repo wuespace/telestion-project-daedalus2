@@ -73,7 +73,7 @@
 		"@types/node": "^16.0.1",
 		"@types/react": "^17.0.13",
 		"@types/react-dom": "^17.0.9",
-		"@types/react-virtualized-auto-sizer": "^1.0.0",
+		"@types/react-virtualized-auto-sizer": "^1.0.1",
 		"@wuespace/telestion-client-cli": "^0.17.0",
 		"@wuespace/telestion-client-types": "^0.17.0",
 		"@wuespace/vertx-mock-server": "^0.17.0",
