@@ -47,7 +47,7 @@ dependencies {
 	implementation 'de.wuespace.telestion:telestion-application:0.4.0'
 	implementation 'de.wuespace.telestion:telestion-services:0.4.0'
 	implementation 'de.wuespace.telestion:telestion-examples:0.4.0'
-	implementation 'de.wuespace.telestion.extension.mavlink:telestion-extension-mavlink:0.3.6'
+	implementation 'de.wuespace.telestion.extension.mavlink:telestion-extension-mavlink:0.3.7'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
