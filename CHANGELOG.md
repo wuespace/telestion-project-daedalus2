@@ -1,3 +1,12 @@
+## [0.11.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.11.1...v0.11.2) (2021-07-08)
+
+
+### Bug Fixes
+
+* **application:** Update telestion-extension-mavlink dependency ([2008d76](https://github.com/wuespace/telestion-project-daedalus2/commit/2008d76b3e18dc4831426da5c077417e453cf743))
+
+
+
 ## [0.11.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.11.0...v0.11.1) (2021-07-08)
 
 
