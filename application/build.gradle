@@ -31,6 +31,14 @@ repositories {
 			password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
 		}
 	}
+	maven {
+		name = "GitHubMongoDB"
+		url = uri("https://maven.pkg.github.com/wuespace/telestion-extension-mongodb/")
+		credentials {
+			username = System.getenv("GITHUB_ACTOR") == null ? GITHUB_ACTOR : System.getenv("GITHUB_ACTOR")
+			password = System.getenv("GITHUB_TOKEN") == null ? GITHUB_TOKEN : System.getenv("GITHUB_TOKEN")
+		}
+	}
 }
 
 dependencies {
@@ -48,8 +56,9 @@ dependencies {
 	implementation 'de.wuespace.telestion:telestion-services:0.4.0'
 	implementation 'de.wuespace.telestion:telestion-examples:0.4.0'
 	implementation 'de.wuespace.telestion.extension.mavlink:telestion-extension-mavlink:0.3.7'
+	implementation 'de.wuespace.telestion.extension:mongodb:0.3.0'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 }
 
 test {
