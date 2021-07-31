@@ -1,9 +1,8 @@
 package de.wuespace.telestion.project.daedalus2.example;
 
-import de.wuespace.telestion.project.daedalus2.database.DataListener;
-import de.wuespace.telestion.project.daedalus2.database.PeriodicDataAggregator;
+import de.wuespace.telestion.extension.mongodb.DataListener;
+import de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator;
 import de.wuespace.telestion.project.daedalus2.messages.SystemT;
-import de.wuespace.telestion.project.daedalus2.database.MongoDatabaseService;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -25,7 +24,7 @@ public class SystemTPublisher extends AbstractVerticle {
 	}
 
 	@Override
-	public void start(Promise<Void> startPromise) throws Exception {
+	public void start(Promise<Void> startPromise) {
 		vertx.setPeriodic(Duration.ofMillis(200).toMillis(), id -> {
 			for (int i = 0; i <= 9; i++) {
 				vertx.eventBus().publish("SystemT#out", new SystemT().json());
