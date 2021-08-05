@@ -18,7 +18,7 @@ jobs:
           submodules: true
 
       - name: Download build environment 📥
-        uses: dawidd6/action-download-artifact@v2.14.0
+        uses: dawidd6/action-download-artifact@v2.14.1
         with:
           workflow: ${{ github.event.workflow_run.workflow_id }}
           workflow_conclusion: success
