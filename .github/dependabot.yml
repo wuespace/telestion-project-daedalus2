@@ -4,30 +4,48 @@
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+registries:
+  maven-github:
+    type: maven-repository
+    url: https://maven.pkg.github.com/wuespace
+    username: wuespace-admin
+    password: ${{ secrets.READ_PACKAGES }}
+
 updates:
-  - package-ecosystem: 'gradle'
-    directory: '/application'
+  - package-ecosystem: "gradle"
+    directory: "/application"
+    registries:
+      - 'maven-github'
     schedule:
-      interval: 'daily'
+      interval: "weekly"
     open-pull-requests-limit: 10
     commit-message:
-      prefix: 'chore'
-      include: 'scope'
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - ':link: dependencies'
+      - ':page_facing_up: java'
 
-  - package-ecosystem: 'npm'
-    directory: '/client'
+  - package-ecosystem: "npm"
+    directory: "/client"
     schedule:
-      interval: 'daily'
+      interval: "weekly"
     open-pull-requests-limit: 10
     commit-message:
-      prefix: 'chore'
-      include: 'scope'
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - ':link: dependencies'
+      - ':scroll: javascript'
 
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'daily'
+      interval: "weekly"
     open-pull-requests-limit: 10
     commit-message:
-      prefix: 'chore'
-      include: 'scope'
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - ':link: dependencies'
+      - ':runner: github_actions'
