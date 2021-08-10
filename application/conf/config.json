@@ -90,7 +90,7 @@
 				"verticle": "de.wuespace.telestion.extension.mongodb.MongoDatabaseService",
 				"magnitude": 1,
 				"config": {
-					"host": "localhost"
+					"host": "mongodb"
 				}
 			},
 			{
