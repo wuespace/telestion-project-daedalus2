@@ -25,7 +25,7 @@ export const currentValuesDashboard: Dashboard = {
 			id: 'current-values-2',
 			widgetName: 'stateWidget',
 			width: 3,
-			height: 4,
+			height: 5,
 			initialProps: {
 				title: 'State Widget'
 			}
@@ -65,15 +65,6 @@ export const currentValuesDashboard: Dashboard = {
 					seedB: 'Seed B',
 					ejector: 'Ejector'
 				}
-			}
-		},
-		{
-			id: '0-5',
-			widgetName: 'stateWidget',
-			width: 3,
-			height: 5,
-			initialProps: {
-				title: 'State Widget'
 			}
 		}
 	]
