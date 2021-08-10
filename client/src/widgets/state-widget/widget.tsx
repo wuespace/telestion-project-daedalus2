@@ -1,4 +1,4 @@
-import { useChannelLatest } from '@wuespace/telestion-client-core';
+import { useChannelLatest, useLogger } from '@wuespace/telestion-client-core';
 import { LoadingIndicator } from '@wuespace/telestion-client-common';
 
 import { LatestState, latestStateChannel } from '../../model/channels';
@@ -6,9 +6,10 @@ import { fallbackState, states } from './model';
 import { StateDisplay } from './state-display';
 
 export function Widget() {
+	const logger = useLogger('state-machine-widget');
 	const current = useChannelLatest<LatestState>(latestStateChannel);
 
-	if (current) console.log('Flight state:', current.currentState);
+	if (current) logger.debug('Flight state:', current.currentState);
 
 	return (
 		// @ts-ignore
