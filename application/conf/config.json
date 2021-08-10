@@ -90,7 +90,7 @@
 				"verticle": "de.wuespace.telestion.extension.mongodb.MongoDatabaseService",
 				"magnitude": 1,
 				"config": {
-					"host": "mongodb"
+					"host": "localhost"
 				}
 			},
 			{
@@ -127,6 +127,17 @@
 				}
 			},
 			{
+				"name": "Latest State Aggregator",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mongodb.LatestDataAggregator",
+				"magnitude": 1,
+				"config": {
+					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+					"field": "currentState",
+					"rate": 2,
+					"outAddress": "latest-state"
+				}
+			},
+			{
 				"name": "Eventbus Tcp Bridge",
 				"verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",
 				"magnitude": 1,
@@ -135,6 +146,7 @@
 					"port": 9870,
 					"inboundPermitted": ["tc-sender"],
 					"outboundPermitted": [
+						"latest-state",
 						"aggregated-imu.acc.x",
 						"aggregated-imu.acc.y",
 						"aggregated-imu.acc.z"
