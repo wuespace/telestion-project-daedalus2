@@ -123,7 +123,7 @@ public class LatestDataAggregator extends AbstractVerticle {
 	 */
 	private DbRequest getDbRequest() {
 		var fieldsList = new ArrayList<String>();
-		var pathComponents = config.field().split("\\.");
+//		var pathComponents = config.field().split("\\.");
 
 		fieldsList.add(config.field()); // add requested field
 		fieldsList.add("className"); // request global className

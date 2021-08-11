@@ -1,7 +1,9 @@
+import { JsonSerializable } from '@wuespace/telestion-client-types';
+
 /**
  * Type for a message that is received from or sent to the Java backend.
  */
-export interface JavaMessage {
+export interface JavaMessage extends Record<string, JsonSerializable> {
 	className: string;
 }
 
