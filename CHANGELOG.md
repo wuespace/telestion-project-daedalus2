@@ -1,3 +1,26 @@
+# [0.12.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.11.2...v0.12.0) (2021-08-15)
+
+
+### Features
+
+* **application:** Add LatestDataAggregator to launch configuration to publish the system state in regular intervals ([6bfa95e](https://github.com/wuespace/telestion-project-daedalus2/commit/6bfa95e8201cab9d8c1b235091830654e00f1d36))
+* **application:** Add LatestDataAggregator verticle to always publish the latest data in a regular interval onto the eventbus ([070619a](https://github.com/wuespace/telestion-project-daedalus2/commit/070619a013ed979b88592114c20e12bd6ca00c43))
+* **client:** Add full SystemT mongo collection type ([377bad8](https://github.com/wuespace/telestion-project-daedalus2/commit/377bad83c4a85f766386559a1c377f0ecb115d5f))
+* **client:** Add JavaMessage type to model messages that are received from and sent to the Java backend. (aka className) ([6eb6a10](https://github.com/wuespace/telestion-project-daedalus2/commit/6eb6a103f9e5ef9087a5682a8bc5f270181cfe48))
+* **client:** Add MongoCollection type to model messages stored in mongo collections and are received from and sent to the Java backend. (aka className) ([dabcfd4](https://github.com/wuespace/telestion-project-daedalus2/commit/dabcfd4e3eff13cc0c43c02701078774deae0768))
+* **client:** Add the latest-state channel name and type to the project ([ae3dc48](https://github.com/wuespace/telestion-project-daedalus2/commit/ae3dc48a40c547a64692d4b4533afd579063f2a9))
+* **client:** Update state widget to log via a component logger ([3d5e95f](https://github.com/wuespace/telestion-project-daedalus2/commit/3d5e95fe32d8ab1132130b032cffd30653efa241))
+* **client:** Update state widget to use the new types and channel names to connect to the backend ([88c89e8](https://github.com/wuespace/telestion-project-daedalus2/commit/88c89e88f738cc694bb301b53222bbab35c6bdc9))
+* Add nextState (replace the place holders) ([54cc952](https://github.com/wuespace/telestion-project-daedalus2/commit/54cc952533ed40ecbba6331c0eac4aa9db6b2bbb))
+* **widget:** Make state widget compatible with Telestion Client Library v0.16 ([ec397d4](https://github.com/wuespace/telestion-project-daedalus2/commit/ec397d4f503006a1846f5ddaf5d5efda21e6fb35))
+* Add state machine widget ([6455c9b](https://github.com/wuespace/telestion-project-daedalus2/commit/6455c9bcc97a7de250a59dd90e2b7ce4c9bd2057))
+* **stateWidget:** Add states ([81167d4](https://github.com/wuespace/telestion-project-daedalus2/commit/81167d47959e19ca315fe1b252be2ffacab25271))
+* Add state machine widget ([70dc165](https://github.com/wuespace/telestion-project-daedalus2/commit/70dc1658959026de4faa9dab07cf391282567c92))
+* Remove MongoDB project sources ([6803d10](https://github.com/wuespace/telestion-project-daedalus2/commit/6803d103e4d753945b6cc2e9ab894e3d73322ef3))
+* Use MongoDB extension instead of project sources ([0b41183](https://github.com/wuespace/telestion-project-daedalus2/commit/0b41183e3cf68b60bc6e733923645af10d950729))
+
+
+
 ## [0.11.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.11.1...v0.11.2) (2021-07-08)
 
 
