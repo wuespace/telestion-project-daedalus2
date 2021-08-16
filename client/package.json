@@ -71,7 +71,7 @@
 		"@types/d3": "^7.0.0",
 		"@types/jest": "^27.0.1",
 		"@types/node": "^16.6.1",
-		"@types/react": "^17.0.16",
+		"@types/react": "^17.0.18",
 		"@types/react-dom": "^17.0.9",
 		"@types/react-virtualized-auto-sizer": "^1.0.1",
 		"@wuespace/telestion-client-cli": "^0.17.0",
