@@ -37,6 +37,7 @@ jobs:
           VERSION: ${{ env.version }}
 
       - name: Commit changes
+        continue-on-error: true
         run: |
           git config --local user.name "${GITHUB_ACTOR}"
           git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
