@@ -10,6 +10,7 @@ import {
 	FullscreenAction,
 	AccountControls
 } from '@wuespace/telestion-client-common';
+import { PerformanceAction } from './performance-action';
 
 export function Header() {
 	return (
@@ -25,6 +26,7 @@ export function Header() {
 				<>
 					<ConnectionIndicator />
 					<Actions>
+						<PerformanceAction />
 						<NotificationAction />
 						<ColorSchemeAction />
 						<FullscreenAction />
