@@ -1,3 +1,12 @@
+## [0.13.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.13.0...v0.13.1) (2021-08-20)
+
+
+### Bug Fixes
+
+* **client:** Fix package version in `package.json` ([1dfbf3e](https://github.com/wuespace/telestion-project-daedalus2/commit/1dfbf3e0fb241decd7795014f2e9eeac95be3bca))
+
+
+
 # [0.13.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.12.0...v0.13.0) (2021-08-20)
 
 
