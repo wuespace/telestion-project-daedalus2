@@ -1,3 +1,12 @@
+# [0.13.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.12.0...v0.13.0) (2021-08-20)
+
+
+### Features
+
+* **client:** Add performance action ([4be6388](https://github.com/wuespace/telestion-project-daedalus2/commit/4be6388246b7b31bb075447fef135612341e9e2b))
+
+
+
 # [0.12.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.11.2...v0.12.0) (2021-08-15)
 
 
