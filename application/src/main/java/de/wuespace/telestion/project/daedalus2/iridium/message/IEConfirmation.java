@@ -7,14 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * It forms the application layer acknowledgement, or confirmation, that may optionally be returned from
  * the MO DirectIP vendor server to the Iridium Gateway.
  *
- * @param type    the type of information element (here <code>"confirmation"</code>)
  * @param success when <code>true</code>, the message was successfully received
  */
 public record IEConfirmation(
-		@JsonProperty String type,
 		@JsonProperty boolean success
-) {
+) implements InformationElement {
 	private IEConfirmation() {
-		this(null, false);
+		this(false);
 	}
 }
