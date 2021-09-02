@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Defines an Iridium Header information element.
  *
- * @param type           the type of information element (here <code>"header"</code>)
  * @param cdr            the call data record id maintained in the Iridium Gateway Database is given a unique value independent
  *                       of all other information in order
  * @param imei           the International Mobile Equipment Identifier from the sending unit
@@ -55,7 +54,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param time           Provides a UTC timestamp of the IMEI session between the IMEI and the Iridium Gateway in the format of an epoch time integer.
  */
 public record IEHeader(
-		@JsonProperty String type,
 		@JsonProperty int cdr,
 		@JsonProperty String imei,
 		@JsonProperty int session_status,
@@ -64,6 +62,6 @@ public record IEHeader(
 		@JsonProperty int time
 ) implements InformationElement {
 	private IEHeader() {
-		this(null, -1, null, -1, (short) -1, (short) -1, -1);
+		this(-1, null, -1, (short) -1, (short) -1, -1);
 	}
 }
