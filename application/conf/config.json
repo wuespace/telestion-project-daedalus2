@@ -3,13 +3,42 @@
 		"app_name": "telestion-project-daedalus2",
 		"verticles": [
 			{
-				"name": "Message Logger",
-				"verticle": "de.wuespace.telestion.services.monitoring.MessageLogger",
+				"name": "[BASE] Receiver",
+				"verticle": "de.wuespace.telestion.services.connection.rework.Receiver",
 				"magnitude": 1,
-				"config": {}
+				"config": {
+					"outputAddr": "receiver",
+					"connectionAddresses": ["iridium-receive"]
+				}
 			},
 			{
-				"name": "TCP Serial Connection",
+				"name": "[BASE] Sender",
+				"verticle": "de.wuespace.telestion.services.connection.rework.Sender",
+				"magnitude": 1,
+				"config": {
+					"inputAddress": "sender",
+					"connectionAddresses": ["raw-commands"]
+				}
+			},
+			{
+				"name": "[CONN] Eventbus Tcp Bridge",
+				"verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",
+				"magnitude": 1,
+				"config": {
+					"host": "0.0.0.0",
+					"port": 9870,
+					"inboundPermitted": ["tc-sender"],
+					"outboundPermitted": [
+						"latest-iridium",
+						"latest-state",
+						"aggregated-imu.acc.x",
+						"aggregated-imu.acc.y",
+						"aggregated-imu.acc.z"
+					]
+				}
+			},
+			{
+				"name": "[CONN] TCP Serial Connection",
 				"verticle": "de.wuespace.telestion.project.daedalus2.connection.BroadcastTcpServer",
 				"magnitude": 1,
 				"config": {
@@ -19,7 +48,19 @@
 				}
 			},
 			{
-				"name": "Serial Splitter",
+				"name": "[CONN] TCP Iridium JSON Server",
+				"verticle": "de.wuespace.telestion.services.connection.rework.tcp.TcpServer",
+				"magnitude": 1,
+				"config": {
+					"inAddress": "iridium-send",
+					"outAddress": "iridium-receive",
+					"hostAddress": "0.0.0.0",
+					"port": 8213,
+					"clientTimeout": 0
+				}
+			},
+			{
+				"name": "[RECV] Serial Splitter",
 				"verticle": "de.wuespace.telestion.project.daedalus2.SerialSplitter",
 				"magnitude": 1,
 				"config": {
@@ -29,7 +70,7 @@
 				}
 			},
 			{
-				"name": "Mavlink v2 Validator",
+				"name": "[RECV] Mavlink v2 Validator",
 				"verticle": "de.wuespace.telestion.extension.mavlink.ValidatorMavlink2",
 				"magnitude": 1,
 				"config": {
@@ -40,16 +81,7 @@
 				}
 			},
 			{
-				"name": "MavLink Logger",
-				"verticle": "de.wuespace.telestion.extension.mavlink.logger.RawLogger",
-				"magnitude": 1,
-				"config": {
-					"inAddress": "mavlink-raw-logger",
-					"filePath": "data/mavlink-logger/"
-				}
-			},
-			{
-				"name": "Mavlink Message Registrar",
+				"name": "[RECV] Mavlink Message Registrar",
 				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkRegistrar",
 				"magnitude": 1,
 				"config": {
@@ -60,7 +92,7 @@
 				}
 			},
 			{
-				"name": "Payload Parser",
+				"name": "[RECV] Payload Parser",
 				"verticle": "de.wuespace.telestion.extension.mavlink.PayloadParser",
 				"magnitude": 1,
 				"config": {
@@ -69,7 +101,7 @@
 				}
 			},
 			{
-				"name": "MessageTransformer",
+				"name": "[RECV] MessageTransformer",
 				"verticle": "de.wuespace.telestion.project.daedalus2.MessageTransformer",
 				"magnitude": 1,
 				"config": {
@@ -78,83 +110,16 @@
 				}
 			},
 			{
-				"name": "Data Listener",
-				"verticle": "de.wuespace.telestion.extension.mongodb.DataListener",
+				"name": "[RECV] Iridium Message Parser",
+				"verticle": "de.wuespace.telestion.project.daedalus2.iridium.MessageParser",
 				"magnitude": 1,
 				"config": {
-					"listeningAddresses": ["beautiful-data"]
+					"inAddress": "receiver",
+					"outAddress": "iridium-messages"
 				}
 			},
 			{
-				"name": "Mongo Database Service",
-				"verticle": "de.wuespace.telestion.extension.mongodb.MongoDatabaseService",
-				"magnitude": 1,
-				"config": {
-					"host": "mongodb"
-				}
-			},
-			{
-				"name": "Periodic Data Aggregator",
-				"verticle": "de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator",
-				"magnitude": 1,
-				"config": {
-					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
-					"field": "imu.acc.x",
-					"rate": 10,
-					"outAddress": "aggregated-imu.acc.x"
-				}
-			},
-			{
-				"name": "Periodic Data Aggregator",
-				"verticle": "de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator",
-				"magnitude": 1,
-				"config": {
-					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
-					"field": "imu.acc.y",
-					"rate": 10,
-					"outAddress": "aggregated-imu.acc.y"
-				}
-			},
-			{
-				"name": "Periodic Data Aggregator",
-				"verticle": "de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator",
-				"magnitude": 1,
-				"config": {
-					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
-					"field": "imu.acc.z",
-					"rate": 10,
-					"outAddress": "aggregated-imu.acc.z"
-				}
-			},
-			{
-				"name": "Latest State Aggregator",
-				"verticle": "de.wuespace.telestion.project.daedalus2.mongodb.LatestDataAggregator",
-				"magnitude": 1,
-				"config": {
-					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
-					"field": "currentState",
-					"rate": 2,
-					"outAddress": "latest-state"
-				}
-			},
-			{
-				"name": "Eventbus Tcp Bridge",
-				"verticle": "de.wuespace.telestion.services.connection.EventbusTcpBridge",
-				"magnitude": 1,
-				"config": {
-					"host": "0.0.0.0",
-					"port": 9870,
-					"inboundPermitted": ["tc-sender"],
-					"outboundPermitted": [
-						"latest-state",
-						"aggregated-imu.acc.x",
-						"aggregated-imu.acc.y",
-						"aggregated-imu.acc.z"
-					]
-				}
-			},
-			{
-				"name": "Telecommand Sender",
+				"name": "[SEND] Telecommand Sender",
 				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TelecommandSender",
 				"magnitude": 1,
 				"config": {
@@ -169,7 +134,7 @@
 				}
 			},
 			{
-				"name": "Static Sender",
+				"name": "[SEND] Static Sender",
 				"verticle": "de.wuespace.telestion.services.connection.rework.StaticSender",
 				"magnitude": 1,
 				"config": {
@@ -184,16 +149,93 @@
 				}
 			},
 			{
-				"name": "Sender",
-				"verticle": "de.wuespace.telestion.services.connection.rework.Sender",
+				"name": "[DATA] Data Listener (Mavlink and Iridium)",
+				"verticle": "de.wuespace.telestion.extension.mongodb.DataListener",
 				"magnitude": 1,
 				"config": {
-					"inputAddress": "sender",
-					"connectionAddresses": ["raw-commands"]
+					"listeningAddresses": ["beautiful-data", "iridium-messages"]
 				}
 			},
 			{
-				"name": "Serial Printer",
+				"name": "[DATA] Mongo Database Service",
+				"verticle": "de.wuespace.telestion.extension.mongodb.MongoDatabaseService",
+				"magnitude": 1,
+				"config": {
+					"host": "localhost"
+				}
+			},
+			{
+				"name": "[DATA] MavLink Logger",
+				"verticle": "de.wuespace.telestion.extension.mavlink.logger.RawLogger",
+				"magnitude": 1,
+				"config": {
+					"inAddress": "mavlink-raw-logger",
+					"filePath": "data/mavlink-logger/"
+				}
+			},
+			{
+				"name": "[DATA] Periodic Data Aggregator (Acc X)",
+				"verticle": "de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator",
+				"magnitude": 1,
+				"config": {
+					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+					"field": "imu.acc.x",
+					"rate": 10,
+					"outAddress": "aggregated-imu.acc.x"
+				}
+			},
+			{
+				"name": "[DATA] Periodic Data Aggregator (Acc Y)",
+				"verticle": "de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator",
+				"magnitude": 1,
+				"config": {
+					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+					"field": "imu.acc.y",
+					"rate": 10,
+					"outAddress": "aggregated-imu.acc.y"
+				}
+			},
+			{
+				"name": "[DATA] Periodic Data Aggregator (Acc Z)",
+				"verticle": "de.wuespace.telestion.extension.mongodb.PeriodicDataAggregator",
+				"magnitude": 1,
+				"config": {
+					"collection": "de.wuespace.telestion.project.daedalus2.messages.SystemT",
+					"field": "imu.acc.z",
+					"rate": 10,
+					"outAddress": "aggregated-imu.acc.z"
+				}
+			},
+			{
+				"name": "[DATA] Latest Data Aggregator (State)",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mongodb.LatestDataAggregator",
+				"magnitude": 1,
+				"config": {
+					"collection": "de.wuespace.telestion.project.daedalus2.message.SystemT",
+					"field": "currentState",
+					"rate": 2,
+					"outAddress": "latest-state"
+				}
+			},
+			{
+				"name": "[DATA] Latest Data Aggregator (Position)",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mongodb.LatestDataAggregator",
+				"magnitude": 1,
+				"config": {
+					"collection": "de.wuespace.telestion.project.daedalus2.iridium.message.IridiumMessage",
+					"field": "elements",
+					"rate": 1,
+					"outAddress": "latest-iridium"
+				}
+			},
+			{
+				"name": "[DEBUG] Message Logger",
+				"verticle": "de.wuespace.telestion.services.monitoring.MessageLogger",
+				"magnitude": 1,
+				"config": {}
+			},
+			{
+				"name": "[DEBUG] Serial Printer",
 				"verticle": "de.wuespace.telestion.project.daedalus2.SerialPrinter",
 				"magnitude": 1,
 				"config": {
