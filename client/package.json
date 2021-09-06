@@ -56,7 +56,7 @@
 		"@wuespace/telestion-client-core": "^0.17.0",
 		"@wuespace/telestion-client-prop-types": "^0.17.0",
 		"d3": "^7.0.1",
-		"electron": "^13.2.3",
+		"electron": "^14.0.0",
 		"highlight.js": "^11.2.0",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
