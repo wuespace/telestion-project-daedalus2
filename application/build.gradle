@@ -57,7 +57,7 @@ dependencies {
 	implementation 'de.wuespace.telestion:telestion-examples:0.5.0'
 	implementation 'de.wuespace.telestion.extension.mavlink:telestion-extension-mavlink:0.3.7'
 	implementation 'de.wuespace.telestion.extension:mongodb:0.3.0'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
