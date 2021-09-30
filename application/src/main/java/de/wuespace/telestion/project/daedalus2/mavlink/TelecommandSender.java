@@ -5,6 +5,7 @@ import de.wuespace.telestion.api.config.Config;
 import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.extension.mavlink.annotation.MavInfo;
 import de.wuespace.telestion.extension.mavlink.security.X25Checksum;
+import de.wuespace.telestion.project.daedalus2.mavlink.internal.RawTelecommand;
 import de.wuespace.telestion.project.daedalus2.mavlink.internal.Telecommand;
 import de.wuespace.telestion.services.connection.rework.RawMessage;
 import io.vertx.core.AbstractVerticle;
@@ -28,7 +29,16 @@ public class TelecommandSender extends AbstractVerticle {
 				.forEach(s -> packetCount.put(s, new AtomicInteger(0)));
 
 		vertx.eventBus().consumer(config.inAddress(),
-				raw -> JsonMessage.on(Telecommand.class, raw, this::buildMessage));
+				raw -> {
+					JsonMessage.on(Telecommand.class, raw, tc -> {
+						// convert String to ASCII byte code
+						buildMessage(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1));
+					});
+					JsonMessage.on(RawTelecommand.class, raw, rtc -> {
+						// pass through raw data from telecommand
+						buildMessage(rtc.target(), rtc.rawData());
+					});
+				});
 
 		super.start(startPromise);
 	}
@@ -66,19 +76,18 @@ public class TelecommandSender extends AbstractVerticle {
 		this.packetCount = new HashMap<>();
 	}
 
-	private void buildMessage(Telecommand tc) {
+	private void buildMessage(String target, byte[] payload) {
 		var magicByte = 0xFD;    // Mavlink v2
 
 		var incompatFlags = 0x0;
 		var compatFlags = 0x0;
 
 		var sysId = config.sysId();
-		int compId = config.compIdAliasMapping().get(tc.target());
+		int compId = config.compIdAliasMapping().get(target);
 		var seq = packetCount.get(compId).getAndIncrement();
 
 		var msgId = ConCmd.class.getAnnotation(MavInfo.class).id();
 
-		var payload = tc.msg().getBytes(StandardCharsets.ISO_8859_1);
 		var len = payload.length;
 
 		var buffer = ByteBuffer.allocate(9 + len);
