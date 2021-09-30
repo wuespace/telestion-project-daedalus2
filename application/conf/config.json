@@ -119,6 +119,18 @@
 				}
 			},
 			{
+				"name": "[SEND] A-GPS Transmitter",
+				"verticle": "de.wuespace.telestion.project.daedalus2.gps.AGpsTransmitter",
+				"magnitude": 1,
+				"config": {
+					"notifyAddress": "a-gps-transmitter#notify",
+					"requestAddress": "a-gps-transmitter#request",
+					"outAddress": "tc-sender",
+					"bytesPerMessage": 30,
+					"delay": 3000
+				}
+			},
+			{
 				"name": "[SEND] Telecommand Sender",
 				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TelecommandSender",
 				"magnitude": 1,
