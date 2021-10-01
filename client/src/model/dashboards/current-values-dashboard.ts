@@ -23,11 +23,15 @@ export const currentValuesDashboard: Dashboard = {
 		},
 		{
 			id: 'current-values-2',
-			widgetName: 'stateWidget',
+			widgetName: 'aGpsWidget',
 			width: 3,
 			height: 5,
 			initialProps: {
-				title: 'State Widget'
+				title: 'A-GPS Upload',
+				targets: {
+					seedA: 'Seed A',
+					seedB: 'Seed B'
+				}
 			}
 		},
 		{
