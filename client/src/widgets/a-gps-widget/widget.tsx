@@ -8,7 +8,6 @@ import {
 	ProgressBar,
 	Radio,
 	RadioGroup,
-	TextField,
 	View
 } from '@adobe/react-spectrum';
 import { BaseRendererProps } from '@wuespace/telestion-client-types';
@@ -37,7 +36,8 @@ function splitContents(
 
 export function Widget({ title, targets }: BaseRendererProps<WidgetProps>) {
 	const targetKeys = useMemo(() => Object.keys(targets), [targets]);
-	const { isTransmitting, dataName, target, progress } = useAGpsState();
+	const { isCurrent, isTransmitting, dataName, target, progress } =
+		useAGpsState();
 	const { newData, newTarget, start, abort } = useAGpsReducers();
 
 	return (
@@ -57,35 +57,43 @@ export function Widget({ title, targets }: BaseRendererProps<WidgetProps>) {
 			>
 				<FileInput
 					onContent={content => newData(...splitContents(content))}
-					isDisabled={isTransmitting}
+					isDisabled={!isCurrent || isTransmitting}
 				/>
-				<TextField
-					isRequired={true}
-					label={'Uploaded A-GPS data'}
-					value={dataName || 'nothing uploaded yet'}
-					isDisabled
-				/>
+				<sp-field-label size="m" required={true}>
+					Loaded A-GPS data
+				</sp-field-label>
+				<pre>{dataName || 'No data'}</pre>
 				<RadioGroup
 					label="Target"
 					value={target}
 					onChange={newTarget}
 					isRequired={true}
-					isDisabled={isTransmitting}
+					isDisabled={!isCurrent || isTransmitting}
+					isEmphasized
 				>
-					{targetKeys.map(key => (
-						<Radio key={key} value={key}>
-							{targets[key]}
-						</Radio>
-					))}
+					{[
+						<Radio value="" isHidden>
+							Empty
+						</Radio>,
+						...targetKeys.map(key => (
+							<Radio key={key} value={key}>
+								{targets[key]}
+							</Radio>
+						))
+					]}
 				</RadioGroup>
+				<ProgressBar
+					label={isTransmitting ? 'Transmitting…' : 'Idle'}
+					value={progress}
+				/>
 				<Button
 					variant={isTransmitting ? 'negative' : 'cta'}
 					onPress={isTransmitting ? abort : start}
+					isDisabled={!isCurrent || !dataName || !target}
 				>
 					{isTransmitting ? 'Abort' : 'Transmit'}
 				</Button>
 			</Form>
-			{isTransmitting && <ProgressBar label="Transmitting…" value={progress} />}
 		</View>
 	);
 }

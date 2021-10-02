@@ -25,8 +25,8 @@ const initialState: WidgetState = {
 	isCurrent: false,
 	isTransmitting: false,
 	dataName: undefined,
-	target: undefined,
-	progress: -1
+	target: '',
+	progress: 0.0
 };
 
 const requestState: RequestState = {
@@ -39,14 +39,15 @@ function getNewState(appState: AGpsState): WidgetState {
 		isCurrent: true,
 		isTransmitting: appState.state === 'transmitting',
 		dataName: appState.dataName || undefined,
-		target: appState.target || undefined,
-		progress: appState.progress
+		target: appState.target || '',
+		progress: appState.progress < 0 ? 0.0 : appState.progress * 100 // to percent :D
 	};
 }
 
 export function useAGpsState(): WidgetState {
 	const isConnected = useEventBus(
-		state => state.connectionState === 'connected'
+		state =>
+			state.connectionState === 'connected' || state.connectionState === 'error'
 	);
 	const send = useRequest<AGpsResponse>(requestChannel);
 	const [state, setState] = useState(initialState);

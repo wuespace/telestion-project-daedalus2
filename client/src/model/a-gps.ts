@@ -79,7 +79,7 @@ export interface ResponseNewTarget extends AGpsResponseBase {
 
 export interface ResponseTransmission extends AGpsResponseBase {
 	type: 'transmission';
-	result: 0 | 1 | 2 | 3;
+	result: 0 | 1 | 2 | 3 | 4;
 	className: 'de.wuespace.telestion.project.daedalus2.gps.message.ResponseTransmission';
 }
 

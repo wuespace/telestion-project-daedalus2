@@ -94,6 +94,9 @@ export function useAGpsReducers(): WidgetReducers {
 					case 3:
 						alert('No target to transmit data to');
 						break;
+					case 4:
+						alert('Cannot split binary blob');
+						break;
 				}
 			}
 		});
