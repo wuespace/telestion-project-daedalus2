@@ -27,13 +27,14 @@
 				"config": {
 					"host": "0.0.0.0",
 					"port": 9870,
-					"inboundPermitted": ["tc-sender"],
+					"inboundPermitted": ["tc-sender", "a-gps-transmitter#request"],
 					"outboundPermitted": [
 						"latest-iridium",
 						"latest-state",
 						"aggregated-imu.acc.x",
 						"aggregated-imu.acc.y",
-						"aggregated-imu.acc.z"
+						"aggregated-imu.acc.z",
+						"a-gps-transmitter#notify"
 					]
 				}
 			},
