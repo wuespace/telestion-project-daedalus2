@@ -26,7 +26,7 @@ services:
     profiles: ["devel-native", "devel-docker", "prod"]
     restart: always
     ports:
-      # passthrough mongodb listen port to host for debugging
+      # redis connection
       - "127.0.0.1:6379:6379"
 
   telestion-devel:
