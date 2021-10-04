@@ -6,7 +6,7 @@ The classes in this package provide various options to connect to Redis.
 
 - [`RedisTimeSeries`](https://oss.redis.com/redistimeseries/)
 
-## Vertices in this package
+## Verticles in this package
 
 ### `de.wuespace.telestion.project.daedalus2.redis.RedisSaver`
 
