@@ -26,49 +26,22 @@ import java.util.stream.Collectors;
  * @author Pablo Klaschka
  */
 public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Configuration> {
-	private final static Logger logger = LoggerFactory.getLogger(RedisRequestHandler.class);
+	public record Configuration(
+			@JsonProperty String connectionString,
+			@JsonProperty int reconnectAttempts,
+			@JsonProperty String requestLatestAddress,
+			@JsonProperty String requestTimeSeriesAddress
+	) implements RedisBaseConfiguration {
+		public Configuration() {
+			this("redis://redis", 10, null, null);
+		}
+	}
 
 	public RedisRequestHandler(Configuration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) {
-		var vertx = Vertx.vertx();
-		vertx.deployVerticle(new RedisRequestHandler(new Configuration(
-				"redis://localhost:6379",
-				10,
-				"request-latest",
-				"request-time-series"
-		)));
-
-		vertx.setPeriodic(Duration.ofSeconds(2).toMillis(), handler -> {
-			logger.debug("Requesting ['latest/systemT/batTemp', 'n/a', 'latest/systemT']...");
-			vertx.eventBus().request("request-latest", new RedisLatestRequest(new String[]{"latest/systemT/batTemp",
-					"n/a", "latest/systemT"}).json())
-					.onSuccess(res -> logger.debug(new JsonArray(res.body().toString()).encode()));
-		});
-
-		vertx.setPeriodic(Duration.ofSeconds(5).toMillis(), handler -> {
-			logger.debug("Requesting time series data...");
-			vertx.eventBus().request(
-					"request-time-series", new RedisTimeSeriesRequest(
-							new RedisTimeSeriesSpecification[]{
-									new RedisTimeSeriesSpecification("ts/systemT/timeLocal", "-", "+", 50000,
-											new String[]{"avg", "min", "max", "count", "last", "first", "var.s"}),
-									new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-											new String[]{"avg", "min", "max", "count"}),
-									new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-											new String[]{"avg", "min", "max", "count"}),
-									new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-											new String[]{"avg", "min", "max", "count"}),
-									new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-											new String[]{"avg", "min", "max", "count"}),
-							}
-					).json()
-			)
-					.onSuccess(res -> logger.debug(res.body().toString()));
-		});
-	}
+	private final static Logger logger = LoggerFactory.getLogger(RedisRequestHandler.class);
 
 	@Override
 	protected Class<Configuration> getConfigurationClass() {
@@ -118,7 +91,6 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 			return Future.failedFuture("Invalid spec. Must have at least one aggregation specified.");
 		}
 
-
 		//region Run Redis queries for all selected aggregations
 		//noinspection rawtypes
 		var allAggregationRequests = Arrays.stream(spec.aggregations()).map(aggregation ->
@@ -147,12 +119,10 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 						for (var point : list.get(i)) {
 							if (i == 0) {
 								// first aggregation of point => create HashMap
-								results.put(point.get(0).toLong(), new HashMap<>(3));
+								results.put(point.get(0).toLong(), new HashMap<>(spec.aggregations().length));
 							}
-
 							results.get(point.get(0).toLong()).put(aggregation, point.get(1).toDouble());
 						}
-
 					}
 
 					// convert everything to an array
@@ -168,14 +138,41 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 		);
 	}
 
-	public record Configuration(
-			@JsonProperty String connectionString,
-			@JsonProperty int reconnectAttempts,
-			@JsonProperty String requestLatestAddress,
-			@JsonProperty String requestTimeSeriesAddress
-	) implements RedisBaseConfiguration {
-		public Configuration() {
-			this("redis://redis", 10, null, null);
-		}
+	public static void main(String[] args) {
+		var vertx = Vertx.vertx();
+		vertx.deployVerticle(new RedisRequestHandler(new Configuration(
+				"redis://localhost:6379",
+				10,
+				"request-latest",
+				"request-time-series"
+		)));
+
+		vertx.setPeriodic(Duration.ofSeconds(2).toMillis(), handler -> {
+			logger.debug("Requesting ['latest/systemT/batTemp', 'n/a', 'latest/systemT']...");
+			vertx.eventBus().request("request-latest", new RedisLatestRequest(new String[]{"latest/systemT/batTemp",
+							"n/a", "latest/systemT"}).json())
+					.onSuccess(res -> logger.debug(new JsonArray(res.body().toString()).encode()));
+		});
+
+		vertx.setPeriodic(Duration.ofSeconds(5).toMillis(), handler -> {
+			logger.debug("Requesting time series data...");
+			vertx.eventBus().request(
+							"request-time-series", new RedisTimeSeriesRequest(
+									new RedisTimeSeriesSpecification[]{
+											new RedisTimeSeriesSpecification("ts/systemT/timeLocal", "-", "+", 50000,
+													new String[]{"avg", "min", "max", "count", "last", "first", "var.s"}),
+											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
+													new String[]{"avg", "min", "max", "count"}),
+											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
+													new String[]{"avg", "min", "max", "count"}),
+											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
+													new String[]{"avg", "min", "max", "count"}),
+											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
+													new String[]{"avg", "min", "max", "count"}),
+									}
+							).json()
+					)
+					.onSuccess(res -> logger.debug(res.body().toString()));
+		});
 	}
 }

@@ -25,13 +25,18 @@ import java.util.List;
  * @author Pablo Klaschka
  */
 public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
-	public RedisSaver(Configuration config) {
-		super(config);
+	public record Configuration(
+			@JsonProperty String connectionString,
+			@JsonProperty int reconnectAttempts,
+			@JsonProperty String inAddress
+	) implements RedisBaseConfiguration {
+		public Configuration() {
+			this("redis://redis", 10, null);
+		}
 	}
 
-	@Override
-	public void start(Promise<Void> startPromise) throws Exception {
-		super.start(startPromise);
+	public RedisSaver(Configuration config) {
+		super(config);
 	}
 
 	@Override
@@ -102,15 +107,7 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 		}
 	}
 
-	public record Configuration(
-			@JsonProperty String connectionString,
-			@JsonProperty int reconnectAttempts,
-			@JsonProperty String inAddress
-	) implements RedisBaseConfiguration {
-		public Configuration() {
-			this("redis://redis", 10, null);
-		}
-	}
+	private final static Logger logger = LoggerFactory.getLogger(RedisSaver.class);
 
 	public static void main(String[] args) {
 		var vertx = Vertx.vertx();
@@ -122,6 +119,4 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 
 		vertx.setPeriodic(Duration.ofSeconds(2).toMillis(), handler -> vertx.eventBus().publish("systemT", new SystemT().json()));
 	}
-
-	private final static Logger logger = LoggerFactory.getLogger(RedisSaver.class);
 }
