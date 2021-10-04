@@ -175,7 +175,7 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 			@JsonProperty String requestTimeSeriesAddress
 	) implements RedisBaseConfiguration {
 		public Configuration() {
-			this(null, 10, null, null);
+			this("redis://redis", 10, null, null);
 		}
 	}
 }

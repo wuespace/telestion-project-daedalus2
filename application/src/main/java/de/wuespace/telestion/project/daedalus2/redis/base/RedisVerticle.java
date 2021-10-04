@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A base class for writing verticles that interact with the Redis DB.
- *
+ * <p>
  * Use <code>onRedisConnectionEstablished</code> to setup all eventbus connections that already require a Redis
  * connection. Interact with the Redis DB via <code>redisApi</code>. Please note that this might be <code>null</code>
  * if the connection got lost (the verticle will automatically try to reconnect, as per the
@@ -31,7 +31,7 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		this.config = Config.get(this.config, config(), this.getConfigurationClass());
+		this.config = Config.get(this.config, getConfigurationClass().getDeclaredConstructor().newInstance(), config(), this.getConfigurationClass());
 
 		logger.debug(this.config.connectionString());
 
@@ -49,6 +49,7 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 
 	/**
 	 * Gets called after the Redis connection was established. Use this to setup all event bus interactions
+	 *
 	 * @param startPromise the promise for a start. Call <code>startPromise.complete()</code> once your setup is done.
 	 */
 	protected abstract void onRedisConnectionEstablished(Promise<Void> startPromise);

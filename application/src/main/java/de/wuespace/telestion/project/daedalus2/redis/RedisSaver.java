@@ -108,7 +108,7 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 			@JsonProperty String inAddress
 	) implements RedisBaseConfiguration {
 		public Configuration() {
-			this(null, 10, null);
+			this("redis://redis", 10, null);
 		}
 	}
 
