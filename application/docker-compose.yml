@@ -21,6 +21,14 @@ services:
     # bind to open ip to allow incoming connections from other network devices
     command: "--bind_ip 0.0.0.0"
 
+  redis:
+    image: "redislabs/redistimeseries:1.6.0"
+    profiles: ["devel-native", "devel-docker", "prod"]
+    restart: always
+    ports:
+      # passthrough mongodb listen port to host for debugging
+      - "127.0.0.1:6379:6379"
+
   telestion-devel:
     image: "telestion-devel"
     profiles: ["devel-docker"]
