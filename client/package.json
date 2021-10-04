@@ -62,7 +62,7 @@
 		"react-dom": "^17.0.1",
 		"react-router-dom": "^5.3.0",
 		"react-virtualized-auto-sizer": "^1.0.6",
-		"zustand": "^3.5.10"
+		"zustand": "^3.5.12"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^5.14.1",
