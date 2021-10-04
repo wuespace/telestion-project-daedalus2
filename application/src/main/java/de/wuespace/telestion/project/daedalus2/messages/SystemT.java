@@ -56,7 +56,7 @@ public record SystemT(
 ) implements JsonMessage {
 	public SystemT() {
 		this(
-				0,
+				System.currentTimeMillis(),
 				new Imu(),
 				new Baro(),
 				0,
