@@ -17,9 +17,20 @@ export const currentValuesDashboard: Dashboard = {
 		{
 			id: 'current-values-1',
 			widgetName: 'pgraphWidget',
-			width: 12,
+			width: 9,
 			height: 4,
 			initialProps: pgraphWidgetProps
+		},
+		{
+			id: 'current-values-11',
+			widgetName: 'checklistWidget',
+			width: 3,
+			height: 4,
+			initialProps: {
+				title: 'Checklist A',
+				requestChannel: 'checklist-a-request',
+				notifyChannel: 'checklist-a-notify'
+			}
 		},
 		{
 			id: 'current-values-2',
