@@ -27,13 +27,14 @@
 				"config": {
 					"host": "0.0.0.0",
 					"port": 9870,
-					"inboundPermitted": ["tc-sender"],
+					"inboundPermitted": ["tc-sender", "checklist-a-request"],
 					"outboundPermitted": [
 						"latest-iridium",
 						"latest-state",
 						"aggregated-imu.acc.x",
 						"aggregated-imu.acc.y",
-						"aggregated-imu.acc.z"
+						"aggregated-imu.acc.z",
+						"checklist-a-notify"
 					]
 				}
 			},
@@ -226,6 +227,35 @@
 					"field": "elements",
 					"rate": 1,
 					"outAddress": "latest-iridium"
+				}
+			},
+			{
+				"name": "[META] Checklist A Handler",
+				"verticle": "de.wuespace.telestion.project.daedalus2.checklist.ChecklistHandler",
+				"magnitude": 1,
+				"config": {
+					"requestAddress": "checklist-a-request",
+					"notifyAddress": "checklist-a-notify",
+					"steps": [
+						{
+							"name": "Cables removed"
+						},
+						{
+							"name": "Batteries charged"
+						},
+						{
+							"name": "A-GPS data uploaded"
+						},
+						{
+							"name": "Camera enabled"
+						},
+						{
+							"name": "Iridium connected"
+						},
+						{
+							"name": "Data capturing started"
+						}
+					]
 				}
 			},
 			{
