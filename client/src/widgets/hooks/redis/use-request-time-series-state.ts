@@ -40,7 +40,7 @@ import {
  *
  * @see {@link useRequestTimeSeries}
  */
-export function useRequestTimeSeriesState<T extends readonly AggregationType[]>(
+export function useRequestTimeSeriesState<T extends AggregationType[]>(
 	aggregationSpecifications: AggregationSpecification[],
 	aggregations: T
 ): [() => void, (AggregationResult<T> | null)[]] {

@@ -3,6 +3,7 @@ import { JsonSerializable } from '@wuespace/telestion-client-types';
 import { useEffect } from 'react';
 import { useEventBus } from '@wuespace/telestion-client-core';
 import { ConnectionState } from '@wuespace/vertx-event-bus';
+import { RedisLatestRequest } from './model/redis-latest-request';
 
 let timerId: NodeJS.Timeout | undefined = undefined;
 let nextId = 1;
@@ -18,7 +19,6 @@ export const useLatestCache = create<{
 	subscriptions: {},
 	fetching: false,
 	subscribe: (keys: string[]) => {
-		console.log('subscribe', ...keys, 'id', nextId);
 		const { fetch } = get();
 
 		const currentId = nextId;
@@ -38,12 +38,9 @@ export const useLatestCache = create<{
 		return currentId;
 	},
 	unsubscribe: id => {
-		console.log('unsubscribe', id);
-
 		set(state => ({ subscriptions: { ...state.subscriptions, [id]: [] } }));
 	},
 	fetch: () => {
-		console.log('fetch');
 		timerId = setTimeout(() => {
 			const { eventBus } = useEventBus.getState();
 
@@ -55,13 +52,15 @@ export const useLatestCache = create<{
 				eventBus?.state === ConnectionState.OPEN &&
 				subscribedKeys.length > 0
 			) {
-				eventBus.send(
+				const requestObject: RedisLatestRequest = {
+					fields: subscribedKeys,
+					className:
+						'de.wuespace.telestion.project.daedalus2.redis.RedisLatestRequest'
+				};
+
+				eventBus.send<JsonSerializable[]>(
 					'request-latest',
-					{
-						fields: subscribedKeys,
-						className:
-							'de.wuespace.telestion.project.daedalus2.redis.RedisLatestRequest'
-					},
+					requestObject,
 					result => {
 						const newData = Object.freeze(
 							Object.fromEntries(
@@ -89,13 +88,10 @@ export function useCachedLatest<T extends JsonSerializable[]>(
 	const { subscribe, unsubscribe, data } = useLatestCache();
 
 	useEffect(() => {
-		console.log('useCacheLatest -> useEffect');
 		const subscriptionId = subscribe(keys);
 
 		return () => unsubscribe(subscriptionId);
 	}, [subscribe, unsubscribe, JSON.stringify(keys)]);
-
-	console.log('useCacheLatest');
 
 	return keys.map(key => data[key]) as T;
 }

@@ -67,7 +67,7 @@ export type AggregationResult<T extends readonly AggregationType[]> = [
  * @param result an array of {@link AggregationResult}s corresponding to the `aggregationSpecifications` passed into
  * {@link useRequestTimeSeries}
  */
-export type OnChangeFunction<T extends readonly AggregationType[]> = (
+export type OnChangeFunction<T extends AggregationType[]> = (
 	result: (AggregationResult<T> | null)[]
 ) => void;
 
@@ -108,7 +108,7 @@ export type OnChangeFunction<T extends readonly AggregationType[]> = (
  * @see {@link useRequestTimeSeriesState}
  * @see {@link OnChangeFunction}
  */
-export function useRequestTimeSeries<T extends readonly AggregationType[]>(
+export function useRequestTimeSeries<T extends AggregationType[]>(
 	aggregationSpecifications: AggregationSpecification[],
 	aggregations: T,
 	onChange: OnChangeFunction<T>
