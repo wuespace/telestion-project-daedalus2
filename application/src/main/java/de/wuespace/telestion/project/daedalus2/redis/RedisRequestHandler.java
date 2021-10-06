@@ -8,6 +8,7 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.impl.types.MultiType;
@@ -41,6 +42,10 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 		super(config);
 	}
 
+	public RedisRequestHandler() {
+		this(null);
+	}
+
 	private final static Logger logger = LoggerFactory.getLogger(RedisRequestHandler.class);
 
 	@Override
@@ -62,7 +67,7 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 						redisApi.mget(List.of(
 								redisLatestRequest.fields()))
 								.onSuccess(result -> message
-										.reply(result.toString()));
+										.reply(Json.decodeValue(result.toString())));
 					}
 				}));
 
@@ -74,7 +79,7 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 						var results = Arrays.stream(request.fields()).map(this::fetchTSAggregation);
 
 						CompositeFuture.all(results.collect(Collectors.toList())).onSuccess(allResults ->
-								message.reply(new JsonArray(allResults.list()).toString())
+								message.reply(new JsonArray(allResults.list()))
 						);
 					}
 				}));
@@ -90,6 +95,7 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 		if (spec.aggregations().length < 1) {
 			return Future.failedFuture("Invalid spec. Must have at least one aggregation specified.");
 		}
+
 
 		//region Run Redis queries for all selected aggregations
 		//noinspection rawtypes
