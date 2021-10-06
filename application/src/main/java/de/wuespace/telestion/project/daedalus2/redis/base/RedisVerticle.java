@@ -65,6 +65,7 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 					// make sure the client is reconnected on error
 					conn.exceptionHandler(e -> {
 						this.redisApi = null;
+						logger.warn("An error occured in RedisVerticle " + getClass().toString(), e);
 						// attempt to reconnect,
 						// if there is an unrecoverable error
 						attemptReconnect(0, connectionString);
