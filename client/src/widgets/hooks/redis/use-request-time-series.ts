@@ -140,13 +140,13 @@ export function useRequestTimeSeries<T extends AggregationType[]>(
 	const fetch = useCallback(() => {
 		onChange([]);
 
-		eb.eventBus?.send(requestTimeSeriesAddress, getRequestObject(), res => {
-			onChange(
-				Array.isArray(res)
-					? (res as unknown as (AggregationResult<T> | null)[])
-					: []
-			);
-		});
+		eb.eventBus?.send<(AggregationResult<T> | null)[]>(
+			requestTimeSeriesAddress,
+			getRequestObject(),
+			res => {
+				onChange(Array.isArray(res) ? res : []);
+			}
+		);
 	}, [eb.eventBus, getRequestObject, onChange]);
 
 	return useMemo(() => [fetch], [fetch]);
