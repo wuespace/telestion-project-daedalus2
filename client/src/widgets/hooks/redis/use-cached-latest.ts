@@ -3,7 +3,7 @@ import { JsonSerializable } from '@wuespace/telestion-client-types';
 import { useEffect } from 'react';
 import { useEventBus } from '@wuespace/telestion-client-core';
 import { ConnectionState } from '@wuespace/vertx-event-bus';
-import { RedisLatestRequest } from './model/redis-latest-request';
+import { RedisLatestRequest } from './model';
 
 let timerId: NodeJS.Timeout | undefined = undefined;
 let nextId = 1;
