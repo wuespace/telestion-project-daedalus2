@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useEventBus } from '@wuespace/telestion-client-core';
 import { RedisTimeSeriesRequest, RedisTimeSeriesSpecification } from './model';
 
@@ -57,7 +57,7 @@ export interface AggregationSpecification {
 export type AggregationResult<T extends readonly AggregationType[]> = [
 	number,
 	{
-		[key in T[number]]: string;
+		[key in T[number]]: number;
 	}
 ][];
 
@@ -149,5 +149,5 @@ export function useRequestTimeSeries<T extends AggregationType[]>(
 		});
 	}, [eb.eventBus, getRequestObject, onChange]);
 
-	return [fetch];
+	return useMemo(() => [fetch], [fetch]);
 }

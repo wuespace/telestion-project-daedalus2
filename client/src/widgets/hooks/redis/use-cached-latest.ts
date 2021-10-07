@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { JsonSerializable } from '@wuespace/telestion-client-types';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useEventBus } from '@wuespace/telestion-client-core';
 import { ConnectionState } from '@wuespace/vertx-event-bus';
 import { RedisLatestRequest } from './model';
@@ -89,11 +89,21 @@ export function useCachedLatest<T extends JsonSerializable[]>(
 ): Undefinable<T> {
 	const { subscribe, unsubscribe, data } = useLatestCache();
 
+	const cachedKeys = useMemo(() => JSON.stringify(keys), [keys]);
+
 	useEffect(() => {
 		const subscriptionId = subscribe(keys);
 
 		return () => unsubscribe(subscriptionId);
-	}, [subscribe, unsubscribe, JSON.stringify(keys)]);
 
-	return keys.map(key => data[key]) as T;
+		// already covered by `cachedKeys`
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [subscribe, unsubscribe, cachedKeys]);
+
+	return useMemo(
+		() => keys.map(key => data[key]) as Undefinable<T>,
+		// already covered by `cachedKeys`
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[data, cachedKeys]
+	);
 }
