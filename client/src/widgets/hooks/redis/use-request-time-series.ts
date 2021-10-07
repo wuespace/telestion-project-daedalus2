@@ -124,7 +124,7 @@ export function useRequestTimeSeries<T extends AggregationType[]>(
 			fields: aggregationSpecifications.map<RedisTimeSeriesSpecification>(
 				r => ({
 					...r,
-					to: (typeof r.to === 'function' ? r.to() : r.from).toString(),
+					to: (typeof r.to === 'function' ? r.to() : r.to).toString(),
 					from: (typeof r.from === 'function' ? r.from() : r.from).toString(),
 					bucketSize:
 						typeof r.bucketSize === 'function' ? r.bucketSize() : r.bucketSize,
