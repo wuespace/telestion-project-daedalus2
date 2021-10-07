@@ -8,6 +8,7 @@ import { RedisLatestRequest } from './model';
 let timerId: NodeJS.Timeout | undefined = undefined;
 let nextId = 1;
 
+const requestLatestAddress = 'request-latest';
 export const useLatestCache = create<{
 	data: Record<string, JsonSerializable>;
 	subscriptions: Record<number, string[]>;
@@ -59,7 +60,7 @@ export const useLatestCache = create<{
 				};
 
 				eventBus.send<JsonSerializable[]>(
-					'request-latest',
+					requestLatestAddress,
 					requestObject,
 					result => {
 						const newData = Object.freeze(

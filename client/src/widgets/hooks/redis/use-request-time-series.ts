@@ -71,6 +71,8 @@ export type OnChangeFunction<T extends AggregationType[]> = (
 	result: (AggregationResult<T> | null)[]
 ) => void;
 
+const requestTimeSeriesAddress = 'request-time-series';
+
 /**
  * A wrapper for requesting time series data from the Redis DB.
  *
@@ -138,7 +140,7 @@ export function useRequestTimeSeries<T extends AggregationType[]>(
 	const fetch = useCallback(() => {
 		onChange([]);
 
-		eb.eventBus?.send('request-time-series', getRequestObject(), res => {
+		eb.eventBus?.send(requestTimeSeriesAddress, getRequestObject(), res => {
 			onChange(
 				Array.isArray(res)
 					? (res as unknown as (AggregationResult<T> | null)[])
