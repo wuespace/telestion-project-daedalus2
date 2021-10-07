@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useEventBus } from '@wuespace/telestion-client-core';
 import { ConnectionState } from '@wuespace/vertx-event-bus';
 import { RedisLatestRequest } from './model';
+import { Undefinable } from '@wuespace/telestion-client-common';
 
 let timerId: NodeJS.Timeout | undefined = undefined;
 let nextId = 1;
@@ -85,7 +86,7 @@ export const useLatestCache = create<{
 
 export function useCachedLatest<T extends JsonSerializable[]>(
 	keys: string[]
-): T {
+): Undefinable<T> {
 	const { subscribe, unsubscribe, data } = useLatestCache();
 
 	useEffect(() => {
