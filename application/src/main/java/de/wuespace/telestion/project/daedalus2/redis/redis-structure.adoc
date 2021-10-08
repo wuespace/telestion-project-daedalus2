@@ -1,0 +1,31 @@
+= Redis DB Structure
+Pablo Klaschka <pablo.klaschka@wuespace.de>
+2021-10-08
+
+== Notation
+
+This documentation is structured the following way:
+
+`key -- type`::
+Description
+
+Where `key` is the key in the Redis DB, `type` is some description of the type (e.g., for JSON strings, JS types) and "Description" should be self-explanatory.
+
+== Key Value Pairs
+
+`latest/[source]/[message]/[path] -- JsonSerializable`::
+Latest received telemetry value, where
+- `[source]` is the sender (`"seedA"`, `"seedB"`, or `"ejector"`)
+- `[message]` is the message type (e.g., `"systemT"`)
+- `[path]` is the path within the JSON structure. E.g., for the property `a.b` of `+{ "a": { "b": 3 } }+`, the `[path]` would be `"a/b"`.
+
+`latest-receive-time/[source]/[message]/[path] -- number`::
+The time the value in `latest/[source]/[message]/[path]` was received.
+
+`latest-time/[source]/[message]/[path] -- number`::
+The time the value in `latest/[source]/[message]/[path]` was sent.
+
+== Time Series
+
+`ts/[source]/[message]/[path] -- Time Series`::
+A time series for numeric values. For the "dynamic" fields, it follows the same pattern as `latest/*`
