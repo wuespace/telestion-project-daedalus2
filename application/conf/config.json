@@ -45,6 +45,26 @@
 		}
 	  },
 	  {
+		"name": "[REDIS] Redis Saver",
+		"verticle": "de.wuespace.telestion.project.daedalus2.redis.RedisSaver",
+		"magnitude": 1,
+		"config": {
+		  "connectionString": "redis://localhost:6379",
+		  "reconnectAttempts": 10,
+		  "inAddresses": [
+			"seedA/SEED_HEARTBEAT",
+			"seedA/SEED_LOG",
+			"seedA/SEED_SYSTEM_T",
+			"seedB/SEED_HEARTBEAT",
+			"seedB/SEED_LOG",
+			"seedB/SEED_SYSTEM_T",
+			"ejector/EJECTOR_HEARTBEAT",
+			"ejector/EJECTOR_LOG",
+			"ejector/EJECTOR_SYSTEM_T"
+		  ]
+		}
+	  },
+	  {
 		"name": "[REDIS] Redis Request Handler",
 		"verticle": "de.wuespace.telestion.project.daedalus2.redis.RedisRequestHandler",
 		"magnitude": 4,
@@ -61,8 +81,20 @@
 		"magnitude": 1,
 		"config": {
 		  "inAddress": "raw-commands",
-		  "outAddress": "raw-serial",
+		  "outAddress": "raw-mavlink",
 		  "port": 9871
+		}
+	  },
+	  {
+		"name": "[CONN] Mavlink TM Parser",
+		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkTM",
+		"magnitude": 1,
+		"config": {
+		  "sysIdMapping": {
+			"4": "seedA",
+			"6": "seedB",
+			"3": "ejector"
+		  }
 		}
 	  },
 	  {
@@ -75,56 +107,6 @@
 		  "hostAddress": "0.0.0.0",
 		  "port": 8213,
 		  "clientTimeout": 0
-		}
-	  },
-	  {
-		"name": "[RECV] Serial Splitter",
-		"verticle": "de.wuespace.telestion.project.daedalus2.SerialSplitter",
-		"magnitude": 1,
-		"config": {
-		  "longestMessageLength": 280,
-		  "inAddress": "raw-serial",
-		  "outAddress": "nice-serial"
-		}
-	  },
-	  {
-		"name": "[RECV] Mavlink v2 Validator",
-		"verticle": "de.wuespace.telestion.extension.mavlink.ValidatorMavlink2",
-		"magnitude": 1,
-		"config": {
-		  "inAddress": "nice-serial",
-		  "packetOutAddress": "mavlink-raw-logger",
-		  "parserInAddress": "mavlink-payload-parser-in",
-		  "password": "AQ=="
-		}
-	  },
-	  {
-		"name": "[RECV] Mavlink Message Registrar",
-		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkRegistrar",
-		"magnitude": 1,
-		"config": {
-		  "classNames": [
-			"de.wuespace.telestion.project.daedalus2.mavlink.SeedSystemT",
-			"de.wuespace.telestion.project.daedalus2.mavlink.ConCmd"
-		  ]
-		}
-	  },
-	  {
-		"name": "[RECV] Payload Parser",
-		"verticle": "de.wuespace.telestion.extension.mavlink.PayloadParser",
-		"magnitude": 1,
-		"config": {
-		  "inAddress": "mavlink-payload-parser-in",
-		  "outAddress": "parsed-payload"
-		}
-	  },
-	  {
-		"name": "[RECV] MessageTransformer",
-		"verticle": "de.wuespace.telestion.project.daedalus2.MessageTransformer",
-		"magnitude": 1,
-		"config": {
-		  "inAddress": "parsed-payload",
-		  "outAddress": "beautiful-data"
 		}
 	  },
 	  {
@@ -179,31 +161,29 @@
 		}
 	  },
 	  {
-		"name": "[DATA] Data Listener (Mavlink and Iridium)",
-		"verticle": "de.wuespace.telestion.extension.mongodb.DataListener",
-		"magnitude": 1,
-		"config": {
-		  "listeningAddresses": [
-			"beautiful-data",
-			"iridium-messages"
-		  ]
-		}
-	  },
-	  {
 		"name": "[DATA] Mongo Database Service",
-		"verticle": "de.wuespace.telestion.extension.mongodb.MongoDatabaseService",
+		"verticle": "de.wuespace.telestion.project.daedalus2.mongodb.MongoDatabaseSaver",
 		"magnitude": 1,
 		"config": {
 		  "host": "localhost"
 		}
 	  },
 	  {
-		"name": "[DATA] MavLink Logger",
-		"verticle": "de.wuespace.telestion.extension.mavlink.logger.RawLogger",
+		"name": "Data Listener",
+		"verticle": "de.wuespace.telestion.project.daedalus2.mongodb.DataListener",
 		"magnitude": 1,
 		"config": {
-		  "inAddress": "mavlink-raw-logger",
-		  "filePath": "data/mavlink-logger/"
+		  "listeningAddresses": [
+			"seedA/SEED_HEARTBEAT",
+			"seedA/SEED_LOG",
+			"seedA/SEED_SYSTEM_T",
+			"seedB/SEED_HEARTBEAT",
+			"seedB/SEED_LOG",
+			"seedB/SEED_SYSTEM_T",
+			"ejector/EJECTOR_HEARTBEAT",
+			"ejector/EJECTOR_LOG",
+			"ejector/EJECTOR_SYSTEM_T"
+		  ]
 		}
 	  },
 	  {
