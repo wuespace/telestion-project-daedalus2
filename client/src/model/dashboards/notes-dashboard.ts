@@ -16,7 +16,7 @@ export const notesDashboard: Dashboard = {
 		},
 		{
 			id: 'notes-1',
-			widgetName: 'noteWidget',
+			widgetName: 'checklistWidget',
 			width: 6,
 			height: 6,
 			initialProps: {

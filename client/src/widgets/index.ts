@@ -15,10 +15,12 @@ import { widget as freitextTcWidget } from './freitext-tc-widget';
 import { widget as noteWidget } from './note-widget';
 import { widget as stateWidget } from './state-widget';
 import { widget as aGpsWidget } from './a-gps-widget';
+import { widget as checklistWidget } from './checklist-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	checklistWidget,
 	aGpsWidget as Widget,
 	noteWidget as Widget,
 	freitextTcWidget as Widget,
