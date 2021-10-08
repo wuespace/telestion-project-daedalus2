@@ -10,6 +10,7 @@ import {
 	CommonWrapper,
 	DashboardPage,
 	NotFoundPage,
+	useColorScheme,
 	useUserConfig
 } from '@wuespace/telestion-client-common';
 
@@ -26,6 +27,18 @@ const widgets: Array<Widget> = [...commonWidgets, ...projectWidgets];
 export function App() {
 	useEventBusManager();
 	useSpTheme();
+
+	const { set: setColorSchema, colorScheme } = useColorScheme();
+
+	useEffect(() => {
+		const scheme = window.localStorage.getItem('color-schema') || 'dark';
+		// @ts-ignore
+		setColorSchema(scheme);
+	}, [setColorSchema]);
+
+	useEffect(() => {
+		window.localStorage.setItem('color-schema', colorScheme);
+	}, [colorScheme]);
 
 	const set = useUserConfig(state => state.set);
 
