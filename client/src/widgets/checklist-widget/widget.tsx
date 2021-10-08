@@ -31,12 +31,14 @@ export function Widget() {
 	const ref = useRef<HTMLElement>(null);
 
 	useEffect(() => {
-		if (ref.current) {
-			ref.current.addEventListener('change', evt => {
-				const value: string = (evt.target as any).value;
-				setPointer(value.trim());
-			});
-		}
+		setTimeout(() => {
+			if (ref.current) {
+				ref.current.addEventListener('change', evt => {
+					const value: string = (evt.target as any).value;
+					setPointer(value.trim());
+				});
+			}
+		}, 500);
 		// doesn't work without `ref.current` as dependency
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ref.current, setPointer]);
