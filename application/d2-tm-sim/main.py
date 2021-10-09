@@ -6,7 +6,7 @@ from typing import BinaryIO
 
 import daedalus2
 
-MESSAGE_INTERVAL = 5
+MESSAGE_INTERVAL = 1
 
 TELESTION_CONNECTION = "localhost", 9871
 
@@ -17,21 +17,19 @@ SEED_B_ID = 6
 STOP_FLAG = False
 
 
-def receive(name, s: socket.socket, file):
+def receive(name, s: socket.socket, file: BinaryIO):
 	print("Starting receive thread " + str(name))
 	tc_receiver = daedalus2.MAVLink(file)
-	while True:
-		try:
+	try:
+		while not STOP_FLAG:
+			if file.closed:
+				break
 			raw = s.recv(1)
 			message = tc_receiver.parse_char(raw)
 			if message:
-				print("\n" + str(message))
-				print(str(message.to_dict()))
-				print(str(message.get_fieldnames()))
-				print(str(message.get_payload()))
-				print(str(message.get_header().srcComponent.to_bytes(1, 'big')))
-		except:
-			break
+				print("\nReceived to {0} message: {1}".format(message.get_header().srcComponent, str(message)))
+	except:
+		return None
 
 
 def loop():
@@ -48,21 +46,57 @@ def loop():
 	receiver = threading.Thread(target=receive, args=(1, s, file))
 	receiver.start()
 
-	while not STOP_FLAG:
-		ejector = daedalus2.MAVLink(file, srcSystem=EJECTOR_ID, srcComponent=192)  # Ejector
-		seed_a = daedalus2.MAVLink(file, srcSystem=SEED_A_ID, srcComponent=192)
-		seed_b = daedalus2.MAVLink(file, srcSystem=SEED_B_ID, srcComponent=192)
+	try:
+		while not STOP_FLAG:
+			ejector = daedalus2.MAVLink(file, srcSystem=EJECTOR_ID, srcComponent=192)  # Ejector
+			seed_a = daedalus2.MAVLink(file, srcSystem=SEED_A_ID, srcComponent=192)
+			seed_b = daedalus2.MAVLink(file, srcSystem=SEED_B_ID, srcComponent=192)
 
-		seed_a.seed_heartbeat_send(int(time.time()), 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
-		seed_b.seed_heartbeat_send(int(time.time()), 4, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
-		ejector.ejector_log_send(int(time.time()), b'Hallo Welt')
-		ejector.ejector_heartbeat_send(int(time.time()), 5)
+			seed_a.seed_heartbeat_send(int(time.time()), 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
+			seed_b.seed_heartbeat_send(int(time.time()), 4, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
+			ejector.ejector_log_send(int(time.time()), b'Hallo Welt')
+			ejector.ejector_heartbeat_send(int(time.time()), 5)
 
-		file.flush()
+			seed_a.seed_system_t_send(
+				int(time.time()),
+				2,
+				5,
+				3,
+				5,
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				[1, 2, 3, 4, 5, 6, 7, 8],
+				random.random(),
+				random.random(), 1,
+				random.random(), 0, 3, 3,
+				random.random(), [1, 2, 3, 4, 5, 6, 7, 8],
+				random.random(),
+				4, 3,
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(),
+				random.random(), 3, 5, 99
+			)
 
-		print("*", end='')
+			file.flush()
 
-		time.sleep(MESSAGE_INTERVAL)
+			print("*", end='')
+
+			time.sleep(MESSAGE_INTERVAL)
+	except:
+		file.close()
+		s.close()
+		return 0
 
 	s.close()
 
