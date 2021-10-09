@@ -10,56 +10,91 @@ import { Badge } from './badge';
 import { State } from './model';
 
 export interface StateDisplayProps {
-	stateSeed: State;
-	stateEjector: State;
+	seedAState: State;
+	seedBState: State;
+	ejectorState: State;
 }
 
-export function StateDisplay({ stateSeed, stateEjector }: StateDisplayProps) {
+export function StateDisplay({
+	seedAState,
+	seedBState,
+	ejectorState
+}: StateDisplayProps) {
 	return (
-		<View padding="size-200">
+		<View padding="size-200" width="100%">
 			<Flex direction="column" alignItems="start">
 				<Heading level={3} marginTop={0}>
 					State Machine State
 				</Heading>
-
 				<Divider size="M" />
 
-				<Heading level={2}>Seed State</Heading>
-				<Text marginTop="size-200">Current State:</Text>
+				<View width="100%" overflow={'auto'}>
+					<Flex direction="row" width="100%" minWidth={500} gap={'size-200'}>
+						<Flex direction="column" alignItems="start">
+							<Heading level={2}>Seed A</Heading>
+							<Text>Current State:</Text>
 
-				<Flex gap="size-200" marginTop="size-100" alignItems="center">
-					<Content UNSAFE_style={{ fontSize: '1.5em' }}>
-						{stateSeed.currentState}
-					</Content>
-					<Badge special={stateSeed.isSpecial}>{stateSeed.tagName}</Badge>
-				</Flex>
+							<Flex gap="size-200" alignItems="center">
+								<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+									{seedAState.currentState}
+								</Content>
+								<Badge special={seedAState.isSpecial}>
+									{seedAState.tagName}
+								</Badge>
+							</Flex>
 
-				<Divider size="M" marginY="size-200" />
+							<Divider size="M" marginY="size-200" />
 
-				<Text>Next State:</Text>
-				<Content marginTop="size-100" UNSAFE_style={{ fontSize: '1.5em' }}>
-					{stateSeed.nextState}
-				</Content>
+							<Text>Next State:</Text>
+							<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+								{seedAState.nextState}
+							</Content>
+						</Flex>
+
+						<Flex direction="column" alignItems="start">
+							<Heading level={2}>Seed B</Heading>
+							<Text>Current State:</Text>
+
+							<Flex gap="size-200" alignItems="center">
+								<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+									{seedBState.currentState}
+								</Content>
+								<Badge special={seedBState.isSpecial}>
+									{seedAState.tagName}
+								</Badge>
+							</Flex>
+
+							<Divider size="M" marginY="size-200" />
+
+							<Text>Next State:</Text>
+							<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+								{seedBState.nextState}
+							</Content>
+						</Flex>
+
+						<Flex direction="column" alignItems="start">
+							<Heading level={2}>Ejector State</Heading>
+							<Text>Current State:</Text>
+
+							<Flex gap="size-200" alignItems="center">
+								<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+									{ejectorState.currentState}
+								</Content>
+								<Badge special={ejectorState.isSpecial}>
+									{ejectorState.tagName}
+								</Badge>
+							</Flex>
+
+							<Divider size="M" marginY="size-200" />
+
+							<Text>Next State:</Text>
+							<Content UNSAFE_style={{ fontSize: '1.5em' }}>
+								{ejectorState.nextState}
+							</Content>
+						</Flex>
+					</Flex>
+				</View>
 			</Flex>
-
-			<Divider size="M" />
-
-			<Heading level={2}>Ejector State</Heading>
-			<Text marginTop="size-200">Current State:</Text>
-
-			<Flex gap="size-200" marginTop="size-100" alignItems="center">
-				<Content UNSAFE_style={{ fontSize: '1.5em' }}>
-					{stateEjector.currentState}
-				</Content>
-				<Badge special={stateEjector.isSpecial}>{stateEjector.tagName}</Badge>
-			</Flex>
-
-			<Divider size="M" marginY="size-200" />
-
-			<Text>Next State:</Text>
-			<Content marginTop="size-100" UNSAFE_style={{ fontSize: '1.5em' }}>
-				{stateEjector.nextState}
-			</Content>
 		</View>
 	);
 }

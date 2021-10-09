@@ -1,10 +1,6 @@
 import { View } from '@adobe/react-spectrum';
 import { ReactNode } from 'react';
 
-export interface BadgeProps {
-	label: string;
-}
-
 export function Badge({
 	special,
 	children

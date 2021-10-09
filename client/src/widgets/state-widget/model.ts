@@ -1,4 +1,4 @@
-export interface State {
+export interface State extends Record<string, any> {
 	currentState: string;
 	nextState: string;
 	tagName: string;

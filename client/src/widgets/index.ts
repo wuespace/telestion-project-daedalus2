@@ -31,5 +31,5 @@ export const projectWidgets: Widget[] = [
 	pgraphWidget as Widget,
 	sampleWidget,
 	currentValuesWidget as Widget,
-	stateWidget
+	stateWidget as Widget
 ];

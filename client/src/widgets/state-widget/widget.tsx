@@ -1,23 +1,33 @@
-import { useChannelLatest, useLogger } from '@wuespace/telestion-client-core';
+import { useLogger } from '@wuespace/telestion-client-core';
 import { LoadingIndicator } from '@wuespace/telestion-client-common';
 
-import { LatestState, latestStateChannel } from '../../model/channels';
 import { fallbackState, states } from './model';
 import { StateDisplay } from './state-display';
+import { useCachedLatest } from '../hooks';
+import { StateWidgetConfig } from './state-widget-config';
 
-export function Widget() {
+export function Widget({
+	seedASource,
+	seedBSource,
+	ejectorSource
+}: StateWidgetConfig) {
 	const logger = useLogger('state-machine-widget');
-	const current = useChannelLatest<LatestState>(latestStateChannel);
+	const currentStates = useCachedLatest<[number, number, number]>([
+		`latest/seedA/${seedASource}/state_cur`,
+		`latest/seedB/${seedBSource}/state_cur`,
+		`latest/ejector/${ejectorSource}/state_cur`
+	]);
 
-	if (current) logger.debug('Flight state:', current.currentState);
+	if (states) logger.debug('Flight state:', currentStates);
 
 	return (
 		// @ts-ignore
-		<LoadingIndicator timeout={0} dependencies={[current]}>
-			{({ currentState }) => (
+		<LoadingIndicator timeout={0} dependencies={currentStates}>
+			{(seedA, seedB, ejector) => (
 				<StateDisplay
-					stateSeed={states[currentState] || fallbackState}
-					stateEjector={states[currentState] || fallbackState}
+					seedAState={states[seedA] || fallbackState}
+					seedBState={states[seedB] || fallbackState}
+					ejectorState={states[ejector] || fallbackState}
 				/>
 			)}
 		</LoadingIndicator>

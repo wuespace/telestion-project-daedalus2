@@ -7,11 +7,13 @@ export const notesDashboard: Dashboard = {
 	widgets: [
 		{
 			id: 'notes-0',
-			widgetName: 'noteWidget',
+			widgetName: 'stateWidget',
 			width: 6,
 			height: 6,
 			initialProps: {
-				title: 'Note 1'
+				seedASource: 'SEED_HEARTBEAT',
+				seedBSource: 'SEED_HEARTBEAT',
+				ejectorSource: 'EJECTOR_HEARTBEAT'
 			}
 		},
 		{
