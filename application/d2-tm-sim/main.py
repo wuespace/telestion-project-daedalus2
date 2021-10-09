@@ -1,7 +1,7 @@
 import random
 import socket
+import threading
 import time
-import socket
 from typing import BinaryIO
 
 import daedalus2
@@ -17,55 +17,57 @@ SEED_B_ID = 6
 STOP_FLAG = False
 
 
+def receive(name, s: socket.socket, file):
+	print("Starting receive thread " + str(name))
+	tc_receiver = daedalus2.MAVLink(file)
+	while True:
+		try:
+			raw = s.recv(1)
+			message = tc_receiver.parse_char(raw)
+			if message:
+				print("\n" + str(message))
+				print(str(message.to_dict()))
+				print(str(message.get_fieldnames()))
+				print(str(message.get_payload()))
+				print(str(message.get_header().srcComponent.to_bytes(1, 'big')))
+		except:
+			break
+
+
 def loop():
-    s: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((TELESTION_CONNECTION))
+	s: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect(TELESTION_CONNECTION)
 
-    file: BinaryIO = s.makefile("rbw")
+	file: BinaryIO = s.makefile("rbw")
 
-    print("Connection to {0} established.".format(str(TELESTION_CONNECTION)))
-    print("Sending TM every {0} seconds until you stop the script by pressing Ctrl+C.".format(str(MESSAGE_INTERVAL)))
-    print()
-    print("(every '*' indicates that a batch of messages has been sent)")
+	print("Connection to {0} established.".format(str(TELESTION_CONNECTION)))
+	print("Sending TM every {0} seconds until you stop the script by pressing Ctrl+C.".format(str(MESSAGE_INTERVAL)))
+	print()
+	print("(every '*' indicates that a batch of messages has been sent)")
 
-    while not STOP_FLAG:
-        ejector = daedalus2.MAVLink(file, srcSystem=EJECTOR_ID, srcComponent=192)  # Ejector
-        seedA = daedalus2.MAVLink(file, srcSystem=SEED_A_ID, srcComponent=192)
-        seedB = daedalus2.MAVLink(file, srcSystem=SEED_B_ID, srcComponent=192)
+	receiver = threading.Thread(target=receive, args=(1, s, file))
+	receiver.start()
 
-        # bytes = generated.MAVLink.seed_heartbeat_encode(
-        #     mavlink,
-        #     int(time.time()),
-        #     1,
-        #     random.random(),
-        #     1,
-        #     0,
-        #     [1, 2, 3, 4, 5, 6, 7, 8],
-        #     0b110,
-        #     0b111,
-        #     0b011,
-        # ).pack(mavlink, False)
+	while not STOP_FLAG:
+		ejector = daedalus2.MAVLink(file, srcSystem=EJECTOR_ID, srcComponent=192)  # Ejector
+		seed_a = daedalus2.MAVLink(file, srcSystem=SEED_A_ID, srcComponent=192)
+		seed_b = daedalus2.MAVLink(file, srcSystem=SEED_B_ID, srcComponent=192)
 
-        # Use mavlink.*_send functions here
-        #
-        # mavlink.ejector_heartbeat_send(
-        #     int(time.time()),
-        #     4
-        # )
+		seed_a.seed_heartbeat_send(int(time.time()), 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
+		seed_b.seed_heartbeat_send(int(time.time()), 4, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
+		ejector.ejector_log_send(int(time.time()), b'Hallo Welt')
+		ejector.ejector_heartbeat_send(int(time.time()), 5)
 
-        seedA.seed_heartbeat_send(int(time.time()), 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
-        ejector.ejector_log_send(int(time.time()), b'Hallo Welt')
+		file.flush()
 
-        file.flush()
+		print("*", end='')
 
-        print("*", end='')
+		time.sleep(MESSAGE_INTERVAL)
 
-        time.sleep(MESSAGE_INTERVAL)
-
-    s.close()
+	s.close()
 
 
 if __name__ == '__main__':
-    print("Schreibtischtest Umgebungssimulator")
-    print("===================================")
-    loop()
+	print("Schreibtischtest Umgebungssimulator")
+	print("===================================")
+	loop()
