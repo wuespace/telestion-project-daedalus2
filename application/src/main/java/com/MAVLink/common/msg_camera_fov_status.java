@@ -6,6 +6,7 @@
 
 // MESSAGE CAMERA_FOV_STATUS PACKING
 package com.MAVLink.common;
+
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
@@ -15,199 +16,221 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_camera_fov_status extends MAVLinkMessage {
 
-    public static final int MAVLINK_MSG_ID_CAMERA_FOV_STATUS = 271;
-    public static final int MAVLINK_MSG_LENGTH = 52;
-    private static final long serialVersionUID = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
+	public static final int MAVLINK_MSG_ID_CAMERA_FOV_STATUS = 271;
+	public static final int MAVLINK_MSG_LENGTH = 52;
+	private static final long serialVersionUID = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
 
 
-    /**
-     * Timestamp (time since system boot).
-     */
-    public long time_boot_ms;
+	/**
+	 * Timestamp (time since system boot).
+	 */
+	public long time_boot_ms;
 
-    /**
-     * Latitude of camera (INT32_MAX if unknown).
-     */
-    public int lat_camera;
+	/**
+	 * Latitude of camera (INT32_MAX if unknown).
+	 */
+	public int lat_camera;
 
-    /**
-     * Longitude of camera (INT32_MAX if unknown).
-     */
-    public int lon_camera;
+	/**
+	 * Longitude of camera (INT32_MAX if unknown).
+	 */
+	public int lon_camera;
 
-    /**
-     * Altitude (MSL) of camera (INT32_MAX if unknown).
-     */
-    public int alt_camera;
+	/**
+	 * Altitude (MSL) of camera (INT32_MAX if unknown).
+	 */
+	public int alt_camera;
 
-    /**
-     * Latitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).
-     */
-    public int lat_image;
+	/**
+	 * Latitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).
+	 */
+	public int lat_image;
 
-    /**
-     * Longitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).
-     */
-    public int lon_image;
+	/**
+	 * Longitude of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).
+	 */
+	public int lon_image;
 
-    /**
-     * Altitude (MSL) of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with horizon).
-     */
-    public int alt_image;
+	/**
+	 * Altitude (MSL) of center of image (INT32_MAX if unknown, INT32_MIN if at infinity, not intersecting with
+	 * horizon).
+	 */
+	public int alt_image;
 
-    /**
-     * Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
-     */
-    public float q[] = new float[4];
+	/**
+	 * Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
+	 */
+	public float[] q = new float[4];
 
-    /**
-     * Horizontal field of view (NaN if unknown).
-     */
-    public float hfov;
+	/**
+	 * Horizontal field of view (NaN if unknown).
+	 */
+	public float hfov;
 
-    /**
-     * Vertical field of view (NaN if unknown).
-     */
-    public float vfov;
-
-
-    /**
-     * Generates the payload for a mavlink message for a message of this type
-     * @return
-     */
-    @Override
-    public MAVLinkPacket pack() {
-        MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH,isMavlink2);
-        packet.sysid = 255;
-        packet.compid = 190;
-        packet.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
-
-        packet.payload.putUnsignedInt(time_boot_ms);
-        packet.payload.putInt(lat_camera);
-        packet.payload.putInt(lon_camera);
-        packet.payload.putInt(alt_camera);
-        packet.payload.putInt(lat_image);
-        packet.payload.putInt(lon_image);
-        packet.payload.putInt(alt_image);
-
-        for (int i = 0; i < q.length; i++) {
-            packet.payload.putFloat(q[i]);
-        }
-
-        packet.payload.putFloat(hfov);
-        packet.payload.putFloat(vfov);
-
-        if (isMavlink2) {
-
-        }
-        return packet;
-    }
-
-    /**
-     * Decode a camera_fov_status message into this class fields
-     *
-     * @param payload The message to decode
-     */
-    @Override
-    public void unpack(MAVLinkPayload payload) {
-        payload.resetIndex();
-
-        this.time_boot_ms = payload.getUnsignedInt();
-        this.lat_camera = payload.getInt();
-        this.lon_camera = payload.getInt();
-        this.alt_camera = payload.getInt();
-        this.lat_image = payload.getInt();
-        this.lon_image = payload.getInt();
-        this.alt_image = payload.getInt();
-
-        for (int i = 0; i < this.q.length; i++) {
-            this.q[i] = payload.getFloat();
-        }
-
-        this.hfov = payload.getFloat();
-        this.vfov = payload.getFloat();
-
-        if (isMavlink2) {
-
-        }
-    }
-
-    /**
-     * Constructor for a new message, just initializes the msgid
-     */
-    public msg_camera_fov_status() {
-        this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
-    }
-
-    /**
-     * Constructor for a new message, initializes msgid and all payload variables
-     */
-    public msg_camera_fov_status( long time_boot_ms, int lat_camera, int lon_camera, int alt_camera, int lat_image, int lon_image, int alt_image, float[] q, float hfov, float vfov) {
-        this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
-
-        this.time_boot_ms = time_boot_ms;
-        this.lat_camera = lat_camera;
-        this.lon_camera = lon_camera;
-        this.alt_camera = alt_camera;
-        this.lat_image = lat_image;
-        this.lon_image = lon_image;
-        this.alt_image = alt_image;
-        this.q = q;
-        this.hfov = hfov;
-        this.vfov = vfov;
-
-    }
-
-    /**
-     * Constructor for a new message, initializes everything
-     */
-    public msg_camera_fov_status( long time_boot_ms, int lat_camera, int lon_camera, int alt_camera, int lat_image, int lon_image, int alt_image, float[] q, float hfov, float vfov, int sysid, int compid, boolean isMavlink2) {
-        this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
-        this.sysid = sysid;
-        this.compid = compid;
-        this.isMavlink2 = isMavlink2;
-
-        this.time_boot_ms = time_boot_ms;
-        this.lat_camera = lat_camera;
-        this.lon_camera = lon_camera;
-        this.alt_camera = alt_camera;
-        this.lat_image = lat_image;
-        this.lon_image = lon_image;
-        this.alt_image = alt_image;
-        this.q = q;
-        this.hfov = hfov;
-        this.vfov = vfov;
-
-    }
-
-    /**
-     * Constructor for a new message, initializes the message with the payload
-     * from a mavlink packet
-     *
-     */
-    public msg_camera_fov_status(MAVLinkPacket mavLinkPacket) {
-        this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
-
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.isMavlink2 = mavLinkPacket.isMavlink2;
-        unpack(mavLinkPacket.payload);
-    }
+	/**
+	 * Vertical field of view (NaN if unknown).
+	 */
+	public float vfov;
 
 
-    /**
-     * Returns a string with the MSG name and data
-     */
-    @Override
-    public String toString() {
-        return "MAVLINK_MSG_ID_CAMERA_FOV_STATUS - sysid:"+sysid+" compid:"+compid+" time_boot_ms:"+time_boot_ms+" lat_camera:"+lat_camera+" lon_camera:"+lon_camera+" alt_camera:"+alt_camera+" lat_image:"+lat_image+" lon_image:"+lon_image+" alt_image:"+alt_image+" q:"+q+" hfov:"+hfov+" vfov:"+vfov+"";
-    }
+	/**
+	 * Generates the payload for a mavlink message for a message of this type
+	 *
+	 * @return
+	 */
+	@Override
+	public MAVLinkPacket pack() {
+		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
+		packet.sysid = sysid;
+		packet.compid = compid;
+		packet.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
 
-    /**
-     * Returns a human-readable string of the name of the message
-     */
-    @Override
-    public String name() {
-        return "MAVLINK_MSG_ID_CAMERA_FOV_STATUS";
-    }
+		packet.payload.putUnsignedInt(time_boot_ms);
+		packet.payload.putInt(lat_camera);
+		packet.payload.putInt(lon_camera);
+		packet.payload.putInt(alt_camera);
+		packet.payload.putInt(lat_image);
+		packet.payload.putInt(lon_image);
+		packet.payload.putInt(alt_image);
+
+		for (int i = 0; i < q.length; i++) {
+			packet.payload.putFloat(q[i]);
+		}
+
+		packet.payload.putFloat(hfov);
+		packet.payload.putFloat(vfov);
+
+		if (isMavlink2) {
+
+		}
+		return packet;
+	}
+
+	/**
+	 * Decode a camera_fov_status message into this class fields
+	 *
+	 * @param payload The message to decode
+	 */
+	@Override
+	public void unpack(MAVLinkPayload payload) {
+		payload.resetIndex();
+
+		this.time_boot_ms = payload.getUnsignedInt();
+		this.lat_camera = payload.getInt();
+		this.lon_camera = payload.getInt();
+		this.alt_camera = payload.getInt();
+		this.lat_image = payload.getInt();
+		this.lon_image = payload.getInt();
+		this.alt_image = payload.getInt();
+
+		for (int i = 0; i < this.q.length; i++) {
+			this.q[i] = payload.getFloat();
+		}
+
+		this.hfov = payload.getFloat();
+		this.vfov = payload.getFloat();
+
+		if (isMavlink2) {
+
+		}
+	}
+
+	/**
+	 * Constructor for a new message, just initializes the msgid
+	 */
+	public msg_camera_fov_status() {
+		this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
+	}
+
+	/**
+	 * Constructor for a new message, initializes msgid and all payload variables
+	 */
+	public msg_camera_fov_status(long time_boot_ms,
+			int lat_camera,
+			int lon_camera,
+			int alt_camera,
+			int lat_image,
+			int lon_image,
+			int alt_image,
+			float[] q,
+			float hfov,
+			float vfov) {
+		this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
+
+		this.time_boot_ms = time_boot_ms;
+		this.lat_camera = lat_camera;
+		this.lon_camera = lon_camera;
+		this.alt_camera = alt_camera;
+		this.lat_image = lat_image;
+		this.lon_image = lon_image;
+		this.alt_image = alt_image;
+		this.q = q;
+		this.hfov = hfov;
+		this.vfov = vfov;
+
+	}
+
+	/**
+	 * Constructor for a new message, initializes everything
+	 */
+	public msg_camera_fov_status(long time_boot_ms,
+			int lat_camera,
+			int lon_camera,
+			int alt_camera,
+			int lat_image,
+			int lon_image,
+			int alt_image,
+			float[] q,
+			float hfov,
+			float vfov,
+			int sysid,
+			int compid,
+			boolean isMavlink2) {
+		this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
+		this.sysid = sysid;
+		this.compid = compid;
+		this.isMavlink2 = isMavlink2;
+
+		this.time_boot_ms = time_boot_ms;
+		this.lat_camera = lat_camera;
+		this.lon_camera = lon_camera;
+		this.alt_camera = alt_camera;
+		this.lat_image = lat_image;
+		this.lon_image = lon_image;
+		this.alt_image = alt_image;
+		this.q = q;
+		this.hfov = hfov;
+		this.vfov = vfov;
+
+	}
+
+	/**
+	 * Constructor for a new message, initializes the message with the payload
+	 * from a mavlink packet
+	 */
+	public msg_camera_fov_status(MAVLinkPacket mavLinkPacket) {
+		this.msgid = MAVLINK_MSG_ID_CAMERA_FOV_STATUS;
+
+		this.sysid = mavLinkPacket.sysid;
+		this.compid = mavLinkPacket.compid;
+		this.isMavlink2 = mavLinkPacket.isMavlink2;
+		unpack(mavLinkPacket.payload);
+	}
+
+
+	/**
+	 * Returns a string with the MSG name and data
+	 */
+	@Override
+	public String toString() {
+		return "MAVLINK_MSG_ID_CAMERA_FOV_STATUS - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " lat_camera:" + lat_camera + " lon_camera:" + lon_camera + " alt_camera:" + alt_camera + " lat_image:" + lat_image + " lon_image:" + lon_image + " alt_image:" + alt_image + " q:" + q + " hfov:" + hfov + " vfov:" + vfov + "";
+	}
+
+	/**
+	 * Returns a human-readable string of the name of the message
+	 */
+	@Override
+	public String name() {
+		return "MAVLINK_MSG_ID_CAMERA_FOV_STATUS";
+	}
 }

@@ -6,6 +6,7 @@
 
 // MESSAGE RESOURCE_REQUEST PACKING
 package com.MAVLink.common;
+
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
@@ -15,162 +16,171 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_resource_request extends MAVLinkMessage {
 
-    public static final int MAVLINK_MSG_ID_RESOURCE_REQUEST = 142;
-    public static final int MAVLINK_MSG_LENGTH = 243;
-    private static final long serialVersionUID = MAVLINK_MSG_ID_RESOURCE_REQUEST;
+	public static final int MAVLINK_MSG_ID_RESOURCE_REQUEST = 142;
+	public static final int MAVLINK_MSG_LENGTH = 243;
+	private static final long serialVersionUID = MAVLINK_MSG_ID_RESOURCE_REQUEST;
 
 
-    /**
-     * Request ID. This ID should be re-used when sending back URI contents
-     */
-    public short request_id;
+	/**
+	 * Request ID. This ID should be re-used when sending back URI contents
+	 */
+	public short request_id;
 
-    /**
-     * The type of requested URI. 0 = a file via URL. 1 = a UAVCAN binary
-     */
-    public short uri_type;
+	/**
+	 * The type of requested URI. 0 = a file via URL. 1 = a UAVCAN binary
+	 */
+	public short uri_type;
 
-    /**
-     * The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the URI type enum)
-     */
-    public short uri[] = new short[120];
+	/**
+	 * The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the
+	 * URI type enum)
+	 */
+	public short[] uri = new short[120];
 
-    /**
-     * The way the autopilot wants to receive the URI. 0 = MAVLink FTP. 1 = binary stream.
-     */
-    public short transfer_type;
+	/**
+	 * The way the autopilot wants to receive the URI. 0 = MAVLink FTP. 1 = binary stream.
+	 */
+	public short transfer_type;
 
-    /**
-     * The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a storage associated (e.g. MAVLink FTP).
-     */
-    public short storage[] = new short[120];
-
-
-    /**
-     * Generates the payload for a mavlink message for a message of this type
-     * @return
-     */
-    @Override
-    public MAVLinkPacket pack() {
-        MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH,isMavlink2);
-        packet.sysid = 255;
-        packet.compid = 190;
-        packet.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
-
-        packet.payload.putUnsignedByte(request_id);
-        packet.payload.putUnsignedByte(uri_type);
-
-        for (int i = 0; i < uri.length; i++) {
-            packet.payload.putUnsignedByte(uri[i]);
-        }
-
-        packet.payload.putUnsignedByte(transfer_type);
-
-        for (int i = 0; i < storage.length; i++) {
-            packet.payload.putUnsignedByte(storage[i]);
-        }
+	/**
+	 * The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a
+	 * storage associated (e.g. MAVLink FTP).
+	 */
+	public short[] storage = new short[120];
 
 
-        if (isMavlink2) {
+	/**
+	 * Generates the payload for a mavlink message for a message of this type
+	 *
+	 * @return
+	 */
+	@Override
+	public MAVLinkPacket pack() {
+		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
+		packet.sysid = sysid;
+		packet.compid = compid;
+		packet.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
 
-        }
-        return packet;
-    }
+		packet.payload.putUnsignedByte(request_id);
+		packet.payload.putUnsignedByte(uri_type);
 
-    /**
-     * Decode a resource_request message into this class fields
-     *
-     * @param payload The message to decode
-     */
-    @Override
-    public void unpack(MAVLinkPayload payload) {
-        payload.resetIndex();
+		for (int i = 0; i < uri.length; i++) {
+			packet.payload.putUnsignedByte(uri[i]);
+		}
 
-        this.request_id = payload.getUnsignedByte();
-        this.uri_type = payload.getUnsignedByte();
+		packet.payload.putUnsignedByte(transfer_type);
 
-        for (int i = 0; i < this.uri.length; i++) {
-            this.uri[i] = payload.getUnsignedByte();
-        }
-
-        this.transfer_type = payload.getUnsignedByte();
-
-        for (int i = 0; i < this.storage.length; i++) {
-            this.storage[i] = payload.getUnsignedByte();
-        }
+		for (int i = 0; i < storage.length; i++) {
+			packet.payload.putUnsignedByte(storage[i]);
+		}
 
 
-        if (isMavlink2) {
+		if (isMavlink2) {
 
-        }
-    }
+		}
+		return packet;
+	}
 
-    /**
-     * Constructor for a new message, just initializes the msgid
-     */
-    public msg_resource_request() {
-        this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
-    }
+	/**
+	 * Decode a resource_request message into this class fields
+	 *
+	 * @param payload The message to decode
+	 */
+	@Override
+	public void unpack(MAVLinkPayload payload) {
+		payload.resetIndex();
 
-    /**
-     * Constructor for a new message, initializes msgid and all payload variables
-     */
-    public msg_resource_request( short request_id, short uri_type, short[] uri, short transfer_type, short[] storage) {
-        this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
+		this.request_id = payload.getUnsignedByte();
+		this.uri_type = payload.getUnsignedByte();
 
-        this.request_id = request_id;
-        this.uri_type = uri_type;
-        this.uri = uri;
-        this.transfer_type = transfer_type;
-        this.storage = storage;
+		for (int i = 0; i < this.uri.length; i++) {
+			this.uri[i] = payload.getUnsignedByte();
+		}
 
-    }
+		this.transfer_type = payload.getUnsignedByte();
 
-    /**
-     * Constructor for a new message, initializes everything
-     */
-    public msg_resource_request( short request_id, short uri_type, short[] uri, short transfer_type, short[] storage, int sysid, int compid, boolean isMavlink2) {
-        this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
-        this.sysid = sysid;
-        this.compid = compid;
-        this.isMavlink2 = isMavlink2;
-
-        this.request_id = request_id;
-        this.uri_type = uri_type;
-        this.uri = uri;
-        this.transfer_type = transfer_type;
-        this.storage = storage;
-
-    }
-
-    /**
-     * Constructor for a new message, initializes the message with the payload
-     * from a mavlink packet
-     *
-     */
-    public msg_resource_request(MAVLinkPacket mavLinkPacket) {
-        this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
-
-        this.sysid = mavLinkPacket.sysid;
-        this.compid = mavLinkPacket.compid;
-        this.isMavlink2 = mavLinkPacket.isMavlink2;
-        unpack(mavLinkPacket.payload);
-    }
+		for (int i = 0; i < this.storage.length; i++) {
+			this.storage[i] = payload.getUnsignedByte();
+		}
 
 
-    /**
-     * Returns a string with the MSG name and data
-     */
-    @Override
-    public String toString() {
-        return "MAVLINK_MSG_ID_RESOURCE_REQUEST - sysid:"+sysid+" compid:"+compid+" request_id:"+request_id+" uri_type:"+uri_type+" uri:"+uri+" transfer_type:"+transfer_type+" storage:"+storage+"";
-    }
+		if (isMavlink2) {
 
-    /**
-     * Returns a human-readable string of the name of the message
-     */
-    @Override
-    public String name() {
-        return "MAVLINK_MSG_ID_RESOURCE_REQUEST";
-    }
+		}
+	}
+
+	/**
+	 * Constructor for a new message, just initializes the msgid
+	 */
+	public msg_resource_request() {
+		this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
+	}
+
+	/**
+	 * Constructor for a new message, initializes msgid and all payload variables
+	 */
+	public msg_resource_request(short request_id, short uri_type, short[] uri, short transfer_type, short[] storage) {
+		this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
+
+		this.request_id = request_id;
+		this.uri_type = uri_type;
+		this.uri = uri;
+		this.transfer_type = transfer_type;
+		this.storage = storage;
+
+	}
+
+	/**
+	 * Constructor for a new message, initializes everything
+	 */
+	public msg_resource_request(short request_id,
+			short uri_type,
+			short[] uri,
+			short transfer_type,
+			short[] storage,
+			int sysid,
+			int compid,
+			boolean isMavlink2) {
+		this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
+		this.sysid = sysid;
+		this.compid = compid;
+		this.isMavlink2 = isMavlink2;
+
+		this.request_id = request_id;
+		this.uri_type = uri_type;
+		this.uri = uri;
+		this.transfer_type = transfer_type;
+		this.storage = storage;
+
+	}
+
+	/**
+	 * Constructor for a new message, initializes the message with the payload
+	 * from a mavlink packet
+	 */
+	public msg_resource_request(MAVLinkPacket mavLinkPacket) {
+		this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
+
+		this.sysid = mavLinkPacket.sysid;
+		this.compid = mavLinkPacket.compid;
+		this.isMavlink2 = mavLinkPacket.isMavlink2;
+		unpack(mavLinkPacket.payload);
+	}
+
+
+	/**
+	 * Returns a string with the MSG name and data
+	 */
+	@Override
+	public String toString() {
+		return "MAVLINK_MSG_ID_RESOURCE_REQUEST - sysid:" + sysid + " compid:" + compid + " request_id:" + request_id + " uri_type:" + uri_type + " uri:" + uri + " transfer_type:" + transfer_type + " storage:" + storage + "";
+	}
+
+	/**
+	 * Returns a human-readable string of the name of the message
+	 */
+	@Override
+	public String name() {
+		return "MAVLINK_MSG_ID_RESOURCE_REQUEST";
+	}
 }
