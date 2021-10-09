@@ -12,6 +12,7 @@ import io.vertx.core.Promise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -65,7 +66,9 @@ public class TelecommandSender extends AbstractVerticle {
 	private void buildMessage(String target, byte[] payload) {
 		msg_con_cmd tc = new msg_con_cmd(payload, config.sysId(), config.compIdAliasMapping().get(target), true);
 		var bytes = tc.pack().encodePacket();
-		logger.debug("Sending TC {} to compId {}: {}", payload, config.compIdAliasMapping().get(target), bytes);
+		String byteString = new BigInteger(1, bytes).toString(16);
+		logger.debug("Sending TC {} to compId {}: {}", payload, config.compIdAliasMapping().get(target),
+				byteString);
 
 		vertx.eventBus().publish(
 				config.outAddress(),
