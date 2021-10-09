@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @param target the new target for the A-GPS data
  */
+@SuppressWarnings("unused")
 public record RequestNewTarget(@JsonProperty String target) implements AGpsRequest {
 	public RequestNewTarget() {
 		this(null);

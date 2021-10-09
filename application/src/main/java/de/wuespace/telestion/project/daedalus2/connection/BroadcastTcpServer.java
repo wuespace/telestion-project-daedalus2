@@ -94,6 +94,7 @@ public class BroadcastTcpServer extends AbstractVerticle {
 		startPromise.complete();
 	}
 
+	@Override
 	public void stop(Promise<Void> stopPromise) {
 		if (server != null) {
 			// try to gracefully close connections with every client
@@ -103,7 +104,9 @@ public class BroadcastTcpServer extends AbstractVerticle {
 				}
 			}));
 
-			logger.info("Closing now on {}:{}", config.host(), config.port());
+			String host = config.host();
+			int port = config.port();
+			logger.info("Closing now on {}:{}", host, port);
 			server.close();
 		}
 

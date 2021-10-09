@@ -8,6 +8,7 @@ import de.wuespace.telestion.project.daedalus2.gps.AGpsState;
  *
  * @param state the current A-GPS verticle state
  */
+@SuppressWarnings("unused")
 public record ResponseState(@JsonProperty AGpsState state) implements AGpsResponse {
 	public ResponseState() {
 		this(null);

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @param data the custom payload received from the sender
  */
+@SuppressWarnings("unused")
 public record IEPayload(
 		@JsonProperty IEPayloadData data
 ) implements InformationElement {

@@ -25,7 +25,10 @@ import java.util.List;
  * @author Pablo Klaschka
  */
 public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
-	private final static Logger logger = LoggerFactory.getLogger(RedisSaver.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisSaver.class);
+	public static final String LATEST_PREFIX = "latest/";
+	public static final String LATEST_RECEIVE_TIME_PREFIX = "latest-receive-time/";
+	public static final String LATEST_TIME_PREFIX = "latest-time/";
 
 	public RedisSaver(Configuration config) {
 		super(config);
@@ -55,13 +58,11 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 
 		config.inAddresses().forEach(inAddress ->
 				eb.consumer(inAddress, message -> {
-					logger.debug(message.body().toString() + message.headers().toString());
-
 					if (this.redisApi == null)
 						logger.warn("Unable to save message into Redis DB because it's currently disconnected.");
 					else {
 						logger.debug("Saving message to Redis DB");
-						redisApi.set(List.of("latest/" + inAddress, message.body().toString()));
+						redisApi.set(List.of(LATEST_PREFIX + inAddress, message.body().toString()));
 						try {
 							var obj = (new ObjectMapper()).readTree(message.body().toString());
 							logger.debug(obj.fieldNames().toString());
@@ -85,7 +86,7 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 	 */
 	private void saveNewDataset(RedisAPI api, String prefix, JsonNode node, MultiMap headers) {
 		if (node.isObject()) {
-			api.set(List.of("latest/" + prefix, node.toString()));
+			api.set(List.of(LATEST_PREFIX + prefix, node.toString()));
 			node.fields().forEachRemaining(
 					stringJsonNodeEntry -> this.saveNewDataset(
 							api,
@@ -95,7 +96,7 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 			);
 		} else if (node.isNumber()) {
 			var value = node.toString();
-			api.set(List.of("latest/" + prefix, value));
+			api.set(List.of(LATEST_PREFIX + prefix, value));
 			api.send(
 					Command.create("TS.CREATE"),
 					"ts/" + prefix,
@@ -109,11 +110,11 @@ public class RedisSaver extends RedisVerticle<RedisSaver.Configuration> {
 					)
 			);
 		} else {
-			api.set(List.of("latest/" + prefix, node.toString()));
+			api.set(List.of(LATEST_PREFIX + prefix, node.toString()));
 		}
 
-		api.set(List.of("latest-receive-time/" + prefix, headers.get("receive-time")));
-		api.set(List.of("latest-time/" + prefix, headers.get("time")));
+		api.set(List.of(LATEST_RECEIVE_TIME_PREFIX + prefix, headers.get("receive-time")));
+		api.set(List.of(LATEST_TIME_PREFIX + prefix, headers.get("time")));
 	}
 
 	public record Configuration(

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *               	</tr>
  *               </table>
  */
+@SuppressWarnings("unused")
 public record ResponseNewData(@JsonProperty int result) implements AGpsResponse {
 	public ResponseNewData() {
 		this(-1);

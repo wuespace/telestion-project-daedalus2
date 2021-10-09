@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *               	</tr>
  *               </table>
  */
+@SuppressWarnings("unused")
 public record ResponseTransmission(@JsonProperty int result) implements AGpsResponse {
 	public ResponseTransmission() {
 		this(-1);

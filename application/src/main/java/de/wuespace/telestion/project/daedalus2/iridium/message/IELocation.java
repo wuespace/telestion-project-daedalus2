@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param longitude           the estimated longitude in degrees
  * @param center_point_radius provides the radius (in Kilometers) around the center point within which the IMEI is located with an 80% probability of accuracy
  */
+@SuppressWarnings("unused")
 public record IELocation(
 		@JsonProperty int reserved,
 		@JsonProperty int format_code,

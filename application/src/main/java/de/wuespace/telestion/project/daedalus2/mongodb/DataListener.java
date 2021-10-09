@@ -14,58 +14,56 @@ import java.util.List;
  * Listener that collects all incoming data configured in listeningAddresses and redirects them to be saved to the
  * MongoDatabaseService.
  */
+@SuppressWarnings("unused")
 public final class DataListener extends AbstractVerticle {
-    private static record Configuration(@JsonProperty List<String> listeningAddresses) {
-        private Configuration() {
-            this(null);
-        }
-    }
+	private final Logger logger = LoggerFactory.getLogger(DataListener.class);
+	private final Configuration forcedConfig;
+	/**
+	 * Mongo Database Service save address
+	 */
+	private final String save = Address.incoming(MongoDatabaseSaver.class, "save");
+	private Configuration config;
 
-    @Override
-    public void start(Promise<Void> startPromise) {
-        config = Config.get(forcedConfig, config(), Configuration.class);
-        registerConsumers();
-        startPromise.complete();
-    }
+	/**
+	 * This constructor supplies default options.
+	 *
+	 * @param listeningAddresses List of addresses that should be saved
+	 */
+	public DataListener(List<String> listeningAddresses) {
+		this.forcedConfig = new Configuration(listeningAddresses);
+	}
 
-    @Override
-    public void stop(Promise<Void> stopPromise) {
-        stopPromise.complete();
-    }
+	/**
+	 * If this constructor is used, settings have to be specified in the config file.
+	 */
+	public DataListener() {
+		this.forcedConfig = null;
+	}
 
-    /**
-     * This constructor supplies default options.
-     *
-     * @param listeningAddresses List of addresses that should be saved
-     */
-    public DataListener(List<String> listeningAddresses) {
-        this.forcedConfig = new Configuration(listeningAddresses);
-    }
+	@Override
+	public void start(Promise<Void> startPromise) {
+		config = Config.get(forcedConfig, config(), Configuration.class);
+		registerConsumers();
+		startPromise.complete();
+	}
 
-    /**
-     * If this constructor is used, settings have to be specified in the config file.
-     */
-    public DataListener() {
-        this.forcedConfig = null;
-    }
+	@Override
+	public void stop(Promise<Void> stopPromise) {
+		stopPromise.complete();
+	}
 
-    private final Logger logger = LoggerFactory.getLogger(DataListener.class);
-    private final Configuration forcedConfig;
-    private Configuration config;
+	/**
+	 * Function to register consumers to the eventbus.
+	 */
+	private void registerConsumers() {
+		config.listeningAddresses().forEach(address
+				-> vertx.eventBus().consumer(address, document
+				-> vertx.eventBus().publish(save, document.body())));
+	}
 
-    /**
-     * Mongo Database Service save address
-     */
-    private final String save = Address.incoming(MongoDatabaseSaver.class, "save");
-
-    /**
-     * Function to register consumers to the eventbus.
-     */
-    private void registerConsumers() {
-        config.listeningAddresses().forEach(address -> {
-            vertx.eventBus().consumer(address, document -> {
-                    vertx.eventBus().publish(save, document.body());
-            });
-        });
-    }
+	private static record Configuration(@JsonProperty List<String> listeningAddresses) {
+		private Configuration() {
+			this(null);
+		}
+	}
 }

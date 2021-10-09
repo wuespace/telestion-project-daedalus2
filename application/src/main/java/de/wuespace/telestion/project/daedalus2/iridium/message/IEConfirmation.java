@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @param success when <code>true</code>, the message was successfully received
  */
+@SuppressWarnings("unused")
 public record IEConfirmation(
 		@JsonProperty boolean success
 ) implements InformationElement {

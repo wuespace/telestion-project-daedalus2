@@ -25,22 +25,17 @@ public class TelecommandSender extends AbstractVerticle {
 
 		vertx.eventBus().consumer(config.inAddress(),
 				raw -> {
-					JsonMessage.on(Telecommand.class, raw, tc -> {
+					JsonMessage.on(Telecommand.class, raw, tc ->
 						// convert String to ASCII byte code
-						buildMessage(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1));
-					});
-					JsonMessage.on(RawTelecommand.class, raw, rtc -> {
+						buildMessage(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1))
+					);
+					JsonMessage.on(RawTelecommand.class, raw, rtc ->
 						// pass through raw data from telecommand
-						buildMessage(rtc.target(), rtc.rawData());
-					});
+						buildMessage(rtc.target(), rtc.rawData())
+					);
 				});
 
 		super.start(startPromise);
-	}
-
-	@Override
-	public void stop(Promise<Void> stopPromise) throws Exception {
-		super.stop(stopPromise);
 	}
 
 	public record Configuration(
@@ -80,5 +75,5 @@ public class TelecommandSender extends AbstractVerticle {
 
 	private Configuration config;
 
-	private final static Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
+	private static final Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
 }

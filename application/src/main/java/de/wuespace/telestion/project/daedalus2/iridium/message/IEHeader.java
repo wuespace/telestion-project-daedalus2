@@ -53,6 +53,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *                       This value is set by the Iridium Gateway at the time that an MT message is queued for delivery.
  * @param time           Provides a UTC timestamp of the IMEI session between the IMEI and the Iridium Gateway in the format of an epoch time integer.
  */
+@SuppressWarnings("unused")
 public record IEHeader(
 		@JsonProperty int cdr,
 		@JsonProperty String imei,

@@ -7,7 +7,6 @@ import de.wuespace.telestion.project.daedalus2.redis.base.RedisVerticle;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.redis.client.Command;
@@ -15,8 +14,6 @@ import io.vertx.redis.client.impl.types.MultiType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,17 +23,9 @@ import java.util.stream.Collectors;
  *
  * @author Pablo Klaschka
  */
+@SuppressWarnings("unused")
 public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Configuration> {
-	public record Configuration(
-			@JsonProperty String connectionString,
-			@JsonProperty int reconnectAttempts,
-			@JsonProperty String requestLatestAddress,
-			@JsonProperty String requestTimeSeriesAddress
-	) implements RedisBaseConfiguration {
-		public Configuration() {
-			this("redis://redis", 10, null, null);
-		}
-	}
+	private static final Logger logger = LoggerFactory.getLogger(RedisRequestHandler.class);
 
 	public RedisRequestHandler(Configuration config) {
 		super(config);
@@ -45,8 +34,6 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 	public RedisRequestHandler() {
 		this(null);
 	}
-
-	private final static Logger logger = LoggerFactory.getLogger(RedisRequestHandler.class);
 
 	@Override
 	protected Class<Configuration> getConfigurationClass() {
@@ -64,8 +51,7 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 								"Not connected to " +
 										"Redis");
 					} else {
-						redisApi.mget(List.of(
-								redisLatestRequest.fields()))
+						redisApi.mget(redisLatestRequest.fields())
 								.onSuccess(result -> message
 										.reply(Json.decodeValue(result.toString())));
 					}
@@ -76,9 +62,12 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 					if (this.redisApi == null) {
 						message.fail(3, "Not connected to Redis");
 					} else {
-						var results = Arrays.stream(request.fields()).map(this::fetchTSAggregation);
+						@SuppressWarnings("rawtypes") List<Future> results =
+								request.fields().stream()
+										.map(this::fetchTSAggregation)
+										.collect(Collectors.toList());
 
-						CompositeFuture.all(results.collect(Collectors.toList())).onSuccess(allResults ->
+						CompositeFuture.all(results).onSuccess(allResults ->
 								message.reply(new JsonArray(allResults.list()))
 						);
 					}
@@ -92,14 +81,14 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 	 * @return a {@link Future} that completes with the resulting {@link JsonArray}
 	 */
 	private Future<JsonArray> fetchTSAggregation(RedisTimeSeriesSpecification spec) {
-		if (spec.aggregations().length < 1) {
+		if (spec.aggregations().isEmpty()) {
 			return Future.failedFuture("Invalid spec. Must have at least one aggregation specified.");
 		}
 
 
 		//region Run Redis queries for all selected aggregations
 		//noinspection rawtypes
-		var allAggregationRequests = Arrays.stream(spec.aggregations()).map(aggregation ->
+		var allAggregationRequests = spec.aggregations().stream().map(aggregation ->
 				(Future) redisApi.send(
 						Command.create("TS.RANGE"),
 						spec.key(),
@@ -119,13 +108,13 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 					var results = new HashMap<Long, HashMap<String, Double>>();
 
 					// Merge aggregation data
-					for (int i = 0; i < spec.aggregations().length; i++) {
-						var aggregation = spec.aggregations()[i];
+					for (int i = 0; i < spec.aggregations().size(); i++) {
+						var aggregation = spec.aggregations().get(i);
 
 						for (var point : list.get(i)) {
 							if (i == 0) {
 								// first aggregation of point => create HashMap
-								results.put(point.get(0).toLong(), new HashMap<>(spec.aggregations().length));
+								results.put(point.get(0).toLong(), new HashMap<>(spec.aggregations().size()));
 							}
 							results.get(point.get(0).toLong()).put(aggregation, point.get(1).toDouble());
 						}
@@ -144,41 +133,14 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 		);
 	}
 
-	public static void main(String[] args) {
-		var vertx = Vertx.vertx();
-		vertx.deployVerticle(new RedisRequestHandler(new Configuration(
-				"redis://localhost:6379",
-				10,
-				"request-latest",
-				"request-time-series"
-		)));
-
-		vertx.setPeriodic(Duration.ofSeconds(2).toMillis(), handler -> {
-			logger.debug("Requesting ['latest/systemT/batTemp', 'n/a', 'latest/systemT']...");
-			vertx.eventBus().request("request-latest", new RedisLatestRequest(new String[]{"latest/systemT/batTemp",
-							"n/a", "latest/systemT"}).json())
-					.onSuccess(res -> logger.debug(new JsonArray(res.body().toString()).encode()));
-		});
-
-		vertx.setPeriodic(Duration.ofSeconds(5).toMillis(), handler -> {
-			logger.debug("Requesting time series data...");
-			vertx.eventBus().request(
-							"request-time-series", new RedisTimeSeriesRequest(
-									new RedisTimeSeriesSpecification[]{
-											new RedisTimeSeriesSpecification("ts/systemT/timeLocal", "-", "+", 50000,
-													new String[]{"avg", "min", "max", "count", "last", "first", "var.s"}),
-											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-													new String[]{"avg", "min", "max", "count"}),
-											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-													new String[]{"avg", "min", "max", "count"}),
-											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-													new String[]{"avg", "min", "max", "count"}),
-											new RedisTimeSeriesSpecification("ts/systemT/batTemp", "-", "+", 50000,
-													new String[]{"avg", "min", "max", "count"}),
-									}
-							).json()
-					)
-					.onSuccess(res -> logger.debug(res.body().toString()));
-		});
+	public record Configuration(
+			@JsonProperty String connectionString,
+			@JsonProperty int reconnectAttempts,
+			@JsonProperty String requestLatestAddress,
+			@JsonProperty String requestTimeSeriesAddress
+	) implements RedisBaseConfiguration {
+		public Configuration() {
+			this("redis://redis", 10, null, null);
+		}
 	}
 }

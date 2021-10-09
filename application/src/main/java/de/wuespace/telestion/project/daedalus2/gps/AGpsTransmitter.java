@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class AGpsTransmitter extends AbstractVerticle {
 	/**
 	 * The configuration for the A-GPS transmitter verticle.
@@ -119,9 +120,9 @@ public class AGpsTransmitter extends AbstractVerticle {
 		if (request instanceof RequestState) {
 			logger.debug("State request received");
 			message.reply(new ResponseState(getState()).json());
-		} else if (request instanceof RequestNewData) {
+		} else if (request instanceof RequestNewData requestNewData) {
 			logger.debug("New data request received");
-			final var result = store(((RequestNewData) request).data());
+			final var result = store((requestNewData).data());
 			message.reply(new ResponseNewData(result).json());
 		} else if (request instanceof RequestTransmission) {
 			logger.debug("Transmission request received");
@@ -131,9 +132,9 @@ public class AGpsTransmitter extends AbstractVerticle {
 			logger.debug("Abort request received");
 			final var result = abort();
 			message.reply(new ResponseAbort(result).json());
-		} else if (request instanceof RequestNewTarget) {
+		} else if (request instanceof RequestNewTarget requestNewTarget) {
 			logger.debug("New target request received");
-			final var result = newTarget(((RequestNewTarget) request).target());
+			final var result = newTarget((requestNewTarget).target());
 			message.reply(new ResponseNewTarget(result).json());
 		}
 	}
@@ -152,7 +153,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 
 		setData(data);
 		notifyConsumers();
-		logger.info("Received new A-GPS data: " + data);
+		logger.info("Received new A-GPS data: {}", data);
 		return 0;
 	}
 
@@ -170,7 +171,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 
 		setTarget(target);
 		notifyConsumers();
-		logger.info("Received new target: " + target);
+		logger.info("Received new target: {}", target);
 		return 0;
 	}
 
@@ -191,13 +192,14 @@ public class AGpsTransmitter extends AbstractVerticle {
 			return 2;
 		}
 
-		final var target = getTarget();
-		if (target == null) {
+		final var currentTarget = getTarget();
+		if (currentTarget == null) {
 			logger.warn("No target to transmit data to");
 			return 3;
 		}
 
-		logger.debug("Transmitting stored A-GPS data " + data.name());
+		String dataName = data.name();
+		logger.debug("Transmitting stored A-GPS data {}", dataName);
 		// first, lock the session
 		setTransmitting(true);
 		// convert from base64 to binary blob
@@ -209,10 +211,11 @@ public class AGpsTransmitter extends AbstractVerticle {
 			logger.warn("Cannot split binary blob.");
 			return 4;
 		}
-		this.target = target;
+		this.target = currentTarget;
 		currentChunk = 0;
-		logger.info("Created " + chunks.size() + " chunks.");
-		logger.debug("Chunks: " + chunks);
+		int numberOfChunks = chunks.size();
+		logger.info("Created {} chunks.", numberOfChunks);
+		logger.debug("Chunks: {}", chunks);
 		notifyConsumers();
 		// trigger timer chain
 		sendChunk(null);
@@ -249,7 +252,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @param id the timer id
 	 */
 	private void sendChunk(Long id) {
-		logger.debug("Sending chunk " + currentChunk);
+		logger.debug("Sending chunk {}", currentChunk);
 		vertx.eventBus().publish(
 				config.outAddress(),
 				new RawTelecommand(target, chunks.get(currentChunk)).json()
@@ -288,12 +291,12 @@ public class AGpsTransmitter extends AbstractVerticle {
 	private AGpsState getState() {
 		logger.debug("Gathering state information");
 		final var data = getData();
-		final var target = getTarget();
+		final var currentTarget = getTarget();
 		final var isTransmitting = isTransmitting();
 		final String state = isTransmitting ? "transmitting" : "idle";
 		final String dataName = data == null ? null : data.name(); // where is the ?. operator...
 		final double progress = isTransmitting ? currentChunk * 1.0 / chunks.size() : -1.0;
-		return new AGpsState(state, dataName, target, progress);
+		return new AGpsState(state, dataName, currentTarget, progress);
 	}
 
 	/**

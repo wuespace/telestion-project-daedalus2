@@ -5,6 +5,7 @@ import de.wuespace.telestion.api.message.JsonMessage;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public record ChecklistCommand(
 		@JsonProperty String op,
 		@JsonProperty List<String> params

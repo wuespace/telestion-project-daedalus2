@@ -1,11 +1,13 @@
 package de.wuespace.telestion.project.daedalus2.mavlink;
 
+import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Parser;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.wuespace.telestion.api.config.Config;
 import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.services.connection.rework.ConnectionData;
+import de.wuespace.telestion.services.monitoring.MessageLogger;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -15,18 +17,28 @@ import io.vertx.core.json.JsonObject;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+@SuppressWarnings("unused")
 public class MavlinkTM extends AbstractVerticle {
+	public static final String DEFAULT_IN_ADDRESS = "raw-mavlink";
 	private Configuration config;
+
+	public MavlinkTM(Configuration config) { this.config = config; }
+	public MavlinkTM() { this(null); }
 
 	public static void main(String[] args) throws InterruptedException {
 		var vertx = Vertx.vertx();
 
-		vertx.eventBus().consumer("system-t", event -> {
-			System.out.println("=== RECEIVED: ===");
-			System.out.println("Headers:");
+		Logger logger = Logger.getLogger("MavlinkTM Test");
+		logger.setLevel(Level.ALL);
+
+		vertx.eventBus().consumer("unknown/SEED_SYSTEM_T", event -> {
+			logger.info("=== RECEIVED: ===");
+			logger.info("Headers:");
 			event.headers().forEach(header ->
-					System.out.println(
+					logger.info(
 							MessageFormat.format(
 									"{0}: {1}",
 									header.getKey(),
@@ -35,16 +47,18 @@ public class MavlinkTM extends AbstractVerticle {
 					)
 			);
 			if (event.body() instanceof JsonObject obj) {
-				System.out.println("Body:");
-				System.out.println(obj.encodePrettily());
+				logger.info("Body:");
+				logger.info(obj.encodePrettily());
 			}
 		});
 
-		vertx.deployVerticle(new MavlinkTM());
+		vertx.deployVerticle(new MessageLogger());
+		vertx.deployVerticle(new MavlinkTM(new MavlinkTM.Configuration(Map.of("0", "abc"), DEFAULT_IN_ADDRESS)));
 
 		Thread.sleep(2000);
 
-		vertx.eventBus().publish("raw-mavlink", new ConnectionData(new byte[]{
+		logger.info("Publishing data");
+		vertx.eventBus().publish(DEFAULT_IN_ADDRESS, new ConnectionData(new byte[]{
 				(byte) 0xAB,
 				(byte) 0xFD,
 				(byte) 0x01,
@@ -53,7 +67,7 @@ public class MavlinkTM extends AbstractVerticle {
 				(byte) 0x00,
 		}, null).json());
 
-		vertx.eventBus().publish("raw-mavlink", new ConnectionData(new byte[]{
+		vertx.eventBus().publish(DEFAULT_IN_ADDRESS, new ConnectionData(new byte[]{
 				(byte) 0xFF,
 				(byte) 0x00,
 				(byte) 0x13,
@@ -72,7 +86,7 @@ public class MavlinkTM extends AbstractVerticle {
 		var eb = getVertx().eventBus();
 		var parser = new Parser(true);
 
-		eb.consumer("raw-mavlink", raw -> JsonMessage.on(ConnectionData.class, raw, message -> {
+		eb.consumer(config.inAddress(), raw -> JsonMessage.on(ConnectionData.class, raw, message -> {
 			for (var b : message.rawData()) {
 				var packet = parser.mavlink_parse_char(b);
 
@@ -91,12 +105,7 @@ public class MavlinkTM extends AbstractVerticle {
 						var source = config.sysIdMapping().getOrDefault(msg.sysid + "", "unknown");
 						var type = msg.name().substring(15);
 
-						try {
-							long time = (long) msg.getClass().getField("timeLocal").get(msg);
-							options.addHeader("time", Json.encode(time));
-						} catch (Exception e) {
-							options.addHeader("time", Json.encode(receiveTime));
-						}
+						attachTimeHeader(msg, receiveTime, options);
 
 						eb.publish(source + "/" + type, new JsonObject(json), options);
 					} catch (Exception e) {
@@ -110,9 +119,18 @@ public class MavlinkTM extends AbstractVerticle {
 		startPromise.complete();
 	}
 
-	public record Configuration(@JsonProperty Map<String, String> sysIdMapping) implements JsonMessage {
+	private void attachTimeHeader(MAVLinkMessage msg, long receiveTime, DeliveryOptions options) {
+		try {
+			long time = (long) msg.getClass().getField("timeLocal").get(msg);
+			options.addHeader("time", Json.encode(time));
+		} catch (Exception e) {
+			options.addHeader("time", Json.encode(receiveTime));
+		}
+	}
+
+	public record Configuration(@JsonProperty Map<String, String> sysIdMapping, @JsonProperty String inAddress) implements JsonMessage {
 		public Configuration() {
-			this(null);
+			this(null, DEFAULT_IN_ADDRESS);
 		}
 	}
 }

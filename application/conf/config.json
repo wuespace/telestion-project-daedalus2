@@ -90,6 +90,7 @@
 		"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkTM",
 		"magnitude": 1,
 		"config": {
+		  "inAddress": "raw-mavlink",
 		  "sysIdMapping": {
 			"4": "seedA",
 			"6": "seedB",

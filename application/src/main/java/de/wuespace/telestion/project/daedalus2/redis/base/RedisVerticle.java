@@ -24,7 +24,7 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 	protected T config;
 	protected RedisAPI redisApi;
 
-	public RedisVerticle(T config) {
+	protected RedisVerticle(T config) {
 		this.config = config;
 		this.redisApi = null;
 	}
@@ -32,8 +32,6 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		this.config = Config.get(this.config, getConfigurationClass().getDeclaredConstructor().newInstance(), config(), this.getConfigurationClass());
-
-		logger.debug(this.config.connectionString());
 
 		createRedisClient(config.connectionString()).onSuccess(conn -> {
 			logger.info("Successfully connected to Redis");
@@ -79,7 +77,7 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 	}
 
 	private void attemptReconnect(int retry, String connectionString) {
-		logger.debug("attemptReconnect " + retry);
+		logger.debug("attemptReconnect {}", retry);
 		if (retry > config.reconnectAttempts()) {
 			// we should stop now, as there's nothing we can do.
 			logger.error("Unable to reconnect to Redis DB. Restart Telestion to try again.");
@@ -95,5 +93,5 @@ public abstract class RedisVerticle<T extends RedisBaseConfiguration> extends Ab
 		}
 	}
 
-	private final static Logger logger = LoggerFactory.getLogger(RedisVerticle.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisVerticle.class);
 }

@@ -9,6 +9,7 @@ import de.wuespace.telestion.project.daedalus2.gps.AGpsData;
  *
  * @param data the new A-GPS data to store
  */
+@SuppressWarnings("unused")
 public record RequestNewData(@JsonProperty AGpsData data) implements AGpsRequest {
 	public RequestNewData() {
 		this(null);

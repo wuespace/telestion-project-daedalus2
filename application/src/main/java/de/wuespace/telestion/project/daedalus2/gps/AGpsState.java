@@ -21,6 +21,7 @@ import de.wuespace.telestion.api.message.JsonMessage;
  * @param target the target name which receives the A-GPS data or <code>null</code> if no target provided yet
  * @param progress the current transmission progress or <code>-1</code> if not transmitting
  */
+@SuppressWarnings("unused")
 public record AGpsState(@JsonProperty String state, @JsonProperty String dataName, @JsonProperty String target,
 						@JsonProperty double progress) implements JsonMessage {
 	public AGpsState() {
