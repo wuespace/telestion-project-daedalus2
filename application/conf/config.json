@@ -36,6 +36,7 @@
 			"checklist-dispatch",
 			"request-latest",
 			"request-time-series",
+			"request-keys",
 			"a-gps-transmitter#request"
 		  ],
 		  "outboundPermitted": [
@@ -72,7 +73,8 @@
 		  "connectionString": "redis://localhost:6379",
 		  "reconnectAttempts": 10,
 		  "requestLatestAddress": "request-latest",
-		  "requestTimeSeriesAddress": "request-time-series"
+		  "requestTimeSeriesAddress": "request-time-series",
+		  "requestKeysAddress": "request-keys"
 		}
 	  },
 	  {

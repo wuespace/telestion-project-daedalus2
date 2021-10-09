@@ -4,12 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.project.daedalus2.redis.base.RedisBaseConfiguration;
 import de.wuespace.telestion.project.daedalus2.redis.base.RedisVerticle;
+import de.wuespace.telestion.services.connection.EventbusTcpBridge;
+import de.wuespace.telestion.services.monitoring.MessageLogger;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
+import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.redis.client.Command;
+import io.vertx.redis.client.ResponseType;
 import io.vertx.redis.client.impl.types.MultiType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +60,29 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 										.reply(Json.decodeValue(result.toString())));
 					}
 				}));
+
+		eb.consumer(config.requestKeysAddress(), message -> {
+			var body = message.body();
+
+			if (body instanceof String query) {
+				logger.info(query);
+				redisApi.keys(query)
+						.onSuccess(rawResult -> {
+							var result = new JsonArray();
+
+							if (rawResult.type() == ResponseType.MULTI) {
+								rawResult.stream().forEach(value -> {
+									result.add(value.toString());
+								});
+
+							}
+
+							message.reply(result);
+						});
+			} else {
+				message.fail(1, "Body must be a string");
+			}
+		});
 
 		eb.consumer(config.requestTimeSeriesAddress(), message -> JsonMessage.on(RedisTimeSeriesRequest.class, message
 				, request -> {
@@ -137,10 +164,11 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 			@JsonProperty String connectionString,
 			@JsonProperty int reconnectAttempts,
 			@JsonProperty String requestLatestAddress,
-			@JsonProperty String requestTimeSeriesAddress
+			@JsonProperty String requestTimeSeriesAddress,
+			@JsonProperty String requestKeysAddress
 	) implements RedisBaseConfiguration {
 		public Configuration() {
-			this("redis://redis", 10, null, null);
+			this("redis://redis", 10, null, null, null);
 		}
 	}
 }
