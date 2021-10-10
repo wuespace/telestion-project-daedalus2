@@ -37,12 +37,22 @@
 			"request-latest",
 			"request-time-series",
 			"request-keys",
+			"request-time-sync",
 			"a-gps-transmitter#request"
 		  ],
 		  "outboundPermitted": [
 			"a-gps-transmitter#notify",
 			"checklist-state"
 		  ]
+		}
+	  },
+	  {
+		"name": "[TC] TimeSync Initiator",
+		"verticle": "de.wuespace.telestion.project.daedalus2.TimeSync",
+		"magnitude": 1,
+		"config": {
+		  "inAddress": "request-time-sync",
+		  "outAddress": "tc-sender"
 		}
 	  },
 	  {
