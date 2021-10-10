@@ -27,7 +27,7 @@ export const notesDashboard: Dashboard = {
 		},
 		{
 			id: 'notes-2',
-			widgetName: 'manualTimeSeriesRequestWidget',
+			widgetName: 'timeSyncWidget',
 			width: 6,
 			height: 6,
 			initialProps: {

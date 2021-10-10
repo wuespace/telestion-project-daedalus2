@@ -19,10 +19,12 @@ import { widget as seedEcam } from './seed-ecam-widget';
 import { widget as checklistWidget } from './checklist-widget';
 import { widget as manualTimeSeriesRequestWidget } from './manual-time-series-request-widget';
 import { widget as simpleGraphWidget } from './simple-graph-widget';
+import { widget as timeSyncWidget } from './time-sync-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	timeSyncWidget,
 	simpleGraphWidget as Widget,
 	manualTimeSeriesRequestWidget,
 	checklistWidget,
