@@ -36,11 +36,13 @@ export const notesDashboard: Dashboard = {
 		},
 		{
 			id: 'notes-3',
-			widgetName: 'noteWidget',
+			widgetName: 'seedEcam',
 			width: 6,
 			height: 6,
 			initialProps: {
-				title: 'Note 4'
+				seed: 'seedA',
+				voltThreshold: 0.5,
+				ampsThreshold: 0.005
 			}
 		}
 	]
