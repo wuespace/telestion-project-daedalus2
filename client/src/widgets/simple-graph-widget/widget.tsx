@@ -12,8 +12,7 @@ import {
 	FlexibleXYPlot,
 	AreaSeries,
 	LineMarkSeries,
-	DiscreteColorLegend,
-	Crosshair
+	DiscreteColorLegend
 } from 'react-vis';
 import {
 	AggregationResult,
@@ -21,7 +20,6 @@ import {
 	useRequestTimeSeriesState
 } from '../hooks';
 import { Series, WidgetProps } from './widget-props';
-import { Legend } from '../pgraph-widget/components';
 
 function plot(ts: AggregationResult<['min', 'max', 'avg']>, specs: Series) {
 	const prettyTS = ts

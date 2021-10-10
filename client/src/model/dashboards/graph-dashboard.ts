@@ -1,5 +1,4 @@
 import { Dashboard } from '@wuespace/telestion-client-types';
-import { fakeProps } from './widget-props/pgraph-props';
 
 export const graphDashboard: Dashboard = {
 	title: 'Graphes',
@@ -8,45 +7,83 @@ export const graphDashboard: Dashboard = {
 	widgets: [
 		{
 			id: 'graphes-0',
-			widgetName: 'pgraphWidget',
+			widgetName: 'simpleGraphWidget',
 			width: 1,
-			height: 1,
-			initialProps: fakeProps
+			height: 3,
+			initialProps: {
+				seconds: 60,
+				maxSamples: 30,
+				title: 'Some graph widget',
+				minY: 0,
+				maxY: 1,
+				series: [
+					{
+						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						minMax: true,
+						color: 'hsl(0, 100%, 50%)'
+					}
+				]
+			}
 		},
 		{
 			id: 'graphes-1',
-			widgetName: 'pgraphWidget',
+			widgetName: 'simpleGraphWidget',
 			width: 1,
 			height: 1,
-			initialProps: fakeProps
+			initialProps: {
+				seconds: 60,
+				maxSamples: 30,
+				title: 'Some graph widget',
+				minY: 0,
+				maxY: 1,
+				series: [
+					{
+						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						minMax: true,
+						color: 'hsl(0, 100%, 50%)'
+					}
+				]
+			}
 		},
 		{
 			id: 'graphes-2',
-			widgetName: 'pgraphWidget',
+			widgetName: 'simpleGraphWidget',
 			width: 1,
 			height: 1,
-			initialProps: fakeProps
+			initialProps: {
+				seconds: 60,
+				maxSamples: 30,
+				title: 'Some graph widget',
+				minY: 0,
+				maxY: 1,
+				series: [
+					{
+						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						minMax: true,
+						color: 'hsl(0, 100%, 50%)'
+					}
+				]
+			}
 		},
 		{
 			id: 'graphes-3',
-			widgetName: 'pgraphWidget',
+			widgetName: 'simpleGraphWidget',
 			width: 1,
 			height: 1,
-			initialProps: fakeProps
-		},
-		{
-			id: 'graphes-4',
-			widgetName: 'pgraphWidget',
-			width: 1,
-			height: 1,
-			initialProps: fakeProps
-		},
-		{
-			id: 'graphes-5',
-			widgetName: 'pgraphWidget',
-			width: 1,
-			height: 1,
-			initialProps: fakeProps
+			initialProps: {
+				seconds: 60,
+				maxSamples: 30,
+				title: 'Some graph widget',
+				minY: 0,
+				maxY: 1,
+				series: [
+					{
+						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						minMax: true,
+						color: 'hsl(0, 100%, 50%)'
+					}
+				]
+			}
 		}
 	]
 };

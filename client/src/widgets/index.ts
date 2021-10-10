@@ -18,10 +18,12 @@ import { widget as aGpsWidget } from './a-gps-widget';
 import { widget as seedEcam } from './seed-ecam-widget';
 import { widget as checklistWidget } from './checklist-widget';
 import { widget as manualTimeSeriesRequestWidget } from './manual-time-series-request-widget';
+import { widget as simpleGraphWidget } from './simple-graph-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	simpleGraphWidget as Widget,
 	manualTimeSeriesRequestWidget,
 	checklistWidget,
 	seedEcam as Widget,
