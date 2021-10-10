@@ -1,31 +1,25 @@
-import {
-	Content,
-	Divider,
-	Flex,
-	Heading,
-	StatusLight,
-	Well
-} from '@adobe/react-spectrum';
-import { Connection } from '../model';
-import { useLiveData } from '../hooks';
+import { Content, Divider, Flex, Heading, Well } from '@adobe/react-spectrum';
+import { JsonSerializable } from '@wuespace/telestion-client-types';
+import { formatDeltaTime } from '../lib';
+import { formatTitle } from '../lib/format-title';
 
 export interface LiveDisplayProps {
-	connection: Connection;
+	value?: JsonSerializable;
+	time?: number;
+	title: string;
 }
 
-export function LiveWidget({ connection }: LiveDisplayProps) {
-	const { valueNode, statusNode } = useLiveData(connection);
-
+export function LiveWidget({ value, time, title }: LiveDisplayProps) {
 	return (
 		<Well width="100%">
 			<Flex direction="column">
 				<Flex direction="row" justifyContent="space-between">
 					<Heading level={5} margin="size-50">
-						{connection.title}
+						{formatTitle(title).split('->').slice(1).join('->').trim()}
 					</Heading>
-					<StatusLight ref={statusNode} variant="neutral">
-						Waiting
-					</StatusLight>
+					{/*<StatusLight variant="neutral">*/}
+					<code>{time ? formatDeltaTime(Date.now() - time) : 'Waiting'}</code>
+					{/*</StatusLight>*/}
 				</Flex>
 				<Divider size="S" />
 				<Content
@@ -37,7 +31,7 @@ export function LiveWidget({ connection }: LiveDisplayProps) {
 					}}
 					marginX="size-50"
 				>
-					<div ref={valueNode}>-</div>
+					<div>{value?.toString() || '-'}</div>
 				</Content>
 			</Flex>
 		</Well>

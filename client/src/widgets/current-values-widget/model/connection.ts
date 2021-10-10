@@ -1,14 +1,11 @@
-import {
-	ChannelAddress,
-	JsonSerializable
-} from '@wuespace/telestion-client-types';
+import { JsonSerializable } from '@wuespace/telestion-client-types';
 
 export interface Connection
 	extends Record<string, JsonSerializable | undefined> {
 	/**
 	 * The address the datasets come from.
 	 */
-	address: ChannelAddress;
+	address: string;
 
 	/**
 	 * The title of the dataset.
@@ -56,9 +53,4 @@ export interface Connection
 	 * When set to `undefined` no painting will occur.
 	 */
 	maxValueError?: number;
-
-	/**
-	 * Renders per second.
-	 */
-	rps: number;
 }

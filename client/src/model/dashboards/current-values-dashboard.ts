@@ -1,6 +1,4 @@
 import { Dashboard } from '@wuespace/telestion-client-types';
-import { fakeProps as currentValuesProps } from './widget-props/current-values-props';
-import { fakeProps as pgraphWidgetProps } from './widget-props/pgraph-props';
 
 export const currentValuesDashboard: Dashboard = {
 	title: 'Current Values',
@@ -11,15 +9,17 @@ export const currentValuesDashboard: Dashboard = {
 			id: 'current-values-0',
 			widgetName: 'currentValuesWidget',
 			width: 12,
-			height: 3,
-			initialProps: currentValuesProps
-		},
-		{
-			id: 'current-values-1',
-			widgetName: 'pgraphWidget',
-			width: 12,
-			height: 4,
-			initialProps: pgraphWidgetProps
+			height: 7,
+			initialProps: {
+				title: 'Current values',
+				connections: [
+					{
+						address: 'latest/seedA/SEED_HEARTBEAT/state_cur',
+						rps: 10,
+						title: 'latest/seedA/SEED_HEARTBEAT/state_cur'
+					}
+				]
+			}
 		},
 		{
 			id: 'current-values-2',
