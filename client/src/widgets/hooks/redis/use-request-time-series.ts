@@ -138,8 +138,6 @@ export function useRequestTimeSeries<T extends AggregationType[]>(
 	);
 
 	const fetch = useCallback(() => {
-		onChange([]);
-
 		eb.eventBus?.send<(AggregationResult<T> | null)[]>(
 			requestTimeSeriesAddress,
 			getRequestObject(),
