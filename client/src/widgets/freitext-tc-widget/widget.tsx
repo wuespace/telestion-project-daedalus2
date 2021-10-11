@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	Button,
 	Divider,
@@ -15,6 +15,13 @@ import { BaseRendererProps } from '@wuespace/telestion-client-types';
 import { useTcSendFunction } from '../hooks';
 import { WidgetProps } from './model';
 
+enum TCState {
+	IDLE,
+	SENDING,
+	SENT,
+	ERROR
+}
+
 export function Widget({
 	targets,
 	title,
@@ -23,13 +30,28 @@ export function Widget({
 	const targetKeys = useMemo(() => Object.keys(targets), [targets]);
 	const [target, setTarget] = useState(targetKeys[0]);
 	const [cmd, setCmd] = useState('');
+	const [state, setState] = useState(TCState.IDLE);
 
 	const sendTC = useTcSendFunction(channel);
 
-	const onSubmit = useCallback(
-		() => sendTC(target, cmd),
-		[sendTC, cmd, target]
-	);
+	// Reset state to idle on input change
+	useEffect(() => {
+		setState(TCState.IDLE);
+	}, [target, cmd]);
+
+	// Warn if no confirmation was received after 5 seconds
+	useEffect(() => {
+		if (state === TCState.SENDING) {
+			const warningTrigger = setTimeout(() => setState(TCState.ERROR), 5000);
+
+			return () => clearTimeout(warningTrigger);
+		}
+	}, [state]);
+
+	const onSubmit = useCallback(() => {
+		setState(TCState.SENDING);
+		sendTC(target, cmd, () => setState(TCState.SENT));
+	}, [sendTC, cmd, target]);
 
 	return (
 		<View padding="size-200" width="100%">
@@ -38,8 +60,32 @@ export function Widget({
 					{title}
 				</Heading>
 				<Divider size="M" marginTop="size-100" />
+				<>
+					{state === TCState.SENT && (
+						<View
+							padding={'size-200'}
+							borderRadius={'regular'}
+							marginTop={'size-200'}
+							backgroundColor={'positive'}
+						>
+							Command sent successfully.
+						</View>
+					)}
+					{state === TCState.ERROR && (
+						<View
+							padding={'size-200'}
+							borderRadius={'regular'}
+							marginTop={'size-200'}
+							backgroundColor={'negative'}
+						>
+							Received no confirmation about message being sent. This doesn't
+							necessarily mean it wasn't sent!
+						</View>
+					)}
+				</>
 				<Form
 					maxWidth="100%"
+					isDisabled={state === TCState.SENDING}
 					onSubmit={e => {
 						e.preventDefault();
 						onSubmit();
@@ -66,8 +112,12 @@ export function Widget({
 							</Radio>
 						))}
 					</RadioGroup>
-					<Button variant="cta" onPress={onSubmit}>
-						Send TC
+					<Button
+						variant="cta"
+						isDisabled={state !== TCState.IDLE || !cmd || !target}
+						onPress={onSubmit}
+					>
+						{state === TCState.SENDING ? 'Sending' : 'Send TC'}
 					</Button>
 				</Form>
 			</Flex>
