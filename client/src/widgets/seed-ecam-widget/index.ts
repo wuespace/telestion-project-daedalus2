@@ -1,5 +1,5 @@
 import { Widget } from '@wuespace/telestion-client-types';
-import { ConfigControls } from './config-controls';
+import { ConfigControls } from './components/config-controls';
 import { Widget as WidgetRenderer } from './widget';
 import { WidgetProps } from './model';
 

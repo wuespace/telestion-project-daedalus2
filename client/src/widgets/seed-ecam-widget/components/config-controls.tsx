@@ -7,7 +7,7 @@ import {
 	View
 } from '@adobe/react-spectrum';
 import { BaseConfigControlsProps } from '@wuespace/telestion-client-types';
-import { WidgetProps } from './model';
+import { WidgetProps } from '../model';
 
 export function ConfigControls({
 	currentProps,
