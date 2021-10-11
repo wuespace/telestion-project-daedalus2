@@ -21,6 +21,7 @@ export function Legend({ connections }: LegendProps) {
 					alignItems="baseline"
 					justifyContent="center"
 					marginX="size-100"
+					key={connection.address}
 				>
 					<View
 						flexGrow={0}

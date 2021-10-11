@@ -72,7 +72,7 @@ export function Widget({ title, targets }: BaseRendererProps<WidgetProps>) {
 					isEmphasized
 				>
 					{[
-						<Radio value="" isHidden>
+						<Radio key={'empty'} value="" isHidden>
 							Empty
 						</Radio>,
 						...targetKeys.map(key => (

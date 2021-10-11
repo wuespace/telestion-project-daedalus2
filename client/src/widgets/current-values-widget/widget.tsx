@@ -64,7 +64,7 @@ export function Widget({ title, connections }: BaseRendererProps<WidgetProps>) {
 				<Divider size="S" />
 				<OverflowFix>
 					{Object.entries(niceConnections).map(([title, connections]) => (
-						<>
+						<div key={title}>
 							<Heading level={4} marginX={'size-200'}>
 								{title}
 							</Heading>
@@ -84,7 +84,7 @@ export function Widget({ title, connections }: BaseRendererProps<WidgetProps>) {
 									/>
 								))}
 							</Grid>
-						</>
+						</div>
 					))}
 				</OverflowFix>
 			</Flex>
