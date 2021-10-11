@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { App } from './components/app';
@@ -13,9 +12,9 @@ import '@spectrum-web-components/sidenav/sp-sidenav-heading';
 import '@spectrum-web-components/sidenav/sp-sidenav-item';
 
 ReactDOM.render(
-	<StrictMode>
+	<>
 		<HljsLoader />
 		<App />
-	</StrictMode>,
+	</>,
 	document.getElementById('root')
 );

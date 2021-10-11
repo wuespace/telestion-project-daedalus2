@@ -19,7 +19,7 @@ import { BaseConfigControlsProps } from '@wuespace/telestion-client-types';
 import { useHljs } from '../hooks';
 import { Series, WidgetProps } from './widget-props';
 import { useRequest } from '@wuespace/telestion-client-core';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { LoadingIndicator } from '@wuespace/telestion-client-common';
 
 function SeriesEditor({
@@ -33,21 +33,23 @@ function SeriesEditor({
 	value: Series;
 	availableKeys: string[];
 }) {
+	const items = useMemo(
+		() => availableKeys.map(key => ({ id: key, name: key })),
+		[availableKeys]
+	);
+
 	return (
 		<>
 			<Flex alignItems={'end'} gap={'size-200'}>
 				<ComboBox
 					label={'Field'}
-					flexBasis={0}
-					flexGrow={1}
-					disallowEmptySelection={true}
-					defaultItems={availableKeys.map(key => ({ id: key, name: key }))}
-					inputValue={value.key}
-					onInputChange={v => onUpdate({ ...value, key: v })}
+					width={300}
+					defaultItems={items}
+					defaultInputValue={value.key}
+					selectedKey={value.key}
+					onSelectionChange={v => onUpdate({ ...value, key: v as any })}
 				>
-					{availableKeys.map(key => (
-						<Item>{key}</Item>
-					))}
+					{key => <Item key={key.id}>{key.name}</Item>}
 				</ComboBox>
 				<Switch
 					margin={0}
