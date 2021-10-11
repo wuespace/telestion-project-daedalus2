@@ -54,7 +54,6 @@ public class TelecommandSender extends AbstractVerticle {
 							raw.reply(0);
 						} catch (Exception e) {
 							raw.fail(500, e.getMessage());
-
 						}
 					});
 				});
