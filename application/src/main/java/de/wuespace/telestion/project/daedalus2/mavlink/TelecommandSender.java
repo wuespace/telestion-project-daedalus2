@@ -18,6 +18,17 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public class TelecommandSender extends AbstractVerticle {
+	private static final Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
+	private Configuration config;
+
+	public TelecommandSender() {
+		this(null);
+	}
+
+	public TelecommandSender(Configuration config) {
+		this.config = config;
+	}
+
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		config = Config.get(config, config(), Configuration.class);
@@ -26,17 +37,42 @@ public class TelecommandSender extends AbstractVerticle {
 
 		vertx.eventBus().consumer(config.inAddress(),
 				raw -> {
-					JsonMessage.on(Telecommand.class, raw, tc ->
+					JsonMessage.on(Telecommand.class, raw, tc -> {
 						// convert String to ASCII byte code
-						buildMessage(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1))
-					);
-					JsonMessage.on(RawTelecommand.class, raw, rtc ->
-						// pass through raw data from telecommand
-						buildMessage(rtc.target(), rtc.rawData())
-					);
+						try {
+							sendMessage(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1));
+							raw.reply(0);
+						} catch (Exception e) {
+							raw.fail(500, e.getMessage());
+
+						}
+					});
+					JsonMessage.on(RawTelecommand.class, raw, rtc -> {
+						try {
+							// pass through raw data from telecommand
+							sendMessage(rtc.target(), rtc.rawData());
+							raw.reply(0);
+						} catch (Exception e) {
+							raw.fail(500, e.getMessage());
+
+						}
+					});
 				});
 
 		super.start(startPromise);
+	}
+
+	private void sendMessage(String target, byte[] payload) {
+		msg_con_cmd tc = new msg_con_cmd(payload, config.sysId(), config.compIdAliasMapping().get(target), true);
+		var bytes = tc.pack().encodePacket();
+		String byteString = new BigInteger(1, bytes).toString(16);
+		logger.debug("Sending TC {} to compId {}: {}", payload, config.compIdAliasMapping().get(target),
+				byteString);
+
+		vertx.eventBus().publish(
+				config.outAddress(),
+				new RawMessage(bytes).json()
+		);
 	}
 
 	public record Configuration(
@@ -54,29 +90,4 @@ public class TelecommandSender extends AbstractVerticle {
 			this(null, null, null, 0);
 		}
 	}
-
-	public TelecommandSender() {
-		this(null);
-	}
-
-	public TelecommandSender(Configuration config) {
-		this.config = config;
-	}
-
-	private void buildMessage(String target, byte[] payload) {
-		msg_con_cmd tc = new msg_con_cmd(payload, config.sysId(), config.compIdAliasMapping().get(target), true);
-		var bytes = tc.pack().encodePacket();
-		String byteString = new BigInteger(1, bytes).toString(16);
-		logger.debug("Sending TC {} to compId {}: {}", payload, config.compIdAliasMapping().get(target),
-				byteString);
-
-		vertx.eventBus().publish(
-				config.outAddress(),
-				new RawMessage(bytes).json()
-		);
-	}
-
-	private Configuration config;
-
-	private static final Logger logger = LoggerFactory.getLogger(TelecommandSender.class);
 }
