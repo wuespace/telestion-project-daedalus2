@@ -3,13 +3,12 @@ import {
 	Checkbox,
 	CheckboxGroup,
 	Form,
-	TextField,
+	SearchField,
 	View
 } from '@adobe/react-spectrum';
 import { BaseConfigControlsProps } from '@wuespace/telestion-client-types';
 import { WidgetProps } from '../model';
 import { useEventBus } from '@wuespace/telestion-client-core';
-import { formatTitle } from '../lib/format-title';
 
 export function ConfigControls({
 	currentProps,
@@ -37,15 +36,36 @@ export function ConfigControls({
 	let currentFields = currentProps.connections.map(v => v.address);
 	return (
 		<View paddingX="size-200" paddingBottom="size-200">
+			<p>
+				Please select the current keys whose values get displayed in the widget.
+			</p>
+			<p>
+				To narrow down the list, you can enter a query into the search bar and
+				press the return key to search. Queries automatically get pre- and
+				post-fixed with a wildcard and wildcards are supported using an asterisk{' '}
+				<code>*</code>. Thus, you could write something like{' '}
+				<code>seedA*acc*x</code> to quickly get to all accelerometer x-Axis
+				values of <code>seedA</code>.{' '}
+				<b>Please note that queries are case-sensitive!</b>
+			</p>
+			<p>
+				Keys are in the format{' '}
+				<code>source/MAVLINK_MESSAGE_TYPE/decodedMavlinkFieldName</code>.
+				Available sources are <code>seedA</code>, <code>seedB</code> and{' '}
+				<code>ejector</code>
+			</p>
 			<Form
 				onSubmit={e => {
 					e.preventDefault();
 					requestAddresses();
 				}}
 			>
-				<TextField
-					value={query}
-					onChange={setQuery}
+				<SearchField
+					defaultValue={query}
+					onSubmit={setQuery}
+					placeholder={
+						'Key name query (case-sensitive, supports "*" wildcards)'
+					}
 					label="Query (Press 'Return' to submit)"
 				/>
 			</Form>
@@ -71,7 +91,7 @@ export function ConfigControls({
 						)
 						.map(a => (
 							<Checkbox value={a} key={a}>
-								{formatTitle(a)}
+								{a.split('/').slice(1).join('/')}
 							</Checkbox>
 						))}
 				</CheckboxGroup>
