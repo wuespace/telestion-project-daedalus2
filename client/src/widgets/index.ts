@@ -10,7 +10,7 @@ import { widget as sampleWidget } from './sample-widget';
 import { widget as pgraphWidget } from './pgraph-widget';
 import { widget as currentValuesWidget } from './current-values-widget';
 import { widget as placeholderWidget } from './placeholder-widget';
-import { widget as cameraWidget } from './camera-widget';
+import { widget as commonSeedTcsWidget } from './common-seed-tcs-widget';
 import { widget as freitextTcWidget } from './freitext-tc-widget';
 import { widget as noteWidget } from './note-widget';
 import { widget as stateWidget } from './state-widget';
@@ -32,7 +32,7 @@ export const projectWidgets: Widget[] = [
 	aGpsWidget as Widget,
 	noteWidget as Widget,
 	freitextTcWidget as Widget,
-	cameraWidget as Widget,
+	commonSeedTcsWidget as Widget,
 	placeholderWidget,
 	pgraphWidget as Widget,
 	sampleWidget,

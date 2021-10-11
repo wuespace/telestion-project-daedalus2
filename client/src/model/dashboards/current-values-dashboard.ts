@@ -36,7 +36,7 @@ export const currentValuesDashboard: Dashboard = {
 		},
 		{
 			id: 'current-values-3',
-			widgetName: 'cameraWidget',
+			widgetName: 'commonSeedTcsWidget',
 			width: 3,
 			height: 5,
 			initialProps: {
@@ -47,7 +47,7 @@ export const currentValuesDashboard: Dashboard = {
 		},
 		{
 			id: 'current-values-4',
-			widgetName: 'cameraWidget',
+			widgetName: 'commonSeedTcsWidget',
 			width: 3,
 			height: 5,
 			initialProps: {

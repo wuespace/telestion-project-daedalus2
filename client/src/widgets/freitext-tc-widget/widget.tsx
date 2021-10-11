@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
-	Button,
 	Divider,
 	Flex,
 	Form,
@@ -11,47 +10,15 @@ import {
 	View
 } from '@adobe/react-spectrum';
 import { BaseRendererProps } from '@wuespace/telestion-client-types';
-
-import { useTcSendFunction } from '../hooks';
 import { WidgetProps } from './model';
+import { TCState } from '../../model/tc-state';
+import { TCSendButton } from '../components/tc-send-button';
 
-enum TCState {
-	IDLE,
-	SENDING,
-	SENT,
-	ERROR
-}
-
-export function Widget({
-	targets,
-	title,
-	channel
-}: BaseRendererProps<WidgetProps>) {
+export function Widget({ targets, title }: BaseRendererProps<WidgetProps>) {
 	const targetKeys = useMemo(() => Object.keys(targets), [targets]);
 	const [target, setTarget] = useState(targetKeys[0]);
 	const [cmd, setCmd] = useState('');
 	const [state, setState] = useState(TCState.IDLE);
-
-	const sendTC = useTcSendFunction(channel);
-
-	// Reset state to idle on input change
-	useEffect(() => {
-		setState(TCState.IDLE);
-	}, [target, cmd]);
-
-	// Warn if no confirmation was received after 5 seconds
-	useEffect(() => {
-		if (state === TCState.SENDING) {
-			const warningTrigger = setTimeout(() => setState(TCState.ERROR), 5000);
-
-			return () => clearTimeout(warningTrigger);
-		}
-	}, [state]);
-
-	const onSubmit = useCallback(() => {
-		setState(TCState.SENDING);
-		sendTC(target, cmd, () => setState(TCState.SENT));
-	}, [sendTC, cmd, target]);
 
 	return (
 		<View padding="size-200" width="100%">
@@ -88,7 +55,6 @@ export function Widget({
 					isDisabled={state === TCState.SENDING}
 					onSubmit={e => {
 						e.preventDefault();
-						onSubmit();
 					}}
 					isRequired={true}
 				>
@@ -112,13 +78,14 @@ export function Widget({
 							</Radio>
 						))}
 					</RadioGroup>
-					<Button
-						variant="cta"
-						isDisabled={state !== TCState.IDLE || !cmd || !target}
-						onPress={onSubmit}
+					<TCSendButton
+						onStateChange={s => setState(s)}
+						command={cmd}
+						target={target as any}
+						variant={'cta'}
 					>
-						{state === TCState.SENDING ? 'Sending' : 'Send TC'}
-					</Button>
+						Send TC&hellip;
+					</TCSendButton>
 				</Form>
 			</Flex>
 		</View>

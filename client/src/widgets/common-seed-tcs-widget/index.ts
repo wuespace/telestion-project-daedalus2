@@ -4,11 +4,11 @@ import { WidgetProps } from './model';
 import { ConfigControls } from './config-controls';
 
 export const widget: Widget<WidgetProps> = {
-	name: 'cameraWidget',
-	title: 'Camera Widget',
+	name: 'commonSeedTcsWidget',
+	title: 'Common Seed TCs Widget',
 	version: '0.1.0',
 	Widget: WidgetRenderer,
 	ConfigControls
 };
 
-export type { WidgetProps as CameraWidgetProps } from './model';
+export type { WidgetProps } from './model';
