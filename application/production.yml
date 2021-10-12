@@ -20,6 +20,14 @@ services:
     # bind to open ip to allow incoming connections from other network devices
     command: "--bind_ip 0.0.0.0"
 
+  redis:
+    image: "redislabs/redistimeseries:1.6.0"
+    profiles: ["devel-native", "devel-docker", "prod"]
+    restart: always
+    ports:
+      # redis connection
+      - "127.0.0.1:6379:6379"
+
   telestion:
     image: "ghcr.io/wuespace/telestion-project-daedalus2:latest"
     restart: always
@@ -39,6 +47,7 @@ services:
         target: "/usr/telestion/telestion-project-daedalus2/conf"
     depends_on:
       - mongodb
+      - redis
 
 # setup docker volumes
 volumes:
