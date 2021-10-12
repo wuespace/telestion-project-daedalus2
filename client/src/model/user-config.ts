@@ -1,12 +1,20 @@
 import { UserConfig } from '@wuespace/telestion-client-types';
 import {
+	overviewDashboard,
 	graphDashboard,
-	currentValuesDashboard,
-	notesDashboard
+	telecommandDashboard,
+	notesDashboard,
+	electricalDashboard
 } from './dashboards';
 
 export const userConfig: UserConfig = {
 	admin: {
-		dashboards: [currentValuesDashboard, graphDashboard, notesDashboard]
+		dashboards: [
+			overviewDashboard,
+			graphDashboard,
+			electricalDashboard,
+			telecommandDashboard,
+			notesDashboard
+		]
 	}
 };

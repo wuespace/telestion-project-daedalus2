@@ -1,31 +1,35 @@
 import { Dashboard } from '@wuespace/telestion-client-types';
 
-export const currentValuesDashboard: Dashboard = {
-	title: 'Current Values',
+export const telecommandDashboard: Dashboard = {
+	title: 'Telecommand',
 	columns: 12,
 	rows: 12,
 	widgets: [
 		{
-			id: 'current-values-0',
-			widgetName: 'currentValuesWidget',
-			width: 12,
-			height: 7,
+			id: 'telecommand--1',
+			widgetName: 'stateWidget',
+			width: 6,
+			height: 6,
 			initialProps: {
-				title: 'Current values',
-				connections: [
-					{
-						address: 'latest/seedA/SEED_HEARTBEAT/state_cur',
-						rps: 10,
-						title: 'latest/seedA/SEED_HEARTBEAT/state_cur'
-					}
-				]
+				seedASource: 'SEED_HEARTBEAT',
+				seedBSource: 'SEED_HEARTBEAT',
+				ejectorSource: 'EJECTOR_HEARTBEAT'
 			}
 		},
 		{
-			id: 'current-values-2',
+			id: 'telecommand-0',
+			widgetName: 'timeSyncWidget',
+			width: 3,
+			height: 6,
+			initialProps: {
+				title: 'Note 3'
+			}
+		},
+		{
+			id: 'telecommand-1',
 			widgetName: 'aGpsWidget',
 			width: 3,
-			height: 5,
+			height: 6,
 			initialProps: {
 				title: 'A-GPS Upload',
 				targets: {
@@ -35,10 +39,10 @@ export const currentValuesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'current-values-3',
+			id: 'telecommand-2',
 			widgetName: 'commonSeedTcsWidget',
-			width: 3,
-			height: 5,
+			width: 4,
+			height: 6,
 			initialProps: {
 				title: 'Camera Widget Seed A',
 				channel: 'tc-sender',
@@ -46,10 +50,10 @@ export const currentValuesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'current-values-4',
+			id: 'telecommand-3',
 			widgetName: 'commonSeedTcsWidget',
-			width: 3,
-			height: 5,
+			width: 4,
+			height: 6,
 			initialProps: {
 				title: 'Camera Widget Seed B',
 				channel: 'tc-sender',
@@ -57,10 +61,10 @@ export const currentValuesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'current-values-5',
+			id: 'telecommand-4',
 			widgetName: 'freitextTcWidget',
-			width: 3,
-			height: 5,
+			width: 4,
+			height: 6,
 			initialProps: {
 				title: 'Freitext Telecommand Widget',
 				channel: 'tc-sender',

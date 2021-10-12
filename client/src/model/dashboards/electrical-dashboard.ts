@@ -1,12 +1,12 @@
 import { Dashboard } from '@wuespace/telestion-client-types';
 
-export const notesDashboard: Dashboard = {
-	title: 'Checklists/Notes',
+export const electricalDashboard: Dashboard = {
+	title: 'Electrical',
 	columns: 12,
 	rows: 12,
 	widgets: [
 		{
-			id: 'notes-0',
+			id: 'electrical-0',
 			widgetName: 'stateWidget',
 			width: 6,
 			height: 6,
@@ -17,7 +17,7 @@ export const notesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'notes-1',
+			id: 'electrical-1',
 			widgetName: 'checklistWidget',
 			width: 6,
 			height: 6,
@@ -26,22 +26,30 @@ export const notesDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'notes-2',
-			widgetName: 'noteWidget',
+			id: 'electrical-2',
+			widgetName: 'currentValuesWidget',
 			width: 6,
 			height: 6,
 			initialProps: {
-				title: 'Your notes',
-				content: 'Telestion is beautiful!'
+				title: 'Current values',
+				connections: [
+					{
+						address: 'latest/seedA/SEED_HEARTBEAT/state_cur',
+						rps: 10,
+						title: 'latest/seedA/SEED_HEARTBEAT/state_cur'
+					}
+				]
 			}
 		},
 		{
-			id: 'notes-3',
-			widgetName: 'noteWidget',
+			id: 'electrical-3',
+			widgetName: 'seedEcam',
 			width: 6,
 			height: 6,
 			initialProps: {
-				title: 'More notes'
+				seed: 'seedA',
+				voltThreshold: 0.5,
+				ampsThreshold: 0.005
 			}
 		}
 	]
