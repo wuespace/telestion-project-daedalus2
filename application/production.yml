@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   mongodb:
-    # most recent and stable version off mongodb
+    # most recent and stable version of mongodb
     image: "mongo:4"
     restart: unless-stopped
     ports:
@@ -36,6 +36,8 @@ services:
       - "9870:9870"
       # passthroughs TCP server to allow serial client connections from host
       - "127.0.0.1:9871:9871"
+      # passthroughs TCP server to allow Iridium messages from host
+      - "127.0.0.1:8213:8213"
     volumes:
       # mount data on host to allow later inspection off log messages etc.
       - type: bind
