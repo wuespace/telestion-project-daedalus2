@@ -112,8 +112,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public float gps_alt;
 
 	/**
-	 * vertical velocity of the seed in m/s � negative if seed is
-	 * falling
+	 * vertical velocity of the seed in m/s � negative if seed is falling
 	 */
 	public float filter_vel_vertical;
 
@@ -123,14 +122,12 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public float filter_height_ground;
 
 	/**
-	 * absolute (to air/world frame) rotation rate of the rotor in
-	 * rad/s"
+	 * absolute (to air/world frame) rotation rate of the rotor in rad/s"
 	 */
 	public float filter_rotor_rot_rate;
 
 	/**
-	 * absolute (to air/world frame) rotation rate of the body in
-	 * rad/s"
+	 * absolute (to air/world frame) rotation rate of the body in rad/s"
 	 */
 	public float fiter_body_rot_rate;
 
@@ -145,12 +142,12 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public float controller_fin_angle;
 
 	/**
-	 * raw adc measurements
+	 * adc measurements millivolts/milliamps
 	 */
 	public int[] adc_measurements_sbc = new int[8];
 
 	/**
-	 *
+	 * adc measurements millivolts/milliamps
 	 */
 	public int[] adc_measurements_cop = new int[8];
 
@@ -175,14 +172,12 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public short bat_heater_fault;
 
 	/**
-	 * rxsm_allowed, bat1_allowed and bat2_allowed in this order with
-	 * individual size of 1 bit.
+	 * rxsm_allowed, bat1_allowed and bat2_allowed in this order with individual size of 1 bit.
 	 */
 	public short bat_allowed;
 
 	/**
-	 * rxsm_used, bat1_used and bat2_used in this order with individual size
-	 * of 1 bit.
+	 * rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.
 	 */
 	public short bat_used;
 
@@ -202,14 +197,13 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public short blade_controller_id;
 
 	/**
-	 * identifier for finn controller type
+	 * identifier for  finn controller type
 	 */
 	public short finn_controller_id;
 
 	/**
-	 * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail,
-	 * tacho_rot_avail, servo_amps_avail, bat_temp_avail, adc_measurements_avail in this order with individual
-	 * size of 1 bit
+	 * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, servo_amps_avail,
+	 * bat_temp_avail, adc_measurements_avail in this order with individual size of 1 bit
 	 */
 	public short available_status;
 

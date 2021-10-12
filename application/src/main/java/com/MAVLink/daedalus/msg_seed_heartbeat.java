@@ -52,21 +52,18 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	public short bat_heater_fault;
 
 	/**
-	 * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail,
-	 * tacho_rot_avail, servo_amps_avail, bat_temp_avail, adc_measurements_avail in this order with individual
-	 * size of 1 bit
+	 * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, servo_amps_avail,
+	 * bat_temp_avail, adc_measurements_avail in this order with individual size of 1 bit
 	 */
 	public short available_status;
 
 	/**
-	 * rxsm_allowed, bat1_allowed and bat2_allowed in this order with
-	 * individual size of 1 bit.
+	 * rxsm_allowed, bat1_allowed and bat2_allowed in this order with individual size of 1 bit.
 	 */
 	public short bat_allowed;
 
 	/**
-	 * rxsm_used, bat1_used and bat2_used in this order with individual size
-	 * of 1 bit.
+	 * rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.
 	 */
 	public short bat_used;
 

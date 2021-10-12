@@ -17,7 +17,6 @@ import java.util.Map;
 public class CRC {
 	private static final Map<Integer, Integer> MAVLINK_MESSAGE_CRCS;
 	private static final int CRC_INIT_VALUE = 0xffff;
-	private int crcValue;
 
 	static {
 		MAVLINK_MESSAGE_CRCS = new HashMap<>();
@@ -249,6 +248,12 @@ public class CRC {
 
 	}
 
+	private int crcValue;
+
+	public CRC() {
+		start_checksum();
+	}
+
 	/**
 	 * Accumulate the CRC by adding one char at a time.
 	 * <p>
@@ -292,10 +297,6 @@ public class CRC {
 
 	public int getLSB() {
 		return (crcValue & 0xff);
-	}
-
-	public CRC() {
-		start_checksum();
 	}
 
 }

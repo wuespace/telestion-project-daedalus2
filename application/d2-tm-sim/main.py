@@ -71,11 +71,11 @@ def loop():
 				random.random(),
 				random.random(),
 				random.random(),
-				[1, 2, 3, 4, 5, 6, 7, 8],
+				[1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3, 4, 5, 6, 7, 8],
 				random.random(),
 				random.random(), 1,
 				random.random(), 0, 3, 3,
-				random.random(), [1, 2, 3, 4, 5, 6, 7, 8],
+				random.random(),
 				random.random(),
 				4, 3,
 				random.random(),
@@ -93,7 +93,12 @@ def loop():
 			print("*", end='')
 
 			time.sleep(MESSAGE_INTERVAL)
-	except:
+	except Exception as e:
+		print(e)
+		file.close()
+		s.close()
+		return 1
+	except KeyboardInterrupt:
 		file.close()
 		s.close()
 		return 0
