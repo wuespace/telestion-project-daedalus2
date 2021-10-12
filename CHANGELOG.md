@@ -1,3 +1,12 @@
+## [0.14.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.0...v0.14.1) (2021-10-12)
+
+
+### Bug Fixes
+
+* Add publish protection on skipped releases ([5d50eca](https://github.com/wuespace/telestion-project-daedalus2/commit/5d50ecab5d2b5252101811cb7c5b4d707575e54e))
+
+
+
 # [0.14.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.13.1...v0.14.0) (2021-10-12)
 
 
