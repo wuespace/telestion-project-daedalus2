@@ -1,3 +1,12 @@
+## [0.14.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.1...v0.14.2) (2021-10-12)
+
+
+### Bug Fixes
+
+* **application:** Remove profiles from production docker-compose configuration ([1b74879](https://github.com/wuespace/telestion-project-daedalus2/commit/1b748793002d1b3b5de4ab615f03c6cb18f53c00))
+
+
+
 ## [0.14.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.0...v0.14.1) (2021-10-12)
 
 
