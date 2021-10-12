@@ -1,3 +1,12 @@
+## [0.14.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.2...v0.14.3) (2021-10-12)
+
+
+### Bug Fixes
+
+* **client:** Use SYSTEM_T instead of HEARTBEAT for standard widget config in preparation for the test on the 14th of October 2021 ([78be104](https://github.com/wuespace/telestion-project-daedalus2/commit/78be104a33c3b143fe740dc7c231721ff5978f66))
+
+
+
 ## [0.14.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.1...v0.14.2) (2021-10-12)
 
 
