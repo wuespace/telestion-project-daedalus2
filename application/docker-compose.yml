@@ -5,7 +5,7 @@ services:
     # most recent and stable version off mongodb
     image: "mongo:4"
     profiles: ["devel-native", "devel-docker", "prod"]
-    restart: always
+    restart: unless-stopped
     ports:
       # passthrough mongodb listen port to host for debugging
       - "127.0.0.1:27017:27017"
@@ -24,7 +24,7 @@ services:
   redis:
     image: "redislabs/redistimeseries:1.6.0"
     profiles: ["devel-native", "devel-docker", "prod"]
-    restart: always
+    restart: unless-stopped
     ports:
       # redis connection
       - "127.0.0.1:6379:6379"
@@ -35,7 +35,7 @@ services:
     build:
       context: "."
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     ports:
       # passthroughs TCP EventBus Bridge to allow connections from clients on host
       - "127.0.0.1:9870:9870"
@@ -52,11 +52,12 @@ services:
         target: "/usr/telestion/telestion-project-daedalus2/conf"
     depends_on:
       - mongodb
+      - redis
 
   telestion:
     image: "ghcr.io/wuespace/telestion-project-daedalus2:latest"
     profiles: ["prod"]
-    restart: always
+    restart: unless-stopped
     ports:
       # passthroughs TCP EventBus Bridge to allow connections from clients on host
       - "9870:9870"
@@ -73,6 +74,7 @@ services:
         target: "/usr/telestion/telestion-project-daedalus2/conf"
     depends_on:
       - mongodb
+      - redis
 
 # setup docker volumes
 volumes:
