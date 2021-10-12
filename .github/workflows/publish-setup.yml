@@ -29,6 +29,11 @@ jobs:
         shell: bash
         run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
 
+      - name: Fail on skipped release
+        run: test "$SKIPPED" = "false"
+        env:
+          SKIPPED: ${{ env.skipped }}
+
       - name: Tag docker image in compose file
         run: |
           sed -i "s/${PLACEHOLDER}/${REPLACE_WITH}/g" application/production.yml

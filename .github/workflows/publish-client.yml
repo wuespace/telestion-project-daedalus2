@@ -30,6 +30,11 @@ jobs:
         shell: bash
         run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
 
+      - name: Fail on skipped release
+        run: test "$SKIPPED" = "false"
+        env:
+          SKIPPED: ${{ env.skipped }}
+
       - name: Update package version
         run: |
           sed -i 's/"version": "[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+"/"version": "'"$VERSION"'"/gm' package.json
@@ -91,7 +96,7 @@ jobs:
 
       - name: Build binaries 🗜
         run: npm run build
-      
+
       - name: Upload release assets 🪡
         if: ${{ env.skipped == 'false' }}
         uses: svenstaro/upload-release-action@2.2.1
