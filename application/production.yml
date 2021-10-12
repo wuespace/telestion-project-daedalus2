@@ -22,7 +22,6 @@ services:
 
   redis:
     image: "redislabs/redistimeseries:1.6.0"
-    profiles: ["devel-native", "devel-docker", "prod"]
     restart: unless-stopped
     ports:
       # redis connection
