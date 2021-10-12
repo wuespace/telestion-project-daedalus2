@@ -18,7 +18,7 @@ export const graphDashboard: Dashboard = {
 				maxY: 1,
 				series: [
 					{
-						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						key: 'ts/seedA/SEED_SYSTEM_T/imu_gyro_z',
 						minMax: true,
 						color: 'hsl(0, 100%, 50%)'
 					}
@@ -38,7 +38,7 @@ export const graphDashboard: Dashboard = {
 				maxY: 1,
 				series: [
 					{
-						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						key: 'ts/seedA/SEED_SYSTEM_T/imu_gyro_z',
 						minMax: true,
 						color: 'hsl(0, 100%, 50%)'
 					}
@@ -58,7 +58,7 @@ export const graphDashboard: Dashboard = {
 				maxY: 1,
 				series: [
 					{
-						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						key: 'ts/seedA/SEED_SYSTEM_T/imu_gyro_z',
 						minMax: true,
 						color: 'hsl(0, 100%, 50%)'
 					}
@@ -78,7 +78,7 @@ export const graphDashboard: Dashboard = {
 				maxY: 1,
 				series: [
 					{
-						key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z',
+						key: 'ts/seedA/SEED_SYSTEM_T/imu_gyro_z',
 						minMax: true,
 						color: 'hsl(0, 100%, 50%)'
 					}

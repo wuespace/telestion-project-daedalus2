@@ -11,9 +11,9 @@ export const telecommandDashboard: Dashboard = {
 			width: 6,
 			height: 6,
 			initialProps: {
-				seedASource: 'SEED_HEARTBEAT',
-				seedBSource: 'SEED_HEARTBEAT',
-				ejectorSource: 'EJECTOR_HEARTBEAT'
+				seedASource: 'SEED_SYSTEM_T',
+				seedBSource: 'SEED_SYSTEM_T',
+				ejectorSource: 'EJECTOR_SYSTEM_T'
 			}
 		},
 		{
@@ -44,7 +44,7 @@ export const telecommandDashboard: Dashboard = {
 			width: 4,
 			height: 6,
 			initialProps: {
-				title: 'Camera Widget Seed A',
+				title: 'Common TCs Seed A',
 				channel: 'tc-sender',
 				target: 'seedA'
 			}
@@ -55,7 +55,7 @@ export const telecommandDashboard: Dashboard = {
 			width: 4,
 			height: 6,
 			initialProps: {
-				title: 'Camera Widget Seed B',
+				title: 'Common TCs Seed B',
 				channel: 'tc-sender',
 				target: 'seedB'
 			}

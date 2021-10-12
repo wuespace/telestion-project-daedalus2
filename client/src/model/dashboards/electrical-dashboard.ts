@@ -8,18 +8,18 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-0',
 			widgetName: 'stateWidget',
-			width: 6,
+			width: 4,
 			height: 6,
 			initialProps: {
-				seedASource: 'SEED_HEARTBEAT',
-				seedBSource: 'SEED_HEARTBEAT',
-				ejectorSource: 'EJECTOR_HEARTBEAT'
+				seedASource: 'SEED_SYSTEM_T',
+				seedBSource: 'SEED_SYSTEM_T',
+				ejectorSource: 'EJECTOR_SYSTEM_T'
 			}
 		},
 		{
 			id: 'electrical-1',
 			widgetName: 'checklistWidget',
-			width: 6,
+			width: 4,
 			height: 6,
 			initialProps: {
 				title: 'Note 2'
@@ -28,15 +28,15 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-2',
 			widgetName: 'currentValuesWidget',
-			width: 6,
-			height: 6,
+			width: 4,
+			height: 12,
 			initialProps: {
 				title: 'Current values',
 				connections: [
 					{
-						address: 'latest/seedA/SEED_HEARTBEAT/state_cur',
+						address: 'latest/seedA/SEED_SYSTEM_T/state_cur',
 						rps: 10,
-						title: 'latest/seedA/SEED_HEARTBEAT/state_cur'
+						title: 'latest/seedA/SEED_SYSTEM_T/state_cur'
 					}
 				]
 			}
@@ -44,10 +44,21 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-3',
 			widgetName: 'seedEcam',
-			width: 6,
+			width: 4,
 			height: 6,
 			initialProps: {
 				seed: 'seedA',
+				voltThreshold: 0.5,
+				ampsThreshold: 0.005
+			}
+		},
+		{
+			id: 'electrical-4',
+			widgetName: 'seedEcam',
+			width: 4,
+			height: 6,
+			initialProps: {
+				seed: 'seedB',
 				voltThreshold: 0.5,
 				ampsThreshold: 0.005
 			}

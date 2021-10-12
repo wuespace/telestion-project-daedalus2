@@ -126,7 +126,7 @@ function MultiSeriesEditor({
 										{
 											minMax: true,
 											color: 'hsl(0, 100%, 50%)',
-											key: 'ts/seedA/SEED_HEARTBEAT/imu_gyro_z'
+											key: 'ts/seedA/SEED_SYSTEM_T/imu_gyro_z'
 										}
 									]
 								})
