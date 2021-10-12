@@ -1,7 +1,7 @@
 {
 	"name": "telestion-project-daedalus2",
 	"description": "telestion-project-daedalus2, a Telestion PSC generated using the telestion-client-cli",
-	"version": "0.13.1",
+	"version": "",
 	"homepage": ".",
 	"engines": {
 		"node": ">=14"
