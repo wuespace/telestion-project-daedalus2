@@ -30,7 +30,7 @@ export function StateDisplay({
 
 				<View width="100%" overflow={'auto'}>
 					<Flex direction="row" width="100%" minWidth={500} gap={'size-200'}>
-						<Flex direction="column" alignItems="start">
+						<Flex width={'33.333%'} direction="column" alignItems="start">
 							<Heading level={2}>Seed A</Heading>
 							<Text>Current State:</Text>
 
@@ -51,7 +51,7 @@ export function StateDisplay({
 							</Content>
 						</Flex>
 
-						<Flex direction="column" alignItems="start">
+						<Flex width={'33.334%'} direction="column" alignItems="start">
 							<Heading level={2}>Seed B</Heading>
 							<Text>Current State:</Text>
 
@@ -72,7 +72,7 @@ export function StateDisplay({
 							</Content>
 						</Flex>
 
-						<Flex direction="column" alignItems="start">
+						<Flex width={'33.333%'} direction="column" alignItems="start">
 							<Heading level={2}>Ejector State</Heading>
 							<Text>Current State:</Text>
 
