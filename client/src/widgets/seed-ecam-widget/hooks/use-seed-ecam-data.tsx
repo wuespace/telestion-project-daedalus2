@@ -32,7 +32,8 @@ export function useSeedEcamData(seed: 'seedA' | 'seedB') {
 			data.bat2Allowed ? data.bat2 : 0,
 			data.rxsmAllowed ? data.rxsmVolts : 0
 		);
-	return data && mainBusVoltage
+
+	return data && mainBusVoltage !== undefined
 		? ({ ...data, mainBusVoltage } as typeof data & {
 				mainBusVoltage: typeof mainBusVoltage;
 		  })
