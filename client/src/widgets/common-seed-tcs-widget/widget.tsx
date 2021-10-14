@@ -9,33 +9,10 @@ import TemperatureIcon from '@spectrum-icons/workflow/Temperature';
 
 import { WidgetProps } from './model';
 import { TCSendButton } from '../components/tc-send-button';
-import { useCallback, useEffect, useState } from 'react';
-import { TCState } from '../../model/tc-state';
+import { useOuterTcSendButtonState } from '../hooks/use-outer-tc-send-button-state';
 
 export function Widget({ title, target }: BaseRendererProps<WidgetProps>) {
-	const [messageState, setMessageState] = useState<
-		'success' | 'error' | undefined
-	>();
-
-	useEffect(() => {
-		const to = setTimeout(() => setMessageState(undefined), 5000);
-		return () => clearTimeout(to);
-	}, [messageState, setMessageState]);
-
-	const onStateChange = useCallback(
-		(state, setState) => {
-			if (state === TCState.SENT) {
-				setMessageState('success');
-				setState(TCState.IDLE);
-			} else if (state === TCState.ERROR) {
-				setMessageState('error');
-				setState(TCState.IDLE);
-			} else if (state === TCState.SENDING) {
-				setMessageState(undefined);
-			}
-		},
-		[setMessageState]
-	);
+	const { messageState, onStateChange } = useOuterTcSendButtonState();
 
 	return (
 		<View padding="size-200">

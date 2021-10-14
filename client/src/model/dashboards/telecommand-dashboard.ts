@@ -41,7 +41,7 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-2',
 			widgetName: 'commonSeedTcsWidget',
-			width: 4,
+			width: 3,
 			height: 6,
 			initialProps: {
 				title: 'Common TCs Seed A',
@@ -52,7 +52,7 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-3',
 			widgetName: 'commonSeedTcsWidget',
-			width: 4,
+			width: 3,
 			height: 6,
 			initialProps: {
 				title: 'Common TCs Seed B',
@@ -63,7 +63,7 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-4',
 			widgetName: 'freitextTcWidget',
-			width: 4,
+			width: 3,
 			height: 6,
 			initialProps: {
 				title: 'Freitext Telecommand Widget',
@@ -74,6 +74,13 @@ export const telecommandDashboard: Dashboard = {
 					ejector: 'Ejector'
 				}
 			}
+		},
+		{
+			id: 'telecommand-5',
+			widgetName: 'batHeatingTcWidget',
+			width: 3,
+			height: 6,
+			initialProps: {}
 		}
 	]
 };
