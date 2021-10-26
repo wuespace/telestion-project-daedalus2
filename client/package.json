@@ -80,7 +80,7 @@
 		"@types/json-pointer": "^1.0.31",
 		"@types/node": "^16.11.1",
 		"@types/react": "^17.0.32",
-		"@types/react-dom": "^17.0.9",
+		"@types/react-dom": "^17.0.10",
 		"@types/react-virtualized-auto-sizer": "^1.0.1",
 		"@types/react-vis": "^1.11.8",
 		"@wuespace/telestion-client-cli": "^0.17.0",
