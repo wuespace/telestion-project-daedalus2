@@ -1,8 +1,38 @@
-import { JsonSerializable } from '@wuespace/telestion-client-types';
 import { JavaMessage } from '../java-message';
 import { MongoCollection } from './base';
 
-export interface IEPayloadData extends Record<string, JsonSerializable> {}
+interface AppendixBase extends JavaMessage {
+	type: 'none' | 'rotation' | 'blade' | 'velocity';
+}
+
+export interface AppendixNone extends AppendixBase {
+	type: 'none';
+	className: 'de.wuespace.telestion.project.daedalus2.iridium.message.AppendixNone';
+}
+
+export interface AppendixRotation extends AppendixBase {
+	type: 'rotation';
+	rotation_rate: number;
+	className: 'de.wuespace.telestion.project.daedalus2.iridium.message.AppendixRotation';
+}
+
+export interface AppendixBlade extends AppendixBase {
+	type: 'blade';
+	blade_pitch: number;
+	className: 'de.wuespace.telestion.project.daedalus2.iridium.message.AppendixBlade';
+}
+
+export interface AppendixVelocity extends AppendixBase {
+	type: 'velocity';
+	vertical_velocity: number;
+	className: 'de.wuespace.telestion.project.daedalus2.iridium.message.AppendixVelocity';
+}
+
+export type PayloadAppendix =
+	| AppendixNone
+	| AppendixRotation
+	| AppendixBlade
+	| AppendixVelocity;
 
 export interface IEHeader extends JavaMessage {
 	type: 'header';
@@ -17,7 +47,10 @@ export interface IEHeader extends JavaMessage {
 
 export interface IEPayload extends JavaMessage {
 	type: 'payload';
-	data: IEPayloadData;
+	latitude: number;
+	longitude: number;
+	altitude: number;
+	payload_appendix: PayloadAppendix;
 	className: 'de.wuespace.telestion.project.daedalus2.iridium.message.IEPayload';
 }
 
