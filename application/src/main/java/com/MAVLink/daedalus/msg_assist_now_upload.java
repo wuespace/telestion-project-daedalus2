@@ -16,7 +16,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_assist_now_upload extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD = 10005;
+	public static final int MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD = 21513;
 	public static final int MAVLINK_MSG_LENGTH = 255;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD;
 

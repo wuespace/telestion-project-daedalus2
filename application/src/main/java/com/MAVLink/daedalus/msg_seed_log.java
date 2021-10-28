@@ -16,8 +16,8 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_seed_log extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_SEED_LOG = 10002;
-	public static final int MAVLINK_MSG_LENGTH = 255;
+	public static final int MAVLINK_MSG_ID_SEED_LOG = 88552;
+	public static final int MAVLINK_MSG_LENGTH = 259;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_SEED_LOG;
 
 
@@ -25,6 +25,11 @@ public class msg_seed_log extends MAVLinkMessage {
 	 * Seed local time
 	 */
 	public long time_local;
+
+	/**
+	 * system time
+	 */
+	public long d2time;
 
 	/**
 	 * Logging data
@@ -45,6 +50,7 @@ public class msg_seed_log extends MAVLinkMessage {
 		packet.msgid = MAVLINK_MSG_ID_SEED_LOG;
 
 		packet.payload.putLong(time_local);
+		packet.payload.putUnsignedInt(d2time);
 
 		for (int i = 0; i < log_msg.length; i++) {
 			packet.payload.putByte(log_msg[i]);
@@ -67,6 +73,7 @@ public class msg_seed_log extends MAVLinkMessage {
 		payload.resetIndex();
 
 		this.time_local = payload.getLong();
+		this.d2time = payload.getUnsignedInt();
 
 		for (int i = 0; i < this.log_msg.length; i++) {
 			this.log_msg[i] = payload.getByte();
@@ -88,10 +95,11 @@ public class msg_seed_log extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_seed_log(long time_local, byte[] log_msg) {
+	public msg_seed_log(long time_local, long d2time, byte[] log_msg) {
 		this.msgid = MAVLINK_MSG_ID_SEED_LOG;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
 		this.log_msg = log_msg;
 
 	}
@@ -99,13 +107,14 @@ public class msg_seed_log extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_seed_log(long time_local, byte[] log_msg, int sysid, int compid, boolean isMavlink2) {
+	public msg_seed_log(long time_local, long d2time, byte[] log_msg, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SEED_LOG;
 		this.sysid = sysid;
 		this.compid = compid;
 		this.isMavlink2 = isMavlink2;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
 		this.log_msg = log_msg;
 
 	}
@@ -159,7 +168,7 @@ public class msg_seed_log extends MAVLinkMessage {
 	@Override
 	public String toString() {
 		return "MAVLINK_MSG_ID_SEED_LOG - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " " +
-				"log_msg:" + log_msg + "";
+				"d2time:" + d2time + " log_msg:" + log_msg + "";
 	}
 
 	/**

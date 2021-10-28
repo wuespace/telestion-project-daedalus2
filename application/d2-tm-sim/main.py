@@ -52,41 +52,41 @@ def loop():
 			seed_a = daedalus2.MAVLink(file, srcSystem=SEED_A_ID, srcComponent=192)
 			seed_b = daedalus2.MAVLink(file, srcSystem=SEED_B_ID, srcComponent=192)
 
-			seed_a.seed_heartbeat_send(int(time.time()), 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
-			seed_b.seed_heartbeat_send(int(time.time()), 4, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], 5, 5, 5)
-			ejector.ejector_log_send(int(time.time()), b'Hallo Welt')
-			ejector.ejector_heartbeat_send(int(time.time()), 5)
+			seed_a.seed_heartbeat_send(int(time.time()), 312321, 3, 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], [1,2,3,4,5,6,7,8], 5, 5)
+			seed_b.seed_heartbeat_send(int(time.time()), 123123, 3, 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], [1,2,3,4,5,6,7,8], 5, 5)
+			ejector.ejector_log_send(int(time.time()), 1561, b'Hallo Welt')
+			ejector.ejector_heartbeat_send(int(time.time()), 156165, 5, 5)
 
-			seed_a.seed_system_t_send(
-				int(time.time()),
-				2,
-				5,
-				3,
-				5,
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				[1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3, 4, 5, 6, 7, 8],
-				random.random(),
-				random.random(), 1,
-				random.random(), 0, 3, 3,
-				random.random(),
-				random.random(),
-				4, 3,
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(),
-				random.random(), 3, 5, 99
-			)
+			# seed_a.seed_system_t_send(
+			# 	int(time.time()),
+			# 	2,
+			# 	5,
+			# 	3,
+			# 	5,
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	[24000, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3, 4, 5, 6, 7, 8],
+			# 	random.random(),
+			# 	random.random(), 1,
+			# 	random.random(), 0, 3, 3,
+			# 	random.random(),
+			# 	random.random(),
+			# 	4, 3,
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(),
+			# 	random.random(), 3, 5, 99
+			# )
 
 			file.flush()
 
@@ -94,7 +94,7 @@ def loop():
 
 			time.sleep(MESSAGE_INTERVAL)
 	except Exception as e:
-		print(e)
+		print(e.with_traceback())
 		file.close()
 		s.close()
 		return 1

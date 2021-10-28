@@ -16,8 +16,8 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_ejector_system_t extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_EJECTOR_SYSTEM_T = 10006;
-	public static final int MAVLINK_MSG_LENGTH = 17;
+	public static final int MAVLINK_MSG_ID_EJECTOR_SYSTEM_T = 37033;
+	public static final int MAVLINK_MSG_LENGTH = 22;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T;
 
 
@@ -25,6 +25,11 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	 * Ejector local time
 	 */
 	public long time_local;
+
+	/**
+	 * system time
+	 */
+	public long d2time;
 
 	/**
 	 * number of the current iteration of the mainloop
@@ -35,6 +40,11 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	 * time the last mainloop iteration took
 	 */
 	public long mainloop_itr_time;
+
+	/**
+	 * number of received and executed telecommands
+	 */
+	public short telecommand_cnt;
 
 	/**
 	 * current System state
@@ -55,8 +65,10 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 		packet.msgid = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T;
 
 		packet.payload.putLong(time_local);
+		packet.payload.putUnsignedInt(d2time);
 		packet.payload.putUnsignedInt(mainloop_itr_cnt);
 		packet.payload.putUnsignedInt(mainloop_itr_time);
+		packet.payload.putUnsignedByte(telecommand_cnt);
 		packet.payload.putUnsignedByte(state_cur);
 
 		if (isMavlink2) {
@@ -75,8 +87,10 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 		payload.resetIndex();
 
 		this.time_local = payload.getLong();
+		this.d2time = payload.getUnsignedInt();
 		this.mainloop_itr_cnt = payload.getUnsignedInt();
 		this.mainloop_itr_time = payload.getUnsignedInt();
+		this.telecommand_cnt = payload.getUnsignedByte();
 		this.state_cur = payload.getUnsignedByte();
 
 		if (isMavlink2) {
@@ -94,12 +108,19 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_ejector_system_t(long time_local, long mainloop_itr_cnt, long mainloop_itr_time, short state_cur) {
+	public msg_ejector_system_t(long time_local,
+			long d2time,
+			long mainloop_itr_cnt,
+			long mainloop_itr_time,
+			short telecommand_cnt,
+			short state_cur) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
 		this.mainloop_itr_cnt = mainloop_itr_cnt;
 		this.mainloop_itr_time = mainloop_itr_time;
+		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
 
 	}
@@ -108,8 +129,10 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	 * Constructor for a new message, initializes everything
 	 */
 	public msg_ejector_system_t(long time_local,
+			long d2time,
 			long mainloop_itr_cnt,
 			long mainloop_itr_time,
+			short telecommand_cnt,
 			short state_cur,
 			int sysid,
 			int compid,
@@ -120,8 +143,10 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 		this.isMavlink2 = isMavlink2;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
 		this.mainloop_itr_cnt = mainloop_itr_cnt;
 		this.mainloop_itr_time = mainloop_itr_time;
+		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
 
 	}
@@ -145,7 +170,7 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_EJECTOR_SYSTEM_T - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " mainloop_itr_cnt:" + mainloop_itr_cnt + " mainloop_itr_time:" + mainloop_itr_time + " state_cur:" + state_cur + "";
+		return "MAVLINK_MSG_ID_EJECTOR_SYSTEM_T - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " d2time:" + d2time + " mainloop_itr_cnt:" + mainloop_itr_cnt + " mainloop_itr_time:" + mainloop_itr_time + " telecommand_cnt:" + telecommand_cnt + " state_cur:" + state_cur + "";
 	}
 
 	/**

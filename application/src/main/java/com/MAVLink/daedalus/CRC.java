@@ -17,6 +17,7 @@ import java.util.Map;
 public class CRC {
 	private static final Map<Integer, Integer> MAVLINK_MESSAGE_CRCS;
 	private static final int CRC_INIT_VALUE = 0xffff;
+	private int crcValue;
 
 	static {
 		MAVLINK_MESSAGE_CRCS = new HashMap<>();
@@ -229,14 +230,6 @@ public class CRC {
 		MAVLINK_MESSAGE_CRCS.put(415, 161);
 		MAVLINK_MESSAGE_CRCS.put(9000, 113);
 		MAVLINK_MESSAGE_CRCS.put(9005, 117);
-		MAVLINK_MESSAGE_CRCS.put(10001, 216);
-		MAVLINK_MESSAGE_CRCS.put(10002, 183);
-		MAVLINK_MESSAGE_CRCS.put(10003, 218);
-		MAVLINK_MESSAGE_CRCS.put(10004, 124);
-		MAVLINK_MESSAGE_CRCS.put(10005, 88);
-		MAVLINK_MESSAGE_CRCS.put(10006, 194);
-		MAVLINK_MESSAGE_CRCS.put(10007, 193);
-		MAVLINK_MESSAGE_CRCS.put(10008, 137);
 		MAVLINK_MESSAGE_CRCS.put(12900, 114);
 		MAVLINK_MESSAGE_CRCS.put(12901, 254);
 		MAVLINK_MESSAGE_CRCS.put(12902, 140);
@@ -245,13 +238,15 @@ public class CRC {
 		MAVLINK_MESSAGE_CRCS.put(12905, 49);
 		MAVLINK_MESSAGE_CRCS.put(12915, 94);
 		MAVLINK_MESSAGE_CRCS.put(12920, 20);
+		MAVLINK_MESSAGE_CRCS.put(21513, 88);
+		MAVLINK_MESSAGE_CRCS.put(24017, 50);
+		MAVLINK_MESSAGE_CRCS.put(37033, 0);
+		MAVLINK_MESSAGE_CRCS.put(39205, 120);
+		MAVLINK_MESSAGE_CRCS.put(66957, 142);
+		MAVLINK_MESSAGE_CRCS.put(72498, 124);
+		MAVLINK_MESSAGE_CRCS.put(79071, 77);
+		MAVLINK_MESSAGE_CRCS.put(88552, 92);
 
-	}
-
-	private int crcValue;
-
-	public CRC() {
-		start_checksum();
 	}
 
 	/**
@@ -297,6 +292,10 @@ public class CRC {
 
 	public int getLSB() {
 		return (crcValue & 0xff);
+	}
+
+	public CRC() {
+		start_checksum();
 	}
 
 }

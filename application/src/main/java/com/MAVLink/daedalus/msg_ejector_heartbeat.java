@@ -16,8 +16,8 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_ejector_heartbeat extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_EJECTOR_HEARTBEAT = 10007;
-	public static final int MAVLINK_MSG_LENGTH = 9;
+	public static final int MAVLINK_MSG_ID_EJECTOR_HEARTBEAT = 66957;
+	public static final int MAVLINK_MSG_LENGTH = 14;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
 
@@ -25,6 +25,16 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	 * Ejector local time
 	 */
 	public long time_local;
+
+	/**
+	 * system time
+	 */
+	public long d2time;
+
+	/**
+	 * number of received and executed telecommands
+	 */
+	public short telecommand_cnt;
 
 	/**
 	 * current System state
@@ -45,6 +55,8 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 		packet.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
 		packet.payload.putLong(time_local);
+		packet.payload.putUnsignedInt(d2time);
+		packet.payload.putUnsignedByte(telecommand_cnt);
 		packet.payload.putUnsignedByte(state_cur);
 
 		if (isMavlink2) {
@@ -63,6 +75,8 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 		payload.resetIndex();
 
 		this.time_local = payload.getLong();
+		this.d2time = payload.getUnsignedInt();
+		this.telecommand_cnt = payload.getUnsignedByte();
 		this.state_cur = payload.getUnsignedByte();
 
 		if (isMavlink2) {
@@ -80,10 +94,12 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_ejector_heartbeat(long time_local, short state_cur) {
+	public msg_ejector_heartbeat(long time_local, long d2time, short telecommand_cnt, short state_cur) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
+		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
 
 	}
@@ -91,13 +107,21 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_ejector_heartbeat(long time_local, short state_cur, int sysid, int compid, boolean isMavlink2) {
+	public msg_ejector_heartbeat(long time_local,
+			long d2time,
+			short telecommand_cnt,
+			short state_cur,
+			int sysid,
+			int compid,
+			boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 		this.sysid = sysid;
 		this.compid = compid;
 		this.isMavlink2 = isMavlink2;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
+		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
 
 	}
@@ -121,7 +145,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " state_cur:" + state_cur + "";
+		return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " d2time:" + d2time + " telecommand_cnt:" + telecommand_cnt + " state_cur:" + state_cur + "";
 	}
 
 	/**

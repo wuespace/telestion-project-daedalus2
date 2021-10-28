@@ -909,30 +909,6 @@ public class MAVLinkPacket implements Serializable {
 			case msg_winch_status.MAVLINK_MSG_ID_WINCH_STATUS:
 				return new msg_winch_status(this);
 
-			case msg_seed_heartbeat.MAVLINK_MSG_ID_SEED_HEARTBEAT:
-				return new msg_seed_heartbeat(this);
-
-			case msg_seed_log.MAVLINK_MSG_ID_SEED_LOG:
-				return new msg_seed_log(this);
-
-			case msg_seed_system_t.MAVLINK_MSG_ID_SEED_SYSTEM_T:
-				return new msg_seed_system_t(this);
-
-			case msg_con_cmd.MAVLINK_MSG_ID_CON_CMD:
-				return new msg_con_cmd(this);
-
-			case msg_assist_now_upload.MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD:
-				return new msg_assist_now_upload(this);
-
-			case msg_ejector_system_t.MAVLINK_MSG_ID_EJECTOR_SYSTEM_T:
-				return new msg_ejector_system_t(this);
-
-			case msg_ejector_heartbeat.MAVLINK_MSG_ID_EJECTOR_HEARTBEAT:
-				return new msg_ejector_heartbeat(this);
-
-			case msg_ejector_log.MAVLINK_MSG_ID_EJECTOR_LOG:
-				return new msg_ejector_log(this);
-
 			case msg_open_drone_id_basic_id.MAVLINK_MSG_ID_OPEN_DRONE_ID_BASIC_ID:
 				return new msg_open_drone_id_basic_id(this);
 
@@ -956,6 +932,30 @@ public class MAVLinkPacket implements Serializable {
 
 			case msg_hygrometer_sensor.MAVLINK_MSG_ID_HYGROMETER_SENSOR:
 				return new msg_hygrometer_sensor(this);
+
+			case msg_assist_now_upload.MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD:
+				return new msg_assist_now_upload(this);
+
+			case msg_ejector_log.MAVLINK_MSG_ID_EJECTOR_LOG:
+				return new msg_ejector_log(this);
+
+			case msg_ejector_system_t.MAVLINK_MSG_ID_EJECTOR_SYSTEM_T:
+				return new msg_ejector_system_t(this);
+
+			case msg_seed_heartbeat.MAVLINK_MSG_ID_SEED_HEARTBEAT:
+				return new msg_seed_heartbeat(this);
+
+			case msg_ejector_heartbeat.MAVLINK_MSG_ID_EJECTOR_HEARTBEAT:
+				return new msg_ejector_heartbeat(this);
+
+			case msg_con_cmd.MAVLINK_MSG_ID_CON_CMD:
+				return new msg_con_cmd(this);
+
+			case msg_seed_system_t.MAVLINK_MSG_ID_SEED_SYSTEM_T:
+				return new msg_seed_system_t(this);
+
+			case msg_seed_log.MAVLINK_MSG_ID_SEED_LOG:
+				return new msg_seed_log(this);
 
 			default:
 				return null;

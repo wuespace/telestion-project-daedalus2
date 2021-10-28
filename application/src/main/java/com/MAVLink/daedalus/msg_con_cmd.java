@@ -16,7 +16,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_con_cmd extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_CON_CMD = 10004;
+	public static final int MAVLINK_MSG_ID_CON_CMD = 72498;
 	public static final int MAVLINK_MSG_LENGTH = 255;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_CON_CMD;
 

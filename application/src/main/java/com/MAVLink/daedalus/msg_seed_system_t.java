@@ -16,8 +16,8 @@ import com.MAVLink.Messages.MAVLinkPayload;
  */
 public class msg_seed_system_t extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_SEED_SYSTEM_T = 10003;
-	public static final int MAVLINK_MSG_LENGTH = 143;
+	public static final int MAVLINK_MSG_ID_SEED_SYSTEM_T = 79071;
+	public static final int MAVLINK_MSG_LENGTH = 142;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_SEED_SYSTEM_T;
 
 
@@ -25,6 +25,11 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	 * Seed local time
 	 */
 	public long time_local;
+
+	/**
+	 * system time
+	 */
+	public long d2time;
 
 	/**
 	 * number of the current iteration of the mainloop
@@ -87,11 +92,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public float tacho_rot_rate;
 
 	/**
-	 * Temperature of the battery block
-	 */
-	public float bat_temp;
-
-	/**
 	 * current latitude (N is positiv, S is negativ)
 	 */
 	public float gps_lat;
@@ -152,6 +152,11 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public int[] adc_measurements_cop = new int[8];
 
 	/**
+	 * number of received and executed telecommands
+	 */
+	public short telecommand_cnt;
+
+	/**
 	 * current System state
 	 */
 	public short state_cur;
@@ -172,14 +177,10 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public short bat_heater_fault;
 
 	/**
-	 * rxsm_allowed, bat1_allowed and bat2_allowed in this order with individual size of 1 bit.
+	 * rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used and bat2_used in this order with individual
+	 * size of 1 bit.
 	 */
-	public short bat_allowed;
-
-	/**
-	 * rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.
-	 */
-	public short bat_used;
+	public short bat_status;
 
 	/**
 	 * indicator for gps fix
@@ -192,18 +193,13 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	public short gps_satsUsed;
 
 	/**
-	 * identifier for blade controller type
+	 * identifier for blade controller type and finn controller type in this order with individual size of 4 bit.
 	 */
-	public short blade_controller_id;
+	public short controller_ids;
 
 	/**
-	 * identifier for  finn controller type
-	 */
-	public short finn_controller_id;
-
-	/**
-	 * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, servo_amps_avail,
-	 * bat_temp_avail, adc_measurements_avail in this order with individual size of 1 bit
+	 * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, bat_temp_avail,
+	 * adc_measurements_avail, rxsm_voltage_avail in this order with individual size of 1 bit
 	 */
 	public short available_status;
 
@@ -221,6 +217,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		packet.msgid = MAVLINK_MSG_ID_SEED_SYSTEM_T;
 
 		packet.payload.putLong(time_local);
+		packet.payload.putUnsignedInt(d2time);
 		packet.payload.putUnsignedInt(mainloop_itr_cnt);
 		packet.payload.putUnsignedInt(mainloop_itr_time);
 		packet.payload.putFloat(imu_acc_x);
@@ -233,7 +230,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		packet.payload.putFloat(baro_temp);
 		packet.payload.putFloat(vacuum_baro_press);
 		packet.payload.putFloat(tacho_rot_rate);
-		packet.payload.putFloat(bat_temp);
 		packet.payload.putFloat(gps_lat);
 		packet.payload.putFloat(gps_long);
 		packet.payload.putFloat(gps_hdop);
@@ -254,16 +250,15 @@ public class msg_seed_system_t extends MAVLinkMessage {
 			packet.payload.putUnsignedShort(adc_measurements_cop[i]);
 		}
 
+		packet.payload.putUnsignedByte(telecommand_cnt);
 		packet.payload.putUnsignedByte(state_cur);
 		packet.payload.putUnsignedByte(iridium_RSSI);
 		packet.payload.putUnsignedByte(lidar_cover_open);
 		packet.payload.putUnsignedByte(bat_heater_fault);
-		packet.payload.putUnsignedByte(bat_allowed);
-		packet.payload.putUnsignedByte(bat_used);
+		packet.payload.putUnsignedByte(bat_status);
 		packet.payload.putUnsignedByte(gps_quality);
 		packet.payload.putUnsignedByte(gps_satsUsed);
-		packet.payload.putUnsignedByte(blade_controller_id);
-		packet.payload.putUnsignedByte(finn_controller_id);
+		packet.payload.putUnsignedByte(controller_ids);
 		packet.payload.putUnsignedByte(available_status);
 
 		if (isMavlink2) {
@@ -282,6 +277,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		payload.resetIndex();
 
 		this.time_local = payload.getLong();
+		this.d2time = payload.getUnsignedInt();
 		this.mainloop_itr_cnt = payload.getUnsignedInt();
 		this.mainloop_itr_time = payload.getUnsignedInt();
 		this.imu_acc_x = payload.getFloat();
@@ -294,7 +290,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		this.baro_temp = payload.getFloat();
 		this.vacuum_baro_press = payload.getFloat();
 		this.tacho_rot_rate = payload.getFloat();
-		this.bat_temp = payload.getFloat();
 		this.gps_lat = payload.getFloat();
 		this.gps_long = payload.getFloat();
 		this.gps_hdop = payload.getFloat();
@@ -315,16 +310,15 @@ public class msg_seed_system_t extends MAVLinkMessage {
 			this.adc_measurements_cop[i] = payload.getUnsignedShort();
 		}
 
+		this.telecommand_cnt = payload.getUnsignedByte();
 		this.state_cur = payload.getUnsignedByte();
 		this.iridium_RSSI = payload.getUnsignedByte();
 		this.lidar_cover_open = payload.getUnsignedByte();
 		this.bat_heater_fault = payload.getUnsignedByte();
-		this.bat_allowed = payload.getUnsignedByte();
-		this.bat_used = payload.getUnsignedByte();
+		this.bat_status = payload.getUnsignedByte();
 		this.gps_quality = payload.getUnsignedByte();
 		this.gps_satsUsed = payload.getUnsignedByte();
-		this.blade_controller_id = payload.getUnsignedByte();
-		this.finn_controller_id = payload.getUnsignedByte();
+		this.controller_ids = payload.getUnsignedByte();
 		this.available_status = payload.getUnsignedByte();
 
 		if (isMavlink2) {
@@ -343,6 +337,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
 	public msg_seed_system_t(long time_local,
+			long d2time,
 			long mainloop_itr_cnt,
 			long mainloop_itr_time,
 			float imu_acc_x,
@@ -355,7 +350,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 			float baro_temp,
 			float vacuum_baro_press,
 			float tacho_rot_rate,
-			float bat_temp,
 			float gps_lat,
 			float gps_long,
 			float gps_hdop,
@@ -368,20 +362,20 @@ public class msg_seed_system_t extends MAVLinkMessage {
 			float controller_fin_angle,
 			int[] adc_measurements_sbc,
 			int[] adc_measurements_cop,
+			short telecommand_cnt,
 			short state_cur,
 			short iridium_RSSI,
 			short lidar_cover_open,
 			short bat_heater_fault,
-			short bat_allowed,
-			short bat_used,
+			short bat_status,
 			short gps_quality,
 			short gps_satsUsed,
-			short blade_controller_id,
-			short finn_controller_id,
+			short controller_ids,
 			short available_status) {
 		this.msgid = MAVLINK_MSG_ID_SEED_SYSTEM_T;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
 		this.mainloop_itr_cnt = mainloop_itr_cnt;
 		this.mainloop_itr_time = mainloop_itr_time;
 		this.imu_acc_x = imu_acc_x;
@@ -394,7 +388,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		this.baro_temp = baro_temp;
 		this.vacuum_baro_press = vacuum_baro_press;
 		this.tacho_rot_rate = tacho_rot_rate;
-		this.bat_temp = bat_temp;
 		this.gps_lat = gps_lat;
 		this.gps_long = gps_long;
 		this.gps_hdop = gps_hdop;
@@ -407,16 +400,15 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		this.controller_fin_angle = controller_fin_angle;
 		this.adc_measurements_sbc = adc_measurements_sbc;
 		this.adc_measurements_cop = adc_measurements_cop;
+		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
 		this.iridium_RSSI = iridium_RSSI;
 		this.lidar_cover_open = lidar_cover_open;
 		this.bat_heater_fault = bat_heater_fault;
-		this.bat_allowed = bat_allowed;
-		this.bat_used = bat_used;
+		this.bat_status = bat_status;
 		this.gps_quality = gps_quality;
 		this.gps_satsUsed = gps_satsUsed;
-		this.blade_controller_id = blade_controller_id;
-		this.finn_controller_id = finn_controller_id;
+		this.controller_ids = controller_ids;
 		this.available_status = available_status;
 
 	}
@@ -425,6 +417,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	 * Constructor for a new message, initializes everything
 	 */
 	public msg_seed_system_t(long time_local,
+			long d2time,
 			long mainloop_itr_cnt,
 			long mainloop_itr_time,
 			float imu_acc_x,
@@ -437,7 +430,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 			float baro_temp,
 			float vacuum_baro_press,
 			float tacho_rot_rate,
-			float bat_temp,
 			float gps_lat,
 			float gps_long,
 			float gps_hdop,
@@ -450,16 +442,15 @@ public class msg_seed_system_t extends MAVLinkMessage {
 			float controller_fin_angle,
 			int[] adc_measurements_sbc,
 			int[] adc_measurements_cop,
+			short telecommand_cnt,
 			short state_cur,
 			short iridium_RSSI,
 			short lidar_cover_open,
 			short bat_heater_fault,
-			short bat_allowed,
-			short bat_used,
+			short bat_status,
 			short gps_quality,
 			short gps_satsUsed,
-			short blade_controller_id,
-			short finn_controller_id,
+			short controller_ids,
 			short available_status,
 			int sysid,
 			int compid,
@@ -470,6 +461,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		this.isMavlink2 = isMavlink2;
 
 		this.time_local = time_local;
+		this.d2time = d2time;
 		this.mainloop_itr_cnt = mainloop_itr_cnt;
 		this.mainloop_itr_time = mainloop_itr_time;
 		this.imu_acc_x = imu_acc_x;
@@ -482,7 +474,6 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		this.baro_temp = baro_temp;
 		this.vacuum_baro_press = vacuum_baro_press;
 		this.tacho_rot_rate = tacho_rot_rate;
-		this.bat_temp = bat_temp;
 		this.gps_lat = gps_lat;
 		this.gps_long = gps_long;
 		this.gps_hdop = gps_hdop;
@@ -495,16 +486,15 @@ public class msg_seed_system_t extends MAVLinkMessage {
 		this.controller_fin_angle = controller_fin_angle;
 		this.adc_measurements_sbc = adc_measurements_sbc;
 		this.adc_measurements_cop = adc_measurements_cop;
+		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
 		this.iridium_RSSI = iridium_RSSI;
 		this.lidar_cover_open = lidar_cover_open;
 		this.bat_heater_fault = bat_heater_fault;
-		this.bat_allowed = bat_allowed;
-		this.bat_used = bat_used;
+		this.bat_status = bat_status;
 		this.gps_quality = gps_quality;
 		this.gps_satsUsed = gps_satsUsed;
-		this.blade_controller_id = blade_controller_id;
-		this.finn_controller_id = finn_controller_id;
+		this.controller_ids = controller_ids;
 		this.available_status = available_status;
 
 	}
@@ -529,7 +519,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
 	@Override
 	public String toString() {
 		return "MAVLINK_MSG_ID_SEED_SYSTEM_T - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local +
-				" mainloop_itr_cnt:" + mainloop_itr_cnt + " mainloop_itr_time:" + mainloop_itr_time + " imu_acc_x:" + imu_acc_x + " imu_acc_y:" + imu_acc_y + " imu_acc_z:" + imu_acc_z + " imu_gyro_x:" + imu_gyro_x + " imu_gyro_y:" + imu_gyro_y + " imu_gyro_z:" + imu_gyro_z + " baro_press:" + baro_press + " baro_temp:" + baro_temp + " vacuum_baro_press:" + vacuum_baro_press + " tacho_rot_rate:" + tacho_rot_rate + " bat_temp:" + bat_temp + " gps_lat:" + gps_lat + " gps_long:" + gps_long + " gps_hdop:" + gps_hdop + " gps_alt:" + gps_alt + " filter_vel_vertical:" + filter_vel_vertical + " filter_height_ground:" + filter_height_ground + " filter_rotor_rot_rate:" + filter_rotor_rot_rate + " fiter_body_rot_rate:" + fiter_body_rot_rate + " controller_blade_pitch:" + controller_blade_pitch + " controller_fin_angle:" + controller_fin_angle + " adc_measurements_sbc:" + adc_measurements_sbc + " adc_measurements_cop:" + adc_measurements_cop + " state_cur:" + state_cur + " iridium_RSSI:" + iridium_RSSI + " lidar_cover_open:" + lidar_cover_open + " bat_heater_fault:" + bat_heater_fault + " bat_allowed:" + bat_allowed + " bat_used:" + bat_used + " gps_quality:" + gps_quality + " gps_satsUsed:" + gps_satsUsed + " blade_controller_id:" + blade_controller_id + " finn_controller_id:" + finn_controller_id + " available_status:" + available_status + "";
+				" d2time:" + d2time + " mainloop_itr_cnt:" + mainloop_itr_cnt + " mainloop_itr_time:" + mainloop_itr_time + " imu_acc_x:" + imu_acc_x + " imu_acc_y:" + imu_acc_y + " imu_acc_z:" + imu_acc_z + " imu_gyro_x:" + imu_gyro_x + " imu_gyro_y:" + imu_gyro_y + " imu_gyro_z:" + imu_gyro_z + " baro_press:" + baro_press + " baro_temp:" + baro_temp + " vacuum_baro_press:" + vacuum_baro_press + " tacho_rot_rate:" + tacho_rot_rate + " gps_lat:" + gps_lat + " gps_long:" + gps_long + " gps_hdop:" + gps_hdop + " gps_alt:" + gps_alt + " filter_vel_vertical:" + filter_vel_vertical + " filter_height_ground:" + filter_height_ground + " filter_rotor_rot_rate:" + filter_rotor_rot_rate + " fiter_body_rot_rate:" + fiter_body_rot_rate + " controller_blade_pitch:" + controller_blade_pitch + " controller_fin_angle:" + controller_fin_angle + " adc_measurements_sbc:" + adc_measurements_sbc + " adc_measurements_cop:" + adc_measurements_cop + " telecommand_cnt:" + telecommand_cnt + " state_cur:" + state_cur + " iridium_RSSI:" + iridium_RSSI + " lidar_cover_open:" + lidar_cover_open + " bat_heater_fault:" + bat_heater_fault + " bat_status:" + bat_status + " gps_quality:" + gps_quality + " gps_satsUsed:" + gps_satsUsed + " controller_ids:" + controller_ids + " available_status:" + available_status + "";
 	}
 
 	/**
