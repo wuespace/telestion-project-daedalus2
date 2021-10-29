@@ -1,3 +1,20 @@
+# [0.15.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.3...v0.15.0) (2021-10-29)
+
+
+### Bug Fixes
+
+* **client:** Fix critical bug where Seed ECAM widget wouldn't load if the main bus voltage was `0` ([2b18a3d](https://github.com/wuespace/telestion-project-daedalus2/commit/2b18a3d7b90548d149a8558a590b623ac4e4f242))
+
+
+### Features
+
+* **application:** Add Iridium Payload type definitions ([b6422e5](https://github.com/wuespace/telestion-project-daedalus2/commit/b6422e54bfec39e55d4daa132bc6403ae1bd8d9f))
+* **application:** Integrate new MavLink definitions ([aaa5e0e](https://github.com/wuespace/telestion-project-daedalus2/commit/aaa5e0e1c95fe63fc5d2cb5306c207b28a432284))
+* **client:** Add battery heating TC widget that sends the `batheattarget <celsius>` CON_CMD to either of the seeds ([fa56fe5](https://github.com/wuespace/telestion-project-daedalus2/commit/fa56fe5d1fe489ee6067d76cdfbba4098100ebbd))
+* **client:** Add Iridium Payload type definitions ([9c9a189](https://github.com/wuespace/telestion-project-daedalus2/commit/9c9a189d6c68703937d2793eaff127c6580ba55f))
+
+
+
 ## [0.14.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.2...v0.14.3) (2021-10-12)
 
 
