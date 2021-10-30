@@ -2,7 +2,7 @@ import { useCachedLatest } from '../../hooks';
 
 export function useSeedEcamData(seed: 'seedA' | 'seedB') {
 	const [systemT] = useCachedLatest<Record<string, any>[]>([
-		`latest/${seed}/SEED_SYSTEM_T`
+		`latest/${seed}/SEED_HEARTBEAT`
 	]);
 
 	const data = systemT && {
@@ -11,12 +11,12 @@ export function useSeedEcamData(seed: 'seedA' | 'seedB') {
 		swashplate_servo1_amps: systemT.adc_measurements_cop[1] / 1000,
 		swashplate_servo2_amps: systemT.adc_measurements_cop[2] / 1000,
 		swashplate_servo3_amps: systemT.adc_measurements_cop[3] / 1000,
-		rxsmAllowed: (systemT?.bat_allowed & 0b001) > 0,
-		rxsmUsed: (systemT?.bat_used & 0b001) > 0,
-		bat1Allowed: (systemT?.bat_allowed & 0b010) > 0,
-		bat1Used: (systemT?.bat_used & 0b010) > 0,
-		bat2Allowed: (systemT?.bat_allowed & 0b100) > 0,
-		bat2Used: (systemT?.bat_used & 0b100) > 0,
+		rxsmAllowed: (systemT?.bat_status & 0b001) > 0,
+		rxsmUsed: (systemT?.bat_status & 0b1000) > 0,
+		bat1Allowed: (systemT?.bat_status & 0b010) > 0,
+		bat1Used: (systemT?.bat_status & 0b010000) > 0,
+		bat2Allowed: (systemT?.bat_status & 0b100) > 0,
+		bat2Used: (systemT?.bat_status & 0b100000) > 0,
 		bat1: systemT?.adc_measurements_cop[7] / 1000,
 		bat2: systemT?.adc_measurements_cop[6] / 1000,
 		rxsmVolts: systemT?.adc_measurements_sbc[0] / 1000,
