@@ -1,3 +1,13 @@
+## [0.15.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.15.0...v0.15.1) (2021-10-30)
+
+
+### Bug Fixes
+
+* **application:** Send time in seconds instead of milliseconds in TimeSync TC ([9b7a8af](https://github.com/wuespace/telestion-project-daedalus2/commit/9b7a8af1ccaf271a70d8b64d1caa15952465f1ec))
+* **client:** Adjust Seed ECAM widget to new data structure ([254d571](https://github.com/wuespace/telestion-project-daedalus2/commit/254d5711054ea1715a6fc88b7cfde20efc0939b1))
+
+
+
 # [0.15.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.14.3...v0.15.0) (2021-10-29)
 
 
