@@ -45,7 +45,7 @@ public class TimeSync extends AbstractVerticle {
 			try {
 				var time = System.currentTimeMillis() - D2_TIME_OFFSET_MS;
 
-				String command = MessageFormat.format("{0} {1}", message.command(), Long.toUnsignedString(time));
+				String command = MessageFormat.format("{0} {1}", message.command(), Long.toUnsignedString(time / 1000l));
 				eb.publish(config.outAddress(), new Telecommand(
 						message.target(),
 						command
