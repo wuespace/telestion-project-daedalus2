@@ -44,7 +44,7 @@ repositories {
 dependencies {
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.0'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
-	implementation "io.vertx:vertx-core:4.1.5"
+	implementation "io.vertx:vertx-core:4.2.0"
 	implementation "io.vertx:vertx-mongo-client:4.2.0"
 	implementation 'io.vertx:vertx-redis-client:4.1.5'
 
