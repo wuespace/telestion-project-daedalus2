@@ -55,12 +55,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @SuppressWarnings("unused")
 public record IEHeader(
-		@JsonProperty int cdr,
+		@JsonProperty long cdr,
 		@JsonProperty String imei,
 		@JsonProperty int session_status,
-		@JsonProperty short momsn,
-		@JsonProperty short mtmsn,
-		@JsonProperty int time
+		@JsonProperty int momsn,
+		@JsonProperty int mtmsn,
+		@JsonProperty long time
 ) implements InformationElement {
 	private IEHeader() {
 		this(-1, null, -1, (short) -1, (short) -1, -1);
