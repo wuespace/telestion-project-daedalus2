@@ -159,12 +159,15 @@
 						"seedA/SEED_HEARTBEAT",
 						"seedA/SEED_LOG",
 						"seedA/SEED_SYSTEM_T",
+						"seedA/iridium",
 						"seedB/SEED_HEARTBEAT",
 						"seedB/SEED_LOG",
 						"seedB/SEED_SYSTEM_T",
+						"seedB/iridium",
 						"ejector/EJECTOR_HEARTBEAT",
 						"ejector/EJECTOR_LOG",
-						"ejector/EJECTOR_SYSTEM_T"
+						"ejector/EJECTOR_SYSTEM_T",
+						"testboard1/iridium"
 					]
 				}
 			},
@@ -197,12 +200,15 @@
 						"seedA/SEED_HEARTBEAT",
 						"seedA/SEED_LOG",
 						"seedA/SEED_SYSTEM_T",
+						"seedA/iridium",
 						"seedB/SEED_HEARTBEAT",
 						"seedB/SEED_LOG",
 						"seedB/SEED_SYSTEM_T",
+						"seedB/iridium",
 						"ejector/EJECTOR_HEARTBEAT",
 						"ejector/EJECTOR_LOG",
-						"ejector/EJECTOR_SYSTEM_T"
+						"ejector/EJECTOR_SYSTEM_T",
+						"testboard1/iridium"
 					]
 				}
 			},
