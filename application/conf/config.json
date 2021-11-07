@@ -135,6 +135,20 @@
 				}
 			},
 			{
+				"name": "[DATA] Iridium Message Mapper for Redis",
+				"verticle": "de.wuespace.telestion.project.daedalus2.iridium.MessageMapper",
+				"magnitude": 1,
+				"config": {
+					"inAddress": "iridium-messages",
+					"imeiMapping": {
+						"***REMOVED***": "simulator",
+						"***REMOVED***": "testboard1",
+						"***REMOVED***": "seedA",
+						"???": "seedB"
+					}
+				}
+			},
+			{
 				"name": "[DATA] Redis Saver",
 				"verticle": "de.wuespace.telestion.project.daedalus2.redis.RedisSaver",
 				"magnitude": 1,
