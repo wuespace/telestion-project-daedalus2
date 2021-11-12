@@ -9,6 +9,8 @@ import de.wuespace.telestion.project.daedalus2.iridium.message.IEPayload;
 import de.wuespace.telestion.project.daedalus2.iridium.message.IridiumMessage;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.json.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +27,8 @@ public class MessageMapper extends AbstractVerticle {
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		this.config = Config.get(this.config, new Configuration(), config(), Configuration.class);
-		vertx.eventBus().consumer(config.inAddress(), raw -> JsonMessage.on(IridiumMessage.class, raw, this::handleMessage));
+		vertx.eventBus().consumer(config.inAddress(),
+				raw -> JsonMessage.on(IridiumMessage.class, raw, this::handleMessage));
 		startPromise.complete();
 	}
 
@@ -41,6 +44,7 @@ public class MessageMapper extends AbstractVerticle {
 	private Configuration config;
 
 	private void handleMessage(IridiumMessage msg) {
+		final long receivedTime = System.currentTimeMillis();
 		IEHeader header = null;
 		IEPayload payload = null;
 		IELocation location = null;
@@ -73,6 +77,14 @@ public class MessageMapper extends AbstractVerticle {
 		var mapped = header != null
 				? config.imeiMapping().getOrDefault(header.imei(), "unknown")
 				: "unknown";
-		vertx.eventBus().publish(mapped + "/iridium", new MappedMessage(header, payload, location).json());
+		var options = new DeliveryOptions()
+				.addHeader("receive-time", Json.encode(receivedTime))
+				// from seconds to milliseconds
+				.addHeader("time", Json.encode(header != null ? header.time() * 1000 : receivedTime));
+		vertx.eventBus().publish(
+				mapped + "/iridium",
+				new MappedMessage(header, payload, location).json(),
+				options
+		);
 	}
 }

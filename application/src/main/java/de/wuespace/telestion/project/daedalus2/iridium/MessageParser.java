@@ -69,7 +69,7 @@ public class MessageParser extends AbstractVerticle {
 			// next convert the object to our message types and send it out
 			var message = new IridiumMessage(objectMapper.readValue(rawData, new TypeReference<>() {
 			}));
-			vertx.eventBus().send(config.outAddress(), message.json());
+			vertx.eventBus().publish(config.outAddress(), message.json());
 		} catch (IOException e) {
 			logger.error("Cannot parse raw data", e);
 		}
