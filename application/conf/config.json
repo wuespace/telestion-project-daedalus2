@@ -179,7 +179,7 @@
 						"ejector/EJECTOR_LOG",
 						"ejector/EJECTOR_SYSTEM_T",
 						"ejector/tc-counter",
-						"testboard1/iridium"
+						"simulator/iridium"
 					]
 				}
 			},
@@ -220,7 +220,7 @@
 						"ejector/EJECTOR_HEARTBEAT",
 						"ejector/EJECTOR_LOG",
 						"ejector/EJECTOR_SYSTEM_T",
-						"testboard1/iridium"
+						"simulator/iridium"
 					]
 				}
 			},
