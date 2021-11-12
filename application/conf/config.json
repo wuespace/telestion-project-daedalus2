@@ -102,12 +102,21 @@
 				"config": {
 					"inAddress": "tc-sender",
 					"outAddress": "static-sender",
+					"notifyAddress": "notify-on-send",
 					"compIdAliasMapping": {
 						"seedA": 4,
 						"seedB": 6,
 						"ejector": 3
 					},
 					"sysId": 192
+				}
+			},
+			{
+				"name": "[SEND] Telecommand Counter",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TCCounter",
+				"magnitude": 1,
+				"config": {
+					"inAddress": "notify-on-send"
 				}
 			},
 			{
@@ -160,13 +169,16 @@
 						"seedA/SEED_LOG",
 						"seedA/SEED_SYSTEM_T",
 						"seedA/iridium",
+						"seedA/tc-counter",
 						"seedB/SEED_HEARTBEAT",
 						"seedB/SEED_LOG",
 						"seedB/SEED_SYSTEM_T",
 						"seedB/iridium",
+						"seedB/tc-counter",
 						"ejector/EJECTOR_HEARTBEAT",
 						"ejector/EJECTOR_LOG",
 						"ejector/EJECTOR_SYSTEM_T",
+						"ejector/tc-counter",
 						"testboard1/iridium"
 					]
 				}
