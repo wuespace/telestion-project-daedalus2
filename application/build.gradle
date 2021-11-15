@@ -49,7 +49,7 @@ dependencies {
 	implementation 'io.vertx:vertx-redis-client:4.2.1'
 
 	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
-	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.6'
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.7'
 	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.6'
 
 	implementation 'de.wuespace.telestion:telestion-api:0.5.0'
