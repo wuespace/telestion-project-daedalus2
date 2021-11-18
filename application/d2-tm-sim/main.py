@@ -16,6 +16,11 @@ SEED_B_ID = 6
 
 STOP_FLAG = False
 
+sourceIds = {
+	SEED_A_ID: "seedA",
+	SEED_B_ID: "seedB",
+	EJECTOR_ID: "ejector"
+}
 
 def receive(name, s: socket.socket, file: BinaryIO):
 	print("Starting receive thread " + str(name))
@@ -27,10 +32,21 @@ def receive(name, s: socket.socket, file: BinaryIO):
 			raw = s.recv(1)
 			message = tc_receiver.parse_char(raw)
 			if message:
-				print("\nReceived to {0} message: {1}".format(message.get_header().srcComponent, str(message)))
+				sourceId = message.get_header().srcComponent
+				msgSource = sourceIds.get(sourceId, "unknown")
+				if hasattr(message, "ublox_msg"):
+					msgType = "ublox_msg"
+					msgContent = bytearray(message.ublox_msg).strip(b"\x00")
+				elif hasattr(message, "con_cmd"):
+					msgType = "con_cmd"
+					msgContent = message.con_cmd
+				else:
+					msgType = "generic"
+					msgContent = message
+
+				print("\nReceived a '{0}' message to '{1}' with: {2}".format(msgType, msgSource, msgContent))
 	except:
 		return None
-
 
 def loop():
 	s: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
