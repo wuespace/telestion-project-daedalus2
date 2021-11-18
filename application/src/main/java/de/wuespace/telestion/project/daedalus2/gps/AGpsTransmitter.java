@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.wuespace.telestion.api.config.Config;
 import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.project.daedalus2.gps.message.*;
-import de.wuespace.telestion.project.daedalus2.mavlink.internal.RawTelecommand;
+import de.wuespace.telestion.project.daedalus2.mavlink.internal.AssistNowTelecommand;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.eventbus.Message;
@@ -203,12 +203,20 @@ public class AGpsTransmitter extends AbstractVerticle {
 		// first, lock the session
 		setTransmitting(true);
 		// convert from base64 to binary blob
-		byte[] binaryBlob = Base64.getDecoder().decode(data.encodedData());
+		byte[] binaryBlob;
+		try {
+			binaryBlob = Base64.getDecoder().decode(data.encodedData());
+		} catch (Exception e) {
+			logger.warn("Cannot decode uploaded data (not base64?)");
+			setTransmitting(false);
+			return 5;
+		}
 		// split binary blob
 		try {
 			chunks = splitBinaryBlob(binaryBlob, config.bytesPerMessage());
 		} catch (Exception e) {
 			logger.warn("Cannot split binary blob.");
+			setTransmitting(false);
 			return 4;
 		}
 		this.target = currentTarget;
@@ -255,7 +263,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 		logger.debug("Sending chunk {}", currentChunk);
 		vertx.eventBus().publish(
 				config.outAddress(),
-				new RawTelecommand(target, chunks.get(currentChunk)).json()
+				new AssistNowTelecommand(target, chunks.get(currentChunk)).json()
 		);
 		notifyConsumers();
 
