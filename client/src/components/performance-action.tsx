@@ -7,6 +7,14 @@ import Gauge3 from '@spectrum-icons/workflow/Gauge3';
 import Gauge4 from '@spectrum-icons/workflow/Gauge4';
 import Gauge5 from '@spectrum-icons/workflow/Gauge5';
 
+const tooltips: Record<number, string> = {
+	1: 'Increase performance',
+	2: 'Increase performance further',
+	3: 'Overclock screen',
+	4: 'Enable hyperdrive',
+	5: 'Slowdown!'
+};
+
 export function PerformanceAction() {
 	const [state, setState] = useState(1);
 
@@ -30,7 +38,7 @@ export function PerformanceAction() {
 					<Gauge5 />
 				)}
 			</ActionButton>
-			<Tooltip>{state < 5 ? 'Increase performance' : 'Reset'}</Tooltip>
+			<Tooltip>{tooltips[state]}</Tooltip>
 		</TooltipTrigger>
 	);
 }
