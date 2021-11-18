@@ -21,10 +21,12 @@ import { widget as manualTimeSeriesRequestWidget } from './manual-time-series-re
 import { widget as simpleGraphWidget } from './simple-graph-widget';
 import { widget as timeSyncWidget } from './time-sync-widget';
 import { widget as batHeatingTcWidget } from './bat-heating-tc-widget';
+import { widget as stateChangeWidget } from './state-change-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	stateChangeWidget as Widget,
 	batHeatingTcWidget,
 	timeSyncWidget,
 	simpleGraphWidget as Widget,
