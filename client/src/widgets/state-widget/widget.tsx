@@ -1,24 +1,20 @@
-import { useLogger } from '@wuespace/telestion-client-core';
 import { LoadingIndicator } from '@wuespace/telestion-client-common';
 
-import { fallbackState, states } from './model';
-import { StateDisplay } from './state-display';
+import { fallbackState, states } from '../../model/state';
 import { useCachedLatest } from '../hooks';
-import { StateWidgetConfig } from './state-widget-config';
+import { WidgetProps } from './model';
+import { StateDisplay } from './components/state-display';
 
 export function Widget({
 	seedASource,
 	seedBSource,
 	ejectorSource
-}: StateWidgetConfig) {
-	const logger = useLogger('state-machine-widget');
+}: WidgetProps) {
 	const currentStates = useCachedLatest<[number, number, number]>([
 		`latest/seedA/${seedASource}/state_cur`,
 		`latest/seedB/${seedBSource}/state_cur`,
 		`latest/ejector/${ejectorSource}/state_cur`
 	]);
-
-	if (states) logger.debug('Flight state:', currentStates);
 
 	return (
 		// @ts-ignore
