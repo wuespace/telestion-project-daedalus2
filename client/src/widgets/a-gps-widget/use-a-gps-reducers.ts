@@ -97,6 +97,9 @@ export function useAGpsReducers(): WidgetReducers {
 					case 4:
 						alert('Cannot split binary blob');
 						break;
+					case 5:
+						alert('Invalid data uploaded. Cannot transmit');
+						break;
 				}
 			}
 		});
