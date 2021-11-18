@@ -11,6 +11,7 @@ import {
 	AccountControls
 } from '@wuespace/telestion-client-common';
 import { PerformanceAction } from './performance-action';
+import { MissionTimeAction } from './mission-time-action';
 
 export function Header() {
 	return (
@@ -26,6 +27,7 @@ export function Header() {
 				<>
 					<ConnectionIndicator />
 					<Actions>
+						<MissionTimeAction />
 						<PerformanceAction />
 						<NotificationAction />
 						<ColorSchemeAction />
