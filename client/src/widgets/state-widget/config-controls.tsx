@@ -1,12 +1,12 @@
 import { Flex, Heading, Radio, RadioGroup, View } from '@adobe/react-spectrum';
 import { BaseConfigControlsProps } from '@wuespace/telestion-client-types';
 import { useHljs } from '../hooks';
-import { StateWidgetConfig } from './state-widget-config';
+import { WidgetProps } from './model';
 
 export function ConfigControls({
 	currentProps,
 	onUpdate
-}: BaseConfigControlsProps<StateWidgetConfig>) {
+}: BaseConfigControlsProps<WidgetProps>) {
 	useHljs();
 
 	const value = JSON.stringify(currentProps, null, 2);

@@ -1,9 +1,9 @@
 import { Widget } from '@wuespace/telestion-client-types';
 import { Widget as WidgetRenderer } from './widget';
-import { StateWidgetConfig } from './state-widget-config';
 import { ConfigControls } from './config-controls';
+import { WidgetProps } from './model';
 
-export const widget: Widget<StateWidgetConfig> = {
+export const widget: Widget<WidgetProps> = {
 	name: 'stateWidget',
 	title: 'State Widget',
 	version: '0.1.0',
