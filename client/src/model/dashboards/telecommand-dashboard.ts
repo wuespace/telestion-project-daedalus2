@@ -2,14 +2,14 @@ import { Dashboard } from '@wuespace/telestion-client-types';
 
 export const telecommandDashboard: Dashboard = {
 	title: 'Telecommand',
-	columns: 12,
-	rows: 12,
+	columns: 20,
+	rows: 2,
 	widgets: [
 		{
 			id: 'telecommand--1',
 			widgetName: 'stateWidget',
-			width: 6,
-			height: 6,
+			width: 8,
+			height: 1,
 			initialProps: {
 				seedASource: 'SEED_SYSTEM_T',
 				seedBSource: 'SEED_SYSTEM_T',
@@ -17,10 +17,24 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
+			id: 'telecommand-6',
+			widgetName: 'stateChangeWidget',
+			width: 4,
+			height: 1,
+			initialProps: {
+				title: 'State Change',
+				targets: {
+					seedA: 'Seed A',
+					seedB: 'Seed B',
+					ejector: 'Ejector'
+				}
+			}
+		},
+		{
 			id: 'telecommand-0',
 			widgetName: 'timeSyncWidget',
-			width: 3,
-			height: 6,
+			width: 4,
+			height: 1,
 			initialProps: {
 				title: 'Note 3'
 			}
@@ -28,8 +42,8 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-1',
 			widgetName: 'aGpsWidget',
-			width: 3,
-			height: 6,
+			width: 4,
+			height: 1,
 			initialProps: {
 				title: 'A-GPS Upload',
 				targets: {
@@ -41,8 +55,8 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-2',
 			widgetName: 'commonSeedTcsWidget',
-			width: 3,
-			height: 6,
+			width: 5,
+			height: 1,
 			initialProps: {
 				title: 'Common TCs Seed A',
 				channel: 'tc-sender',
@@ -52,8 +66,8 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-3',
 			widgetName: 'commonSeedTcsWidget',
-			width: 3,
-			height: 6,
+			width: 5,
+			height: 1,
 			initialProps: {
 				title: 'Common TCs Seed B',
 				channel: 'tc-sender',
@@ -63,8 +77,8 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-4',
 			widgetName: 'freitextTcWidget',
-			width: 3,
-			height: 6,
+			width: 5,
+			height: 1,
 			initialProps: {
 				title: 'Freitext Telecommand Widget',
 				channel: 'tc-sender',
@@ -78,8 +92,8 @@ export const telecommandDashboard: Dashboard = {
 		{
 			id: 'telecommand-5',
 			widgetName: 'batHeatingTcWidget',
-			width: 3,
-			height: 6,
+			width: 5,
+			height: 1,
 			initialProps: {}
 		}
 	]
