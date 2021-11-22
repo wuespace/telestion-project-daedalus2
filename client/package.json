@@ -60,7 +60,7 @@
 		"@wuespace/telestion-client-core": "^0.17.0",
 		"@wuespace/telestion-client-prop-types": "^0.17.0",
 		"d3": "^7.1.1",
-		"electron": "^15.3.1",
+		"electron": "^16.0.1",
 		"highlight.js": "^11.3.1",
 		"json-pointer": "^0.6.1",
 		"react": "^17.0.1",
