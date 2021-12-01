@@ -1,3 +1,30 @@
+# [0.16.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.15.1...v0.16.0) (2021-12-01)
+
+
+### Bug Fixes
+
+* **application:** Fix bug where uploaded data which is not Base64 encoded throws and breaks the verticle ([0a12988](https://github.com/wuespace/telestion-project-daedalus2/commit/0a129882e2c5f363e5f8be63d787327a1f0d8f97))
+* **application:** Fix Iridium Message Mapper not sending receive time in header resulting in errors in Redis Saver ([66b0ca2](https://github.com/wuespace/telestion-project-daedalus2/commit/66b0ca216cd459f9f1f402b4f6f7c9f3d7cae86e))
+* **application:** Increase size of integer elements in IE header to prevent unsigned integer overflow ([1da78b7](https://github.com/wuespace/telestion-project-daedalus2/commit/1da78b79ac6be7580b0db70a4fbbfc8cbeceedd6))
+* **client:** Add Client side implementation to handle uploaded data which can be invalid ([4665c7e](https://github.com/wuespace/telestion-project-daedalus2/commit/4665c7e9ce2083acbffb5090190cee263d86cdbb))
+* **client:** Fix several small visual issues in the Seed ECAM Widget ([2935e89](https://github.com/wuespace/telestion-project-daedalus2/commit/2935e891ca230f6b7d4921d901f8ff82569e6a01))
+* **widget:** Fix title overflow in A-GPS Upload widget ([7c678fa](https://github.com/wuespace/telestion-project-daedalus2/commit/7c678fa3262ecd4ec71bb69dc8504aaedc35afd2))
+
+
+### Features
+
+* **application:** Add Assist Now generator script ([6cc21a4](https://github.com/wuespace/telestion-project-daedalus2/commit/6cc21a42fdf4492488eda6cb48d926822c7ef2c2))
+* **application:** Add iridium message channels to Redis and Mongo saver ([f770756](https://github.com/wuespace/telestion-project-daedalus2/commit/f770756ed03c728eda1d853979f7167e7c3d9588))
+* **application:** Add message mapper verticle to map iridium messages to redis readable data ([97d32c1](https://github.com/wuespace/telestion-project-daedalus2/commit/97d32c1bb3ce2f77fe46c7e34faaee15d8561f35))
+* **application:** Add Telecommand Counter verticle ([9328e58](https://github.com/wuespace/telestion-project-daedalus2/commit/9328e58b7b55957fcdf12a3f1ed9a5b9c3f246eb))
+* **application:** Partially rewrite TelecommandSender verticle to send different MAVLink messages based on Telecommand Messages ([01ff65b](https://github.com/wuespace/telestion-project-daedalus2/commit/01ff65beba6915256da97da53d09527e23dcd574))
+* **client:** Add current D2 mission time in header ([58bb9b8](https://github.com/wuespace/telestion-project-daedalus2/commit/58bb9b8a6baaad13db2665d4b6c7ff9e1b5bbfa6))
+* **client:** Add State change widget ([ba08b83](https://github.com/wuespace/telestion-project-daedalus2/commit/ba08b8399b51fb2b7961887a42e12c7a305429b1))
+* **client:** Move and refactor states from State widget to model ([5daea49](https://github.com/wuespace/telestion-project-daedalus2/commit/5daea49ee7bfd602428e56da97a73425bd01bf49))
+* **client:** Refactor and clean up state widget and make use of the new state definitions ([88693e7](https://github.com/wuespace/telestion-project-daedalus2/commit/88693e77daf2803e1993c1b02afeda6995180488))
+
+
+
 ## [0.15.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.15.0...v0.15.1) (2021-10-30)
 
 
