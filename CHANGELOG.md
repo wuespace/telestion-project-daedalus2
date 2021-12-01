@@ -1,3 +1,12 @@
+## [0.16.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.0...v0.16.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* **ci:** Fix invalid replace pattern in client release workflow ([60f76db](https://github.com/wuespace/telestion-project-daedalus2/commit/60f76db0532e11b4272e31e9e2e429f816010daf))
+
+
+
 # [0.16.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.15.1...v0.16.0) (2021-12-01)
 
 
