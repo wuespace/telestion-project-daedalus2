@@ -30,13 +30,14 @@ def receive(name, s: socket.socket, file: BinaryIO):
 			if file.closed:
 				break
 			raw = s.recv(1)
+			print(raw)
 			message = tc_receiver.parse_char(raw)
 			if message:
 				sourceId = message.get_header().srcComponent
 				msgSource = sourceIds.get(sourceId, "unknown")
 				if hasattr(message, "ublox_msg"):
 					msgType = "ublox_msg"
-					msgContent = bytearray(message.ublox_msg).strip(b"\x00")
+					msgContent = bytearray(message.ublox_msg)
 				elif hasattr(message, "con_cmd"):
 					msgType = "con_cmd"
 					msgContent = message.con_cmd
