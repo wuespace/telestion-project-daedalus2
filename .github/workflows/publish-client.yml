@@ -97,6 +97,15 @@ jobs:
       - name: Build binaries 🗜
         run: npm run build
 
+      - name: Compress and upload generated client build
+        if: ${{ env.skipped == 'false' && os.matrix == 'ubuntu-latest' }}
+        uses: ncipollo/release-action@v1
+        with:
+          type: "zip"
+          filename: "telestion-project-daedalus2-client-build.zip"
+          path: "build"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload release assets 🪡
         if: ${{ env.skipped == 'false' }}
         uses: svenstaro/upload-release-action@2.2.1
