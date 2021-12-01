@@ -62,7 +62,7 @@ export function Widget({ title, targets }: BaseRendererProps<WidgetProps>) {
 				<sp-field-label size="m" required={true}>
 					Loaded A-GPS data
 				</sp-field-label>
-				<pre>{dataName || 'No data'}</pre>
+				<pre style={{ whiteSpace: 'pre-wrap' }}>{dataName || 'No data'}</pre>
 				<RadioGroup
 					label="Target"
 					value={target}
