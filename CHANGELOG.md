@@ -1,3 +1,12 @@
+## [0.16.4](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.3...v0.16.4) (2021-12-01)
+
+
+### Bug Fixes
+
+* **ci:** Remove zip and upload part for generated client build because it does not work :trollface: ([221a4db](https://github.com/wuespace/telestion-project-daedalus2/commit/221a4dbaa12d62f307a183be5e628d971a45ff05))
+
+
+
 ## [0.16.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.2...v0.16.3) (2021-12-01)
 
 
