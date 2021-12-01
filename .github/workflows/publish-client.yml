@@ -98,7 +98,7 @@ jobs:
         run: npm run build
 
       - name: Compress and upload generated client build
-        if: ${{ env.skipped == 'false' && os.matrix == 'ubuntu-latest' }}
+        if: ${{ env.skipped == 'false' && matrix.os == 'ubuntu-latest' }}
         uses: ncipollo/release-action@v1
         with:
           type: "zip"
