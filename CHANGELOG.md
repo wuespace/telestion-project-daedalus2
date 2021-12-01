@@ -1,3 +1,12 @@
+## [0.16.3](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.2...v0.16.3) (2021-12-01)
+
+
+### Bug Fixes
+
+* **ci:** Fix release workflow by adding one step more ([67fc8df](https://github.com/wuespace/telestion-project-daedalus2/commit/67fc8df1aa8ddb9df74344840714713d25cb8d7a))
+
+
+
 ## [0.16.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.1...v0.16.2) (2021-12-01)
 
 
