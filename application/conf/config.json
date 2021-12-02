@@ -190,7 +190,8 @@
 						"ejector/EJECTOR_LOG",
 						"ejector/EJECTOR_SYSTEM_T",
 						"ejector/tc-counter",
-						"simulator/iridium"
+						"simulator/iridium",
+						"message-chunker/information"
 					]
 				}
 			},
