@@ -30,7 +30,7 @@ def receive(name, s: socket.socket, file: BinaryIO):
 			if file.closed:
 				break
 			raw = s.recv(1)
-			print(raw)
+# 			print(raw)
 			message = tc_receiver.parse_char(raw)
 			if message:
 				sourceId = message.get_header().srcComponent

@@ -10,7 +10,7 @@ A text editor or IDE with auto-completion and gradle support is beneficial.
 ## Setup
 
 To fetch the dependencies locally you need a Github personal access token with `packages:read` rights.
-Either add your github user name and the token as `GITHUB_ACTOR` and `GITHUB_TOKEN` to your environment variables 
+Either add your github user name and the token as `GITHUB_ACTOR` and `GITHUB_TOKEN` to your environment variables
 or make a copy of the `gradle.properties.example` and name it `gradle.properties`.
 Then insert your username and token into this file.
 No worries, this file should not be committed. (it's git ignored)
@@ -25,26 +25,26 @@ Now you can run the application natively on your system.
 Before you start, you need a MongoDB Server setup.
 To start it, please type:
 
-```
+```sh
 docker-compose --profile devel-native up -d
 ```
 
 Now, the MongoDB server is running on port `27017`.
 You can try to connect to the server if you installed the mongo-client-tools:
 
-```
+```sh
 mongo
 ```
 
 Let's start the application with gradle:
 
-```shell
+```sh
 ./gradlew run
 ```
 
 or:
 
-```
+```sh
 .\gradle.bat run
 ```
 
@@ -54,33 +54,33 @@ If you want to test your changes directly in docker, you can package it and run 
 
 1. Please shutdown any running containers and services:
 
-```
-docker-compose --profile devel-native down
-```
+   ```sh
+   docker-compose --profile devel-native down
+   ```
 
 2. Create a distribution build with gradle:
 
-```shell
-./gradlew assembleDist
-```
+   ```sh
+   ./gradlew assembleDist
+   ```
 
-or:
+   or:
 
-```
-.\gradle.bat assembleDist
-```
+   ```bat
+   .\gradle.bat assembleDist
+   ```
 
 3. Build the local image with `docker-compose`:
 
-```
-docker-compose --profile devel-docker build
-```
+   ```sh
+   docker-compose --profile devel-docker build
+   ```
 
 4. And create and start the containers:
 
-```
-docker-compose --profile devel-docker up -d
-```
+   ```sh
+   docker-compose --profile devel-docker up -d
+   ```
 
 That's it!
 
@@ -88,7 +88,7 @@ That's it!
 
 If you want to run the application in production mode using the latest release of the project, then you simply need to call:
 
-```
+```sh
 docker-compose --profile prod up -d
 ```
 
@@ -98,11 +98,52 @@ to pull and start the required docker containers.
 >
 > Your local `config.json` will be used to configure the started application!
 
+## Testing your work
+
+### TCP MavLink simulator
+
+We have written a small simulator which attaches to the exposed MavLink TCP server.
+It sends status updates in regular intervals and can receive all MavLink telecommands from Telestion side.
+
+To use it, please take a look inside the [`d2-tm-sim` folder](./d2-tm-sim/).
+
+### Testing with serial ports
+
+If you are using Linux as your host operating system you can open two linked serial ports with socat:
+
+```sh
+socat -d -d pty,raw,echo=0 pty,raw,echo=0
+```
+
+The output tells you the path to the opened sockets, e.g.:
+
+```txt
+2021/12/02 03:45:06 socat[13586] N PTY is /dev/pts/5
+2021/12/02 03:45:06 socat[13586] N PTY is /dev/pts/6
+2021/12/02 03:45:06 socat[13586] N starting data transfer loop with FDs [5,5] and [7,7]
+```
+
+It says, it has created two virtual serial devices on `/dev/pts/5` and on `/dev/pts/6`.
+
+Now, connect the tcp_serial_redirect python script to one of the open ports:
+
+```sh
+python ./tcp_serial_redirect.py -c localhost:9871 /dev/pts/6 38400
+```
+
+And e.g. `hexdump` on the other side:
+
+```sh
+hexdump -C /dev/pts/5
+```
+
+And send data through the tunnel via telecommands etc.
+
 ## Project Structure
 
 The application structure looks like:
 
-```
+```txt
 .
 ├── .gradle (gradle specific setup; should not be commited)
 ├── build (build files containing meta-information and binaries from the build process)
