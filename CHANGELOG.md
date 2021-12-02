@@ -1,3 +1,13 @@
+# [0.17.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.4...v0.17.0) (2021-12-02)
+
+
+### Features
+
+* Add updated MavLink definition for Daedalus2 ([80ef4d2](https://github.com/wuespace/telestion-project-daedalus2/commit/80ef4d2b027a2ad54a879dc262946d8f8d2e7b12))
+* **application:** Add Message Chunker with updated configuration ([33b0b12](https://github.com/wuespace/telestion-project-daedalus2/commit/33b0b121e77b4b76a2293bbf5142d4924b940279))
+
+
+
 ## [0.16.4](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.3...v0.16.4) (2021-12-01)
 
 
