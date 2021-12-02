@@ -11,9 +11,9 @@ export const electricalDashboard: Dashboard = {
 			width: 4,
 			height: 6,
 			initialProps: {
-				seedASource: 'SEED_SYSTEM_T',
-				seedBSource: 'SEED_SYSTEM_T',
-				ejectorSource: 'EJECTOR_SYSTEM_T'
+				seedASource: 'SEED_HEARTBEAT',
+				seedBSource: 'SEED_HEARTBEAT',
+				ejectorSource: 'EJECTOR_HEARTBEAT'
 			}
 		},
 		{
@@ -32,13 +32,7 @@ export const electricalDashboard: Dashboard = {
 			height: 12,
 			initialProps: {
 				title: 'Current values',
-				connections: [
-					{
-						address: 'latest/seedA/SEED_SYSTEM_T/state_cur',
-						rps: 10,
-						title: 'latest/seedA/SEED_SYSTEM_T/state_cur'
-					}
-				]
+				connections: []
 			}
 		},
 		{
