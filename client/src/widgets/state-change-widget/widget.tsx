@@ -15,14 +15,10 @@ import { BaseRendererProps } from '@wuespace/telestion-client-types';
 import { TCState } from '../../model/tc-state';
 import { TCSendButton } from '../components/tc-send-button';
 import { WidgetProps } from './model';
-import { states } from '../../model/state';
+import { statesList } from './states';
 
 const cmdPrefix = 'statetrans';
 const initialStateId = 0;
-const statesList = Object.entries(states).map(([id, state]) => ({
-	id,
-	...state
-}));
 
 function preventDefault(event: FormEvent) {
 	event.preventDefault();
