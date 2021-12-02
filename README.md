@@ -1,3 +1,8 @@
+# ⚠️ Dependency lock in place!
+
+**Due to the current situation, dependency updates are restricted!**
+**An update is only possible after prior consultation with the maintainers!**
+
 # Telestion Project Daedalus2
 
 This repository holds project-specific resources for [Daedalus2](https://www.wuespace.de/daedalus/daedalus2/ "Project page").
