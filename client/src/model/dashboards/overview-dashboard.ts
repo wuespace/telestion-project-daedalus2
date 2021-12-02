@@ -11,9 +11,9 @@ export const overviewDashboard: Dashboard = {
 			width: 6,
 			height: 6,
 			initialProps: {
-				seedASource: 'SEED_SYSTEM_T',
-				seedBSource: 'SEED_SYSTEM_T',
-				ejectorSource: 'EJECTOR_SYSTEM_T'
+				seedASource: 'SEED_HEARTBEAT',
+				seedBSource: 'SEED_HEARTBEAT',
+				ejectorSource: 'EJECTOR_HEARTBEAT'
 			}
 		},
 		{
@@ -32,13 +32,7 @@ export const overviewDashboard: Dashboard = {
 			height: 6,
 			initialProps: {
 				title: 'Current values',
-				connections: [
-					{
-						address: 'latest/seedA/SEED_SYSTEM_T/state_cur',
-						rps: 10,
-						title: 'latest/seedA/SEED_SYSTEM_T/state_cur'
-					}
-				]
+				connections: []
 			}
 		},
 		{
@@ -52,13 +46,7 @@ export const overviewDashboard: Dashboard = {
 				title: 'Some graph widget',
 				minY: 0,
 				maxY: 1,
-				series: [
-					{
-						key: 'ts/seedA/SEED_SYSTEM_T/imu_gyro_z',
-						minMax: true,
-						color: 'hsl(0, 100%, 50%)'
-					}
-				]
+				series: []
 			}
 		}
 	]

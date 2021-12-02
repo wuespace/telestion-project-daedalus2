@@ -11,9 +11,9 @@ export const telecommandDashboard: Dashboard = {
 			width: 8,
 			height: 1,
 			initialProps: {
-				seedASource: 'SEED_SYSTEM_T',
-				seedBSource: 'SEED_SYSTEM_T',
-				ejectorSource: 'EJECTOR_SYSTEM_T'
+				seedASource: 'SEED_HEARTBEAT',
+				seedBSource: 'SEED_HEARTBEAT',
+				ejectorSource: 'EJECTOR_HEARTBEAT'
 			}
 		},
 		{
