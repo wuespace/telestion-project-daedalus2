@@ -139,6 +139,54 @@ hexdump -C /dev/pts/5
 
 And send data through the tunnel via telecommands etc.
 
+## Update MavLink generated code
+
+1. Go through the setup steps described in the MavLink wiki:
+   https://mavlink.io/en/getting_started/installation.html
+
+2. Clone the MavLink repository in some temporary space on your machine:
+
+   ```sh
+   git clone https://github.com/mavlink/mavlink.git --recursive
+   cd mavlink
+   ```
+
+   > **NOTE:** All following commands are executed inside the MavLink repository, if not stated otherwise.
+
+3. Export the path to the MavLink root as an environment variable:
+
+   ```sh
+   export PYTHONPATH=/home/testuser/tmp/mavlink
+   ```
+
+4. Copy the current MavLink definition file (`.xml` ending) into the `message_definitions/v1.0`:
+
+   ```sh
+   cp /path/to/project/definitions/daedalus.xml message_definitions/v1.0/
+   ```
+
+5. Generate the source code for Java:
+
+   ```sh
+   python -m pymavlink.tools.mavgen --lang=Java --wire-protocol=2.0 --output=generated/java message_definitions/v1.0/daedalus.xml
+   ```
+
+6. Generate the source code for python:
+
+   ```sh
+   mkdir -p generated/python
+   python -m pymavlink.tools.mavgen --lang=Python --wire-protocol=2.0 --output=generated/python/daedalus2.py message_definitions/v1.0/daedalus.xml
+   ```
+
+7. Copy the generated source code into the project path:
+
+   ```sh
+   cp -r generated/java/* /path/to/project/application/srv/main/com/MAVLink/
+   cp generated/python/daedalus2.py /path/to/project/application/d2-tm-sim/
+   ```
+
+8. Finished!
+
 ## Project Structure
 
 The application structure looks like:
