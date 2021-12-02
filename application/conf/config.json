@@ -101,7 +101,7 @@
 				"magnitude": 1,
 				"config": {
 					"inAddress": "tc-sender",
-					"outAddress": "static-sender",
+					"outAddress": "tc-chunker",
 					"notifyAddress": "notify-on-send",
 					"compIdAliasMapping": {
 						"seedA": 4,
@@ -109,6 +109,17 @@
 						"ejector": 3
 					},
 					"sysId": 192
+				}
+			},
+			{
+				"name": "[SEND] Telecommand Chunker",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MessageChunker",
+				"magnitude": 1,
+				"config": {
+					"inAddress": "tc-chunker",
+					"outAddress": "static-sender",
+					"chunkSize": 64,
+					"timePerMessage": 100
 				}
 			},
 			{
