@@ -8,66 +8,104 @@
     </enums>
     <messages>
         <!-- Messages are defined here (optional) -->
-		<message id="10001" name="SEED_HEARTBEAT">
-		<description>Contains information about the current state and local time.</description>
+		<message id="39205" name="SEED_HEARTBEAT">
+		<description> Contains information about the current state and local time.</description>
 		<field type="int64_t" name="time_local">Seed local time</field>
+		<field type="uint32_t" name="d2time">system time</field>
+		<field type="uint8_t" name="telecommand_cnt">number of received and executed telecommands</field>
+		<field type="uint8_t" name="state_cur">current System state</field> <!-- here the use of enum could be possible -->
+		<field type="float" name="imu_gyro_z">angular velocity around z-axis </field>
+		<field type="uint8_t" name="lidar_cover_open">Is the LIDAR Hole currently open?</field>
+		<field type="uint8_t" name="bat_heater_fault">truthy if heater fault occurred</field>
+		<field type="uint16_t[8]" name="adc_measurements_sbc">adc measurements millivolts/milliamps</field>
+		<field type="uint16_t[8]" name="adc_measurements_cop">adc measurements millivolts/milliamps</field>
+		<field type="uint8_t" name="available_status">imu_gyro_avail, bat_temp_avail, rxsm_voltage_avail in this order with individual size of 1 bit</field>
+		<field type="uint8_t" name="bat_status">rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.</field>
+		</message>
+		
+		<message id="88552" name="SEED_LOG">
+		<description> Contains log data of the Seed</description>
+		<field type="int64_t" name="time_local">Seed local time</field>
+		<field type="uint32_t" name="d2time">system time</field>
+		<field type="char[247]" name="log_msg">Logging data</field>
+		</message>
+		
+		<message id="79071" name="SEED_SYSTEM_T">
+		<description> Contains the whole Seeds system_t information + local time + state.</description>
+		<field type="int64_t" name="time_local">Seed local time</field>
+		<field type="uint32_t" name="d2time">system time</field>
+		<field type="uint32_t" name="mainloop_itr_cnt">number of the current iteration of the mainloop</field>
+		<field type="uint32_t" name="mainloop_itr_time">time the last mainloop iteration took</field>
+		<field type="uint8_t" name="telecommand_cnt">number of received and executed telecommands</field>
+		<field type="uint8_t" name="state_cur">current System state</field>
+		<field type="uint8_t" name="iridium_RSSI">Indicates the signal quality of Iridium</field>
+		<field type="float" name="imu_acc_x"> acceleration along x-axis, multiple of g</field>
+		<field type="float" name="imu_acc_y"> acceleration along y-axis, multiple of g</field>
+		<field type="float" name="imu_acc_z"> acceleration along z-axis, multiple of g</field>
+		<field type="float" name="imu_gyro_x">angular velocity around x-axis </field>
+		<field type="float" name="imu_gyro_y">angular velocity around y-axis </field>
+		<field type="float" name="imu_gyro_z">angular velocity around z-axis </field>
+		<field type="float" name="baro_press">air pressure </field>
+		<field type="float" name="baro_temp">temperature in degrees Celsius </field>
+		<field type="uint16_t[8]" name="adc_measurements_sbc">adc measurements millivolts/milliamps</field>
+		<field type="uint16_t[8]" name="adc_measurements_cop">adc measurements millivolts/milliamps</field>
+		<field type="float" name="vacuum_baro_press">air pressure </field>
+		<field type="float" name="tacho_rot_rate">rotation rate of the rotor in rad/s </field>
+		<field type="uint8_t" name="lidar_cover_open">Is the LIDAR Hole currently open?</field>
+		<field type="uint8_t" name="bat_heater_fault">truthy if heater fault occurred</field>
+		<field type="uint8_t" name="bat_status">rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.</field>
+		<field type="float" name="gps_lat">current latitude (N is positiv, S is negativ) </field>
+		<field type="float" name="gps_long">current longitude (W is positiv, E is negativ) </field>
+		<field type="uint8_t" name="gps_quality">indicator for gps fix </field>
+		<field type="uint8_t" name="gps_satsUsed">number of used satellites </field>
+		<field type="float" name="gps_hdop">horizontal dilution of precision </field>
+		<field type="float" name="gps_alt">altitude above mean sea level </field>
+		<field type="float" name="filter_vel_vertical">vertical velocity of the seed in m/s – negative if seed is falling</field>
+		<field type="float" name="filter_height_ground">height above ground in m</field>
+		<field type="float" name="filter_rotor_rot_rate">absolute (to air/world frame) rotation rate of the rotor in rad/s" </field>
+		<field type="float" name="fiter_body_rot_rate">absolute (to air/world frame) rotation rate of the body in rad/s"</field>
+		<field type="float" name="controller_blade_pitch">setpoint for the pitch angle for the servos </field>
+		<field type="float" name="controller_fin_angle">desired fin angle </field>
+		<field type="uint8_t" name="controller_ids">identifier for blade controller type and finn controller type in this order with individual size of 4 bit.</field>
+		<field type="uint8_t" name="available_status">imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, bat_temp_avail, adc_measurements_avail, rxsm_voltage_avail in this order with individual size of 1 bit</field>
+		</message>
+		
+		<message id="72498" name="CON_CMD">
+		<description> Freetext command input, one command per message.
+		</description>
+		<field type="char[255]" name="con_cmd">CMD content</field>
+		</message>
+		
+		<message id="21513" name="ASSIST_NOW_UPLOAD">
+		<description> contains ublox_msg</description>
+		<field type="uint8_t[255]" name="ublox_msg">ublox_msg</field>
+		</message>
+		
+		<message id="37033" name="EJECTOR_SYSTEM_T">
+		<description> Contains the whole Ejector system_t information + local time + state.</description>
+		<field type="int64_t" name="time_local">Ejector local time</field>
+		<field type="uint32_t" name="d2time">system time</field>
+		<field type="uint32_t" name="mainloop_itr_cnt">number of the current iteration of the mainloop</field>
+		<field type="uint32_t" name="mainloop_itr_time">time the last mainloop iteration took</field>
+		<field type="uint8_t" name="telecommand_cnt">number of received and executed telecommands</field>
+		<field type="uint8_t" name="state_cur">current System state</field>
+		</message>
+		
+		<message id="66957" name="EJECTOR_HEARTBEAT">
+		<description> Contains information about the current state and local time.</description>
+		<field type="int64_t" name="time_local">Ejector local time</field>
+		<field type="uint32_t" name="d2time">system time</field>
+		<field type="uint8_t" name="telecommand_cnt">number of received and executed telecommands</field>
 		<field type="uint8_t" name="state_cur">current System state</field> <!-- here the use of enum could be possible -->
 		</message>
 		
-		<message id="10002" name="SEED_LOG">
-		<description>Contains log data of the Seed</description>
-		<field type="int64_t" name="time_local">Seed local time</field>
-		<field type="char[247]" name="log_data">Logging data</field>
+		<message id="24017" name="EJECTOR_LOG">
+		<description> Contains log data of the Ejector</description>
+		<field type="int64_t" name="time_local">Ejector local time</field>
+		<field type="uint32_t" name="d2time">system time</field>
+		<field type="char[247]" name="log_msg">Logging data</field>
 		</message>
 		
-		<message id="10003" name="SEED_SYSTEM_T">
-		<description>Contains the whole Seeds system_t information + local time + state.</description>
-		<field type="int64_t" name="time_local">Seed local time</field>
-		<field type="uint8_t" name="state_cur">current System state</field>
-		<field type="float" name="imu_acc_x">acceleration along x-axis, multiple of g</field>
-		<field type="float" name="imu_acc_y">acceleration along y-axis, multiple of g</field>
-		<field type="float" name="imu_acc_z">acceleration along z-axis, multiple of g</field>
-		<field type="float" name="imu_gyro_x">angular velocity around x-axis</field>
-		<field type="float" name="imu_gyro_y">angular velocity around y-axis</field>
-		<field type="float" name="imu_gyro_z">angular velocity around z-axis</field>
-		<field type="float" name="baro_press">air pressure</field>
-		<field type="float" name="baro_temp">temperature in degrees Celsius</field>
-		<field type="float" name="vacuum_baro_press">air pressure</field>
-		<field type="float" name="tacho_rot_rate">rotation rate of the rotor in rad/s</field>
-		<field type="float" name="swashplate_servo1_amps">swashplate_servo1_amps</field>
-		<field type="float" name="swashplate_servo2_amps">swashplate_servo2_amps</field>
-		<field type="float" name="swashplate_servo3_amps">swashplate_servo3_amps</field>
-		<field type="float" name="fin_servo_amps">fin_servo_amps</field>
-		<field type="int8_t" name="lidar_servo">contains lidar_servo_on and lidar_servo_open with individual data size units of 1 bit.</field>
-		<field type="float" name="bat_temp">Temperature of the battery block</field>
-		<field type="float" name="bat_heating_amps">Current flowing trough the heater</field>
-		<field type="float" name="rxsm_volts">Voltage on the RXSM</field>
-		<field type="float" name="bat1_volts">Voltage on the battery block 1</field>
-		<field type="float" name="bat2_volts">Voltage on the battery block 2</field>
-		<field type="float" name="rail3v3_volts">Voltage on the 3V3 Rail</field>
-		<field type="uint8_t" name="system_config">rxsm_allowed, bat1_allowed and bat2_allowed in this order with individual size of 1 bit.</field>
-		<!-- <field type="uint32_t" name="gps_time_ms">UTC time in milliseconds after day start.</field>-->
-		<field type="float" name="gps_lat">current latitude (N is positiv, S is negativ)</field>
-		<field type="float" name="gps_long">current longitude (W is positiv, E is negativ)</field>
-		<field type="uint8_t" name="gps_quality">indicator for gps fix</field>
-		<field type="uint8_t" name="gps_satsUsed">number of used satellites</field>
-		<field type="float" name="gps_hdop">horizontal dilution of precision</field>
-		<field type="float" name="gps_alt">altitude above mean sea level</field>
-		<!-- <field type="float" name="gps_sep">"geoid separation: difference between ellipsoid and mean sea level"</field>-->
-		<field type="float" name="filter_vel_vertical">vertical velocity of the seed in m/s – negative if seed is falling</field>
-		<field type="float" name="filter_height_ground">height above ground in m</field>
-		<field type="float" name="filter_rotor_rot_rate">absolute (to air/world frame) rotation rate of the rotor in rad/s"</field>
-		<field type="float" name="fiter_body_rot_rate">absolute (to air/world frame) rotation rate of the body in rad/s"</field>
-		<field type="float" name="filter_vel_vertical_ind">induced vertical velocity (lift)  in m/s</field>
-		<field type="float" name="controller_blade_pitch">setpoint for the pitch angle for the servos</field>
-		<field type="float" name="controller_fin_angle">desired fin angle</field>
-		<field type="uint8_t" name="controller_id">indentifier for controller type/state</field>
-		<field type="uint8_t" name="available_status">imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, servo_amps_avail, bat_temp_avail, volts_avail in this order with individual size of 1 bit</field>
-		</message>
 		
-		<message id="10004" name="CON_CMD">
-		<description>Freetext command input, one command per message.</description>
-		<field type="char[255]" name="con_cmd">CMD content</field>
-		</message>
 	</messages>
 </mavlink>
