@@ -5,45 +5,59 @@ import de.wuespace.telestion.api.verticle.TelestionConfiguration;
 import de.wuespace.telestion.api.verticle.TelestionVerticle;
 import de.wuespace.telestion.api.verticle.trait.WithEventBus;
 import de.wuespace.telestion.api.verticle.trait.WithSharedData;
+import de.wuespace.telestion.project.daedalus2.mavlink.message.TCReset;
 import de.wuespace.telestion.project.daedalus2.mavlink.message.TCSent;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.Json;
 import io.vertx.core.shareddata.LocalMap;
 
+import java.util.Objects;
+
 @SuppressWarnings("unused")
 public class TelecommandCounter extends TelestionVerticle<TelecommandCounter.Configuration>
 		implements WithEventBus, WithSharedData {
 	public record Configuration(
-			@JsonProperty String inAddress
+			@JsonProperty String inAddress,
+			@JsonProperty String resetAddress
 	) implements TelestionConfiguration {
 	}
 
 	@Override
 	public void onStart() {
 		register(getConfig().inAddress(), this::handle, TCSent.class);
+		register(getDefaultConfig().resetAddress(), this::handleReset, TCReset.class);
 	}
 
 	private void handle(TCSent tcSent, Message<Object> message) {
-		final long receiveTime = System.currentTimeMillis();
 		var target = tcSent.target();
-		var sendTime = message.headers().get("send-time");
-		var map = getLocalMap();
 		logger.debug("Received telecommand from target {}", target);
 
 		// get, increment, put
-		int value = map.getOrDefault(target, 0);
+		int value = getValue(target);
 		value = (value + 1) % 256; // jump back to 0 at 256
-		map.put(target, value);
+		setValue(target, value, message.headers().get("send-time"));
+	}
 
-		// pack and time-tag new value for Redis
+	private void handleReset(TCReset tcReset, Message<Object> message) {
+		setValue(tcReset.target(), 0, message.headers().get("send-time"));
+	}
+
+	private void setValue(String target, int value, String sendTime) {
+		var receiveTime = System.currentTimeMillis();
+		defaultLocalMap().put(target, value);
+
 		var options = new DeliveryOptions()
 				.addHeader("receive-time", Json.encode(receiveTime))
-				.addHeader("time", sendTime != null ? sendTime : Json.encode(receiveTime));
+				.addHeader("time", Objects.isNull(sendTime) ? Json.encode(receiveTime) : sendTime);
 		publish(target + "/tc-counter", value, options);
 	}
 
-	private LocalMap<String, Integer> getLocalMap() {
+	private int getValue(String target) {
+		return defaultLocalMap().getOrDefault(target, 0);
+	}
+
+	private LocalMap<String, Integer> defaultLocalMap() {
 		return localMap(LOCAL_MAP_NAME);
 	}
 
