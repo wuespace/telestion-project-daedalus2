@@ -1,3 +1,4 @@
+export * from './debug-dashboard';
 export * from './electrical-dashboard';
 export * from './graph-dashboard';
 export * from './notes-dashboard';
