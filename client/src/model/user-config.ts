@@ -4,7 +4,8 @@ import {
 	graphDashboard,
 	telecommandDashboard,
 	notesDashboard,
-	electricalDashboard
+	electricalDashboard,
+	debugDashboard
 } from './dashboards';
 
 export const userConfig: UserConfig = {
@@ -14,7 +15,8 @@ export const userConfig: UserConfig = {
 			graphDashboard,
 			electricalDashboard,
 			telecommandDashboard,
-			notesDashboard
+			notesDashboard,
+			debugDashboard
 		]
 	}
 };
