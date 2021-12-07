@@ -35,7 +35,8 @@
 						"request-keys",
 						"request-time-sync",
 						"a-gps-transmitter#request",
-						"tc-console-request"
+						"tc-console-request",
+						"reset-tc-counter"
 					],
 					"outboundPermitted": [
 						"a-gps-transmitter#notify",
@@ -144,7 +145,8 @@
 				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TelecommandCounter",
 				"magnitude": 1,
 				"config": {
-					"inAddress": "notify-on-send"
+					"inAddress": "notify-on-send",
+					"resetAddress": "reset-tc-counter"
 				}
 			},
 			{
