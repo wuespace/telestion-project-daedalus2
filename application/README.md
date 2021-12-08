@@ -149,6 +149,11 @@ And send data through the tunnel via telecommands etc.
    ```sh
    git clone https://github.com/mavlink/mavlink.git --recursive
    cd mavlink
+   git submodule update
+   cd pymavlink
+   git checkout master
+   git pull
+   cd ..
    ```
 
    > **NOTE:** All following commands are executed inside the MavLink repository, if not stated otherwise.

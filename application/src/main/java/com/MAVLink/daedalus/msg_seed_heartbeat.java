@@ -83,8 +83,8 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
     @Override
     public MAVLinkPacket pack() {
         MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH,isMavlink2);
-        packet.sysid = 255;
-        packet.compid = 190;
+        packet.sysid = sysid;
+        packet.compid = compid;
         packet.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
         
         packet.payload.putLong(time_local);

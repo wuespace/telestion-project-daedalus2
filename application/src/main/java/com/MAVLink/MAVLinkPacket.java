@@ -185,7 +185,7 @@ public class MAVLinkPacket implements Serializable {
     }
 
     /**
-     * Return length of actual data after triming zeros at the end.
+     * Return length of actual data after trimming zeros at the end.
      * @param payload
      * @return minimum length of valid data
      */
