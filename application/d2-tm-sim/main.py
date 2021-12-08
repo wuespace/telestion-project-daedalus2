@@ -34,7 +34,7 @@ def receive(name, s: socket.socket, file: BinaryIO):
 			message = tc_receiver.parse_char(raw)
 			if message:
 				sourceId = message.get_header().srcComponent
-				msgSource = sourceIds.get(sourceId, "unknown")
+				msgSource = sourceIds.get(sourceId, "unknown") + " " + str(sourceId)
 				if hasattr(message, "ublox_msg"):
 					msgType = "ublox_msg"
 					msgContent = bytearray(message.ublox_msg)
