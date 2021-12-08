@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request that the vehicle report terrain height at the given location (expected response is a TERRAIN_REPORT). Used
- * by GCS to check if vehicle has all terrain data needed for a mission.
+ * Request that the vehicle report terrain height at the given location (expected response is a TERRAIN_REPORT). Used by GCS to check if vehicle has all terrain data needed for a mission.
  */
 public class msg_terrain_check extends MAVLinkMessage {
 
@@ -41,8 +40,8 @@ public class msg_terrain_check extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_TERRAIN_CHECK;
 
 		packet.payload.putInt(lat);

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Publishes the GPS co-ordinates of the vehicle local origin (0,0,0) position. Emitted whenever a new GPS-Local
- * position mapping is requested or set - e.g. following SET_GPS_GLOBAL_ORIGIN message.
+ * Publishes the GPS co-ordinates of the vehicle local origin (0,0,0) position. Emitted whenever a new GPS-Local position mapping is requested or set - e.g. following SET_GPS_GLOBAL_ORIGIN message.
  */
 public class msg_gps_global_origin extends MAVLinkMessage {
 
@@ -38,8 +37,7 @@ public class msg_gps_global_origin extends MAVLinkMessage {
 	public int altitude;
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -52,8 +50,8 @@ public class msg_gps_global_origin extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN;
 
 		packet.payload.putInt(latitude);
@@ -109,13 +107,7 @@ public class msg_gps_global_origin extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gps_global_origin(int latitude,
-			int longitude,
-			int altitude,
-			long time_usec,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gps_global_origin(int latitude, int longitude, int altitude, long time_usec, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -147,8 +139,7 @@ public class msg_gps_global_origin extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN - sysid:" + sysid + " compid:" + compid + " latitude:" + latitude +
-				" longitude:" + longitude + " altitude:" + altitude + " time_usec:" + time_usec + "";
+		return "MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN - sysid:" + sysid + " compid:" + compid + " latitude:" + latitude + " longitude:" + longitude + " altitude:" + altitude + " time_usec:" + time_usec + "";
 	}
 
 	/**

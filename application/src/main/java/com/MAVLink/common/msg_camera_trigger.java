@@ -22,8 +22,7 @@ public class msg_camera_trigger extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp
-	 * format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -41,8 +40,8 @@ public class msg_camera_trigger extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CAMERA_TRIGGER;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -122,8 +121,7 @@ public class msg_camera_trigger extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_CAMERA_TRIGGER - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"seq:" + seq + "";
+		return "MAVLINK_MSG_ID_CAMERA_TRIGGER - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " seq:" + seq + "";
 	}
 
 	/**

@@ -12,10 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The heartbeat message shows that a system or component is present and responding. The type and autopilot fields
- * (along with the message component id), allow the receiving system to treat further messages from this system
- * appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at
- * https://mavlink.io/en/services/heartbeat.html
+ * The heartbeat message shows that a system or component is present and responding. The type and autopilot fields (along with the message component id), allow the receiving system to treat further messages from this system appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at https://mavlink.io/en/services/heartbeat.html
  */
 public class msg_heartbeat extends MAVLinkMessage {
 
@@ -30,9 +27,7 @@ public class msg_heartbeat extends MAVLinkMessage {
 	public long custom_mode;
 
 	/**
-	 * Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.).
-	 * For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to
-	 * component id for identifying the component type.
+	 * Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type.
 	 */
 	public short type;
 
@@ -52,8 +47,7 @@ public class msg_heartbeat extends MAVLinkMessage {
 	public short system_status;
 
 	/**
-	 * MAVLink version, not writable by user, gets added by protocol because of magic data type:
-	 * uint8_t_mavlink_version
+	 * MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version
 	 */
 	public short mavlink_version;
 
@@ -66,8 +60,8 @@ public class msg_heartbeat extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HEARTBEAT;
 
 		packet.payload.putUnsignedInt(custom_mode);
@@ -114,12 +108,7 @@ public class msg_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_heartbeat(long custom_mode,
-			short type,
-			short autopilot,
-			short base_mode,
-			short system_status,
-			short mavlink_version) {
+	public msg_heartbeat(long custom_mode, short type, short autopilot, short base_mode, short system_status, short mavlink_version) {
 		this.msgid = MAVLINK_MSG_ID_HEARTBEAT;
 
 		this.custom_mode = custom_mode;
@@ -134,15 +123,7 @@ public class msg_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_heartbeat(long custom_mode,
-			short type,
-			short autopilot,
-			short base_mode,
-			short system_status,
-			short mavlink_version,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_heartbeat(long custom_mode, short type, short autopilot, short base_mode, short system_status, short mavlink_version, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HEARTBEAT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -176,8 +157,7 @@ public class msg_heartbeat extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " custom_mode:" + custom_mode + " " +
-				"type:" + type + " autopilot:" + autopilot + " base_mode:" + base_mode + " system_status:" + system_status + " mavlink_version:" + mavlink_version + "";
+		return "MAVLINK_MSG_ID_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " custom_mode:" + custom_mode + " type:" + type + " autopilot:" + autopilot + " base_mode:" + base_mode + " system_status:" + system_status + " mavlink_version:" + mavlink_version + "";
 	}
 
 	/**

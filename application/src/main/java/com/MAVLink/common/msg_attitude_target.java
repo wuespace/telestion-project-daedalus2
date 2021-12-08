@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Reports the current commanded attitude of the vehicle as specified by the autopilot. This should match the
- * commands sent in a SET_ATTITUDE_TARGET message if the vehicle is being controlled this way.
+ * Reports the current commanded attitude of the vehicle as specified by the autopilot. This should match the commands sent in a SET_ATTITUDE_TARGET message if the vehicle is being controlled this way.
  */
 public class msg_attitude_target extends MAVLinkMessage {
 
@@ -30,7 +29,7 @@ public class msg_attitude_target extends MAVLinkMessage {
 	/**
 	 * Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * Body roll rate
@@ -66,8 +65,8 @@ public class msg_attitude_target extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ATTITUDE_TARGET;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -124,13 +123,7 @@ public class msg_attitude_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_attitude_target(long time_boot_ms,
-			float[] q,
-			float body_roll_rate,
-			float body_pitch_rate,
-			float body_yaw_rate,
-			float thrust,
-			short type_mask) {
+	public msg_attitude_target(long time_boot_ms, float[] q, float body_roll_rate, float body_pitch_rate, float body_yaw_rate, float thrust, short type_mask) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE_TARGET;
 
 		this.time_boot_ms = time_boot_ms;
@@ -146,16 +139,7 @@ public class msg_attitude_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_attitude_target(long time_boot_ms,
-			float[] q,
-			float body_roll_rate,
-			float body_pitch_rate,
-			float body_yaw_rate,
-			float thrust,
-			short type_mask,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_attitude_target(long time_boot_ms, float[] q, float body_roll_rate, float body_pitch_rate, float body_yaw_rate, float thrust, short type_mask, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE_TARGET;
 		this.sysid = sysid;
 		this.compid = compid;

@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Set a safety zone (volume), which is defined by two corners of a cube. This message can be used to tell the MAV
- * which setpoints/waypoints to accept and which to reject. Safety areas are often enforced by national or
- * competition regulations.
+ * Set a safety zone (volume), which is defined by two corners of a cube. This message can be used to tell the MAV which setpoints/waypoints to accept and which to reject. Safety areas are often enforced by national or competition regulations.
  */
 public class msg_safety_set_allowed_area extends MAVLinkMessage {
 
@@ -77,8 +75,8 @@ public class msg_safety_set_allowed_area extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SAFETY_SET_ALLOWED_AREA;
 
 		packet.payload.putFloat(p1x);
@@ -131,15 +129,7 @@ public class msg_safety_set_allowed_area extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_safety_set_allowed_area(float p1x,
-			float p1y,
-			float p1z,
-			float p2x,
-			float p2y,
-			float p2z,
-			short target_system,
-			short target_component,
-			short frame) {
+	public msg_safety_set_allowed_area(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, short target_system, short target_component, short frame) {
 		this.msgid = MAVLINK_MSG_ID_SAFETY_SET_ALLOWED_AREA;
 
 		this.p1x = p1x;
@@ -157,18 +147,7 @@ public class msg_safety_set_allowed_area extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_safety_set_allowed_area(float p1x,
-			float p1y,
-			float p1z,
-			float p2x,
-			float p2y,
-			float p2z,
-			short target_system,
-			short target_component,
-			short frame,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_safety_set_allowed_area(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, short target_system, short target_component, short frame, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SAFETY_SET_ALLOWED_AREA;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -205,8 +184,7 @@ public class msg_safety_set_allowed_area extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SAFETY_SET_ALLOWED_AREA - sysid:" + sysid + " compid:" + compid + " p1x:" + p1x + " p1y" +
-				":" + p1y + " p1z:" + p1z + " p2x:" + p2x + " p2y:" + p2y + " p2z:" + p2z + " target_system:" + target_system + " target_component:" + target_component + " frame:" + frame + "";
+		return "MAVLINK_MSG_ID_SAFETY_SET_ALLOWED_AREA - sysid:" + sysid + " compid:" + compid + " p1x:" + p1x + " p1y:" + p1y + " p1z:" + p1z + " p2x:" + p2x + " p2y:" + p2y + " p2z:" + p2z + " target_system:" + target_system + " target_component:" + target_component + " frame:" + frame + "";
 	}
 
 	/**

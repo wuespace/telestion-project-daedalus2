@@ -135,8 +135,8 @@ public class msg_sim_state extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SIM_STATE;
 
 		packet.payload.putFloat(q1);
@@ -213,27 +213,7 @@ public class msg_sim_state extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_sim_state(float q1,
-			float q2,
-			float q3,
-			float q4,
-			float roll,
-			float pitch,
-			float yaw,
-			float xacc,
-			float yacc,
-			float zacc,
-			float xgyro,
-			float ygyro,
-			float zgyro,
-			float lat,
-			float lon,
-			float alt,
-			float std_dev_horz,
-			float std_dev_vert,
-			float vn,
-			float ve,
-			float vd) {
+	public msg_sim_state(float q1, float q2, float q3, float q4, float roll, float pitch, float yaw, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float lat, float lon, float alt, float std_dev_horz, float std_dev_vert, float vn, float ve, float vd) {
 		this.msgid = MAVLINK_MSG_ID_SIM_STATE;
 
 		this.q1 = q1;
@@ -263,30 +243,7 @@ public class msg_sim_state extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_sim_state(float q1,
-			float q2,
-			float q3,
-			float q4,
-			float roll,
-			float pitch,
-			float yaw,
-			float xacc,
-			float yacc,
-			float zacc,
-			float xgyro,
-			float ygyro,
-			float zgyro,
-			float lat,
-			float lon,
-			float alt,
-			float std_dev_horz,
-			float std_dev_vert,
-			float vn,
-			float ve,
-			float vd,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_sim_state(float q1, float q2, float q3, float q4, float roll, float pitch, float yaw, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float lat, float lon, float alt, float std_dev_horz, float std_dev_vert, float vn, float ve, float vd, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SIM_STATE;
 		this.sysid = sysid;
 		this.compid = compid;

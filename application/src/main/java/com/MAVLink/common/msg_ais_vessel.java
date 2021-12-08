@@ -99,12 +99,12 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	/**
 	 * The vessel callsign
 	 */
-	public byte[] callsign = new byte[7];
+	public byte callsign[] = new byte[7];
 
 	/**
 	 * The vessel name
 	 */
-	public byte[] name = new byte[20];
+	public byte name[] = new byte[20];
 
 
 	/**
@@ -115,8 +115,8 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_AIS_VESSEL;
 
 		packet.payload.putUnsignedInt(MMSI);
@@ -201,23 +201,7 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_ais_vessel(long MMSI,
-			int lat,
-			int lon,
-			int COG,
-			int heading,
-			int velocity,
-			int dimension_bow,
-			int dimension_stern,
-			int tslc,
-			int flags,
-			byte turn_rate,
-			short navigational_status,
-			short type,
-			short dimension_port,
-			short dimension_starboard,
-			byte[] callsign,
-			byte[] name) {
+	public msg_ais_vessel(long MMSI, int lat, int lon, int COG, int heading, int velocity, int dimension_bow, int dimension_stern, int tslc, int flags, byte turn_rate, short navigational_status, short type, short dimension_port, short dimension_starboard, byte[] callsign, byte[] name) {
 		this.msgid = MAVLINK_MSG_ID_AIS_VESSEL;
 
 		this.MMSI = MMSI;
@@ -243,26 +227,7 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_ais_vessel(long MMSI,
-			int lat,
-			int lon,
-			int COG,
-			int heading,
-			int velocity,
-			int dimension_bow,
-			int dimension_stern,
-			int tslc,
-			int flags,
-			byte turn_rate,
-			short navigational_status,
-			short type,
-			short dimension_port,
-			short dimension_starboard,
-			byte[] callsign,
-			byte[] name,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_ais_vessel(long MMSI, int lat, int lon, int COG, int heading, int velocity, int dimension_bow, int dimension_stern, int tslc, int flags, byte turn_rate, short navigational_status, short type, short dimension_port, short dimension_starboard, byte[] callsign, byte[] name, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_AIS_VESSEL;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -317,7 +282,7 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getCallsign() {
 		StringBuffer buf = new StringBuffer();
@@ -346,7 +311,7 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getName() {
 		StringBuffer buf = new StringBuffer();
@@ -365,8 +330,7 @@ public class msg_ais_vessel extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_AIS_VESSEL - sysid:" + sysid + " compid:" + compid + " MMSI:" + MMSI + " lat:" + lat +
-				" lon:" + lon + " COG:" + COG + " heading:" + heading + " velocity:" + velocity + " dimension_bow:" + dimension_bow + " dimension_stern:" + dimension_stern + " tslc:" + tslc + " flags:" + flags + " turn_rate:" + turn_rate + " navigational_status:" + navigational_status + " type:" + type + " dimension_port:" + dimension_port + " dimension_starboard:" + dimension_starboard + " callsign:" + callsign + " name:" + name + "";
+		return "MAVLINK_MSG_ID_AIS_VESSEL - sysid:" + sysid + " compid:" + compid + " MMSI:" + MMSI + " lat:" + lat + " lon:" + lon + " COG:" + COG + " heading:" + heading + " velocity:" + velocity + " dimension_bow:" + dimension_bow + " dimension_stern:" + dimension_stern + " tslc:" + tslc + " flags:" + flags + " turn_rate:" + turn_rate + " navigational_status:" + navigational_status + " type:" + type + " dimension_port:" + dimension_port + " dimension_starboard:" + dimension_starboard + " callsign:" + callsign + " name:" + name + "";
 	}
 
 	/**

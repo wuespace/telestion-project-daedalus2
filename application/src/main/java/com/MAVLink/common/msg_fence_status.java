@@ -55,8 +55,8 @@ public class msg_fence_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_FENCE_STATUS;
 
 		packet.payload.putUnsignedInt(breach_time);
@@ -101,11 +101,7 @@ public class msg_fence_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_fence_status(long breach_time,
-			int breach_count,
-			short breach_status,
-			short breach_type,
-			short breach_mitigation) {
+	public msg_fence_status(long breach_time, int breach_count, short breach_status, short breach_type, short breach_mitigation) {
 		this.msgid = MAVLINK_MSG_ID_FENCE_STATUS;
 
 		this.breach_time = breach_time;
@@ -119,14 +115,7 @@ public class msg_fence_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_fence_status(long breach_time,
-			int breach_count,
-			short breach_status,
-			short breach_type,
-			short breach_mitigation,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_fence_status(long breach_time, int breach_count, short breach_status, short breach_type, short breach_mitigation, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_FENCE_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -159,9 +148,7 @@ public class msg_fence_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_FENCE_STATUS - sysid:" + sysid + " compid:" + compid + " breach_time:" + breach_time +
-				" breach_count:" + breach_count + " breach_status:" + breach_status + " breach_type:" + breach_type +
-				" breach_mitigation:" + breach_mitigation + "";
+		return "MAVLINK_MSG_ID_FENCE_STATUS - sysid:" + sysid + " compid:" + compid + " breach_time:" + breach_time + " breach_count:" + breach_count + " breach_status:" + breach_status + " breach_type:" + breach_type + " breach_mitigation:" + breach_mitigation + "";
 	}
 
 	/**

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Send a command with up to seven parameters to the MAV. The command microservice is documented at https://mavlink
- * .io/en/services/command.html
+ * Send a command with up to seven parameters to the MAV. The command microservice is documented at https://mavlink.io/en/services/command.html
  */
 public class msg_command_long extends MAVLinkMessage {
 
@@ -86,8 +85,8 @@ public class msg_command_long extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_COMMAND_LONG;
 
 		packet.payload.putFloat(param1);
@@ -144,17 +143,7 @@ public class msg_command_long extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_command_long(float param1,
-			float param2,
-			float param3,
-			float param4,
-			float param5,
-			float param6,
-			float param7,
-			int command,
-			short target_system,
-			short target_component,
-			short confirmation) {
+	public msg_command_long(float param1, float param2, float param3, float param4, float param5, float param6, float param7, int command, short target_system, short target_component, short confirmation) {
 		this.msgid = MAVLINK_MSG_ID_COMMAND_LONG;
 
 		this.param1 = param1;
@@ -174,20 +163,7 @@ public class msg_command_long extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_command_long(float param1,
-			float param2,
-			float param3,
-			float param4,
-			float param5,
-			float param6,
-			float param7,
-			int command,
-			short target_system,
-			short target_component,
-			short confirmation,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_command_long(float param1, float param2, float param3, float param4, float param5, float param6, float param7, int command, short target_system, short target_component, short confirmation, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_COMMAND_LONG;
 		this.sysid = sysid;
 		this.compid = compid;

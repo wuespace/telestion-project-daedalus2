@@ -85,8 +85,8 @@ public class msg_link_node_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_LINK_NODE_STATUS;
 
 		packet.payload.putUnsignedLong(timestamp);
@@ -143,17 +143,7 @@ public class msg_link_node_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_link_node_status(long timestamp,
-			long tx_rate,
-			long rx_rate,
-			long messages_sent,
-			long messages_received,
-			long messages_lost,
-			int rx_parse_err,
-			int tx_overflows,
-			int rx_overflows,
-			short tx_buf,
-			short rx_buf) {
+	public msg_link_node_status(long timestamp, long tx_rate, long rx_rate, long messages_sent, long messages_received, long messages_lost, int rx_parse_err, int tx_overflows, int rx_overflows, short tx_buf, short rx_buf) {
 		this.msgid = MAVLINK_MSG_ID_LINK_NODE_STATUS;
 
 		this.timestamp = timestamp;
@@ -173,20 +163,7 @@ public class msg_link_node_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_link_node_status(long timestamp,
-			long tx_rate,
-			long rx_rate,
-			long messages_sent,
-			long messages_received,
-			long messages_lost,
-			int rx_parse_err,
-			int tx_overflows,
-			int rx_overflows,
-			short tx_buf,
-			short rx_buf,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_link_node_status(long timestamp, long tx_rate, long rx_rate, long messages_sent, long messages_received, long messages_lost, int rx_parse_err, int tx_overflows, int rx_overflows, short tx_buf, short rx_buf, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_LINK_NODE_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -225,9 +202,7 @@ public class msg_link_node_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_LINK_NODE_STATUS - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp +
-				" tx_rate:" + tx_rate + " rx_rate:" + rx_rate + " messages_sent:" + messages_sent + " " +
-				"messages_received:" + messages_received + " messages_lost:" + messages_lost + " rx_parse_err:" + rx_parse_err + " tx_overflows:" + tx_overflows + " rx_overflows:" + rx_overflows + " tx_buf:" + tx_buf + " rx_buf:" + rx_buf + "";
+		return "MAVLINK_MSG_ID_LINK_NODE_STATUS - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp + " tx_rate:" + tx_rate + " rx_rate:" + rx_rate + " messages_sent:" + messages_sent + " messages_received:" + messages_received + " messages_lost:" + messages_lost + " rx_parse_err:" + rx_parse_err + " tx_overflows:" + tx_overflows + " rx_overflows:" + rx_overflows + " tx_buf:" + tx_buf + " rx_buf:" + rx_buf + "";
 	}
 
 	/**

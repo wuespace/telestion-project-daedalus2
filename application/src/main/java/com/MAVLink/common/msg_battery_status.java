@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Battery information. Updates GCS with flight controller battery status. Smart batteries also use this message, but
- * may additionally send SMART_BATTERY_INFO.
+ * Battery information. Updates GCS with flight controller battery status. Smart batteries also use this message, but may additionally send SMART_BATTERY_INFO.
  */
 public class msg_battery_status extends MAVLinkMessage {
 
@@ -38,14 +37,9 @@ public class msg_battery_status extends MAVLinkMessage {
 	public short temperature;
 
 	/**
-	 * Battery voltage of cells 1 to 10 (see voltages_ext for cells 11-14). Cells in this field above the valid cell
-	 * count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not
-	 * measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to
-	 * UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to
-	 * (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total
-	 * voltage is greater than 2 * (UINT16_MAX - 1).
+	 * Battery voltage of cells 1 to 10 (see voltages_ext for cells 11-14). Cells in this field above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).
 	 */
-	public int[] voltages = new int[10];
+	public int voltages[] = new int[10];
 
 	/**
 	 * Battery current, -1: autopilot does not measure the current
@@ -83,11 +77,9 @@ public class msg_battery_status extends MAVLinkMessage {
 	public short charge_state;
 
 	/**
-	 * Battery voltages for cells 11 to 14. Cells above the valid cell count for this battery should have a value of
-	 * 0, where zero indicates not supported (note, this is different than for the voltages field and allows empty
-	 * byte truncation). If the measured value is 0 then 1 should be sent instead.
+	 * Battery voltages for cells 11 to 14. Cells above the valid cell count for this battery should have a value of 0, where zero indicates not supported (note, this is different than for the voltages field and allows empty byte truncation). If the measured value is 0 then 1 should be sent instead.
 	 */
-	public int[] voltages_ext = new int[4];
+	public int voltages_ext[] = new int[4];
 
 	/**
 	 * Battery mode. Default (0) is that battery mode reporting is not supported or battery is in normal-use mode.
@@ -95,8 +87,7 @@ public class msg_battery_status extends MAVLinkMessage {
 	public short mode;
 
 	/**
-	 * Fault/health indications. These should be set when charge_state is MAV_BATTERY_CHARGE_STATE_FAILED or
-	 * MAV_BATTERY_CHARGE_STATE_UNHEALTHY (if not, fault reporting is not supported).
+	 * Fault/health indications. These should be set when charge_state is MAV_BATTERY_CHARGE_STATE_FAILED or MAV_BATTERY_CHARGE_STATE_UNHEALTHY (if not, fault reporting is not supported).
 	 */
 	public long fault_bitmask;
 
@@ -109,8 +100,8 @@ public class msg_battery_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_BATTERY_STATUS;
 
 		packet.payload.putInt(current_consumed);
@@ -189,20 +180,7 @@ public class msg_battery_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_battery_status(int current_consumed,
-			int energy_consumed,
-			short temperature,
-			int[] voltages,
-			short current_battery,
-			short id,
-			short battery_function,
-			short type,
-			byte battery_remaining,
-			int time_remaining,
-			short charge_state,
-			int[] voltages_ext,
-			short mode,
-			long fault_bitmask) {
+	public msg_battery_status(int current_consumed, int energy_consumed, short temperature, int[] voltages, short current_battery, short id, short battery_function, short type, byte battery_remaining, int time_remaining, short charge_state, int[] voltages_ext, short mode, long fault_bitmask) {
 		this.msgid = MAVLINK_MSG_ID_BATTERY_STATUS;
 
 		this.current_consumed = current_consumed;
@@ -225,23 +203,7 @@ public class msg_battery_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_battery_status(int current_consumed,
-			int energy_consumed,
-			short temperature,
-			int[] voltages,
-			short current_battery,
-			short id,
-			short battery_function,
-			short type,
-			byte battery_remaining,
-			int time_remaining,
-			short charge_state,
-			int[] voltages_ext,
-			short mode,
-			long fault_bitmask,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_battery_status(int current_consumed, int energy_consumed, short temperature, int[] voltages, short current_battery, short id, short battery_function, short type, byte battery_remaining, int time_remaining, short charge_state, int[] voltages_ext, short mode, long fault_bitmask, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_BATTERY_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

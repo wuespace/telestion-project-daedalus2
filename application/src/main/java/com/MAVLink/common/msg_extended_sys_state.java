@@ -40,8 +40,8 @@ public class msg_extended_sys_state extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_EXTENDED_SYS_STATE;
 
 		packet.payload.putUnsignedByte(vtol_state);

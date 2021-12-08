@@ -39,12 +39,12 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	/**
 	 * adc measurements millivolts/milliamps
 	 */
-	public int[] adc_measurements_sbc = new int[8];
+	public int adc_measurements_sbc[] = new int[8];
 
 	/**
 	 * adc measurements millivolts/milliamps
 	 */
-	public int[] adc_measurements_cop = new int[8];
+	public int adc_measurements_cop[] = new int[8];
 
 	/**
 	 * number of received and executed telecommands
@@ -67,13 +67,12 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	public short bat_heater_fault;
 
 	/**
-	 * imu_gyro_avail, bat_temp_avail, rxsm_voltage_avail in this order with individual size of 1 bit
+	 * imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit
 	 */
 	public short available_status;
 
 	/**
-	 * rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used and bat2_used in this order with individual
-	 * size of 1 bit.
+	 * rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.
 	 */
 	public short bat_status;
 
@@ -86,8 +85,8 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
 
 		packet.payload.putLong(time_local);
@@ -160,17 +159,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_seed_heartbeat(long time_local,
-			long d2time,
-			float imu_gyro_z,
-			int[] adc_measurements_sbc,
-			int[] adc_measurements_cop,
-			short telecommand_cnt,
-			short state_cur,
-			short lidar_cover_open,
-			short bat_heater_fault,
-			short available_status,
-			short bat_status) {
+	public msg_seed_heartbeat(long time_local, long d2time, float imu_gyro_z, int[] adc_measurements_sbc, int[] adc_measurements_cop, short telecommand_cnt, short state_cur, short lidar_cover_open, short bat_heater_fault, short available_status, short bat_status) {
 		this.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
 
 		this.time_local = time_local;
@@ -190,20 +179,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_seed_heartbeat(long time_local,
-			long d2time,
-			float imu_gyro_z,
-			int[] adc_measurements_sbc,
-			int[] adc_measurements_cop,
-			short telecommand_cnt,
-			short state_cur,
-			short lidar_cover_open,
-			short bat_heater_fault,
-			short available_status,
-			short bat_status,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_seed_heartbeat(long time_local, long d2time, float imu_gyro_z, int[] adc_measurements_sbc, int[] adc_measurements_cop, short telecommand_cnt, short state_cur, short lidar_cover_open, short bat_heater_fault, short available_status, short bat_status, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -242,11 +218,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SEED_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local +
-				" d2time:" + d2time + " imu_gyro_z:" + imu_gyro_z + " adc_measurements_sbc:" + adc_measurements_sbc +
-				" adc_measurements_cop:" + adc_measurements_cop + " telecommand_cnt:" + telecommand_cnt + " state_cur" +
-				":" + state_cur + " lidar_cover_open:" + lidar_cover_open + " bat_heater_fault:" + bat_heater_fault +
-				" available_status:" + available_status + " bat_status:" + bat_status + "";
+		return "MAVLINK_MSG_ID_SEED_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " d2time:" + d2time + " imu_gyro_z:" + imu_gyro_z + " adc_measurements_sbc:" + adc_measurements_sbc + " adc_measurements_cop:" + adc_measurements_cop + " telecommand_cnt:" + telecommand_cnt + " state_cur:" + state_cur + " lidar_cover_open:" + lidar_cover_open + " bat_heater_fault:" + bat_heater_fault + " available_status:" + available_status + " bat_status:" + bat_status + "";
 	}
 
 	/**

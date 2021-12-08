@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Data for filling the OpenDroneID Location message. The float data types are 32-bit IEEE 754. The Location message
- * provides the location, altitude, direction and speed of the aircraft.
+ * Data for filling the OpenDroneID Location message. The float data types are 32-bit IEEE 754. The Location message provides the location, altitude, direction and speed of the aircraft.
  */
 public class msg_open_drone_id_location extends MAVLinkMessage {
 
@@ -33,8 +32,7 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	public int longitude;
 
 	/**
-	 * The altitude calculated from the barometric pressue. Reference is against 29.92inHg or 1013.2mb. If unknown:
-	 * -1000 m.
+	 * The altitude calculated from the barometric pressue. Reference is against 29.92inHg or 1013.2mb. If unknown: -1000 m.
 	 */
 	public float altitude_barometric;
 
@@ -44,21 +42,17 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	public float altitude_geodetic;
 
 	/**
-	 * The current height of the unmanned aircraft above the take-off location or the ground as indicated by
-	 * height_reference. If unknown: -1000 m.
+	 * The current height of the unmanned aircraft above the take-off location or the ground as indicated by height_reference. If unknown: -1000 m.
 	 */
 	public float height;
 
 	/**
-	 * Seconds after the full hour with reference to UTC time. Typically the GPS outputs a time-of-week value in
-	 * milliseconds. First convert that to UTC and then convert for this field using ((float) (time_week_ms %
-	 * (60*60*1000))) / 1000. If unknown: 0xFFFF.
+	 * Seconds after the full hour with reference to UTC time. Typically the GPS outputs a time-of-week value in milliseconds. First convert that to UTC and then convert for this field using ((float) (time_week_ms % (60*60*1000))) / 1000. If unknown: 0xFFFF.
 	 */
 	public float timestamp;
 
 	/**
-	 * Direction over ground (not heading, but direction of movement) measured clockwise from true North: 0 - 35999
-	 * centi-degrees. If unknown: 36100 centi-degrees.
+	 * Direction over ground (not heading, but direction of movement) measured clockwise from true North: 0 - 35999 centi-degrees. If unknown: 36100 centi-degrees.
 	 */
 	public int direction;
 
@@ -68,8 +62,7 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	public int speed_horizontal;
 
 	/**
-	 * The vertical speed. Up is positive. If unknown: 6300 cm/s. If speed is larger than 6200 cm/s, use 6200 cm/s. If
-	 * lower than -6200 cm/s, use -6200 cm/s.
+	 * The vertical speed. Up is positive. If unknown: 6300 cm/s. If speed is larger than 6200 cm/s, use 6200 cm/s. If lower than -6200 cm/s, use -6200 cm/s.
 	 */
 	public short speed_vertical;
 
@@ -84,10 +77,9 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink
-	 * .io/en/services/opendroneid.html.
+	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.
 	 */
-	public short[] id_or_mac = new short[20];
+	public short id_or_mac[] = new short[20];
 
 	/**
 	 * Indicates whether the unmanned aircraft is on the ground or in the air.
@@ -133,8 +125,8 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_LOCATION;
 
 		packet.payload.putInt(latitude);
@@ -215,25 +207,7 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_open_drone_id_location(int latitude,
-			int longitude,
-			float altitude_barometric,
-			float altitude_geodetic,
-			float height,
-			float timestamp,
-			int direction,
-			int speed_horizontal,
-			short speed_vertical,
-			short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short status,
-			short height_reference,
-			short horizontal_accuracy,
-			short vertical_accuracy,
-			short barometer_accuracy,
-			short speed_accuracy,
-			short timestamp_accuracy) {
+	public msg_open_drone_id_location(int latitude, int longitude, float altitude_barometric, float altitude_geodetic, float height, float timestamp, int direction, int speed_horizontal, short speed_vertical, short target_system, short target_component, short[] id_or_mac, short status, short height_reference, short horizontal_accuracy, short vertical_accuracy, short barometer_accuracy, short speed_accuracy, short timestamp_accuracy) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_LOCATION;
 
 		this.latitude = latitude;
@@ -261,28 +235,7 @@ public class msg_open_drone_id_location extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_open_drone_id_location(int latitude,
-			int longitude,
-			float altitude_barometric,
-			float altitude_geodetic,
-			float height,
-			float timestamp,
-			int direction,
-			int speed_horizontal,
-			short speed_vertical,
-			short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short status,
-			short height_reference,
-			short horizontal_accuracy,
-			short vertical_accuracy,
-			short barometer_accuracy,
-			short speed_accuracy,
-			short timestamp_accuracy,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_open_drone_id_location(int latitude, int longitude, float altitude_barometric, float altitude_geodetic, float height, float timestamp, int direction, int speed_horizontal, short speed_vertical, short target_system, short target_component, short[] id_or_mac, short status, short height_reference, short horizontal_accuracy, short vertical_accuracy, short barometer_accuracy, short speed_accuracy, short timestamp_accuracy, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_LOCATION;
 		this.sysid = sysid;
 		this.compid = compid;

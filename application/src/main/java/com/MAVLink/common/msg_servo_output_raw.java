@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Superseded by ACTUATOR_OUTPUT_STATUS. The RAW values of the servo outputs (for RC input from the remote, use the
- * RC_CHANNELS messages). The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%.
+ * Superseded by ACTUATOR_OUTPUT_STATUS. The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages). The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%.
  */
 public class msg_servo_output_raw extends MAVLinkMessage {
 
@@ -23,8 +22,7 @@ public class msg_servo_output_raw extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -122,8 +120,8 @@ public class msg_servo_output_raw extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SERVO_OUTPUT_RAW;
 
 		packet.payload.putUnsignedInt(time_usec);
@@ -194,24 +192,7 @@ public class msg_servo_output_raw extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_servo_output_raw(long time_usec,
-			int servo1_raw,
-			int servo2_raw,
-			int servo3_raw,
-			int servo4_raw,
-			int servo5_raw,
-			int servo6_raw,
-			int servo7_raw,
-			int servo8_raw,
-			short port,
-			int servo9_raw,
-			int servo10_raw,
-			int servo11_raw,
-			int servo12_raw,
-			int servo13_raw,
-			int servo14_raw,
-			int servo15_raw,
-			int servo16_raw) {
+	public msg_servo_output_raw(long time_usec, int servo1_raw, int servo2_raw, int servo3_raw, int servo4_raw, int servo5_raw, int servo6_raw, int servo7_raw, int servo8_raw, short port, int servo9_raw, int servo10_raw, int servo11_raw, int servo12_raw, int servo13_raw, int servo14_raw, int servo15_raw, int servo16_raw) {
 		this.msgid = MAVLINK_MSG_ID_SERVO_OUTPUT_RAW;
 
 		this.time_usec = time_usec;
@@ -238,27 +219,7 @@ public class msg_servo_output_raw extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_servo_output_raw(long time_usec,
-			int servo1_raw,
-			int servo2_raw,
-			int servo3_raw,
-			int servo4_raw,
-			int servo5_raw,
-			int servo6_raw,
-			int servo7_raw,
-			int servo8_raw,
-			short port,
-			int servo9_raw,
-			int servo10_raw,
-			int servo11_raw,
-			int servo12_raw,
-			int servo13_raw,
-			int servo14_raw,
-			int servo15_raw,
-			int servo16_raw,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_servo_output_raw(long time_usec, int servo1_raw, int servo2_raw, int servo3_raw, int servo4_raw, int servo5_raw, int servo6_raw, int servo7_raw, int servo8_raw, short port, int servo9_raw, int servo10_raw, int servo11_raw, int servo12_raw, int servo13_raw, int servo14_raw, int servo15_raw, int servo16_raw, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SERVO_OUTPUT_RAW;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -304,9 +265,7 @@ public class msg_servo_output_raw extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SERVO_OUTPUT_RAW - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec +
-				" servo1_raw:" + servo1_raw + " servo2_raw:" + servo2_raw + " servo3_raw:" + servo3_raw + " servo4_raw" +
-				":" + servo4_raw + " servo5_raw:" + servo5_raw + " servo6_raw:" + servo6_raw + " servo7_raw:" + servo7_raw + " servo8_raw:" + servo8_raw + " port:" + port + " servo9_raw:" + servo9_raw + " servo10_raw:" + servo10_raw + " servo11_raw:" + servo11_raw + " servo12_raw:" + servo12_raw + " servo13_raw:" + servo13_raw + " servo14_raw:" + servo14_raw + " servo15_raw:" + servo15_raw + " servo16_raw:" + servo16_raw + "";
+		return "MAVLINK_MSG_ID_SERVO_OUTPUT_RAW - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " servo1_raw:" + servo1_raw + " servo2_raw:" + servo2_raw + " servo3_raw:" + servo3_raw + " servo4_raw:" + servo4_raw + " servo5_raw:" + servo5_raw + " servo6_raw:" + servo6_raw + " servo7_raw:" + servo7_raw + " servo8_raw:" + servo8_raw + " port:" + port + " servo9_raw:" + servo9_raw + " servo10_raw:" + servo10_raw + " servo11_raw:" + servo11_raw + " servo12_raw:" + servo12_raw + " servo13_raw:" + servo13_raw + " servo14_raw:" + servo14_raw + " servo15_raw:" + servo15_raw + " servo16_raw:" + servo16_raw + "";
 	}
 
 	/**

@@ -12,11 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service
- * "uavcan.protocol.GetNodeInfo" for the background information. This message should be emitted by the system
- * whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from
- * the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this
- * message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org.
+ * General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service "uavcan.protocol.GetNodeInfo" for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org.
  */
 public class msg_uavcan_node_info extends MAVLinkMessage {
 
@@ -26,8 +22,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -44,7 +39,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	/**
 	 * Node name string. For example, "sapog.px4.io".
 	 */
-	public byte[] name = new byte[80];
+	public byte name[] = new byte[80];
 
 	/**
 	 * Hardware major version number.
@@ -59,7 +54,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	/**
 	 * Hardware unique 128-bit ID.
 	 */
-	public short[] hw_unique_id = new short[16];
+	public short hw_unique_id[] = new short[16];
 
 	/**
 	 * Software major version number.
@@ -80,8 +75,8 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_UAVCAN_NODE_INFO;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -150,15 +145,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_uavcan_node_info(long time_usec,
-			long uptime_sec,
-			long sw_vcs_commit,
-			byte[] name,
-			short hw_version_major,
-			short hw_version_minor,
-			short[] hw_unique_id,
-			short sw_version_major,
-			short sw_version_minor) {
+	public msg_uavcan_node_info(long time_usec, long uptime_sec, long sw_vcs_commit, byte[] name, short hw_version_major, short hw_version_minor, short[] hw_unique_id, short sw_version_major, short sw_version_minor) {
 		this.msgid = MAVLINK_MSG_ID_UAVCAN_NODE_INFO;
 
 		this.time_usec = time_usec;
@@ -176,18 +163,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_uavcan_node_info(long time_usec,
-			long uptime_sec,
-			long sw_vcs_commit,
-			byte[] name,
-			short hw_version_major,
-			short hw_version_minor,
-			short[] hw_unique_id,
-			short sw_version_major,
-			short sw_version_minor,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_uavcan_node_info(long time_usec, long uptime_sec, long sw_vcs_commit, byte[] name, short hw_version_major, short hw_version_minor, short[] hw_unique_id, short sw_version_major, short sw_version_minor, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_UAVCAN_NODE_INFO;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -234,7 +210,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getName() {
 		StringBuffer buf = new StringBuffer();
@@ -253,10 +229,7 @@ public class msg_uavcan_node_info extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_UAVCAN_NODE_INFO - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec +
-				" uptime_sec:" + uptime_sec + " sw_vcs_commit:" + sw_vcs_commit + " name:" + name + " hw_version_major" +
-				":" + hw_version_major + " hw_version_minor:" + hw_version_minor + " hw_unique_id:" + hw_unique_id +
-				" sw_version_major:" + sw_version_major + " sw_version_minor:" + sw_version_minor + "";
+		return "MAVLINK_MSG_ID_UAVCAN_NODE_INFO - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " uptime_sec:" + uptime_sec + " sw_vcs_commit:" + sw_vcs_commit + " name:" + name + " hw_version_major:" + hw_version_major + " hw_version_minor:" + hw_version_minor + " hw_unique_id:" + hw_unique_id + " sw_version_major:" + sw_version_major + " sw_version_minor:" + sw_version_minor + "";
 	}
 
 	/**

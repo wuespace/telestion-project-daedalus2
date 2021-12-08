@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message "uavcan
- * .protocol.NodeStatus" for the background information. The UAVCAN specification is available at http://uavcan.org.
+ * General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message "uavcan.protocol.NodeStatus" for the background information. The UAVCAN specification is available at http://uavcan.org.
  */
 public class msg_uavcan_node_status extends MAVLinkMessage {
 
@@ -23,8 +22,7 @@ public class msg_uavcan_node_status extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -62,8 +60,8 @@ public class msg_uavcan_node_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_UAVCAN_NODE_STATUS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -110,12 +108,7 @@ public class msg_uavcan_node_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_uavcan_node_status(long time_usec,
-			long uptime_sec,
-			int vendor_specific_status_code,
-			short health,
-			short mode,
-			short sub_mode) {
+	public msg_uavcan_node_status(long time_usec, long uptime_sec, int vendor_specific_status_code, short health, short mode, short sub_mode) {
 		this.msgid = MAVLINK_MSG_ID_UAVCAN_NODE_STATUS;
 
 		this.time_usec = time_usec;
@@ -130,15 +123,7 @@ public class msg_uavcan_node_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_uavcan_node_status(long time_usec,
-			long uptime_sec,
-			int vendor_specific_status_code,
-			short health,
-			short mode,
-			short sub_mode,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_uavcan_node_status(long time_usec, long uptime_sec, int vendor_specific_status_code, short health, short mode, short sub_mode, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_UAVCAN_NODE_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

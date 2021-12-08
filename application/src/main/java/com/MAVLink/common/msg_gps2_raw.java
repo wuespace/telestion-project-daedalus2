@@ -22,8 +22,7 @@ public class msg_gps2_raw extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -83,8 +82,7 @@ public class msg_gps2_raw extends MAVLinkMessage {
 	public short dgps_numch;
 
 	/**
-	 * Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use UINT16_MAX if this GPS is configured
-	 * to provide yaw and is currently unable to provide it. Use 36000 for north.
+	 * Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use UINT16_MAX if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.
 	 */
 	public int yaw;
 
@@ -122,8 +120,8 @@ public class msg_gps2_raw extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GPS2_RAW;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -194,24 +192,7 @@ public class msg_gps2_raw extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gps2_raw(long time_usec,
-			int lat,
-			int lon,
-			int alt,
-			long dgps_age,
-			int eph,
-			int epv,
-			int vel,
-			int cog,
-			short fix_type,
-			short satellites_visible,
-			short dgps_numch,
-			int yaw,
-			int alt_ellipsoid,
-			long h_acc,
-			long v_acc,
-			long vel_acc,
-			long hdg_acc) {
+	public msg_gps2_raw(long time_usec, int lat, int lon, int alt, long dgps_age, int eph, int epv, int vel, int cog, short fix_type, short satellites_visible, short dgps_numch, int yaw, int alt_ellipsoid, long h_acc, long v_acc, long vel_acc, long hdg_acc) {
 		this.msgid = MAVLINK_MSG_ID_GPS2_RAW;
 
 		this.time_usec = time_usec;
@@ -238,27 +219,7 @@ public class msg_gps2_raw extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gps2_raw(long time_usec,
-			int lat,
-			int lon,
-			int alt,
-			long dgps_age,
-			int eph,
-			int epv,
-			int vel,
-			int cog,
-			short fix_type,
-			short satellites_visible,
-			short dgps_numch,
-			int yaw,
-			int alt_ellipsoid,
-			long h_acc,
-			long v_acc,
-			long vel_acc,
-			long hdg_acc,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gps2_raw(long time_usec, int lat, int lon, int alt, long dgps_age, int eph, int epv, int vel, int cog, short fix_type, short satellites_visible, short dgps_numch, int yaw, int alt_ellipsoid, long h_acc, long v_acc, long vel_acc, long hdg_acc, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GPS2_RAW;
 		this.sysid = sysid;
 		this.compid = compid;

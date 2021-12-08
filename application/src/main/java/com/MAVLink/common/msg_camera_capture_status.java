@@ -32,8 +32,7 @@ public class msg_camera_capture_status extends MAVLinkMessage {
 	public float image_interval;
 
 	/**
-	 * Elapsed time since recording started (0: Not supported/available). A GCS should compute recording time and use
-	 * non-zero values of this field to correct any discrepancy.
+	 * Elapsed time since recording started (0: Not supported/available). A GCS should compute recording time and use non-zero values of this field to correct any discrepancy.
 	 */
 	public long recording_time_ms;
 
@@ -43,8 +42,7 @@ public class msg_camera_capture_status extends MAVLinkMessage {
 	public float available_capacity;
 
 	/**
-	 * Current status of image capturing (0: idle, 1: capture in progress, 2: interval set but idle, 3: interval set
-	 * and capture in progress)
+	 * Current status of image capturing (0: idle, 1: capture in progress, 2: interval set but idle, 3: interval set and capture in progress)
 	 */
 	public short image_status;
 
@@ -67,8 +65,8 @@ public class msg_camera_capture_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CAMERA_CAPTURE_STATUS;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -117,13 +115,7 @@ public class msg_camera_capture_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_camera_capture_status(long time_boot_ms,
-			float image_interval,
-			long recording_time_ms,
-			float available_capacity,
-			short image_status,
-			short video_status,
-			int image_count) {
+	public msg_camera_capture_status(long time_boot_ms, float image_interval, long recording_time_ms, float available_capacity, short image_status, short video_status, int image_count) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_CAPTURE_STATUS;
 
 		this.time_boot_ms = time_boot_ms;
@@ -139,16 +131,7 @@ public class msg_camera_capture_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_camera_capture_status(long time_boot_ms,
-			float image_interval,
-			long recording_time_ms,
-			float available_capacity,
-			short image_status,
-			short video_status,
-			int image_count,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_camera_capture_status(long time_boot_ms, float image_interval, long recording_time_ms, float available_capacity, short image_status, short video_status, int image_count, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_CAPTURE_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

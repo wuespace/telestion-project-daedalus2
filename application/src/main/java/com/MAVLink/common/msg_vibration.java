@@ -22,8 +22,7 @@ public class msg_vibration extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -66,8 +65,8 @@ public class msg_vibration extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_VIBRATION;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -116,13 +115,7 @@ public class msg_vibration extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_vibration(long time_usec,
-			float vibration_x,
-			float vibration_y,
-			float vibration_z,
-			long clipping_0,
-			long clipping_1,
-			long clipping_2) {
+	public msg_vibration(long time_usec, float vibration_x, float vibration_y, float vibration_z, long clipping_0, long clipping_1, long clipping_2) {
 		this.msgid = MAVLINK_MSG_ID_VIBRATION;
 
 		this.time_usec = time_usec;
@@ -138,16 +131,7 @@ public class msg_vibration extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_vibration(long time_usec,
-			float vibration_x,
-			float vibration_y,
-			float vibration_z,
-			long clipping_0,
-			long clipping_1,
-			long clipping_2,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_vibration(long time_usec, float vibration_x, float vibration_y, float vibration_z, long clipping_0, long clipping_1, long clipping_2, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_VIBRATION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -182,9 +166,7 @@ public class msg_vibration extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_VIBRATION - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"vibration_x:" + vibration_x + " vibration_y:" + vibration_y + " vibration_z:" + vibration_z + " " +
-				"clipping_0:" + clipping_0 + " clipping_1:" + clipping_1 + " clipping_2:" + clipping_2 + "";
+		return "MAVLINK_MSG_ID_VIBRATION - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " vibration_x:" + vibration_x + " vibration_y:" + vibration_y + " vibration_z:" + vibration_z + " clipping_0:" + clipping_0 + " clipping_1:" + clipping_1 + " clipping_2:" + clipping_2 + "";
 	}
 
 	/**

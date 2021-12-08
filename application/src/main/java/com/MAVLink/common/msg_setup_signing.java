@@ -39,7 +39,7 @@ public class msg_setup_signing extends MAVLinkMessage {
 	/**
 	 * signing key
 	 */
-	public short[] secret_key = new short[32];
+	public short secret_key[] = new short[32];
 
 
 	/**
@@ -50,8 +50,8 @@ public class msg_setup_signing extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SETUP_SIGNING;
 
 		packet.payload.putUnsignedLong(initial_timestamp);
@@ -115,13 +115,7 @@ public class msg_setup_signing extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_setup_signing(long initial_timestamp,
-			short target_system,
-			short target_component,
-			short[] secret_key,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_setup_signing(long initial_timestamp, short target_system, short target_component, short[] secret_key, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SETUP_SIGNING;
 		this.sysid = sysid;
 		this.compid = compid;

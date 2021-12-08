@@ -32,8 +32,7 @@ public class msg_winch_status extends MAVLinkMessage {
 	public float line_length;
 
 	/**
-	 * Speed line is being released or retracted. Positive values if being released, negative values if being
-	 * retracted, NaN if unknown
+	 * Speed line is being released or retracted. Positive values if being released, negative values if being retracted, NaN if unknown
 	 */
 	public float speed;
 
@@ -71,8 +70,8 @@ public class msg_winch_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_WINCH_STATUS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -123,14 +122,7 @@ public class msg_winch_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_winch_status(long time_usec,
-			float line_length,
-			float speed,
-			float tension,
-			float voltage,
-			float current,
-			long status,
-			short temperature) {
+	public msg_winch_status(long time_usec, float line_length, float speed, float tension, float voltage, float current, long status, short temperature) {
 		this.msgid = MAVLINK_MSG_ID_WINCH_STATUS;
 
 		this.time_usec = time_usec;
@@ -147,17 +139,7 @@ public class msg_winch_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_winch_status(long time_usec,
-			float line_length,
-			float speed,
-			float tension,
-			float voltage,
-			float current,
-			long status,
-			short temperature,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_winch_status(long time_usec, float line_length, float speed, float tension, float voltage, float current, long status, short temperature, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_WINCH_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -193,9 +175,7 @@ public class msg_winch_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_WINCH_STATUS - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"line_length:" + line_length + " speed:" + speed + " tension:" + tension + " voltage:" + voltage + " " +
-				"current:" + current + " status:" + status + " temperature:" + temperature + "";
+		return "MAVLINK_MSG_ID_WINCH_STATUS - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " line_length:" + line_length + " speed:" + speed + " tension:" + tension + " voltage:" + voltage + " current:" + current + " status:" + status + " temperature:" + temperature + "";
 	}
 
 	/**

@@ -12,10 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Message reporting the status of a gimbal device. This message should be broadcasted by a gimbal device component.
- * The angles encoded in the quaternion are in the global frame (roll: positive is rolling to the right, pitch:
- * positive is pitching up, yaw is turn to the right). This message should be broadcast at a low regular rate (e.g.
- * 10Hz).
+ * Message reporting the status of a gimbal device. This message should be broadcasted by a gimbal device component. The angles encoded in the quaternion are relative to absolute North if the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set (roll: positive is rolling to the right, pitch: positive is pitching up, yaw is turn to the right) or relative to the vehicle heading if the flag is not set. This message should be broadcast at a low regular rate (e.g. 10Hz).
  */
 public class msg_gimbal_device_attitude_status extends MAVLinkMessage {
 
@@ -30,10 +27,9 @@ public class msg_gimbal_device_attitude_status extends MAVLinkMessage {
 	public long time_boot_ms;
 
 	/**
-	 * Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag
-	 * GIMBAL_DEVICE_FLAGS_YAW_LOCK is set)
+	 * Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * X component of angular velocity (NaN if unknown)
@@ -79,8 +75,8 @@ public class msg_gimbal_device_attitude_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -141,15 +137,7 @@ public class msg_gimbal_device_attitude_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gimbal_device_attitude_status(long time_boot_ms,
-			float[] q,
-			float angular_velocity_x,
-			float angular_velocity_y,
-			float angular_velocity_z,
-			long failure_flags,
-			int flags,
-			short target_system,
-			short target_component) {
+	public msg_gimbal_device_attitude_status(long time_boot_ms, float[] q, float angular_velocity_x, float angular_velocity_y, float angular_velocity_z, long failure_flags, int flags, short target_system, short target_component) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS;
 
 		this.time_boot_ms = time_boot_ms;
@@ -167,18 +155,7 @@ public class msg_gimbal_device_attitude_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gimbal_device_attitude_status(long time_boot_ms,
-			float[] q,
-			float angular_velocity_x,
-			float angular_velocity_y,
-			float angular_velocity_z,
-			long failure_flags,
-			int flags,
-			short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gimbal_device_attitude_status(long time_boot_ms, float[] q, float angular_velocity_x, float angular_velocity_y, float angular_velocity_z, long failure_flags, int flags, short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -215,8 +192,7 @@ public class msg_gimbal_device_attitude_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS - sysid:" + sysid + " compid:" + compid + " time_boot_ms" +
-				":" + time_boot_ms + " q:" + q + " angular_velocity_x:" + angular_velocity_x + " angular_velocity_y:" + angular_velocity_y + " angular_velocity_z:" + angular_velocity_z + " failure_flags:" + failure_flags + " flags:" + flags + " target_system:" + target_system + " target_component:" + target_component + "";
+		return "MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " q:" + q + " angular_velocity_x:" + angular_velocity_x + " angular_velocity_y:" + angular_velocity_y + " angular_velocity_z:" + angular_velocity_z + " failure_flags:" + failure_flags + " flags:" + flags + " target_system:" + target_system + " target_component:" + target_component + "";
 	}
 
 	/**

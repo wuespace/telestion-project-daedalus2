@@ -95,8 +95,8 @@ public class msg_gps_rtk extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GPS_RTK;
 
 		packet.payload.putUnsignedInt(time_last_baseline_ms);
@@ -157,19 +157,7 @@ public class msg_gps_rtk extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gps_rtk(long time_last_baseline_ms,
-			long tow,
-			int baseline_a_mm,
-			int baseline_b_mm,
-			int baseline_c_mm,
-			long accuracy,
-			int iar_num_hypotheses,
-			int wn,
-			short rtk_receiver_id,
-			short rtk_health,
-			short rtk_rate,
-			short nsats,
-			short baseline_coords_type) {
+	public msg_gps_rtk(long time_last_baseline_ms, long tow, int baseline_a_mm, int baseline_b_mm, int baseline_c_mm, long accuracy, int iar_num_hypotheses, int wn, short rtk_receiver_id, short rtk_health, short rtk_rate, short nsats, short baseline_coords_type) {
 		this.msgid = MAVLINK_MSG_ID_GPS_RTK;
 
 		this.time_last_baseline_ms = time_last_baseline_ms;
@@ -191,22 +179,7 @@ public class msg_gps_rtk extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gps_rtk(long time_last_baseline_ms,
-			long tow,
-			int baseline_a_mm,
-			int baseline_b_mm,
-			int baseline_c_mm,
-			long accuracy,
-			int iar_num_hypotheses,
-			int wn,
-			short rtk_receiver_id,
-			short rtk_health,
-			short rtk_rate,
-			short nsats,
-			short baseline_coords_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gps_rtk(long time_last_baseline_ms, long tow, int baseline_a_mm, int baseline_b_mm, int baseline_c_mm, long accuracy, int iar_num_hypotheses, int wn, short rtk_receiver_id, short rtk_health, short rtk_rate, short nsats, short baseline_coords_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GPS_RTK;
 		this.sysid = sysid;
 		this.compid = compid;

@@ -65,8 +65,8 @@ public class msg_safety_allowed_area extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SAFETY_ALLOWED_AREA;
 
 		packet.payload.putFloat(p1x);
@@ -131,16 +131,7 @@ public class msg_safety_allowed_area extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_safety_allowed_area(float p1x,
-			float p1y,
-			float p1z,
-			float p2x,
-			float p2y,
-			float p2z,
-			short frame,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_safety_allowed_area(float p1x, float p1y, float p1z, float p2x, float p2y, float p2z, short frame, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SAFETY_ALLOWED_AREA;
 		this.sysid = sysid;
 		this.compid = compid;

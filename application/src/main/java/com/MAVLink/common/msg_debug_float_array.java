@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name
- * fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in
- * production code.
+ * Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in production code.
  */
 public class msg_debug_float_array extends MAVLinkMessage {
 
@@ -24,8 +22,7 @@ public class msg_debug_float_array extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -37,12 +34,12 @@ public class msg_debug_float_array extends MAVLinkMessage {
 	/**
 	 * Name, for human-friendly display in a Ground Control Station
 	 */
-	public byte[] name = new byte[10];
+	public byte name[] = new byte[10];
 
 	/**
 	 * data
 	 */
-	public float[] data = new float[58];
+	public float data[] = new float[58];
 
 
 	/**
@@ -53,8 +50,8 @@ public class msg_debug_float_array extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -126,13 +123,7 @@ public class msg_debug_float_array extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_debug_float_array(long time_usec,
-			int array_id,
-			byte[] name,
-			float[] data,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_debug_float_array(long time_usec, int array_id, byte[] name, float[] data, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -174,7 +165,7 @@ public class msg_debug_float_array extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getName() {
 		StringBuffer buf = new StringBuffer();

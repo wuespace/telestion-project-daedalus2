@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Send a key-value pair as integer. The use of this message is discouraged for normal packets, but a quite efficient
- * way for testing new messages and getting experimental debug output.
+ * Send a key-value pair as integer. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output.
  */
 public class msg_named_value_int extends MAVLinkMessage {
 
@@ -35,7 +34,7 @@ public class msg_named_value_int extends MAVLinkMessage {
 	/**
 	 * Name of the debug variable
 	 */
-	public byte[] name = new byte[10];
+	public byte name[] = new byte[10];
 
 
 	/**
@@ -46,8 +45,8 @@ public class msg_named_value_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_NAMED_VALUE_INT;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -149,7 +148,7 @@ public class msg_named_value_int extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getName() {
 		StringBuffer buf = new StringBuffer();

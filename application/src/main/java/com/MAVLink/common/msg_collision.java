@@ -65,8 +65,8 @@ public class msg_collision extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_COLLISION;
 
 		packet.payload.putUnsignedInt(id);
@@ -115,13 +115,7 @@ public class msg_collision extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_collision(long id,
-			float time_to_minimum_delta,
-			float altitude_minimum_delta,
-			float horizontal_minimum_delta,
-			short src,
-			short action,
-			short threat_level) {
+	public msg_collision(long id, float time_to_minimum_delta, float altitude_minimum_delta, float horizontal_minimum_delta, short src, short action, short threat_level) {
 		this.msgid = MAVLINK_MSG_ID_COLLISION;
 
 		this.id = id;
@@ -137,16 +131,7 @@ public class msg_collision extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_collision(long id,
-			float time_to_minimum_delta,
-			float altitude_minimum_delta,
-			float horizontal_minimum_delta,
-			short src,
-			short action,
-			short threat_level,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_collision(long id, float time_to_minimum_delta, float altitude_minimum_delta, float horizontal_minimum_delta, short src, short action, short threat_level, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_COLLISION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -181,8 +166,7 @@ public class msg_collision extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_COLLISION - sysid:" + sysid + " compid:" + compid + " id:" + id + " " +
-				"time_to_minimum_delta:" + time_to_minimum_delta + " altitude_minimum_delta:" + altitude_minimum_delta + " horizontal_minimum_delta:" + horizontal_minimum_delta + " src:" + src + " action:" + action + " threat_level:" + threat_level + "";
+		return "MAVLINK_MSG_ID_COLLISION - sysid:" + sysid + " compid:" + compid + " id:" + id + " time_to_minimum_delta:" + time_to_minimum_delta + " altitude_minimum_delta:" + altitude_minimum_delta + " horizontal_minimum_delta:" + horizontal_minimum_delta + " src:" + src + " action:" + action + " threat_level:" + threat_level + "";
 	}
 
 	/**

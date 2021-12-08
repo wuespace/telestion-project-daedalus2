@@ -13,8 +13,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
  * The global position, as returned by the Global Positioning System (GPS). This is
- * NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the
- * global position estimate.
+ * NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION_INT for the global position estimate.
  */
 public class msg_gps_raw_int extends MAVLinkMessage {
 
@@ -24,8 +23,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -40,8 +38,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	public int lon;
 
 	/**
-	 * Altitude (MSL). Positive for up. Note that virtually all GPS modules provide the MSL altitude in addition to
-	 * the WGS84 altitude.
+	 * Altitude (MSL). Positive for up. Note that virtually all GPS modules provide the MSL altitude in addition to the WGS84 altitude.
 	 */
 	public int alt;
 
@@ -61,8 +58,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	public int vel;
 
 	/**
-	 * Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown,
-	 * set to: UINT16_MAX
+	 * Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
 	 */
 	public int cog;
 
@@ -102,8 +98,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	public long hdg_acc;
 
 	/**
-	 * Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use UINT16_MAX if this GPS is configured
-	 * to provide yaw and is currently unable to provide it. Use 36000 for north.
+	 * Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use UINT16_MAX if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.
 	 */
 	public int yaw;
 
@@ -116,8 +111,8 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GPS_RAW_INT;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -184,22 +179,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gps_raw_int(long time_usec,
-			int lat,
-			int lon,
-			int alt,
-			int eph,
-			int epv,
-			int vel,
-			int cog,
-			short fix_type,
-			short satellites_visible,
-			int alt_ellipsoid,
-			long h_acc,
-			long v_acc,
-			long vel_acc,
-			long hdg_acc,
-			int yaw) {
+	public msg_gps_raw_int(long time_usec, int lat, int lon, int alt, int eph, int epv, int vel, int cog, short fix_type, short satellites_visible, int alt_ellipsoid, long h_acc, long v_acc, long vel_acc, long hdg_acc, int yaw) {
 		this.msgid = MAVLINK_MSG_ID_GPS_RAW_INT;
 
 		this.time_usec = time_usec;
@@ -224,25 +204,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gps_raw_int(long time_usec,
-			int lat,
-			int lon,
-			int alt,
-			int eph,
-			int epv,
-			int vel,
-			int cog,
-			short fix_type,
-			short satellites_visible,
-			int alt_ellipsoid,
-			long h_acc,
-			long v_acc,
-			long vel_acc,
-			long hdg_acc,
-			int yaw,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gps_raw_int(long time_usec, int lat, int lon, int alt, int eph, int epv, int vel, int cog, short fix_type, short satellites_visible, int alt_ellipsoid, long h_acc, long v_acc, long vel_acc, long hdg_acc, int yaw, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GPS_RAW_INT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -286,8 +248,7 @@ public class msg_gps_raw_int extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GPS_RAW_INT - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " lat" +
-				":" + lat + " lon:" + lon + " alt:" + alt + " eph:" + eph + " epv:" + epv + " vel:" + vel + " cog:" + cog + " fix_type:" + fix_type + " satellites_visible:" + satellites_visible + " alt_ellipsoid:" + alt_ellipsoid + " h_acc:" + h_acc + " v_acc:" + v_acc + " vel_acc:" + vel_acc + " hdg_acc:" + hdg_acc + " yaw:" + yaw + "";
+		return "MAVLINK_MSG_ID_GPS_RAW_INT - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " lat:" + lat + " lon:" + lon + " alt:" + alt + " eph:" + eph + " epv:" + epv + " vel:" + vel + " cog:" + cog + " fix_type:" + fix_type + " satellites_visible:" + satellites_visible + " alt_ellipsoid:" + alt_ellipsoid + " h_acc:" + h_acc + " v_acc:" + v_acc + " vel_acc:" + vel_acc + " hdg_acc:" + hdg_acc + " yaw:" + yaw + "";
 	}
 
 	/**

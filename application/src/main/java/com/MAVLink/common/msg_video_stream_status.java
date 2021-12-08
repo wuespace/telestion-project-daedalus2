@@ -70,8 +70,8 @@ public class msg_video_stream_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_VIDEO_STREAM_STATUS;
 
 		packet.payload.putFloat(framerate);
@@ -122,14 +122,7 @@ public class msg_video_stream_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_video_stream_status(float framerate,
-			long bitrate,
-			int flags,
-			int resolution_h,
-			int resolution_v,
-			int rotation,
-			int hfov,
-			short stream_id) {
+	public msg_video_stream_status(float framerate, long bitrate, int flags, int resolution_h, int resolution_v, int rotation, int hfov, short stream_id) {
 		this.msgid = MAVLINK_MSG_ID_VIDEO_STREAM_STATUS;
 
 		this.framerate = framerate;
@@ -146,17 +139,7 @@ public class msg_video_stream_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_video_stream_status(float framerate,
-			long bitrate,
-			int flags,
-			int resolution_h,
-			int resolution_v,
-			int rotation,
-			int hfov,
-			short stream_id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_video_stream_status(float framerate, long bitrate, int flags, int resolution_h, int resolution_v, int rotation, int hfov, short stream_id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_VIDEO_STREAM_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

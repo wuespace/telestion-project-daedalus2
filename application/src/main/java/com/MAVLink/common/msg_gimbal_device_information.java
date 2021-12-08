@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station
- * using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by
- * software used are likely different/smaller and dependent on mode/settings/etc..
+ * Information about a low level gimbal. This message should be requested by the gimbal manager or a ground station using MAV_CMD_REQUEST_MESSAGE. The maximum angles and rates are the limits by hardware. However, the limits by software used are likely different/smaller and dependent on mode/settings/etc..
  */
 public class msg_gimbal_device_information extends MAVLinkMessage {
 
@@ -34,14 +32,12 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	public long time_boot_ms;
 
 	/**
-	 * Version of the gimbal firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 |
-	 * (Major & 0xff).
+	 * Version of the gimbal firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).
 	 */
 	public long firmware_version;
 
 	/**
-	 * Version of the gimbal hardware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 |
-	 * (Major & 0xff).
+	 * Version of the gimbal hardware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff).
 	 */
 	public long hardware_version;
 
@@ -88,17 +84,17 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	/**
 	 * Name of the gimbal vendor.
 	 */
-	public byte[] vendor_name = new byte[32];
+	public byte vendor_name[] = new byte[32];
 
 	/**
 	 * Name of the gimbal model.
 	 */
-	public byte[] model_name = new byte[32];
+	public byte model_name[] = new byte[32];
 
 	/**
 	 * Custom name of the gimbal given to it by the user.
 	 */
-	public byte[] custom_name = new byte[32];
+	public byte custom_name[] = new byte[32];
 
 
 	/**
@@ -109,8 +105,8 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_INFORMATION;
 
 		packet.payload.putUnsignedLong(uid);
@@ -199,21 +195,7 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gimbal_device_information(long uid,
-			long time_boot_ms,
-			long firmware_version,
-			long hardware_version,
-			float roll_min,
-			float roll_max,
-			float pitch_min,
-			float pitch_max,
-			float yaw_min,
-			float yaw_max,
-			int cap_flags,
-			int custom_cap_flags,
-			byte[] vendor_name,
-			byte[] model_name,
-			byte[] custom_name) {
+	public msg_gimbal_device_information(long uid, long time_boot_ms, long firmware_version, long hardware_version, float roll_min, float roll_max, float pitch_min, float pitch_max, float yaw_min, float yaw_max, int cap_flags, int custom_cap_flags, byte[] vendor_name, byte[] model_name, byte[] custom_name) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_INFORMATION;
 
 		this.uid = uid;
@@ -237,24 +219,7 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gimbal_device_information(long uid,
-			long time_boot_ms,
-			long firmware_version,
-			long hardware_version,
-			float roll_min,
-			float roll_max,
-			float pitch_min,
-			float pitch_max,
-			float yaw_min,
-			float yaw_max,
-			int cap_flags,
-			int custom_cap_flags,
-			byte[] vendor_name,
-			byte[] model_name,
-			byte[] custom_name,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gimbal_device_information(long uid, long time_boot_ms, long firmware_version, long hardware_version, float roll_min, float roll_max, float pitch_min, float pitch_max, float yaw_min, float yaw_max, int cap_flags, int custom_cap_flags, byte[] vendor_name, byte[] model_name, byte[] custom_name, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_INFORMATION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -307,7 +272,7 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getVendor_Name() {
 		StringBuffer buf = new StringBuffer();
@@ -336,7 +301,7 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getModel_Name() {
 		StringBuffer buf = new StringBuffer();
@@ -365,7 +330,7 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getCustom_Name() {
 		StringBuffer buf = new StringBuffer();
@@ -384,8 +349,7 @@ public class msg_gimbal_device_information extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GIMBAL_DEVICE_INFORMATION - sysid:" + sysid + " compid:" + compid + " uid:" + uid + " " +
-				"time_boot_ms:" + time_boot_ms + " firmware_version:" + firmware_version + " hardware_version:" + hardware_version + " roll_min:" + roll_min + " roll_max:" + roll_max + " pitch_min:" + pitch_min + " pitch_max:" + pitch_max + " yaw_min:" + yaw_min + " yaw_max:" + yaw_max + " cap_flags:" + cap_flags + " custom_cap_flags:" + custom_cap_flags + " vendor_name:" + vendor_name + " model_name:" + model_name + " custom_name:" + custom_name + "";
+		return "MAVLINK_MSG_ID_GIMBAL_DEVICE_INFORMATION - sysid:" + sysid + " compid:" + compid + " uid:" + uid + " time_boot_ms:" + time_boot_ms + " firmware_version:" + firmware_version + " hardware_version:" + hardware_version + " roll_min:" + roll_min + " roll_max:" + roll_max + " pitch_min:" + pitch_min + " pitch_max:" + pitch_max + " yaw_min:" + yaw_min + " yaw_max:" + yaw_max + " cap_flags:" + cap_flags + " custom_cap_flags:" + custom_cap_flags + " vendor_name:" + vendor_name + " model_name:" + model_name + " custom_name:" + custom_name + "";
 	}
 
 	/**

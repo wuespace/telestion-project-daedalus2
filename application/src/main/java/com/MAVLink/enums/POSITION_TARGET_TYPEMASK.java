@@ -7,9 +7,7 @@
 package com.MAVLink.enums;
 
 /**
- * Bitmap to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or
- * 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 9 is set the floats
- * afx afy afz should be interpreted as force instead of acceleration.
+ * Bitmap to indicate which dimensions should be ignored by the vehicle: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 9 is set the floats afx afy afz should be interpreted as force instead of acceleration.
  */
 public class POSITION_TARGET_TYPEMASK {
 	public static final int POSITION_TARGET_TYPEMASK_X_IGNORE = 1; /* Ignore position x | */

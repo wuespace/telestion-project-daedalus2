@@ -22,26 +22,22 @@ public class msg_hil_optical_flow extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
 	/**
-	 * Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The
-	 * integration time also indicates the.
+	 * Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.
 	 */
 	public long integration_time_us;
 
 	/**
-	 * Flow in radians around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear
-	 * motion along the positive Y axis induces a negative flow.)
+	 * Flow in radians around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)
 	 */
 	public float integrated_x;
 
 	/**
-	 * Flow in radians around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear
-	 * motion along the positive X axis induces a positive flow.)
+	 * Flow in radians around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)
 	 */
 	public float integrated_y;
 
@@ -66,8 +62,7 @@ public class msg_hil_optical_flow extends MAVLinkMessage {
 	public long time_delta_distance_us;
 
 	/**
-	 * Distance to the center of the flow field. Positive value (including zero): distance known. Negative value:
-	 * Unknown distance.
+	 * Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.
 	 */
 	public float distance;
 
@@ -95,8 +90,8 @@ public class msg_hil_optical_flow extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HIL_OPTICAL_FLOW;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -155,18 +150,7 @@ public class msg_hil_optical_flow extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_hil_optical_flow(long time_usec,
-			long integration_time_us,
-			float integrated_x,
-			float integrated_y,
-			float integrated_xgyro,
-			float integrated_ygyro,
-			float integrated_zgyro,
-			long time_delta_distance_us,
-			float distance,
-			short temperature,
-			short sensor_id,
-			short quality) {
+	public msg_hil_optical_flow(long time_usec, long integration_time_us, float integrated_x, float integrated_y, float integrated_xgyro, float integrated_ygyro, float integrated_zgyro, long time_delta_distance_us, float distance, short temperature, short sensor_id, short quality) {
 		this.msgid = MAVLINK_MSG_ID_HIL_OPTICAL_FLOW;
 
 		this.time_usec = time_usec;
@@ -187,21 +171,7 @@ public class msg_hil_optical_flow extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_hil_optical_flow(long time_usec,
-			long integration_time_us,
-			float integrated_x,
-			float integrated_y,
-			float integrated_xgyro,
-			float integrated_ygyro,
-			float integrated_zgyro,
-			long time_delta_distance_us,
-			float distance,
-			short temperature,
-			short sensor_id,
-			short quality,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_hil_optical_flow(long time_usec, long integration_time_us, float integrated_x, float integrated_y, float integrated_xgyro, float integrated_ygyro, float integrated_zgyro, long time_delta_distance_us, float distance, short temperature, short sensor_id, short quality, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HIL_OPTICAL_FLOW;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -241,8 +211,7 @@ public class msg_hil_optical_flow extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_HIL_OPTICAL_FLOW - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec +
-				" integration_time_us:" + integration_time_us + " integrated_x:" + integrated_x + " integrated_y:" + integrated_y + " integrated_xgyro:" + integrated_xgyro + " integrated_ygyro:" + integrated_ygyro + " integrated_zgyro:" + integrated_zgyro + " time_delta_distance_us:" + time_delta_distance_us + " distance:" + distance + " temperature:" + temperature + " sensor_id:" + sensor_id + " quality:" + quality + "";
+		return "MAVLINK_MSG_ID_HIL_OPTICAL_FLOW - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " integration_time_us:" + integration_time_us + " integrated_x:" + integrated_x + " integrated_y:" + integrated_y + " integrated_xgyro:" + integrated_xgyro + " integrated_ygyro:" + integrated_ygyro + " integrated_zgyro:" + integrated_zgyro + " time_delta_distance_us:" + time_delta_distance_us + " distance:" + distance + " temperature:" + temperature + " sensor_id:" + sensor_id + " quality:" + quality + "";
 	}
 
 	/**

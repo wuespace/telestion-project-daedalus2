@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 <mavlink>
-    <include>common.xml</include>
-    <!-- <version>9</version> -->
     <dialect>1</dialect>
     <enums>
-        <!-- Enums are defined here (optional) -->
+        <!-- Enums are defined here -->
     </enums>
     <messages>
-        <!-- Messages are defined here (optional) -->
+        <!-- Messages are defined here -->
 		<message id="39205" name="SEED_HEARTBEAT">
 		<description> Contains information about the current state and local time.</description>
 		<field type="int64_t" name="time_local">Seed local time</field>
@@ -19,15 +17,15 @@
 		<field type="uint8_t" name="bat_heater_fault">truthy if heater fault occurred</field>
 		<field type="uint16_t[8]" name="adc_measurements_sbc">adc measurements millivolts/milliamps</field>
 		<field type="uint16_t[8]" name="adc_measurements_cop">adc measurements millivolts/milliamps</field>
-		<field type="uint8_t" name="available_status">imu_gyro_avail, bat_temp_avail, rxsm_voltage_avail in this order with individual size of 1 bit</field>
-		<field type="uint8_t" name="bat_status">rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.</field>
+		<field type="uint8_t" name="available_status">imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit</field>
+		<field type="uint8_t" name="bat_status">rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.</field>
 		</message>
 		
-		<message id="88552" name="SEED_LOG">
+		<message id="88552" name="LOG">
 		<description> Contains log data of the Seed</description>
 		<field type="int64_t" name="time_local">Seed local time</field>
 		<field type="uint32_t" name="d2time">system time</field>
-		<field type="char[247]" name="log_msg">Logging data</field>
+		<field type="char[243]" name="log_msg">Logging data</field>
 		</message>
 		
 		<message id="79071" name="SEED_SYSTEM_T">
@@ -53,7 +51,7 @@
 		<field type="float" name="tacho_rot_rate">rotation rate of the rotor in rad/s </field>
 		<field type="uint8_t" name="lidar_cover_open">Is the LIDAR Hole currently open?</field>
 		<field type="uint8_t" name="bat_heater_fault">truthy if heater fault occurred</field>
-		<field type="uint8_t" name="bat_status">rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used and bat2_used in this order with individual size of 1 bit.</field>
+		<field type="uint8_t" name="bat_status">rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.</field>
 		<field type="float" name="gps_lat">current latitude (N is positiv, S is negativ) </field>
 		<field type="float" name="gps_long">current longitude (W is positiv, E is negativ) </field>
 		<field type="uint8_t" name="gps_quality">indicator for gps fix </field>
@@ -67,7 +65,8 @@
 		<field type="float" name="controller_blade_pitch">setpoint for the pitch angle for the servos </field>
 		<field type="float" name="controller_fin_angle">desired fin angle </field>
 		<field type="uint8_t" name="controller_ids">identifier for blade controller type and finn controller type in this order with individual size of 4 bit.</field>
-		<field type="uint8_t" name="available_status">imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, bat_temp_avail, adc_measurements_avail, rxsm_voltage_avail in this order with individual size of 1 bit</field>
+		<field type="uint8_t" name="available_status">imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit</field>
+		
 		</message>
 		
 		<message id="72498" name="CON_CMD">
@@ -96,16 +95,11 @@
 		<field type="int64_t" name="time_local">Ejector local time</field>
 		<field type="uint32_t" name="d2time">system time</field>
 		<field type="uint8_t" name="telecommand_cnt">number of received and executed telecommands</field>
-		<field type="uint8_t" name="state_cur">current System state</field> <!-- here the use of enum could be possible -->
+		<field type="uint8_t" name="state_cur">current System state</field>
+		<field type="uint8_t" name="led_enabled">LED status</field>
+		<field type="uint8_t" name="cam_enabled">Cam status</field>
+		<field type="uint8_t" name="seed_power_enabled">Seed Power status</field>
 		</message>
-		
-		<message id="24017" name="EJECTOR_LOG">
-		<description> Contains log data of the Ejector</description>
-		<field type="int64_t" name="time_local">Ejector local time</field>
-		<field type="uint32_t" name="d2time">system time</field>
-		<field type="char[247]" name="log_msg">Logging data</field>
-		</message>
-		
 		
 	</messages>
 </mavlink>

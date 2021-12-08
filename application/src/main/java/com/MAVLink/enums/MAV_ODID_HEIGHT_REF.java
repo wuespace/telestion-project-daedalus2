@@ -10,8 +10,7 @@ package com.MAVLink.enums;
  *
  */
 public class MAV_ODID_HEIGHT_REF {
-	public static final int MAV_ODID_HEIGHT_REF_OVER_TAKEOFF = 0; /* The height field is relative to the take-off
-	location. | */
+	public static final int MAV_ODID_HEIGHT_REF_OVER_TAKEOFF = 0; /* The height field is relative to the take-off location. | */
 	public static final int MAV_ODID_HEIGHT_REF_OVER_GROUND = 1; /* The height field is relative to ground. | */
 	public static final int MAV_ODID_HEIGHT_REF_ENUM_END = 2; /*  | */
 }

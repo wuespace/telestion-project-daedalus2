@@ -13,10 +13,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
  * Message encoding a mission item. This message is emitted to announce
- * the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z
- * meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up,
- * right handed (ENU). NaN may be used to indicate an optional/default value (e.g. to use the system's current
- * latitude or yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html.
+ * the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN may be used to indicate an optional/default value (e.g. to use the system's current latitude or yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html.
  */
 public class msg_mission_item extends MAVLinkMessage {
 
@@ -109,8 +106,8 @@ public class msg_mission_item extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_ITEM;
 
 		packet.payload.putFloat(param1);
@@ -175,21 +172,7 @@ public class msg_mission_item extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_mission_item(float param1,
-			float param2,
-			float param3,
-			float param4,
-			float x,
-			float y,
-			float z,
-			int seq,
-			int command,
-			short target_system,
-			short target_component,
-			short frame,
-			short current,
-			short autocontinue,
-			short mission_type) {
+	public msg_mission_item(float param1, float param2, float param3, float param4, float x, float y, float z, int seq, int command, short target_system, short target_component, short frame, short current, short autocontinue, short mission_type) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_ITEM;
 
 		this.param1 = param1;
@@ -213,24 +196,7 @@ public class msg_mission_item extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_item(float param1,
-			float param2,
-			float param3,
-			float param4,
-			float x,
-			float y,
-			float z,
-			int seq,
-			int command,
-			short target_system,
-			short target_component,
-			short frame,
-			short current,
-			short autocontinue,
-			short mission_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_item(float param1, float param2, float param3, float param4, float x, float y, float z, int seq, int command, short target_system, short target_component, short frame, short current, short autocontinue, short mission_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_ITEM;
 		this.sysid = sysid;
 		this.compid = compid;

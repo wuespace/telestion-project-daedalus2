@@ -12,10 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Sets the GPS co-ordinates of the vehicle local origin (0,0,0) position. Vehicle should emit GPS_GLOBAL_ORIGIN
- * irrespective of whether the origin is changed. This enables transform between the local coordinate frame and the
- * global (GPS) coordinate frame, which may be necessary when (for example) indoor and outdoor settings are connected
- * and the MAV should move from in- to outdoor.
+ * Sets the GPS co-ordinates of the vehicle local origin (0,0,0) position. Vehicle should emit GPS_GLOBAL_ORIGIN irrespective of whether the origin is changed. This enables transform between the local coordinate frame and the global (GPS) coordinate frame, which may be necessary when (for example) indoor and outdoor settings are connected and the MAV should move from in- to outdoor.
  */
 public class msg_set_gps_global_origin extends MAVLinkMessage {
 
@@ -45,8 +42,7 @@ public class msg_set_gps_global_origin extends MAVLinkMessage {
 	public short target_system;
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -59,8 +55,8 @@ public class msg_set_gps_global_origin extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SET_GPS_GLOBAL_ORIGIN;
 
 		packet.payload.putInt(latitude);
@@ -119,14 +115,7 @@ public class msg_set_gps_global_origin extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_set_gps_global_origin(int latitude,
-			int longitude,
-			int altitude,
-			short target_system,
-			long time_usec,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_set_gps_global_origin(int latitude, int longitude, int altitude, short target_system, long time_usec, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SET_GPS_GLOBAL_ORIGIN;
 		this.sysid = sysid;
 		this.compid = compid;

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Data packet for images sent using the Image Transmission Protocol: https://mavlink
- * .io/en/services/image_transmission.html.
+ * Data packet for images sent using the Image Transmission Protocol: https://mavlink.io/en/services/image_transmission.html.
  */
 public class msg_encapsulated_data extends MAVLinkMessage {
 
@@ -30,7 +29,7 @@ public class msg_encapsulated_data extends MAVLinkMessage {
 	/**
 	 * image data bytes
 	 */
-	public short[] data = new short[253];
+	public short data[] = new short[253];
 
 
 	/**
@@ -41,8 +40,8 @@ public class msg_encapsulated_data extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ENCAPSULATED_DATA;
 
 		packet.payload.putUnsignedShort(seqnr);
@@ -130,8 +129,7 @@ public class msg_encapsulated_data extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ENCAPSULATED_DATA - sysid:" + sysid + " compid:" + compid + " seqnr:" + seqnr + " data" +
-				":" + data + "";
+		return "MAVLINK_MSG_ID_ENCAPSULATED_DATA - sysid:" + sysid + " compid:" + compid + " seqnr:" + seqnr + " data:" + data + "";
 	}
 
 	/**

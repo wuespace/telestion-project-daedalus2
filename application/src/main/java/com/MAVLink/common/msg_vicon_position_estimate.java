@@ -57,11 +57,9 @@ public class msg_vicon_position_estimate extends MAVLinkMessage {
 	public float yaw;
 
 	/**
-	 * Row-major representation of 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll,
-	 * pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown,
-	 * assign NaN value to first element in the array.
+	 * Row-major representation of 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.
 	 */
-	public float[] covariance = new float[21];
+	public float covariance[] = new float[21];
 
 
 	/**
@@ -72,8 +70,8 @@ public class msg_vicon_position_estimate extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE;
 
 		packet.payload.putUnsignedLong(usec);
@@ -132,14 +130,7 @@ public class msg_vicon_position_estimate extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_vicon_position_estimate(long usec,
-			float x,
-			float y,
-			float z,
-			float roll,
-			float pitch,
-			float yaw,
-			float[] covariance) {
+	public msg_vicon_position_estimate(long usec, float x, float y, float z, float roll, float pitch, float yaw, float[] covariance) {
 		this.msgid = MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE;
 
 		this.usec = usec;
@@ -156,17 +147,7 @@ public class msg_vicon_position_estimate extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_vicon_position_estimate(long usec,
-			float x,
-			float y,
-			float z,
-			float roll,
-			float pitch,
-			float yaw,
-			float[] covariance,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_vicon_position_estimate(long usec, float x, float y, float z, float roll, float pitch, float yaw, float[] covariance, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -202,9 +183,7 @@ public class msg_vicon_position_estimate extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE - sysid:" + sysid + " compid:" + compid + " usec:" + usec + " " +
-				"x:" + x + " y:" + y + " z:" + z + " roll:" + roll + " pitch:" + pitch + " yaw:" + yaw + " covariance" +
-				":" + covariance + "";
+		return "MAVLINK_MSG_ID_VICON_POSITION_ESTIMATE - sysid:" + sysid + " compid:" + compid + " usec:" + usec + " x:" + x + " y:" + y + " z:" + z + " roll:" + roll + " pitch:" + pitch + " yaw:" + yaw + " covariance:" + covariance + "";
 	}
 
 	/**

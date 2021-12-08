@@ -19,8 +19,7 @@ public class MAV_SYS_STATUS_SENSOR {
 	public static final int MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = 64; /* 0x40 optical flow | */
 	public static final int MAV_SYS_STATUS_SENSOR_VISION_POSITION = 128; /* 0x80 computer vision position | */
 	public static final int MAV_SYS_STATUS_SENSOR_LASER_POSITION = 256; /* 0x100 laser based position | */
-	public static final int MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = 512; /* 0x200 external ground truth (Vicon
-	or Leica) | */
+	public static final int MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = 512; /* 0x200 external ground truth (Vicon or Leica) | */
 	public static final int MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = 1024; /* 0x400 3D angular rate control | */
 	public static final int MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = 2048; /* 0x800 attitude stabilization | */
 	public static final int MAV_SYS_STATUS_SENSOR_YAW_POSITION = 4096; /* 0x1000 yaw position | */
@@ -39,11 +38,8 @@ public class MAV_SYS_STATUS_SENSOR {
 	public static final int MAV_SYS_STATUS_SENSOR_BATTERY = 33554432; /* 0x2000000 Battery | */
 	public static final int MAV_SYS_STATUS_SENSOR_PROXIMITY = 67108864; /* 0x4000000 Proximity | */
 	public static final int MAV_SYS_STATUS_SENSOR_SATCOM = 134217728; /* 0x8000000 Satellite Communication  | */
-	public static final int MAV_SYS_STATUS_PREARM_CHECK = 268435456; /* 0x10000000 pre-arm check status. Always
-	healthy when armed | */
-	public static final int MAV_SYS_STATUS_OBSTACLE_AVOIDANCE = 536870912; /* 0x20000000 Avoidance/collision
-	prevention | */
-	public static final int MAV_SYS_STATUS_SENSOR_PROPULSION = 1073741824; /* 0x40000000 propulsion (actuator, esc,
-	motor or propellor) | */
+	public static final int MAV_SYS_STATUS_PREARM_CHECK = 268435456; /* 0x10000000 pre-arm check status. Always healthy when armed | */
+	public static final int MAV_SYS_STATUS_OBSTACLE_AVOIDANCE = 536870912; /* 0x20000000 Avoidance/collision prevention | */
+	public static final int MAV_SYS_STATUS_SENSOR_PROPULSION = 1073741824; /* 0x40000000 propulsion (actuator, esc, motor or propellor) | */
 	public static final int MAV_SYS_STATUS_SENSOR_ENUM_END = 1073741825; /*  | */
 }

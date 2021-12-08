@@ -22,12 +22,7 @@ public class msg_v2_extension extends MAVLinkMessage {
 
 
 	/**
-	 * A code that identifies the software component that understands this message (analogous to USB device classes or
-	 * mime type strings). If this code is less than 32768, it is considered a 'registered' protocol extension and the
-	 * corresponding entry should be added to https://github
-	 * .com/mavlink/mavlink/definition_files/extension_message_ids.xml. Software creators can register blocks of
-	 * message IDs as needed (useful for GCS specific metadata, etc...). Message_types greater than 32767 are
-	 * considered local experiments and should not be checked in to any widely distributed codebase.
+	 * A code that identifies the software component that understands this message (analogous to USB device classes or mime type strings). If this code is less than 32768, it is considered a 'registered' protocol extension and the corresponding entry should be added to https://github.com/mavlink/mavlink/definition_files/extension_message_ids.xml. Software creators can register blocks of message IDs as needed (useful for GCS specific metadata, etc...). Message_types greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.
 	 */
 	public int message_type;
 
@@ -47,14 +42,9 @@ public class msg_v2_extension extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Variable length payload. The length must be encoded in the payload as part of the message_type protocol, e.g.
-	 * by including the length as payload data, or by terminating the payload data with a non-zero marker. This is
-	 * required in order to reconstruct zero-terminated payloads that are (or otherwise would be) trimmed by MAVLink 2
-	 * empty-byte truncation. The entire content of the payload block is opaque unless you understand the encoding
-	 * message_type. The particular encoding used can be extension specific and might not always be documented as part
-	 * of the MAVLink specification.
+	 * Variable length payload. The length must be encoded in the payload as part of the message_type protocol, e.g. by including the length as payload data, or by terminating the payload data with a non-zero marker. This is required in order to reconstruct zero-terminated payloads that are (or otherwise would be) trimmed by MAVLink 2 empty-byte truncation. The entire content of the payload block is opaque unless you understand the encoding message_type. The particular encoding used can be extension specific and might not always be documented as part of the MAVLink specification.
 	 */
-	public short[] payload = new short[249];
+	public short payload[] = new short[249];
 
 
 	/**
@@ -65,8 +55,8 @@ public class msg_v2_extension extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_V2_EXTENSION;
 
 		packet.payload.putUnsignedShort(message_type);
@@ -119,11 +109,7 @@ public class msg_v2_extension extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_v2_extension(int message_type,
-			short target_network,
-			short target_system,
-			short target_component,
-			short[] payload) {
+	public msg_v2_extension(int message_type, short target_network, short target_system, short target_component, short[] payload) {
 		this.msgid = MAVLINK_MSG_ID_V2_EXTENSION;
 
 		this.message_type = message_type;
@@ -137,14 +123,7 @@ public class msg_v2_extension extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_v2_extension(int message_type,
-			short target_network,
-			short target_system,
-			short target_component,
-			short[] payload,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_v2_extension(int message_type, short target_network, short target_system, short target_component, short[] payload, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_V2_EXTENSION;
 		this.sysid = sysid;
 		this.compid = compid;

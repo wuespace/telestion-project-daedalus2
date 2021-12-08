@@ -165,8 +165,8 @@ public class msg_high_latency2 extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HIGH_LATENCY2;
 
 		packet.payload.putUnsignedInt(timestamp);
@@ -255,33 +255,7 @@ public class msg_high_latency2 extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_high_latency2(long timestamp,
-			int latitude,
-			int longitude,
-			int custom_mode,
-			short altitude,
-			short target_altitude,
-			int target_distance,
-			int wp_num,
-			int failure_flags,
-			short type,
-			short autopilot,
-			short heading,
-			short target_heading,
-			short throttle,
-			short airspeed,
-			short airspeed_sp,
-			short groundspeed,
-			short windspeed,
-			short wind_heading,
-			short eph,
-			short epv,
-			byte temperature_air,
-			byte climb_rate,
-			byte battery,
-			byte custom0,
-			byte custom1,
-			byte custom2) {
+	public msg_high_latency2(long timestamp, int latitude, int longitude, int custom_mode, short altitude, short target_altitude, int target_distance, int wp_num, int failure_flags, short type, short autopilot, short heading, short target_heading, short throttle, short airspeed, short airspeed_sp, short groundspeed, short windspeed, short wind_heading, short eph, short epv, byte temperature_air, byte climb_rate, byte battery, byte custom0, byte custom1, byte custom2) {
 		this.msgid = MAVLINK_MSG_ID_HIGH_LATENCY2;
 
 		this.timestamp = timestamp;
@@ -317,36 +291,7 @@ public class msg_high_latency2 extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_high_latency2(long timestamp,
-			int latitude,
-			int longitude,
-			int custom_mode,
-			short altitude,
-			short target_altitude,
-			int target_distance,
-			int wp_num,
-			int failure_flags,
-			short type,
-			short autopilot,
-			short heading,
-			short target_heading,
-			short throttle,
-			short airspeed,
-			short airspeed_sp,
-			short groundspeed,
-			short windspeed,
-			short wind_heading,
-			short eph,
-			short epv,
-			byte temperature_air,
-			byte climb_rate,
-			byte battery,
-			byte custom0,
-			byte custom1,
-			byte custom2,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_high_latency2(long timestamp, int latitude, int longitude, int custom_mode, short altitude, short target_altitude, int target_distance, int wp_num, int failure_flags, short type, short autopilot, short heading, short target_heading, short throttle, short airspeed, short airspeed_sp, short groundspeed, short windspeed, short wind_heading, short eph, short epv, byte temperature_air, byte climb_rate, byte battery, byte custom0, byte custom1, byte custom2, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HIGH_LATENCY2;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -401,8 +346,7 @@ public class msg_high_latency2 extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_HIGH_LATENCY2 - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp + " " +
-				"latitude:" + latitude + " longitude:" + longitude + " custom_mode:" + custom_mode + " altitude:" + altitude + " target_altitude:" + target_altitude + " target_distance:" + target_distance + " wp_num:" + wp_num + " failure_flags:" + failure_flags + " type:" + type + " autopilot:" + autopilot + " heading:" + heading + " target_heading:" + target_heading + " throttle:" + throttle + " airspeed:" + airspeed + " airspeed_sp:" + airspeed_sp + " groundspeed:" + groundspeed + " windspeed:" + windspeed + " wind_heading:" + wind_heading + " eph:" + eph + " epv:" + epv + " temperature_air:" + temperature_air + " climb_rate:" + climb_rate + " battery:" + battery + " custom0:" + custom0 + " custom1:" + custom1 + " custom2:" + custom2 + "";
+		return "MAVLINK_MSG_ID_HIGH_LATENCY2 - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp + " latitude:" + latitude + " longitude:" + longitude + " custom_mode:" + custom_mode + " altitude:" + altitude + " target_altitude:" + target_altitude + " target_distance:" + target_distance + " wp_num:" + wp_num + " failure_flags:" + failure_flags + " type:" + type + " autopilot:" + autopilot + " heading:" + heading + " target_heading:" + target_heading + " throttle:" + throttle + " airspeed:" + airspeed + " airspeed_sp:" + airspeed_sp + " groundspeed:" + groundspeed + " windspeed:" + windspeed + " wind_heading:" + wind_heading + " eph:" + eph + " epv:" + epv + " temperature_air:" + temperature_air + " climb_rate:" + climb_rate + " battery:" + battery + " custom0:" + custom0 + " custom1:" + custom1 + " custom2:" + custom2 + "";
 	}
 
 	/**

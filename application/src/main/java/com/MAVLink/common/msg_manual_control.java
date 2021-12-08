@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * This message provides an API for manually controlling the vehicle using standard joystick axes nomenclature, along
- * with a joystick-like input device. Unused axes can be disabled and buttons states are transmitted as individual
- * on/off bits of a bitmask
+ * This message provides an API for manually controlling the vehicle using standard joystick axes nomenclature, along with a joystick-like input device. Unused axes can be disabled and buttons states are transmitted as individual on/off bits of a bitmask
  */
 public class msg_manual_control extends MAVLinkMessage {
 
@@ -24,34 +22,27 @@ public class msg_manual_control extends MAVLinkMessage {
 
 
 	/**
-	 * X-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid.
-	 * Generally corresponds to forward(1000)-backward(-1000) movement on a joystick and the pitch of a vehicle.
+	 * X-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to forward(1000)-backward(-1000) movement on a joystick and the pitch of a vehicle.
 	 */
 	public short x;
 
 	/**
-	 * Y-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid.
-	 * Generally corresponds to left(-1000)-right(1000) movement on a joystick and the roll of a vehicle.
+	 * Y-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to left(-1000)-right(1000) movement on a joystick and the roll of a vehicle.
 	 */
 	public short y;
 
 	/**
-	 * Z-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid.
-	 * Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -1000 on a
-	 * joystick and the thrust of a vehicle. Positive values are positive thrust, negative values are negative thrust.
+	 * Z-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -1000 on a joystick and the thrust of a vehicle. Positive values are positive thrust, negative values are negative thrust.
 	 */
 	public short z;
 
 	/**
-	 * R-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid.
-	 * Generally corresponds to a twisting of the joystick, with counter-clockwise being 1000 and clockwise being
-	 * -1000, and the yaw of a vehicle.
+	 * R-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-clockwise being 1000 and clockwise being -1000, and the yaw of a vehicle.
 	 */
 	public short r;
 
 	/**
-	 * A bitfield corresponding to the joystick buttons' 0-15 current state, 1 for pressed, 0 for released. The lowest
-	 * bit corresponds to Button 1.
+	 * A bitfield corresponding to the joystick buttons' 0-15 current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1.
 	 */
 	public int buttons;
 
@@ -61,8 +52,7 @@ public class msg_manual_control extends MAVLinkMessage {
 	public short target;
 
 	/**
-	 * A bitfield corresponding to the joystick buttons' 16-31 current state, 1 for pressed, 0 for released. The
-	 * lowest bit corresponds to Button 16.
+	 * A bitfield corresponding to the joystick buttons' 16-31 current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 16.
 	 */
 	public int buttons2;
 
@@ -72,14 +62,12 @@ public class msg_manual_control extends MAVLinkMessage {
 	public short enabled_extensions;
 
 	/**
-	 * Pitch-only-axis, normalized to the range [-1000,1000]. Generally corresponds to pitch on vehicles with
-	 * additional degrees of freedom. Valid if bit 0 of enabled_extensions field is set. Set to 0 if invalid.
+	 * Pitch-only-axis, normalized to the range [-1000,1000]. Generally corresponds to pitch on vehicles with additional degrees of freedom. Valid if bit 0 of enabled_extensions field is set. Set to 0 if invalid.
 	 */
 	public short s;
 
 	/**
-	 * Roll-only-axis, normalized to the range [-1000,1000]. Generally corresponds to roll on vehicles with additional
-	 * degrees of freedom. Valid if bit 1 of enabled_extensions field is set. Set to 0 if invalid.
+	 * Roll-only-axis, normalized to the range [-1000,1000]. Generally corresponds to roll on vehicles with additional degrees of freedom. Valid if bit 1 of enabled_extensions field is set. Set to 0 if invalid.
 	 */
 	public short t;
 
@@ -92,8 +80,8 @@ public class msg_manual_control extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MANUAL_CONTROL;
 
 		packet.payload.putShort(x);
@@ -148,16 +136,7 @@ public class msg_manual_control extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_manual_control(short x,
-			short y,
-			short z,
-			short r,
-			int buttons,
-			short target,
-			int buttons2,
-			short enabled_extensions,
-			short s,
-			short t) {
+	public msg_manual_control(short x, short y, short z, short r, int buttons, short target, int buttons2, short enabled_extensions, short s, short t) {
 		this.msgid = MAVLINK_MSG_ID_MANUAL_CONTROL;
 
 		this.x = x;
@@ -176,19 +155,7 @@ public class msg_manual_control extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_manual_control(short x,
-			short y,
-			short z,
-			short r,
-			int buttons,
-			short target,
-			int buttons2,
-			short enabled_extensions,
-			short s,
-			short t,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_manual_control(short x, short y, short z, short r, int buttons, short target, int buttons2, short enabled_extensions, short s, short t, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MANUAL_CONTROL;
 		this.sysid = sysid;
 		this.compid = compid;

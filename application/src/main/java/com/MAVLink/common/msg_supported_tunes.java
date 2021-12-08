@@ -45,8 +45,8 @@ public class msg_supported_tunes extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SUPPORTED_TUNES;
 
 		packet.payload.putUnsignedInt(format);
@@ -99,12 +99,7 @@ public class msg_supported_tunes extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_supported_tunes(long format,
-			short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_supported_tunes(long format, short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SUPPORTED_TUNES;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -135,8 +130,7 @@ public class msg_supported_tunes extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SUPPORTED_TUNES - sysid:" + sysid + " compid:" + compid + " format:" + format + " " +
-				"target_system:" + target_system + " target_component:" + target_component + "";
+		return "MAVLINK_MSG_ID_SUPPORTED_TUNES - sysid:" + sysid + " compid:" + compid + " format:" + format + " target_system:" + target_system + " target_component:" + target_component + "";
 	}
 
 	/**

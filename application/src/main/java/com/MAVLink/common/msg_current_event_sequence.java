@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Regular broadcast for the current latest event sequence number for a component. This is used to check for dropped
- * events.
+ * Regular broadcast for the current latest event sequence number for a component. This is used to check for dropped events.
  */
 public class msg_current_event_sequence extends MAVLinkMessage {
 
@@ -41,8 +40,8 @@ public class msg_current_event_sequence extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CURRENT_EVENT_SEQUENCE;
 
 		packet.payload.putUnsignedShort(sequence);

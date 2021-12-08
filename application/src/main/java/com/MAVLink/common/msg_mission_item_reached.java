@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * A certain mission item has been reached. The system will either hold this position (or circle on the orbit) or (if
- * the autocontinue on the WP was set) continue to the next waypoint.
+ * A certain mission item has been reached. The system will either hold this position (or circle on the orbit) or (if the autocontinue on the WP was set) continue to the next waypoint.
  */
 public class msg_mission_item_reached extends MAVLinkMessage {
 
@@ -36,8 +35,8 @@ public class msg_mission_item_reached extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_ITEM_REACHED;
 
 		packet.payload.putUnsignedShort(seq);

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so
- * transmitting the key requires an encrypted channel for true safety.
+ * Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so transmitting the key requires an encrypted channel for true safety.
  */
 public class msg_auth_key extends MAVLinkMessage {
 
@@ -25,7 +24,7 @@ public class msg_auth_key extends MAVLinkMessage {
 	/**
 	 * key
 	 */
-	public byte[] key = new byte[32];
+	public byte key[] = new byte[32];
 
 
 	/**
@@ -36,8 +35,8 @@ public class msg_auth_key extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_AUTH_KEY;
 
 
@@ -131,7 +130,7 @@ public class msg_auth_key extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getKey() {
 		StringBuffer buf = new StringBuffer();
