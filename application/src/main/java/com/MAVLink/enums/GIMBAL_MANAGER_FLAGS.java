@@ -7,7 +7,7 @@
 package com.MAVLink.enums;
 
 /**
- * Flags for high level gimbal manager operation The first 16 bytes are identical to the GIMBAL_DEVICE_FLAGS.
+ * Flags for high level gimbal manager operation The first 16 bits are identical to the GIMBAL_DEVICE_FLAGS.
  */
 public class GIMBAL_MANAGER_FLAGS {
 	public static final int GIMBAL_MANAGER_FLAGS_RETRACT = 1; /* Based on GIMBAL_DEVICE_FLAGS_RETRACT | */

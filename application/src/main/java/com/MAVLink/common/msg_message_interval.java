@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The interval between messages for a particular MAVLink message ID. This message is the response to the
- * MAV_CMD_GET_MESSAGE_INTERVAL command. This interface replaces DATA_STREAM.
+ * The interval between messages for a particular MAVLink message ID. This message is the response to the MAV_CMD_GET_MESSAGE_INTERVAL command. This interface replaces DATA_STREAM.
  */
 public class msg_message_interval extends MAVLinkMessage {
 
@@ -23,8 +22,7 @@ public class msg_message_interval extends MAVLinkMessage {
 
 
 	/**
-	 * The interval between two messages. A value of -1 indicates this stream is disabled, 0 indicates it is not
-	 * available, > 0 indicates the interval at which it is sent.
+	 * The interval between two messages. A value of -1 indicates this stream is disabled, 0 indicates it is not available, > 0 indicates the interval at which it is sent.
 	 */
 	public int interval_us;
 
@@ -42,8 +40,8 @@ public class msg_message_interval extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MESSAGE_INTERVAL;
 
 		packet.payload.putInt(interval_us);

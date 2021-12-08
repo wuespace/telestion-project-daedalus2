@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Low level message to control a gimbal device's attitude. This message is to be sent from the gimbal manager to the
- * gimbal device component. Angles and rates can be set to NaN according to use case.
+ * Low level message to control a gimbal device's attitude. This message is to be sent from the gimbal manager to the gimbal device component. Angles and rates can be set to NaN according to use case.
  */
 public class msg_gimbal_device_set_attitude extends MAVLinkMessage {
 
@@ -23,10 +22,9 @@ public class msg_gimbal_device_set_attitude extends MAVLinkMessage {
 
 
 	/**
-	 * Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag
-	 * GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)
+	 * Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * X component of angular velocity, positive is rolling to the right, NaN to be ignored.
@@ -67,8 +65,8 @@ public class msg_gimbal_device_set_attitude extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_SET_ATTITUDE;
 
 
@@ -125,13 +123,7 @@ public class msg_gimbal_device_set_attitude extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gimbal_device_set_attitude(float[] q,
-			float angular_velocity_x,
-			float angular_velocity_y,
-			float angular_velocity_z,
-			int flags,
-			short target_system,
-			short target_component) {
+	public msg_gimbal_device_set_attitude(float[] q, float angular_velocity_x, float angular_velocity_y, float angular_velocity_z, int flags, short target_system, short target_component) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_SET_ATTITUDE;
 
 		this.q = q;
@@ -147,16 +139,7 @@ public class msg_gimbal_device_set_attitude extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gimbal_device_set_attitude(float[] q,
-			float angular_velocity_x,
-			float angular_velocity_y,
-			float angular_velocity_z,
-			int flags,
-			short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gimbal_device_set_attitude(float[] q, float angular_velocity_x, float angular_velocity_y, float angular_velocity_z, int flags, short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_DEVICE_SET_ATTITUDE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -191,10 +174,7 @@ public class msg_gimbal_device_set_attitude extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GIMBAL_DEVICE_SET_ATTITUDE - sysid:" + sysid + " compid:" + compid + " q:" + q + " " +
-				"angular_velocity_x:" + angular_velocity_x + " angular_velocity_y:" + angular_velocity_y + " " +
-				"angular_velocity_z:" + angular_velocity_z + " flags:" + flags + " target_system:" + target_system +
-				" target_component:" + target_component + "";
+		return "MAVLINK_MSG_ID_GIMBAL_DEVICE_SET_ATTITUDE - sysid:" + sysid + " compid:" + compid + " q:" + q + " angular_velocity_x:" + angular_velocity_x + " angular_velocity_y:" + angular_velocity_y + " angular_velocity_z:" + angular_velocity_z + " flags:" + flags + " target_system:" + target_system + " target_component:" + target_component + "";
 	}
 
 	/**

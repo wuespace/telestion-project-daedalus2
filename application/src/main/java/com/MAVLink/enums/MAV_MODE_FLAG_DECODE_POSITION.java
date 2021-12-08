@@ -7,9 +7,7 @@
 package com.MAVLink.enums;
 
 /**
- * These values encode the bit positions of the decode position. These values can be used to read the value of a flag
- * bit by combining the base_mode variable with AND with the flag position value. The result will be either 0 or 1,
- * depending on if the flag is set or not.
+ * These values encode the bit positions of the decode position. These values can be used to read the value of a flag bit by combining the base_mode variable with AND with the flag position value. The result will be either 0 or 1, depending on if the flag is set or not.
  */
 public class MAV_MODE_FLAG_DECODE_POSITION {
 	public static final int MAV_MODE_FLAG_DECODE_POSITION_CUSTOM_MODE = 1; /* Eighth bit: 00000001 | */

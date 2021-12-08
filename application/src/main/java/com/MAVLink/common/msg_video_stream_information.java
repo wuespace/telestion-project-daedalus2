@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the
- * video stream id: 0 for all streams, 1 for first, 2 for second, etc.
+ * Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc.
  */
 public class msg_video_stream_information extends MAVLinkMessage {
 
@@ -75,13 +74,12 @@ public class msg_video_stream_information extends MAVLinkMessage {
 	/**
 	 * Stream name.
 	 */
-	public byte[] name = new byte[32];
+	public byte name[] = new byte[32];
 
 	/**
-	 * Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station
-	 * should listen to).
+	 * Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).
 	 */
-	public byte[] uri = new byte[160];
+	public byte uri[] = new byte[160];
 
 
 	/**
@@ -92,8 +90,8 @@ public class msg_video_stream_information extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_VIDEO_STREAM_INFORMATION;
 
 		packet.payload.putFloat(framerate);
@@ -168,18 +166,7 @@ public class msg_video_stream_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_video_stream_information(float framerate,
-			long bitrate,
-			int flags,
-			int resolution_h,
-			int resolution_v,
-			int rotation,
-			int hfov,
-			short stream_id,
-			short count,
-			short type,
-			byte[] name,
-			byte[] uri) {
+	public msg_video_stream_information(float framerate, long bitrate, int flags, int resolution_h, int resolution_v, int rotation, int hfov, short stream_id, short count, short type, byte[] name, byte[] uri) {
 		this.msgid = MAVLINK_MSG_ID_VIDEO_STREAM_INFORMATION;
 
 		this.framerate = framerate;
@@ -200,21 +187,7 @@ public class msg_video_stream_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_video_stream_information(float framerate,
-			long bitrate,
-			int flags,
-			int resolution_h,
-			int resolution_v,
-			int rotation,
-			int hfov,
-			short stream_id,
-			short count,
-			short type,
-			byte[] name,
-			byte[] uri,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_video_stream_information(float framerate, long bitrate, int flags, int resolution_h, int resolution_v, int rotation, int hfov, short stream_id, short count, short type, byte[] name, byte[] uri, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_VIDEO_STREAM_INFORMATION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -264,7 +237,7 @@ public class msg_video_stream_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getName() {
 		StringBuffer buf = new StringBuffer();
@@ -293,7 +266,7 @@ public class msg_video_stream_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getUri() {
 		StringBuffer buf = new StringBuffer();

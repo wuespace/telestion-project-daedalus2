@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The RAW values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000
- * microseconds: 100%. A value of UINT16_MAX implies the channel is unused. Individual receivers/transmitters might
- * violate this specification.
+ * The RAW values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. A value of UINT16_MAX implies the channel is unused. Individual receivers/transmitters might violate this specification.
  */
 public class msg_rc_channels_raw extends MAVLinkMessage {
 
@@ -87,8 +85,8 @@ public class msg_rc_channels_raw extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_RC_CHANNELS_RAW;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -145,17 +143,7 @@ public class msg_rc_channels_raw extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_rc_channels_raw(long time_boot_ms,
-			int chan1_raw,
-			int chan2_raw,
-			int chan3_raw,
-			int chan4_raw,
-			int chan5_raw,
-			int chan6_raw,
-			int chan7_raw,
-			int chan8_raw,
-			short port,
-			short rssi) {
+	public msg_rc_channels_raw(long time_boot_ms, int chan1_raw, int chan2_raw, int chan3_raw, int chan4_raw, int chan5_raw, int chan6_raw, int chan7_raw, int chan8_raw, short port, short rssi) {
 		this.msgid = MAVLINK_MSG_ID_RC_CHANNELS_RAW;
 
 		this.time_boot_ms = time_boot_ms;
@@ -175,20 +163,7 @@ public class msg_rc_channels_raw extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_rc_channels_raw(long time_boot_ms,
-			int chan1_raw,
-			int chan2_raw,
-			int chan3_raw,
-			int chan4_raw,
-			int chan5_raw,
-			int chan6_raw,
-			int chan7_raw,
-			int chan8_raw,
-			short port,
-			short rssi,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_rc_channels_raw(long time_boot_ms, int chan1_raw, int chan2_raw, int chan3_raw, int chan4_raw, int chan5_raw, int chan6_raw, int chan7_raw, int chan8_raw, short port, short rssi, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_RC_CHANNELS_RAW;
 		this.sysid = sysid;
 		this.compid = compid;

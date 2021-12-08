@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Acknowledgment message during waypoint handling. The type field states if this message is a positive ack (type=0)
- * or if an error happened (type=non-zero).
+ * Acknowledgment message during waypoint handling. The type field states if this message is a positive ack (type=0) or if an error happened (type=non-zero).
  */
 public class msg_mission_ack extends MAVLinkMessage {
 
@@ -51,8 +50,8 @@ public class msg_mission_ack extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_ACK;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -108,13 +107,7 @@ public class msg_mission_ack extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_ack(short target_system,
-			short target_component,
-			short type,
-			short mission_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_ack(short target_system, short target_component, short type, short mission_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_ACK;
 		this.sysid = sysid;
 		this.compid = compid;

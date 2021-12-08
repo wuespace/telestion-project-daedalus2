@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * GPS sensor input message.  This is a raw sensor value sent by the GPS. This is NOT the global position estimate of
- * the system.
+ * GPS sensor input message.  This is a raw sensor value sent by the GPS. This is NOT the global position estimate of the system.
  */
 public class msg_gps_input extends MAVLinkMessage {
 
@@ -23,8 +22,7 @@ public class msg_gps_input extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -127,8 +125,8 @@ public class msg_gps_input extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GPS_INPUT;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -201,25 +199,7 @@ public class msg_gps_input extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gps_input(long time_usec,
-			long time_week_ms,
-			int lat,
-			int lon,
-			float alt,
-			float hdop,
-			float vdop,
-			float vn,
-			float ve,
-			float vd,
-			float speed_accuracy,
-			float horiz_accuracy,
-			float vert_accuracy,
-			int ignore_flags,
-			int time_week,
-			short gps_id,
-			short fix_type,
-			short satellites_visible,
-			int yaw) {
+	public msg_gps_input(long time_usec, long time_week_ms, int lat, int lon, float alt, float hdop, float vdop, float vn, float ve, float vd, float speed_accuracy, float horiz_accuracy, float vert_accuracy, int ignore_flags, int time_week, short gps_id, short fix_type, short satellites_visible, int yaw) {
 		this.msgid = MAVLINK_MSG_ID_GPS_INPUT;
 
 		this.time_usec = time_usec;
@@ -247,28 +227,7 @@ public class msg_gps_input extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gps_input(long time_usec,
-			long time_week_ms,
-			int lat,
-			int lon,
-			float alt,
-			float hdop,
-			float vdop,
-			float vn,
-			float ve,
-			float vd,
-			float speed_accuracy,
-			float horiz_accuracy,
-			float vert_accuracy,
-			int ignore_flags,
-			int time_week,
-			short gps_id,
-			short fix_type,
-			short satellites_visible,
-			int yaw,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gps_input(long time_usec, long time_week_ms, int lat, int lon, float alt, float hdop, float vdop, float vn, float ve, float vd, float speed_accuracy, float horiz_accuracy, float vert_accuracy, int ignore_flags, int time_week, short gps_id, short fix_type, short satellites_visible, int yaw, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GPS_INPUT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -315,10 +274,7 @@ public class msg_gps_input extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GPS_INPUT - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"time_week_ms:" + time_week_ms + " lat:" + lat + " lon:" + lon + " alt:" + alt + " hdop:" + hdop + " " +
-				"vdop:" + vdop + " vn:" + vn + " ve:" + ve + " vd:" + vd + " speed_accuracy:" + speed_accuracy + " " +
-				"horiz_accuracy:" + horiz_accuracy + " vert_accuracy:" + vert_accuracy + " ignore_flags:" + ignore_flags + " time_week:" + time_week + " gps_id:" + gps_id + " fix_type:" + fix_type + " satellites_visible:" + satellites_visible + " yaw:" + yaw + "";
+		return "MAVLINK_MSG_ID_GPS_INPUT - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " time_week_ms:" + time_week_ms + " lat:" + lat + " lon:" + lon + " alt:" + alt + " hdop:" + hdop + " vdop:" + vdop + " vn:" + vn + " ve:" + ve + " vd:" + vd + " speed_accuracy:" + speed_accuracy + " horiz_accuracy:" + horiz_accuracy + " vert_accuracy:" + vert_accuracy + " ignore_flags:" + ignore_flags + " time_week:" + time_week + " gps_id:" + gps_id + " fix_type:" + fix_type + " satellites_visible:" + satellites_visible + " yaw:" + yaw + "";
 	}
 
 	/**

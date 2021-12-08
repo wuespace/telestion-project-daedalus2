@@ -22,8 +22,7 @@ public class msg_debug_vect extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -45,7 +44,7 @@ public class msg_debug_vect extends MAVLinkMessage {
 	/**
 	 * Name
 	 */
-	public byte[] name = new byte[10];
+	public byte name[] = new byte[10];
 
 
 	/**
@@ -56,8 +55,8 @@ public class msg_debug_vect extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_DEBUG_VECT;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -124,14 +123,7 @@ public class msg_debug_vect extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_debug_vect(long time_usec,
-			float x,
-			float y,
-			float z,
-			byte[] name,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_debug_vect(long time_usec, float x, float y, float z, byte[] name, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_DEBUG_VECT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -174,7 +166,7 @@ public class msg_debug_vect extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getName() {
 		StringBuffer buf = new StringBuffer();

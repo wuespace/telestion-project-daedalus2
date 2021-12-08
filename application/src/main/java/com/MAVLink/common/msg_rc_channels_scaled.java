@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The scaled values of the RC channels received: (-100%) -10000, (0%) 0, (100%) 10000. Channels that are inactive
- * should be set to UINT16_MAX.
+ * The scaled values of the RC channels received: (-100%) -10000, (0%) 0, (100%) 10000. Channels that are inactive should be set to UINT16_MAX.
  */
 public class msg_rc_channels_scaled extends MAVLinkMessage {
 
@@ -86,8 +85,8 @@ public class msg_rc_channels_scaled extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_RC_CHANNELS_SCALED;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -144,17 +143,7 @@ public class msg_rc_channels_scaled extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_rc_channels_scaled(long time_boot_ms,
-			short chan1_scaled,
-			short chan2_scaled,
-			short chan3_scaled,
-			short chan4_scaled,
-			short chan5_scaled,
-			short chan6_scaled,
-			short chan7_scaled,
-			short chan8_scaled,
-			short port,
-			short rssi) {
+	public msg_rc_channels_scaled(long time_boot_ms, short chan1_scaled, short chan2_scaled, short chan3_scaled, short chan4_scaled, short chan5_scaled, short chan6_scaled, short chan7_scaled, short chan8_scaled, short port, short rssi) {
 		this.msgid = MAVLINK_MSG_ID_RC_CHANNELS_SCALED;
 
 		this.time_boot_ms = time_boot_ms;
@@ -174,20 +163,7 @@ public class msg_rc_channels_scaled extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_rc_channels_scaled(long time_boot_ms,
-			short chan1_scaled,
-			short chan2_scaled,
-			short chan3_scaled,
-			short chan4_scaled,
-			short chan5_scaled,
-			short chan6_scaled,
-			short chan7_scaled,
-			short chan8_scaled,
-			short port,
-			short rssi,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_rc_channels_scaled(long time_boot_ms, short chan1_scaled, short chan2_scaled, short chan3_scaled, short chan4_scaled, short chan5_scaled, short chan6_scaled, short chan7_scaled, short chan8_scaled, short port, short rssi, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_RC_CHANNELS_SCALED;
 		this.sysid = sysid;
 		this.compid = compid;

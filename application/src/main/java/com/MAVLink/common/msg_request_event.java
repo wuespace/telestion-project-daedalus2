@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request one or more events to be (re-)sent. If first_sequence==last_sequence, only a single event is requested.
- * Note that first_sequence can be larger than last_sequence (because the sequence number can wrap). Each sequence
- * will trigger an EVENT or EVENT_ERROR response.
+ * Request one or more events to be (re-)sent. If first_sequence==last_sequence, only a single event is requested. Note that first_sequence can be larger than last_sequence (because the sequence number can wrap). Each sequence will trigger an EVENT or EVENT_ERROR response.
  */
 public class msg_request_event extends MAVLinkMessage {
 
@@ -52,8 +50,8 @@ public class msg_request_event extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_REQUEST_EVENT;
 
 		packet.payload.putUnsignedShort(first_sequence);
@@ -109,13 +107,7 @@ public class msg_request_event extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_request_event(int first_sequence,
-			int last_sequence,
-			short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_request_event(int first_sequence, int last_sequence, short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_REQUEST_EVENT;
 		this.sysid = sysid;
 		this.compid = compid;

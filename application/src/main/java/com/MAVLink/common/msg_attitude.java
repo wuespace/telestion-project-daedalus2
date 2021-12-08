@@ -65,8 +65,8 @@ public class msg_attitude extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ATTITUDE;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -115,13 +115,7 @@ public class msg_attitude extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_attitude(long time_boot_ms,
-			float roll,
-			float pitch,
-			float yaw,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed) {
+	public msg_attitude(long time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE;
 
 		this.time_boot_ms = time_boot_ms;
@@ -137,16 +131,7 @@ public class msg_attitude extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_attitude(long time_boot_ms,
-			float roll,
-			float pitch,
-			float yaw,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_attitude(long time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -181,8 +166,7 @@ public class msg_attitude extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ATTITUDE - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " " +
-				"roll:" + roll + " pitch:" + pitch + " yaw:" + yaw + " rollspeed:" + rollspeed + " pitchspeed:" + pitchspeed + " yawspeed:" + yawspeed + "";
+		return "MAVLINK_MSG_ID_ATTITUDE - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " roll:" + roll + " pitch:" + pitch + " yaw:" + yaw + " rollspeed:" + rollspeed + " pitchspeed:" + pitchspeed + " yawspeed:" + yawspeed + "";
 	}
 
 	/**

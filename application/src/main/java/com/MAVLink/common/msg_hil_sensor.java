@@ -22,8 +22,7 @@ public class msg_hil_sensor extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -93,8 +92,7 @@ public class msg_hil_sensor extends MAVLinkMessage {
 	public float temperature;
 
 	/**
-	 * Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature, bit 31: full reset
-	 * of attitude/position/velocities/etc was performed in sim.
+	 * Bitmap for fields that have updated since last message
 	 */
 	public long fields_updated;
 
@@ -112,8 +110,8 @@ public class msg_hil_sensor extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HIL_SENSOR;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -180,22 +178,7 @@ public class msg_hil_sensor extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_hil_sensor(long time_usec,
-			float xacc,
-			float yacc,
-			float zacc,
-			float xgyro,
-			float ygyro,
-			float zgyro,
-			float xmag,
-			float ymag,
-			float zmag,
-			float abs_pressure,
-			float diff_pressure,
-			float pressure_alt,
-			float temperature,
-			long fields_updated,
-			short id) {
+	public msg_hil_sensor(long time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, long fields_updated, short id) {
 		this.msgid = MAVLINK_MSG_ID_HIL_SENSOR;
 
 		this.time_usec = time_usec;
@@ -220,25 +203,7 @@ public class msg_hil_sensor extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_hil_sensor(long time_usec,
-			float xacc,
-			float yacc,
-			float zacc,
-			float xgyro,
-			float ygyro,
-			float zgyro,
-			float xmag,
-			float ymag,
-			float zmag,
-			float abs_pressure,
-			float diff_pressure,
-			float pressure_alt,
-			float temperature,
-			long fields_updated,
-			short id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_hil_sensor(long time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, long fields_updated, short id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HIL_SENSOR;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -282,8 +247,7 @@ public class msg_hil_sensor extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_HIL_SENSOR - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " xacc" +
-				":" + xacc + " yacc:" + yacc + " zacc:" + zacc + " xgyro:" + xgyro + " ygyro:" + ygyro + " zgyro:" + zgyro + " xmag:" + xmag + " ymag:" + ymag + " zmag:" + zmag + " abs_pressure:" + abs_pressure + " diff_pressure:" + diff_pressure + " pressure_alt:" + pressure_alt + " temperature:" + temperature + " fields_updated:" + fields_updated + " id:" + id + "";
+		return "MAVLINK_MSG_ID_HIL_SENSOR - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " xacc:" + xacc + " yacc:" + yacc + " zacc:" + zacc + " xgyro:" + xgyro + " ygyro:" + ygyro + " zgyro:" + zgyro + " xmag:" + xmag + " ymag:" + ymag + " zmag:" + zmag + " abs_pressure:" + abs_pressure + " diff_pressure:" + diff_pressure + " pressure_alt:" + pressure_alt + " temperature:" + temperature + " fields_updated:" + fields_updated + " id:" + id + "";
 	}
 
 	/**

@@ -22,15 +22,14 @@ public class msg_esc_info extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
 	 */
 	public long time_usec;
 
 	/**
 	 * Number of reported errors by each ESC since boot.
 	 */
-	public long[] error_count = new long[4];
+	public long error_count[] = new long[4];
 
 	/**
 	 * Counter of data packets received.
@@ -40,12 +39,12 @@ public class msg_esc_info extends MAVLinkMessage {
 	/**
 	 * Bitmap of ESC failure flags.
 	 */
-	public int[] failure_flags = new int[4];
+	public int failure_flags[] = new int[4];
 
 	/**
 	 * Temperature of each ESC. INT16_MAX: if data not supplied by ESC.
 	 */
-	public short[] temperature = new short[4];
+	public short temperature[] = new short[4];
 
 	/**
 	 * Index of the first ESC in this message. minValue = 0, maxValue = 60, increment = 4.
@@ -53,8 +52,7 @@ public class msg_esc_info extends MAVLinkMessage {
 	public short index;
 
 	/**
-	 * Total number of ESCs in all messages of this type. Message fields with an index higher than this should be
-	 * ignored because they contain invalid data.
+	 * Total number of ESCs in all messages of this type. Message fields with an index higher than this should be ignored because they contain invalid data.
 	 */
 	public short count;
 
@@ -77,8 +75,8 @@ public class msg_esc_info extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ESC_INFO;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -155,15 +153,7 @@ public class msg_esc_info extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_esc_info(long time_usec,
-			long[] error_count,
-			int counter,
-			int[] failure_flags,
-			short[] temperature,
-			short index,
-			short count,
-			short connection_type,
-			short info) {
+	public msg_esc_info(long time_usec, long[] error_count, int counter, int[] failure_flags, short[] temperature, short index, short count, short connection_type, short info) {
 		this.msgid = MAVLINK_MSG_ID_ESC_INFO;
 
 		this.time_usec = time_usec;
@@ -181,18 +171,7 @@ public class msg_esc_info extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_esc_info(long time_usec,
-			long[] error_count,
-			int counter,
-			int[] failure_flags,
-			short[] temperature,
-			short index,
-			short count,
-			short connection_type,
-			short info,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_esc_info(long time_usec, long[] error_count, int counter, int[] failure_flags, short[] temperature, short index, short count, short connection_type, short info, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ESC_INFO;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -229,9 +208,7 @@ public class msg_esc_info extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ESC_INFO - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"error_count:" + error_count + " counter:" + counter + " failure_flags:" + failure_flags + " " +
-				"temperature:" + temperature + " index:" + index + " count:" + count + " connection_type:" + connection_type + " info:" + info + "";
+		return "MAVLINK_MSG_ID_ESC_INFO - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " error_count:" + error_count + " counter:" + counter + " failure_flags:" + failure_flags + " temperature:" + temperature + " index:" + index + " count:" + count + " connection_type:" + connection_type + " info:" + info + "";
 	}
 
 	/**

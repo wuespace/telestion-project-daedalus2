@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The RAW IMU readings for the usual 9DOF sensor setup. This message should contain the scaled values to the
- * described units
+ * The RAW IMU readings for the usual 9DOF sensor setup. This message should contain the scaled values to the described units
  */
 public class msg_scaled_imu extends MAVLinkMessage {
 
@@ -86,8 +85,8 @@ public class msg_scaled_imu extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SCALED_IMU;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -144,17 +143,7 @@ public class msg_scaled_imu extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_scaled_imu(long time_boot_ms,
-			short xacc,
-			short yacc,
-			short zacc,
-			short xgyro,
-			short ygyro,
-			short zgyro,
-			short xmag,
-			short ymag,
-			short zmag,
-			short temperature) {
+	public msg_scaled_imu(long time_boot_ms, short xacc, short yacc, short zacc, short xgyro, short ygyro, short zgyro, short xmag, short ymag, short zmag, short temperature) {
 		this.msgid = MAVLINK_MSG_ID_SCALED_IMU;
 
 		this.time_boot_ms = time_boot_ms;
@@ -174,20 +163,7 @@ public class msg_scaled_imu extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_scaled_imu(long time_boot_ms,
-			short xacc,
-			short yacc,
-			short zacc,
-			short xgyro,
-			short ygyro,
-			short zgyro,
-			short xmag,
-			short ymag,
-			short zmag,
-			short temperature,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_scaled_imu(long time_boot_ms, short xacc, short yacc, short zacc, short xgyro, short ygyro, short zgyro, short xmag, short ymag, short zmag, short temperature, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SCALED_IMU;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -226,9 +202,7 @@ public class msg_scaled_imu extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SCALED_IMU - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms +
-				" xacc:" + xacc + " yacc:" + yacc + " zacc:" + zacc + " xgyro:" + xgyro + " ygyro:" + ygyro + " zgyro" +
-				":" + zgyro + " xmag:" + xmag + " ymag:" + ymag + " zmag:" + zmag + " temperature:" + temperature + "";
+		return "MAVLINK_MSG_ID_SCALED_IMU - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " xacc:" + xacc + " yacc:" + yacc + " zacc:" + zacc + " xgyro:" + xgyro + " ygyro:" + ygyro + " zgyro:" + zgyro + " xmag:" + xmag + " ymag:" + ymag + " zmag:" + zmag + " temperature:" + temperature + "";
 	}
 
 	/**

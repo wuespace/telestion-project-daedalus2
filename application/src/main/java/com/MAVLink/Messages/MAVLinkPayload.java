@@ -30,8 +30,7 @@ public class MAVLinkPayload {
 	public int index;
 
 	public MAVLinkPayload() {
-		// This has to be larger than the received payloadSize since MAVLINK V2 will truncate the payloads to the last
-		// non-zero value
+		// This has to be larger than the received payloadSize since MAVLINK V2 will truncate the payloads to the last non-zero value
 		payload = ByteBuffer.allocate(MAX_PAYLOAD_SIZE);
 	}
 

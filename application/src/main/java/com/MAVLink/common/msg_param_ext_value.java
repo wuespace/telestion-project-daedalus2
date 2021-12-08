@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to
- * keep track of received parameters and allows them to re-request missing parameters after a loss or timeout.
+ * Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout.
  */
 public class msg_param_ext_value extends MAVLinkMessage {
 
@@ -33,16 +32,14 @@ public class msg_param_ext_value extends MAVLinkMessage {
 	public int param_index;
 
 	/**
-	 * Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null
-	 * termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if
-	 * the ID is stored as string
+	 * Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
 	 */
-	public byte[] param_id = new byte[16];
+	public byte param_id[] = new byte[16];
 
 	/**
 	 * Parameter value
 	 */
-	public byte[] param_value = new byte[128];
+	public byte param_value[] = new byte[128];
 
 	/**
 	 * Parameter type.
@@ -58,8 +55,8 @@ public class msg_param_ext_value extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PARAM_EXT_VALUE;
 
 		packet.payload.putUnsignedShort(param_count);
@@ -120,11 +117,7 @@ public class msg_param_ext_value extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_param_ext_value(int param_count,
-			int param_index,
-			byte[] param_id,
-			byte[] param_value,
-			short param_type) {
+	public msg_param_ext_value(int param_count, int param_index, byte[] param_id, byte[] param_value, short param_type) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_EXT_VALUE;
 
 		this.param_count = param_count;
@@ -138,14 +131,7 @@ public class msg_param_ext_value extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_param_ext_value(int param_count,
-			int param_index,
-			byte[] param_id,
-			byte[] param_value,
-			short param_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_param_ext_value(int param_count, int param_index, byte[] param_id, byte[] param_value, short param_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_EXT_VALUE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -188,7 +174,7 @@ public class msg_param_ext_value extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getParam_Id() {
 		StringBuffer buf = new StringBuffer();
@@ -217,7 +203,7 @@ public class msg_param_ext_value extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getParam_Value() {
 		StringBuffer buf = new StringBuffer();

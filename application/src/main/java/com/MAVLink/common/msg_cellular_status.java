@@ -65,8 +65,8 @@ public class msg_cellular_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CELLULAR_STATUS;
 
 		packet.payload.putUnsignedShort(mcc);
@@ -115,13 +115,7 @@ public class msg_cellular_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_cellular_status(int mcc,
-			int mnc,
-			int lac,
-			short status,
-			short failure_reason,
-			short type,
-			short quality) {
+	public msg_cellular_status(int mcc, int mnc, int lac, short status, short failure_reason, short type, short quality) {
 		this.msgid = MAVLINK_MSG_ID_CELLULAR_STATUS;
 
 		this.mcc = mcc;
@@ -137,16 +131,7 @@ public class msg_cellular_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_cellular_status(int mcc,
-			int mnc,
-			int lac,
-			short status,
-			short failure_reason,
-			short type,
-			short quality,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_cellular_status(int mcc, int mnc, int lac, short status, short failure_reason, short type, short quality, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CELLULAR_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

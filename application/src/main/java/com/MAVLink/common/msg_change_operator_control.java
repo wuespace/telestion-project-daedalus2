@@ -32,17 +32,14 @@ public class msg_change_operator_control extends MAVLinkMessage {
 	public short control_request;
 
 	/**
-	 * 0: key as plaintext, 1-255: future, different hashing/encryption variants. The GCS should in general use the
-	 * safest mode possible initially and then gradually move down the encryption level if it gets a NACK message
-	 * indicating an encryption mismatch.
+	 * 0: key as plaintext, 1-255: future, different hashing/encryption variants. The GCS should in general use the safest mode possible initially and then gradually move down the encryption level if it gets a NACK message indicating an encryption mismatch.
 	 */
 	public short version;
 
 	/**
-	 * Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The
-	 * characters may involve A-Z, a-z, 0-9, and "!?,.-"
+	 * Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and "!?,.-"
 	 */
-	public byte[] passkey = new byte[25];
+	public byte passkey[] = new byte[25];
 
 
 	/**
@@ -53,8 +50,8 @@ public class msg_change_operator_control extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CHANGE_OPERATOR_CONTROL;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -118,13 +115,7 @@ public class msg_change_operator_control extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_change_operator_control(short target_system,
-			short control_request,
-			short version,
-			byte[] passkey,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_change_operator_control(short target_system, short control_request, short version, byte[] passkey, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CHANGE_OPERATOR_CONTROL;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -166,7 +157,7 @@ public class msg_change_operator_control extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getPasskey() {
 		StringBuffer buf = new StringBuffer();

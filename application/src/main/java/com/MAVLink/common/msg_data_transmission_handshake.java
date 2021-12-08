@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Handshake message to initiate, control and stop image streaming when using the Image Transmission Protocol:
- * https://mavlink.io/en/services/image_transmission.html.
+ * Handshake message to initiate, control and stop image streaming when using the Image Transmission Protocol: https://mavlink.io/en/services/image_transmission.html.
  */
 public class msg_data_transmission_handshake extends MAVLinkMessage {
 
@@ -66,8 +65,8 @@ public class msg_data_transmission_handshake extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
 
 		packet.payload.putUnsignedInt(size);
@@ -116,13 +115,7 @@ public class msg_data_transmission_handshake extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_data_transmission_handshake(long size,
-			int width,
-			int height,
-			int packets,
-			short type,
-			short payload,
-			short jpg_quality) {
+	public msg_data_transmission_handshake(long size, int width, int height, int packets, short type, short payload, short jpg_quality) {
 		this.msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
 
 		this.size = size;
@@ -138,16 +131,7 @@ public class msg_data_transmission_handshake extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_data_transmission_handshake(long size,
-			int width,
-			int height,
-			int packets,
-			short type,
-			short payload,
-			short jpg_quality,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_data_transmission_handshake(long size, int width, int height, int packets, short type, short payload, short jpg_quality, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE;
 		this.sysid = sysid;
 		this.compid = compid;

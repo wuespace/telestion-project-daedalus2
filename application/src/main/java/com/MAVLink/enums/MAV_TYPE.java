@@ -7,9 +7,7 @@
 package com.MAVLink.enums;
 
 /**
- * MAVLINK component type reported in HEARTBEAT message. Flight controllers must report the type of the vehicle on
- * which they are mounted (e.g. MAV_TYPE_OCTOROTOR). All other components must report a value appropriate for their
- * type (e.g. a camera must use MAV_TYPE_CAMERA).
+ * MAVLINK component type reported in HEARTBEAT message. Flight controllers must report the type of the vehicle on which they are mounted (e.g. MAV_TYPE_OCTOROTOR). All other components must report a value appropriate for their type (e.g. a camera must use MAV_TYPE_CAMERA).
  */
 public class MAV_TYPE {
 	public static final int MAV_TYPE_GENERIC = 0; /* Generic micro air vehicle | */
@@ -31,10 +29,8 @@ public class MAV_TYPE {
 	public static final int MAV_TYPE_FLAPPING_WING = 16; /* Flapping wing | */
 	public static final int MAV_TYPE_KITE = 17; /* Kite | */
 	public static final int MAV_TYPE_ONBOARD_CONTROLLER = 18; /* Onboard companion controller | */
-	public static final int MAV_TYPE_VTOL_DUOROTOR = 19; /* Two-rotor VTOL using control surfaces in vertical
-	operation in addition. Tailsitter. | */
-	public static final int MAV_TYPE_VTOL_QUADROTOR = 20; /* Quad-rotor VTOL using a V-shaped quad config in vertical
-	operation. Tailsitter. | */
+	public static final int MAV_TYPE_VTOL_DUOROTOR = 19; /* Two-rotor VTOL using control surfaces in vertical operation in addition. Tailsitter. | */
+	public static final int MAV_TYPE_VTOL_QUADROTOR = 20; /* Quad-rotor VTOL using a V-shaped quad config in vertical operation. Tailsitter. | */
 	public static final int MAV_TYPE_VTOL_TILTROTOR = 21; /* Tiltrotor VTOL | */
 	public static final int MAV_TYPE_VTOL_RESERVED2 = 22; /* VTOL reserved 2 | */
 	public static final int MAV_TYPE_VTOL_RESERVED3 = 23; /* VTOL reserved 3 | */
@@ -48,10 +44,13 @@ public class MAV_TYPE {
 	public static final int MAV_TYPE_CHARGING_STATION = 31; /* Charging station | */
 	public static final int MAV_TYPE_FLARM = 32; /* FLARM collision avoidance system | */
 	public static final int MAV_TYPE_SERVO = 33; /* Servo | */
-	public static final int MAV_TYPE_ODID = 34; /* Open Drone ID. See https://mavlink.io/en/services/opendroneid.html.
-	 | */
+	public static final int MAV_TYPE_ODID = 34; /* Open Drone ID. See https://mavlink.io/en/services/opendroneid.html. | */
 	public static final int MAV_TYPE_DECAROTOR = 35; /* Decarotor | */
 	public static final int MAV_TYPE_BATTERY = 36; /* Battery | */
 	public static final int MAV_TYPE_PARACHUTE = 37; /* Parachute | */
-	public static final int MAV_TYPE_ENUM_END = 38; /*  | */
+	public static final int MAV_TYPE_LOG = 38; /* Log | */
+	public static final int MAV_TYPE_OSD = 39; /* OSD | */
+	public static final int MAV_TYPE_IMU = 40; /* IMU | */
+	public static final int MAV_TYPE_GPS = 41; /* GPS | */
+	public static final int MAV_TYPE_ENUM_END = 42; /*  | */
 }

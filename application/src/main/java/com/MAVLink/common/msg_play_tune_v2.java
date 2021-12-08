@@ -39,7 +39,7 @@ public class msg_play_tune_v2 extends MAVLinkMessage {
 	/**
 	 * Tune definition as a NULL-terminated string.
 	 */
-	public byte[] tune = new byte[248];
+	public byte tune[] = new byte[248];
 
 
 	/**
@@ -50,8 +50,8 @@ public class msg_play_tune_v2 extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PLAY_TUNE_V2;
 
 		packet.payload.putUnsignedInt(format);
@@ -115,13 +115,7 @@ public class msg_play_tune_v2 extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_play_tune_v2(long format,
-			short target_system,
-			short target_component,
-			byte[] tune,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_play_tune_v2(long format, short target_system, short target_component, byte[] tune, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PLAY_TUNE_V2;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -163,7 +157,7 @@ public class msg_play_tune_v2 extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getTune() {
 		StringBuffer buf = new StringBuffer();
@@ -182,8 +176,7 @@ public class msg_play_tune_v2 extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_PLAY_TUNE_V2 - sysid:" + sysid + " compid:" + compid + " format:" + format + " " +
-				"target_system:" + target_system + " target_component:" + target_component + " tune:" + tune + "";
+		return "MAVLINK_MSG_ID_PLAY_TUNE_V2 - sysid:" + sysid + " compid:" + compid + " format:" + format + " target_system:" + target_system + " target_component:" + target_component + " tune:" + tune + "";
 	}
 
 	/**

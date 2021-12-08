@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Reports the current commanded vehicle position, velocity, and acceleration as specified by the autopilot. This
- * should match the commands sent in SET_POSITION_TARGET_GLOBAL_INT if the vehicle is being controlled this way.
+ * Reports the current commanded vehicle position, velocity, and acceleration as specified by the autopilot. This should match the commands sent in SET_POSITION_TARGET_GLOBAL_INT if the vehicle is being controlled this way.
  */
 public class msg_position_target_global_int extends MAVLinkMessage {
 
@@ -23,8 +22,7 @@ public class msg_position_target_global_int extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to
-	 * compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
+	 * Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.
 	 */
 	public long time_boot_ms;
 
@@ -89,8 +87,7 @@ public class msg_position_target_global_int extends MAVLinkMessage {
 	public int type_mask;
 
 	/**
-	 * Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6,
-	 * MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11
+	 * Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11
 	 */
 	public short coordinate_frame;
 
@@ -103,8 +100,8 @@ public class msg_position_target_global_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -167,20 +164,7 @@ public class msg_position_target_global_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_position_target_global_int(long time_boot_ms,
-			int lat_int,
-			int lon_int,
-			float alt,
-			float vx,
-			float vy,
-			float vz,
-			float afx,
-			float afy,
-			float afz,
-			float yaw,
-			float yaw_rate,
-			int type_mask,
-			short coordinate_frame) {
+	public msg_position_target_global_int(long time_boot_ms, int lat_int, int lon_int, float alt, float vx, float vy, float vz, float afx, float afy, float afz, float yaw, float yaw_rate, int type_mask, short coordinate_frame) {
 		this.msgid = MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT;
 
 		this.time_boot_ms = time_boot_ms;
@@ -203,23 +187,7 @@ public class msg_position_target_global_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_position_target_global_int(long time_boot_ms,
-			int lat_int,
-			int lon_int,
-			float alt,
-			float vx,
-			float vy,
-			float vz,
-			float afx,
-			float afy,
-			float afz,
-			float yaw,
-			float yaw_rate,
-			int type_mask,
-			short coordinate_frame,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_position_target_global_int(long time_boot_ms, int lat_int, int lon_int, float alt, float vx, float vy, float vz, float afx, float afy, float afz, float yaw, float yaw_rate, int type_mask, short coordinate_frame, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT;
 		this.sysid = sysid;
 		this.compid = compid;

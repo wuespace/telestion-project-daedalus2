@@ -22,8 +22,7 @@ public class msg_hil_actuator_controls extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -35,7 +34,7 @@ public class msg_hil_actuator_controls extends MAVLinkMessage {
 	/**
 	 * Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.
 	 */
-	public float[] controls = new float[16];
+	public float controls[] = new float[16];
 
 	/**
 	 * System mode. Includes arming state.
@@ -51,8 +50,8 @@ public class msg_hil_actuator_controls extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HIL_ACTUATOR_CONTROLS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -116,13 +115,7 @@ public class msg_hil_actuator_controls extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_hil_actuator_controls(long time_usec,
-			long flags,
-			float[] controls,
-			short mode,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_hil_actuator_controls(long time_usec, long flags, float[] controls, short mode, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HIL_ACTUATOR_CONTROLS;
 		this.sysid = sysid;
 		this.compid = compid;

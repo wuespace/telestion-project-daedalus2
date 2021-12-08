@@ -95,8 +95,8 @@ public class msg_camera_tracking_geo_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CAMERA_TRACKING_GEO_STATUS;
 
 		packet.payload.putInt(lat);
@@ -157,19 +157,7 @@ public class msg_camera_tracking_geo_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_camera_tracking_geo_status(int lat,
-			int lon,
-			float alt,
-			float h_acc,
-			float v_acc,
-			float vel_n,
-			float vel_e,
-			float vel_d,
-			float vel_acc,
-			float dist,
-			float hdg,
-			float hdg_acc,
-			short tracking_status) {
+	public msg_camera_tracking_geo_status(int lat, int lon, float alt, float h_acc, float v_acc, float vel_n, float vel_e, float vel_d, float vel_acc, float dist, float hdg, float hdg_acc, short tracking_status) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_TRACKING_GEO_STATUS;
 
 		this.lat = lat;
@@ -191,22 +179,7 @@ public class msg_camera_tracking_geo_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_camera_tracking_geo_status(int lat,
-			int lon,
-			float alt,
-			float h_acc,
-			float v_acc,
-			float vel_n,
-			float vel_e,
-			float vel_d,
-			float vel_acc,
-			float dist,
-			float hdg,
-			float hdg_acc,
-			short tracking_status,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_camera_tracking_geo_status(int lat, int lon, float alt, float h_acc, float v_acc, float vel_n, float vel_e, float vel_d, float vel_acc, float dist, float hdg, float hdg_acc, short tracking_status, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_TRACKING_GEO_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -247,8 +220,7 @@ public class msg_camera_tracking_geo_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_CAMERA_TRACKING_GEO_STATUS - sysid:" + sysid + " compid:" + compid + " lat:" + lat + " " +
-				"lon:" + lon + " alt:" + alt + " h_acc:" + h_acc + " v_acc:" + v_acc + " vel_n:" + vel_n + " vel_e:" + vel_e + " vel_d:" + vel_d + " vel_acc:" + vel_acc + " dist:" + dist + " hdg:" + hdg + " hdg_acc:" + hdg_acc + " tracking_status:" + tracking_status + "";
+		return "MAVLINK_MSG_ID_CAMERA_TRACKING_GEO_STATUS - sysid:" + sysid + " compid:" + compid + " lat:" + lat + " lon:" + lon + " alt:" + alt + " h_acc:" + h_acc + " v_acc:" + v_acc + " vel_n:" + vel_n + " vel_e:" + vel_e + " vel_d:" + vel_d + " vel_acc:" + vel_acc + " dist:" + dist + " hdg:" + hdg + " hdg_acc:" + hdg_acc + " tracking_status:" + tracking_status + "";
 	}
 
 	/**

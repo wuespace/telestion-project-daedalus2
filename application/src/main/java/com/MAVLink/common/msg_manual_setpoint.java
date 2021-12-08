@@ -65,8 +65,8 @@ public class msg_manual_setpoint extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MANUAL_SETPOINT;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -115,13 +115,7 @@ public class msg_manual_setpoint extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_manual_setpoint(long time_boot_ms,
-			float roll,
-			float pitch,
-			float yaw,
-			float thrust,
-			short mode_switch,
-			short manual_override_switch) {
+	public msg_manual_setpoint(long time_boot_ms, float roll, float pitch, float yaw, float thrust, short mode_switch, short manual_override_switch) {
 		this.msgid = MAVLINK_MSG_ID_MANUAL_SETPOINT;
 
 		this.time_boot_ms = time_boot_ms;
@@ -137,16 +131,7 @@ public class msg_manual_setpoint extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_manual_setpoint(long time_boot_ms,
-			float roll,
-			float pitch,
-			float yaw,
-			float thrust,
-			short mode_switch,
-			short manual_override_switch,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_manual_setpoint(long time_boot_ms, float roll, float pitch, float yaw, float thrust, short mode_switch, short manual_override_switch, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MANUAL_SETPOINT;
 		this.sysid = sysid;
 		this.compid = compid;

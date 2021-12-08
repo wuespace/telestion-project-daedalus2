@@ -49,27 +49,27 @@ public class msg_follow_target extends MAVLinkMessage {
 	/**
 	 * target velocity (0,0,0) for unknown
 	 */
-	public float[] vel = new float[3];
+	public float vel[] = new float[3];
 
 	/**
 	 * linear target acceleration (0,0,0) for unknown
 	 */
-	public float[] acc = new float[3];
+	public float acc[] = new float[3];
 
 	/**
 	 * (0 0 0 0 for unknown)
 	 */
-	public float[] attitude_q = new float[4];
+	public float attitude_q[] = new float[4];
 
 	/**
 	 * (0 0 0 for unknown)
 	 */
-	public float[] rates = new float[3];
+	public float rates[] = new float[3];
 
 	/**
 	 * eph epv
 	 */
-	public float[] position_cov = new float[3];
+	public float position_cov[] = new float[3];
 
 	/**
 	 * bit positions for tracker reporting capabilities (POS = 0, VEL = 1, ACCEL = 2, ATT + RATES = 3)
@@ -85,8 +85,8 @@ public class msg_follow_target extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_FOLLOW_TARGET;
 
 		packet.payload.putUnsignedLong(timestamp);
@@ -183,17 +183,7 @@ public class msg_follow_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_follow_target(long timestamp,
-			long custom_state,
-			int lat,
-			int lon,
-			float alt,
-			float[] vel,
-			float[] acc,
-			float[] attitude_q,
-			float[] rates,
-			float[] position_cov,
-			short est_capabilities) {
+	public msg_follow_target(long timestamp, long custom_state, int lat, int lon, float alt, float[] vel, float[] acc, float[] attitude_q, float[] rates, float[] position_cov, short est_capabilities) {
 		this.msgid = MAVLINK_MSG_ID_FOLLOW_TARGET;
 
 		this.timestamp = timestamp;
@@ -213,20 +203,7 @@ public class msg_follow_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_follow_target(long timestamp,
-			long custom_state,
-			int lat,
-			int lon,
-			float alt,
-			float[] vel,
-			float[] acc,
-			float[] attitude_q,
-			float[] rates,
-			float[] position_cov,
-			short est_capabilities,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_follow_target(long timestamp, long custom_state, int lat, int lon, float alt, float[] vel, float[] acc, float[] attitude_q, float[] rates, float[] position_cov, short est_capabilities, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_FOLLOW_TARGET;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -265,10 +242,7 @@ public class msg_follow_target extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_FOLLOW_TARGET - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp + " " +
-				"custom_state:" + custom_state + " lat:" + lat + " lon:" + lon + " alt:" + alt + " vel:" + vel + " acc" +
-				":" + acc + " attitude_q:" + attitude_q + " rates:" + rates + " position_cov:" + position_cov + " " +
-				"est_capabilities:" + est_capabilities + "";
+		return "MAVLINK_MSG_ID_FOLLOW_TARGET - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp + " custom_state:" + custom_state + " lat:" + lat + " lon:" + lon + " alt:" + alt + " vel:" + vel + " acc:" + acc + " attitude_q:" + attitude_q + " rates:" + rates + " position_cov:" + position_cov + " est_capabilities:" + est_capabilities + "";
 	}
 
 	/**

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Data for filling the OpenDroneID Operator ID message, which contains the CAA (Civil Aviation Authority) issued
- * operator ID.
+ * Data for filling the OpenDroneID Operator ID message, which contains the CAA (Civil Aviation Authority) issued operator ID.
  */
 public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 
@@ -33,10 +32,9 @@ public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink
-	 * .io/en/services/opendroneid.html.
+	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.
 	 */
-	public short[] id_or_mac = new short[20];
+	public short id_or_mac[] = new short[20];
 
 	/**
 	 * Indicates the type of the operator_id field.
@@ -44,10 +42,9 @@ public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 	public short operator_id_type;
 
 	/**
-	 * Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused
-	 * portion of the field.
+	 * Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.
 	 */
-	public byte[] operator_id = new byte[20];
+	public byte operator_id[] = new byte[20];
 
 
 	/**
@@ -58,8 +55,8 @@ public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_OPERATOR_ID;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -120,11 +117,7 @@ public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_open_drone_id_operator_id(short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short operator_id_type,
-			byte[] operator_id) {
+	public msg_open_drone_id_operator_id(short target_system, short target_component, short[] id_or_mac, short operator_id_type, byte[] operator_id) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_OPERATOR_ID;
 
 		this.target_system = target_system;
@@ -138,14 +131,7 @@ public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_open_drone_id_operator_id(short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short operator_id_type,
-			byte[] operator_id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_open_drone_id_operator_id(short target_system, short target_component, short[] id_or_mac, short operator_id_type, byte[] operator_id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_OPERATOR_ID;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -188,7 +174,7 @@ public class msg_open_drone_id_operator_id extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getOperator_Id() {
 		StringBuffer buf = new StringBuffer();

@@ -32,14 +32,12 @@ public class msg_radio_status extends MAVLinkMessage {
 	public int fixed;
 
 	/**
-	 * Local (message sender) recieved signal strength indication in device-dependent units/scale. Values: [0-254],
-	 * UINT8_MAX: invalid/unknown.
+	 * Local (message sender) recieved signal strength indication in device-dependent units/scale. Values: [0-254], UINT8_MAX: invalid/unknown.
 	 */
 	public short rssi;
 
 	/**
-	 * Remote (message receiver) signal strength indication in device-dependent units/scale. Values: [0-254],
-	 * UINT8_MAX: invalid/unknown.
+	 * Remote (message receiver) signal strength indication in device-dependent units/scale. Values: [0-254], UINT8_MAX: invalid/unknown.
 	 */
 	public short remrssi;
 
@@ -49,14 +47,12 @@ public class msg_radio_status extends MAVLinkMessage {
 	public short txbuf;
 
 	/**
-	 * Local background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios).
-	 * Values: [0-254], UINT8_MAX: invalid/unknown.
+	 * Local background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], UINT8_MAX: invalid/unknown.
 	 */
 	public short noise;
 
 	/**
-	 * Remote background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios).
-	 * Values: [0-254], UINT8_MAX: invalid/unknown.
+	 * Remote background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], UINT8_MAX: invalid/unknown.
 	 */
 	public short remnoise;
 
@@ -69,8 +65,8 @@ public class msg_radio_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_RADIO_STATUS;
 
 		packet.payload.putUnsignedShort(rxerrors);
@@ -119,13 +115,7 @@ public class msg_radio_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_radio_status(int rxerrors,
-			int fixed,
-			short rssi,
-			short remrssi,
-			short txbuf,
-			short noise,
-			short remnoise) {
+	public msg_radio_status(int rxerrors, int fixed, short rssi, short remrssi, short txbuf, short noise, short remnoise) {
 		this.msgid = MAVLINK_MSG_ID_RADIO_STATUS;
 
 		this.rxerrors = rxerrors;
@@ -141,16 +131,7 @@ public class msg_radio_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_radio_status(int rxerrors,
-			int fixed,
-			short rssi,
-			short remrssi,
-			short txbuf,
-			short noise,
-			short remnoise,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_radio_status(int rxerrors, int fixed, short rssi, short remrssi, short txbuf, short noise, short remnoise, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_RADIO_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -185,9 +166,7 @@ public class msg_radio_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_RADIO_STATUS - sysid:" + sysid + " compid:" + compid + " rxerrors:" + rxerrors + " " +
-				"fixed:" + fixed + " rssi:" + rssi + " remrssi:" + remrssi + " txbuf:" + txbuf + " noise:" + noise +
-				" remnoise:" + remnoise + "";
+		return "MAVLINK_MSG_ID_RADIO_STATUS - sysid:" + sysid + " compid:" + compid + " rxerrors:" + rxerrors + " fixed:" + fixed + " rssi:" + rssi + " remrssi:" + remrssi + " txbuf:" + txbuf + " noise:" + noise + " remnoise:" + remnoise + "";
 	}
 
 	/**

@@ -132,8 +132,7 @@ public class msg_high_latency extends MAVLinkMessage {
 	public byte temperature_air;
 
 	/**
-	 * failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS,
-	 * bit4:fence)
+	 * failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence)
 	 */
 	public short failsafe;
 
@@ -151,8 +150,8 @@ public class msg_high_latency extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HIGH_LATENCY;
 
 		packet.payload.putUnsignedInt(custom_mode);
@@ -235,30 +234,7 @@ public class msg_high_latency extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_high_latency(long custom_mode,
-			int latitude,
-			int longitude,
-			short roll,
-			short pitch,
-			int heading,
-			short heading_sp,
-			short altitude_amsl,
-			short altitude_sp,
-			int wp_distance,
-			short base_mode,
-			short landed_state,
-			byte throttle,
-			short airspeed,
-			short airspeed_sp,
-			short groundspeed,
-			byte climb_rate,
-			short gps_nsat,
-			short gps_fix_type,
-			short battery_remaining,
-			byte temperature,
-			byte temperature_air,
-			short failsafe,
-			short wp_num) {
+	public msg_high_latency(long custom_mode, int latitude, int longitude, short roll, short pitch, int heading, short heading_sp, short altitude_amsl, short altitude_sp, int wp_distance, short base_mode, short landed_state, byte throttle, short airspeed, short airspeed_sp, short groundspeed, byte climb_rate, short gps_nsat, short gps_fix_type, short battery_remaining, byte temperature, byte temperature_air, short failsafe, short wp_num) {
 		this.msgid = MAVLINK_MSG_ID_HIGH_LATENCY;
 
 		this.custom_mode = custom_mode;
@@ -291,33 +267,7 @@ public class msg_high_latency extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_high_latency(long custom_mode,
-			int latitude,
-			int longitude,
-			short roll,
-			short pitch,
-			int heading,
-			short heading_sp,
-			short altitude_amsl,
-			short altitude_sp,
-			int wp_distance,
-			short base_mode,
-			short landed_state,
-			byte throttle,
-			short airspeed,
-			short airspeed_sp,
-			short groundspeed,
-			byte climb_rate,
-			short gps_nsat,
-			short gps_fix_type,
-			short battery_remaining,
-			byte temperature,
-			byte temperature_air,
-			short failsafe,
-			short wp_num,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_high_latency(long custom_mode, int latitude, int longitude, short roll, short pitch, int heading, short heading_sp, short altitude_amsl, short altitude_sp, int wp_distance, short base_mode, short landed_state, byte throttle, short airspeed, short airspeed_sp, short groundspeed, byte climb_rate, short gps_nsat, short gps_fix_type, short battery_remaining, byte temperature, byte temperature_air, short failsafe, short wp_num, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HIGH_LATENCY;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -369,9 +319,7 @@ public class msg_high_latency extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_HIGH_LATENCY - sysid:" + sysid + " compid:" + compid + " custom_mode:" + custom_mode +
-				" latitude:" + latitude + " longitude:" + longitude + " roll:" + roll + " pitch:" + pitch + " heading" +
-				":" + heading + " heading_sp:" + heading_sp + " altitude_amsl:" + altitude_amsl + " altitude_sp:" + altitude_sp + " wp_distance:" + wp_distance + " base_mode:" + base_mode + " landed_state:" + landed_state + " throttle:" + throttle + " airspeed:" + airspeed + " airspeed_sp:" + airspeed_sp + " groundspeed:" + groundspeed + " climb_rate:" + climb_rate + " gps_nsat:" + gps_nsat + " gps_fix_type:" + gps_fix_type + " battery_remaining:" + battery_remaining + " temperature:" + temperature + " temperature_air:" + temperature_air + " failsafe:" + failsafe + " wp_num:" + wp_num + "";
+		return "MAVLINK_MSG_ID_HIGH_LATENCY - sysid:" + sysid + " compid:" + compid + " custom_mode:" + custom_mode + " latitude:" + latitude + " longitude:" + longitude + " roll:" + roll + " pitch:" + pitch + " heading:" + heading + " heading_sp:" + heading_sp + " altitude_amsl:" + altitude_amsl + " altitude_sp:" + altitude_sp + " wp_distance:" + wp_distance + " base_mode:" + base_mode + " landed_state:" + landed_state + " throttle:" + throttle + " airspeed:" + airspeed + " airspeed_sp:" + airspeed_sp + " groundspeed:" + groundspeed + " climb_rate:" + climb_rate + " gps_nsat:" + gps_nsat + " gps_fix_type:" + gps_fix_type + " battery_remaining:" + battery_remaining + " temperature:" + temperature + " temperature_air:" + temperature_air + " failsafe:" + failsafe + " wp_num:" + wp_num + "";
 	}
 
 	/**

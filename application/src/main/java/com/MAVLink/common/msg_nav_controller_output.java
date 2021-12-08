@@ -70,8 +70,8 @@ public class msg_nav_controller_output extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT;
 
 		packet.payload.putFloat(nav_roll);
@@ -122,14 +122,7 @@ public class msg_nav_controller_output extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_nav_controller_output(float nav_roll,
-			float nav_pitch,
-			float alt_error,
-			float aspd_error,
-			float xtrack_error,
-			short nav_bearing,
-			short target_bearing,
-			int wp_dist) {
+	public msg_nav_controller_output(float nav_roll, float nav_pitch, float alt_error, float aspd_error, float xtrack_error, short nav_bearing, short target_bearing, int wp_dist) {
 		this.msgid = MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT;
 
 		this.nav_roll = nav_roll;
@@ -146,17 +139,7 @@ public class msg_nav_controller_output extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_nav_controller_output(float nav_roll,
-			float nav_pitch,
-			float alt_error,
-			float aspd_error,
-			float xtrack_error,
-			short nav_bearing,
-			short target_bearing,
-			int wp_dist,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_nav_controller_output(float nav_roll, float nav_pitch, float alt_error, float aspd_error, float xtrack_error, short nav_bearing, short target_bearing, int wp_dist, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT;
 		this.sysid = sysid;
 		this.compid = compid;

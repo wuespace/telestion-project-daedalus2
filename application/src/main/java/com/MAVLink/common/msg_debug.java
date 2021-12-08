@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Send a debug value. The index is used to discriminate between values. These values show up in the plot of
- * QGroundControl as DEBUG N.
+ * Send a debug value. The index is used to discriminate between values. These values show up in the plot of QGroundControl as DEBUG N.
  */
 public class msg_debug extends MAVLinkMessage {
 
@@ -46,8 +45,8 @@ public class msg_debug extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_DEBUG;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -131,8 +130,7 @@ public class msg_debug extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_DEBUG - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " " +
-				"value:" + value + " ind:" + ind + "";
+		return "MAVLINK_MSG_ID_DEBUG - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " value:" + value + " ind:" + ind + "";
 	}
 
 	/**

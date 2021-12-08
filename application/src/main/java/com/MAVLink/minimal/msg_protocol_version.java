@@ -12,10 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Version and capability of protocol version. This message can be requested with MAV_CMD_REQUEST_MESSAGE and is used
- * as part of the handshaking to establish which MAVLink version should be used on the network. Every node should
- * respond to a request for PROTOCOL_VERSION to enable the handshaking. Library implementers should consider adding
- * this into the default decoding state machine to allow the protocol core to respond directly.
+ * Version and capability of protocol version. This message can be requested with MAV_CMD_REQUEST_MESSAGE and is used as part of the handshaking to establish which MAVLink version should be used on the network. Every node should respond to a request for PROTOCOL_VERSION to enable the handshaking. Library implementers should consider adding this into the default decoding state machine to allow the protocol core to respond directly.
  */
 public class msg_protocol_version extends MAVLinkMessage {
 
@@ -42,12 +39,12 @@ public class msg_protocol_version extends MAVLinkMessage {
 	/**
 	 * The first 8 bytes (not characters printed in hex!) of the git hash.
 	 */
-	public short[] spec_version_hash = new short[8];
+	public short spec_version_hash[] = new short[8];
 
 	/**
 	 * The first 8 bytes (not characters printed in hex!) of the git hash.
 	 */
-	public short[] library_version_hash = new short[8];
+	public short library_version_hash[] = new short[8];
 
 
 	/**
@@ -58,8 +55,8 @@ public class msg_protocol_version extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PROTOCOL_VERSION;
 
 		packet.payload.putUnsignedShort(version);
@@ -120,11 +117,7 @@ public class msg_protocol_version extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_protocol_version(int version,
-			int min_version,
-			int max_version,
-			short[] spec_version_hash,
-			short[] library_version_hash) {
+	public msg_protocol_version(int version, int min_version, int max_version, short[] spec_version_hash, short[] library_version_hash) {
 		this.msgid = MAVLINK_MSG_ID_PROTOCOL_VERSION;
 
 		this.version = version;
@@ -138,14 +131,7 @@ public class msg_protocol_version extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_protocol_version(int version,
-			int min_version,
-			int max_version,
-			short[] spec_version_hash,
-			short[] library_version_hash,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_protocol_version(int version, int min_version, int max_version, short[] spec_version_hash, short[] library_version_hash, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PROTOCOL_VERSION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -178,8 +164,7 @@ public class msg_protocol_version extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_PROTOCOL_VERSION - sysid:" + sysid + " compid:" + compid + " version:" + version + " " +
-				"min_version:" + min_version + " max_version:" + max_version + " spec_version_hash:" + spec_version_hash + " library_version_hash:" + library_version_hash + "";
+		return "MAVLINK_MSG_ID_PROTOCOL_VERSION - sysid:" + sysid + " compid:" + compid + " version:" + version + " min_version:" + min_version + " max_version:" + max_version + " spec_version_hash:" + spec_version_hash + " library_version_hash:" + library_version_hash + "";
 	}
 
 	/**

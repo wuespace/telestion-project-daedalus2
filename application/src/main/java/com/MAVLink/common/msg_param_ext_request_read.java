@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request to read the value of a parameter with either the param_id string id or param_index. PARAM_EXT_VALUE should
- * be emitted in response.
+ * Request to read the value of a parameter with either the param_id string id or param_index. PARAM_EXT_VALUE should be emitted in response.
  */
 public class msg_param_ext_request_read extends MAVLinkMessage {
 
@@ -38,11 +37,9 @@ public class msg_param_ext_request_read extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null
-	 * termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if
-	 * the ID is stored as string
+	 * Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
 	 */
-	public byte[] param_id = new byte[16];
+	public byte param_id[] = new byte[16];
 
 
 	/**
@@ -53,8 +50,8 @@ public class msg_param_ext_request_read extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PARAM_EXT_REQUEST_READ;
 
 		packet.payload.putShort(param_index);
@@ -105,8 +102,7 @@ public class msg_param_ext_request_read extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_param_ext_request_read(short param_index, short target_system, short target_component,
-			byte[] param_id) {
+	public msg_param_ext_request_read(short param_index, short target_system, short target_component, byte[] param_id) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_EXT_REQUEST_READ;
 
 		this.param_index = param_index;
@@ -119,13 +115,7 @@ public class msg_param_ext_request_read extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_param_ext_request_read(short param_index,
-			short target_system,
-			short target_component,
-			byte[] param_id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_param_ext_request_read(short param_index, short target_system, short target_component, byte[] param_id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_EXT_REQUEST_READ;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -167,7 +157,7 @@ public class msg_param_ext_request_read extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getParam_Id() {
 		StringBuffer buf = new StringBuffer();

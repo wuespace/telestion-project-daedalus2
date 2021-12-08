@@ -42,15 +42,12 @@ public class msg_vision_speed_estimate extends MAVLinkMessage {
 	public float z;
 
 	/**
-	 * Row-major representation of 3x3 linear velocity covariance matrix (states: vx, vy, vz; 1st three entries - 1st
-	 * row, etc.). If unknown, assign NaN value to first element in the array.
+	 * Row-major representation of 3x3 linear velocity covariance matrix (states: vx, vy, vz; 1st three entries - 1st row, etc.). If unknown, assign NaN value to first element in the array.
 	 */
-	public float[] covariance = new float[9];
+	public float covariance[] = new float[9];
 
 	/**
-	 * Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position,
-	 * velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a
-	 * loop-closure and the estimate jumps.
+	 * Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.
 	 */
 	public short reset_counter;
 
@@ -63,8 +60,8 @@ public class msg_vision_speed_estimate extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_VISION_SPEED_ESTIMATE;
 
 		packet.payload.putUnsignedLong(usec);
@@ -134,15 +131,7 @@ public class msg_vision_speed_estimate extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_vision_speed_estimate(long usec,
-			float x,
-			float y,
-			float z,
-			float[] covariance,
-			short reset_counter,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_vision_speed_estimate(long usec, float x, float y, float z, float[] covariance, short reset_counter, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_VISION_SPEED_ESTIMATE;
 		this.sysid = sysid;
 		this.compid = compid;

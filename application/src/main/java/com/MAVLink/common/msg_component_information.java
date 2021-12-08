@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Information about a component. For camera components instead use CAMERA_INFORMATION, and for autopilots
- * additionally use AUTOPILOT_VERSION. Components including GCSes should consider supporting requests of this message
- * via MAV_CMD_REQUEST_MESSAGE.
+ * Information about a component. For camera components instead use CAMERA_INFORMATION, and for autopilots additionally use AUTOPILOT_VERSION. Components including GCSes should consider supporting requests of this message via MAV_CMD_REQUEST_MESSAGE.
  */
 public class msg_component_information extends MAVLinkMessage {
 
@@ -39,16 +37,14 @@ public class msg_component_information extends MAVLinkMessage {
 	public long peripherals_metadata_file_crc;
 
 	/**
-	 * Component definition URI for TYPE_GENERAL. This must be a MAVLink FTP URI and the file might be compressed with
-	 * xz.
+	 * Component definition URI for TYPE_GENERAL. This must be a MAVLink FTP URI and the file might be compressed with xz.
 	 */
-	public byte[] general_metadata_uri = new byte[100];
+	public byte general_metadata_uri[] = new byte[100];
 
 	/**
-	 * (Optional) Component definition URI for TYPE_PERIPHERALS. This must be a MAVLink FTP URI and the file might be
-	 * compressed with xz.
+	 * (Optional) Component definition URI for TYPE_PERIPHERALS. This must be a MAVLink FTP URI and the file might be compressed with xz.
 	 */
-	public byte[] peripherals_metadata_uri = new byte[100];
+	public byte peripherals_metadata_uri[] = new byte[100];
 
 
 	/**
@@ -59,8 +55,8 @@ public class msg_component_information extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_COMPONENT_INFORMATION;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -121,11 +117,7 @@ public class msg_component_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_component_information(long time_boot_ms,
-			long general_metadata_file_crc,
-			long peripherals_metadata_file_crc,
-			byte[] general_metadata_uri,
-			byte[] peripherals_metadata_uri) {
+	public msg_component_information(long time_boot_ms, long general_metadata_file_crc, long peripherals_metadata_file_crc, byte[] general_metadata_uri, byte[] peripherals_metadata_uri) {
 		this.msgid = MAVLINK_MSG_ID_COMPONENT_INFORMATION;
 
 		this.time_boot_ms = time_boot_ms;
@@ -139,14 +131,7 @@ public class msg_component_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_component_information(long time_boot_ms,
-			long general_metadata_file_crc,
-			long peripherals_metadata_file_crc,
-			byte[] general_metadata_uri,
-			byte[] peripherals_metadata_uri,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_component_information(long time_boot_ms, long general_metadata_file_crc, long peripherals_metadata_file_crc, byte[] general_metadata_uri, byte[] peripherals_metadata_uri, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_COMPONENT_INFORMATION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -189,7 +174,7 @@ public class msg_component_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getGeneral_Metadata_Uri() {
 		StringBuffer buf = new StringBuffer();
@@ -218,7 +203,7 @@ public class msg_component_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getPeripherals_Metadata_Uri() {
 		StringBuffer buf = new StringBuffer();

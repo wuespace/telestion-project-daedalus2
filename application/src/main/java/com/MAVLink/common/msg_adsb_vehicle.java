@@ -74,7 +74,7 @@ public class msg_adsb_vehicle extends MAVLinkMessage {
 	/**
 	 * The callsign, 8+null
 	 */
-	public byte[] callsign = new byte[9];
+	public byte callsign[] = new byte[9];
 
 	/**
 	 * ADSB emitter type.
@@ -95,8 +95,8 @@ public class msg_adsb_vehicle extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ADSB_VEHICLE;
 
 		packet.payload.putUnsignedInt(ICAO_address);
@@ -165,19 +165,7 @@ public class msg_adsb_vehicle extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_adsb_vehicle(long ICAO_address,
-			int lat,
-			int lon,
-			int altitude,
-			int heading,
-			int hor_velocity,
-			short ver_velocity,
-			int flags,
-			int squawk,
-			short altitude_type,
-			byte[] callsign,
-			short emitter_type,
-			short tslc) {
+	public msg_adsb_vehicle(long ICAO_address, int lat, int lon, int altitude, int heading, int hor_velocity, short ver_velocity, int flags, int squawk, short altitude_type, byte[] callsign, short emitter_type, short tslc) {
 		this.msgid = MAVLINK_MSG_ID_ADSB_VEHICLE;
 
 		this.ICAO_address = ICAO_address;
@@ -199,22 +187,7 @@ public class msg_adsb_vehicle extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_adsb_vehicle(long ICAO_address,
-			int lat,
-			int lon,
-			int altitude,
-			int heading,
-			int hor_velocity,
-			short ver_velocity,
-			int flags,
-			int squawk,
-			short altitude_type,
-			byte[] callsign,
-			short emitter_type,
-			short tslc,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_adsb_vehicle(long ICAO_address, int lat, int lon, int altitude, int heading, int hor_velocity, short ver_velocity, int flags, int squawk, short altitude_type, byte[] callsign, short emitter_type, short tslc, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ADSB_VEHICLE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -265,7 +238,7 @@ public class msg_adsb_vehicle extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getCallsign() {
 		StringBuffer buf = new StringBuffer();

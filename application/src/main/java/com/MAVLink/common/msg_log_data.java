@@ -39,7 +39,7 @@ public class msg_log_data extends MAVLinkMessage {
 	/**
 	 * log data
 	 */
-	public short[] data = new short[90];
+	public short data[] = new short[90];
 
 
 	/**
@@ -50,8 +50,8 @@ public class msg_log_data extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_LOG_DATA;
 
 		packet.payload.putUnsignedInt(ofs);
@@ -147,8 +147,7 @@ public class msg_log_data extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_LOG_DATA - sysid:" + sysid + " compid:" + compid + " ofs:" + ofs + " id:" + id + " " +
-				"count:" + count + " data:" + data + "";
+		return "MAVLINK_MSG_ID_LOG_DATA - sysid:" + sysid + " compid:" + compid + " ofs:" + ofs + " id:" + id + " count:" + count + " data:" + data + "";
 	}
 
 	/**

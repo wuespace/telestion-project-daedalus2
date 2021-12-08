@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Version and capability of autopilot software. This should be emitted in response to a request with
- * MAV_CMD_REQUEST_MESSAGE.
+ * Version and capability of autopilot software. This should be emitted in response to a request with MAV_CMD_REQUEST_MESSAGE.
  */
 public class msg_autopilot_version extends MAVLinkMessage {
 
@@ -48,7 +47,7 @@ public class msg_autopilot_version extends MAVLinkMessage {
 	public long os_sw_version;
 
 	/**
-	 * HW / board version (last 8 bytes should be silicon ID, if any)
+	 * HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt
 	 */
 	public long board_version;
 
@@ -63,27 +62,24 @@ public class msg_autopilot_version extends MAVLinkMessage {
 	public int product_id;
 
 	/**
-	 * Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should
-	 * allow to identify the commit using the main version number even for very large code bases.
+	 * Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.
 	 */
-	public short[] flight_custom_version = new short[8];
+	public short flight_custom_version[] = new short[8];
 
 	/**
-	 * Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should
-	 * allow to identify the commit using the main version number even for very large code bases.
+	 * Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.
 	 */
-	public short[] middleware_custom_version = new short[8];
+	public short middleware_custom_version[] = new short[8];
 
 	/**
-	 * Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should
-	 * allow to identify the commit using the main version number even for very large code bases.
+	 * Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.
 	 */
-	public short[] os_custom_version = new short[8];
+	public short os_custom_version[] = new short[8];
 
 	/**
 	 * UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid)
 	 */
-	public short[] uid2 = new short[18];
+	public short uid2[] = new short[18];
 
 
 	/**
@@ -94,8 +90,8 @@ public class msg_autopilot_version extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION;
 
 		packet.payload.putUnsignedLong(capabilities);
@@ -186,18 +182,7 @@ public class msg_autopilot_version extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_autopilot_version(long capabilities,
-			long uid,
-			long flight_sw_version,
-			long middleware_sw_version,
-			long os_sw_version,
-			long board_version,
-			int vendor_id,
-			int product_id,
-			short[] flight_custom_version,
-			short[] middleware_custom_version,
-			short[] os_custom_version,
-			short[] uid2) {
+	public msg_autopilot_version(long capabilities, long uid, long flight_sw_version, long middleware_sw_version, long os_sw_version, long board_version, int vendor_id, int product_id, short[] flight_custom_version, short[] middleware_custom_version, short[] os_custom_version, short[] uid2) {
 		this.msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION;
 
 		this.capabilities = capabilities;
@@ -218,21 +203,7 @@ public class msg_autopilot_version extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_autopilot_version(long capabilities,
-			long uid,
-			long flight_sw_version,
-			long middleware_sw_version,
-			long os_sw_version,
-			long board_version,
-			int vendor_id,
-			int product_id,
-			short[] flight_custom_version,
-			short[] middleware_custom_version,
-			short[] os_custom_version,
-			short[] uid2,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_autopilot_version(long capabilities, long uid, long flight_sw_version, long middleware_sw_version, long os_sw_version, long board_version, int vendor_id, int product_id, short[] flight_custom_version, short[] middleware_custom_version, short[] os_custom_version, short[] uid2, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_AUTOPILOT_VERSION;
 		this.sysid = sysid;
 		this.compid = compid;

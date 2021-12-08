@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Streamed from drone to report progress of terrain map download (initiated by TERRAIN_REQUEST), or sent as a
- * response to a TERRAIN_CHECK request. See terrain protocol docs: https://mavlink.io/en/services/terrain.html
+ * Streamed from drone to report progress of terrain map download (initiated by TERRAIN_REQUEST), or sent as a response to a TERRAIN_CHECK request. See terrain protocol docs: https://mavlink.io/en/services/terrain.html
  */
 public class msg_terrain_report extends MAVLinkMessage {
 
@@ -66,8 +65,8 @@ public class msg_terrain_report extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_TERRAIN_REPORT;
 
 		packet.payload.putInt(lat);
@@ -116,13 +115,7 @@ public class msg_terrain_report extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_terrain_report(int lat,
-			int lon,
-			float terrain_height,
-			float current_height,
-			int spacing,
-			int pending,
-			int loaded) {
+	public msg_terrain_report(int lat, int lon, float terrain_height, float current_height, int spacing, int pending, int loaded) {
 		this.msgid = MAVLINK_MSG_ID_TERRAIN_REPORT;
 
 		this.lat = lat;
@@ -138,16 +131,7 @@ public class msg_terrain_report extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_terrain_report(int lat,
-			int lon,
-			float terrain_height,
-			float current_height,
-			int spacing,
-			int pending,
-			int loaded,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_terrain_report(int lat, int lon, float terrain_height, float current_height, int spacing, int pending, int loaded, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_TERRAIN_REPORT;
 		this.sysid = sysid;
 		this.compid = compid;

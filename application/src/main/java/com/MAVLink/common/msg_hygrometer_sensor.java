@@ -45,8 +45,8 @@ public class msg_hygrometer_sensor extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HYGROMETER_SENSOR;
 
 		packet.payload.putShort(temperature);
@@ -99,8 +99,7 @@ public class msg_hygrometer_sensor extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_hygrometer_sensor(short temperature, int humidity, short id, int sysid, int compid,
-			boolean isMavlink2) {
+	public msg_hygrometer_sensor(short temperature, int humidity, short id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HYGROMETER_SENSOR;
 		this.sysid = sysid;
 		this.compid = compid;

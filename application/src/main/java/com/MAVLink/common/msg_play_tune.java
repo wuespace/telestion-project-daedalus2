@@ -34,12 +34,12 @@ public class msg_play_tune extends MAVLinkMessage {
 	/**
 	 * tune in board specific format
 	 */
-	public byte[] tune = new byte[30];
+	public byte tune[] = new byte[30];
 
 	/**
 	 * tune extension (appended to tune)
 	 */
-	public byte[] tune2 = new byte[200];
+	public byte tune2[] = new byte[200];
 
 
 	/**
@@ -50,8 +50,8 @@ public class msg_play_tune extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PLAY_TUNE;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -123,13 +123,7 @@ public class msg_play_tune extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_play_tune(short target_system,
-			short target_component,
-			byte[] tune,
-			byte[] tune2,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_play_tune(short target_system, short target_component, byte[] tune, byte[] tune2, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PLAY_TUNE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -171,7 +165,7 @@ public class msg_play_tune extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getTune() {
 		StringBuffer buf = new StringBuffer();
@@ -200,7 +194,7 @@ public class msg_play_tune extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getTune2() {
 		StringBuffer buf = new StringBuffer();

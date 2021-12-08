@@ -22,15 +22,14 @@ public class msg_att_pos_mocap extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
 	/**
 	 * Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * X position (NED)
@@ -48,11 +47,9 @@ public class msg_att_pos_mocap extends MAVLinkMessage {
 	public float z;
 
 	/**
-	 * Row-major representation of a pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll,
-	 * pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown,
-	 * assign NaN value to first element in the array.
+	 * Row-major representation of a pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.
 	 */
-	public float[] covariance = new float[21];
+	public float covariance[] = new float[21];
 
 
 	/**
@@ -63,8 +60,8 @@ public class msg_att_pos_mocap extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ATT_POS_MOCAP;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -142,15 +139,7 @@ public class msg_att_pos_mocap extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_att_pos_mocap(long time_usec,
-			float[] q,
-			float x,
-			float y,
-			float z,
-			float[] covariance,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_att_pos_mocap(long time_usec, float[] q, float x, float y, float z, float[] covariance, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ATT_POS_MOCAP;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -184,8 +173,7 @@ public class msg_att_pos_mocap extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ATT_POS_MOCAP - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"q:" + q + " x:" + x + " y:" + y + " z:" + z + " covariance:" + covariance + "";
+		return "MAVLINK_MSG_ID_ATT_POS_MOCAP - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " q:" + q + " x:" + x + " y:" + y + " z:" + z + " covariance:" + covariance + "";
 	}
 
 	/**

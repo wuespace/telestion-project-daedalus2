@@ -13,11 +13,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
  * Message encoding a mission item. This message is emitted to announce
- * the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z
- * meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up,
- * right handed (ENU). NaN or INT32_MAX may be used in float/integer params (respectively) to indicate
- * optional/default values (e.g. to use the component's current latitude, yaw rather than a specific value). See also
- * https://mavlink.io/en/services/mission.html.
+ * the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN or INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current latitude, yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html.
  */
 public class msg_mission_item_int extends MAVLinkMessage {
 
@@ -62,8 +58,7 @@ public class msg_mission_item_int extends MAVLinkMessage {
 	public float z;
 
 	/**
-	 * Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the
-	 * sequence (0,1,2,3,4).
+	 * Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4).
 	 */
 	public int seq;
 
@@ -111,8 +106,8 @@ public class msg_mission_item_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_ITEM_INT;
 
 		packet.payload.putFloat(param1);
@@ -177,21 +172,7 @@ public class msg_mission_item_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_mission_item_int(float param1,
-			float param2,
-			float param3,
-			float param4,
-			int x,
-			int y,
-			float z,
-			int seq,
-			int command,
-			short target_system,
-			short target_component,
-			short frame,
-			short current,
-			short autocontinue,
-			short mission_type) {
+	public msg_mission_item_int(float param1, float param2, float param3, float param4, int x, int y, float z, int seq, int command, short target_system, short target_component, short frame, short current, short autocontinue, short mission_type) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_ITEM_INT;
 
 		this.param1 = param1;
@@ -215,24 +196,7 @@ public class msg_mission_item_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_item_int(float param1,
-			float param2,
-			float param3,
-			float param4,
-			int x,
-			int y,
-			float z,
-			int seq,
-			int command,
-			short target_system,
-			short target_component,
-			short frame,
-			short current,
-			short autocontinue,
-			short mission_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_item_int(float param1, float param2, float param3, float param4, int x, int y, float z, int seq, int command, short target_system, short target_component, short frame, short current, short autocontinue, short mission_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_ITEM_INT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -275,9 +239,7 @@ public class msg_mission_item_int extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_MISSION_ITEM_INT - sysid:" + sysid + " compid:" + compid + " param1:" + param1 + " " +
-				"param2:" + param2 + " param3:" + param3 + " param4:" + param4 + " x:" + x + " y:" + y + " z:" + z +
-				" seq:" + seq + " command:" + command + " target_system:" + target_system + " target_component:" + target_component + " frame:" + frame + " current:" + current + " autocontinue:" + autocontinue + " mission_type:" + mission_type + "";
+		return "MAVLINK_MSG_ID_MISSION_ITEM_INT - sysid:" + sysid + " compid:" + compid + " param1:" + param1 + " param2:" + param2 + " param3:" + param3 + " param4:" + param4 + " x:" + x + " y:" + y + " z:" + z + " seq:" + seq + " command:" + command + " target_system:" + target_system + " target_component:" + target_component + " frame:" + frame + " current:" + current + " autocontinue:" + autocontinue + " mission_type:" + mission_type + "";
 	}
 
 	/**

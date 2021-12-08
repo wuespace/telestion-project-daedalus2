@@ -12,8 +12,13 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Information about a captured image. This is emitted every time a message is captured. It may be re-requested using
- * MAV_CMD_REQUEST_MESSAGE, using param2 to indicate the sequence number for the missing image.
+ * Information about a captured image. This is emitted every time a message is captured.
+ * MAV_CMD_REQUEST_MESSAGE can be used to (re)request this message for a specific sequence number or range of sequence numbers:
+ * MAV_CMD_REQUEST_MESSAGE.param2 indicates the sequence number the first image to send, or set to -1 to send the message for all sequence numbers.
+ * MAV_CMD_REQUEST_MESSAGE.param3 is used to specify a range of messages to send:
+ * set to 0 (default) to send just the the message for the sequence number in param 2,
+ * set to -1 to send the message for the sequence number in param 2 and all the following sequence numbers,
+ * set to the sequence number of the final message in the range.
  */
 public class msg_camera_image_captured extends MAVLinkMessage {
 
@@ -55,7 +60,7 @@ public class msg_camera_image_captured extends MAVLinkMessage {
 	/**
 	 * Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * Zero based index of this image (i.e. a new image will have index CAMERA_CAPTURE_STATUS.image count -1)
@@ -75,7 +80,7 @@ public class msg_camera_image_captured extends MAVLinkMessage {
 	/**
 	 * URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.
 	 */
-	public byte[] file_url = new byte[205];
+	public byte file_url[] = new byte[205];
 
 
 	/**
@@ -86,8 +91,8 @@ public class msg_camera_image_captured extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CAMERA_IMAGE_CAPTURED;
 
 		packet.payload.putUnsignedLong(time_utc);
@@ -160,17 +165,7 @@ public class msg_camera_image_captured extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_camera_image_captured(long time_utc,
-			long time_boot_ms,
-			int lat,
-			int lon,
-			int alt,
-			int relative_alt,
-			float[] q,
-			int image_index,
-			short camera_id,
-			byte capture_result,
-			byte[] file_url) {
+	public msg_camera_image_captured(long time_utc, long time_boot_ms, int lat, int lon, int alt, int relative_alt, float[] q, int image_index, short camera_id, byte capture_result, byte[] file_url) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_IMAGE_CAPTURED;
 
 		this.time_utc = time_utc;
@@ -190,20 +185,7 @@ public class msg_camera_image_captured extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_camera_image_captured(long time_utc,
-			long time_boot_ms,
-			int lat,
-			int lon,
-			int alt,
-			int relative_alt,
-			float[] q,
-			int image_index,
-			short camera_id,
-			byte capture_result,
-			byte[] file_url,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_camera_image_captured(long time_utc, long time_boot_ms, int lat, int lon, int alt, int relative_alt, float[] q, int image_index, short camera_id, byte capture_result, byte[] file_url, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_IMAGE_CAPTURED;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -252,7 +234,7 @@ public class msg_camera_image_captured extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getFile_Url() {
 		StringBuffer buf = new StringBuffer();

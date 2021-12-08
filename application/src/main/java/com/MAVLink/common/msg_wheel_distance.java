@@ -27,11 +27,9 @@ public class msg_wheel_distance extends MAVLinkMessage {
 	public long time_usec;
 
 	/**
-	 * Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease
-	 * them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be
-	 * agreed/understood by the endpoints.
+	 * Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be agreed/understood by the endpoints.
 	 */
-	public double[] distance = new double[16];
+	public double distance[] = new double[16];
 
 	/**
 	 * Number of wheels reported.
@@ -47,8 +45,8 @@ public class msg_wheel_distance extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_WHEEL_DISTANCE;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -109,12 +107,7 @@ public class msg_wheel_distance extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_wheel_distance(long time_usec,
-			double[] distance,
-			short count,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_wheel_distance(long time_usec, double[] distance, short count, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_WHEEL_DISTANCE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -145,8 +138,7 @@ public class msg_wheel_distance extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_WHEEL_DISTANCE - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"distance:" + distance + " count:" + count + "";
+		return "MAVLINK_MSG_ID_WHEEL_DISTANCE - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " distance:" + distance + " count:" + count + "";
 	}
 
 	/**

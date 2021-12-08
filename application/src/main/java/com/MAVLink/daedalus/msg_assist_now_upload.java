@@ -24,7 +24,7 @@ public class msg_assist_now_upload extends MAVLinkMessage {
 	/**
 	 * ublox_msg
 	 */
-	public short[] ublox_msg = new short[255];
+	public short ublox_msg[] = new short[255];
 
 
 	/**
@@ -35,8 +35,8 @@ public class msg_assist_now_upload extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD;
 
 

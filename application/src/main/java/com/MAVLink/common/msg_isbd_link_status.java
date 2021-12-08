@@ -22,14 +22,12 @@ public class msg_isbd_link_status extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long timestamp;
 
 	/**
-	 * Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or
-	 * since system boot) by checking for the magnitude of the number.
+	 * Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long last_heartbeat;
 
@@ -44,8 +42,7 @@ public class msg_isbd_link_status extends MAVLinkMessage {
 	public int successful_sessions;
 
 	/**
-	 * Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5,
-	 * where 0 indicates no signal and 5 indicates maximum signal strength.
+	 * Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.
 	 */
 	public short signal_quality;
 
@@ -73,8 +70,8 @@ public class msg_isbd_link_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ISBD_LINK_STATUS;
 
 		packet.payload.putUnsignedLong(timestamp);
@@ -125,14 +122,7 @@ public class msg_isbd_link_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_isbd_link_status(long timestamp,
-			long last_heartbeat,
-			int failed_sessions,
-			int successful_sessions,
-			short signal_quality,
-			short ring_pending,
-			short tx_session_pending,
-			short rx_session_pending) {
+	public msg_isbd_link_status(long timestamp, long last_heartbeat, int failed_sessions, int successful_sessions, short signal_quality, short ring_pending, short tx_session_pending, short rx_session_pending) {
 		this.msgid = MAVLINK_MSG_ID_ISBD_LINK_STATUS;
 
 		this.timestamp = timestamp;
@@ -149,17 +139,7 @@ public class msg_isbd_link_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_isbd_link_status(long timestamp,
-			long last_heartbeat,
-			int failed_sessions,
-			int successful_sessions,
-			short signal_quality,
-			short ring_pending,
-			short tx_session_pending,
-			short rx_session_pending,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_isbd_link_status(long timestamp, long last_heartbeat, int failed_sessions, int successful_sessions, short signal_quality, short ring_pending, short tx_session_pending, short rx_session_pending, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ISBD_LINK_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -195,8 +175,7 @@ public class msg_isbd_link_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ISBD_LINK_STATUS - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp +
-				" last_heartbeat:" + last_heartbeat + " failed_sessions:" + failed_sessions + " successful_sessions:" + successful_sessions + " signal_quality:" + signal_quality + " ring_pending:" + ring_pending + " tx_session_pending:" + tx_session_pending + " rx_session_pending:" + rx_session_pending + "";
+		return "MAVLINK_MSG_ID_ISBD_LINK_STATUS - sysid:" + sysid + " compid:" + compid + " timestamp:" + timestamp + " last_heartbeat:" + last_heartbeat + " failed_sessions:" + failed_sessions + " successful_sessions:" + successful_sessions + " signal_quality:" + signal_quality + " ring_pending:" + ring_pending + " tx_session_pending:" + tx_session_pending + " rx_session_pending:" + rx_session_pending + "";
 	}
 
 	/**

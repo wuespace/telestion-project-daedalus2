@@ -22,8 +22,7 @@ public class msg_vfr_hud extends MAVLinkMessage {
 
 
 	/**
-	 * Vehicle speed in form appropriate for vehicle type. For standard aircraft this is typically calibrated airspeed
-	 * (CAS) or indicated airspeed (IAS) - either of which can be used by a pilot to estimate stall speed.
+	 * Vehicle speed in form appropriate for vehicle type. For standard aircraft this is typically calibrated airspeed (CAS) or indicated airspeed (IAS) - either of which can be used by a pilot to estimate stall speed.
 	 */
 	public float airspeed;
 
@@ -61,8 +60,8 @@ public class msg_vfr_hud extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_VFR_HUD;
 
 		packet.payload.putFloat(airspeed);
@@ -124,15 +123,7 @@ public class msg_vfr_hud extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_vfr_hud(float airspeed,
-			float groundspeed,
-			float alt,
-			float climb,
-			short heading,
-			int throttle,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_vfr_hud(float airspeed, float groundspeed, float alt, float climb, short heading, int throttle, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_VFR_HUD;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -166,9 +157,7 @@ public class msg_vfr_hud extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_VFR_HUD - sysid:" + sysid + " compid:" + compid + " airspeed:" + airspeed + " " +
-				"groundspeed:" + groundspeed + " alt:" + alt + " climb:" + climb + " heading:" + heading + " throttle" +
-				":" + throttle + "";
+		return "MAVLINK_MSG_ID_VFR_HUD - sysid:" + sysid + " compid:" + compid + " airspeed:" + airspeed + " groundspeed:" + groundspeed + " alt:" + alt + " climb:" + climb + " heading:" + heading + " throttle:" + throttle + "";
 	}
 
 	/**

@@ -12,10 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Message encoding a command with parameters as scaled integers. Scaling depends on the actual command value. NaN or
- * INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the
- * component's current latitude, yaw rather than a specific value). The command microservice is documented at
- * https://mavlink.io/en/services/command.html
+ * Message encoding a command with parameters as scaled integers. Scaling depends on the actual command value. NaN or INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current latitude, yaw rather than a specific value). The command microservice is documented at https://mavlink.io/en/services/command.html
  */
 public class msg_command_int extends MAVLinkMessage {
 
@@ -98,8 +95,8 @@ public class msg_command_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_COMMAND_INT;
 
 		packet.payload.putFloat(param1);
@@ -160,19 +157,7 @@ public class msg_command_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_command_int(float param1,
-			float param2,
-			float param3,
-			float param4,
-			int x,
-			int y,
-			float z,
-			int command,
-			short target_system,
-			short target_component,
-			short frame,
-			short current,
-			short autocontinue) {
+	public msg_command_int(float param1, float param2, float param3, float param4, int x, int y, float z, int command, short target_system, short target_component, short frame, short current, short autocontinue) {
 		this.msgid = MAVLINK_MSG_ID_COMMAND_INT;
 
 		this.param1 = param1;
@@ -194,22 +179,7 @@ public class msg_command_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_command_int(float param1,
-			float param2,
-			float param3,
-			float param4,
-			int x,
-			int y,
-			float z,
-			int command,
-			short target_system,
-			short target_component,
-			short frame,
-			short current,
-			short autocontinue,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_command_int(float param1, float param2, float param3, float param4, int x, int y, float z, int command, short target_system, short target_component, short frame, short current, short autocontinue, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_COMMAND_INT;
 		this.sysid = sysid;
 		this.compid = compid;

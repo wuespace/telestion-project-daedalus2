@@ -22,14 +22,12 @@ public class msg_time_estimate_to_target extends MAVLinkMessage {
 
 
 	/**
-	 * Estimated time to complete the vehicle's configured "safe return" action from its current position (e.g. RTL,
-	 * Smart RTL, etc.). -1 indicates that the vehicle is landed, or that no time estimate available.
+	 * Estimated time to complete the vehicle's configured "safe return" action from its current position (e.g. RTL, Smart RTL, etc.). -1 indicates that the vehicle is landed, or that no time estimate available.
 	 */
 	public int safe_return;
 
 	/**
-	 * Estimated time for vehicle to complete the LAND action from its current position. -1 indicates that the vehicle
-	 * is landed, or that no time estimate available.
+	 * Estimated time for vehicle to complete the LAND action from its current position. -1 indicates that the vehicle is landed, or that no time estimate available.
 	 */
 	public int land;
 
@@ -44,8 +42,7 @@ public class msg_time_estimate_to_target extends MAVLinkMessage {
 	public int mission_end;
 
 	/**
-	 * Estimated time for completing the current commanded action (i.e. Go To, Takeoff, Land, etc.). -1 means no
-	 * action active and/or no estimate available.
+	 * Estimated time for completing the current commanded action (i.e. Go To, Takeoff, Land, etc.). -1 means no action active and/or no estimate available.
 	 */
 	public int commanded_action;
 
@@ -58,8 +55,8 @@ public class msg_time_estimate_to_target extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_TIME_ESTIMATE_TO_TARGET;
 
 		packet.payload.putInt(safe_return);
@@ -104,11 +101,7 @@ public class msg_time_estimate_to_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_time_estimate_to_target(int safe_return,
-			int land,
-			int mission_next_item,
-			int mission_end,
-			int commanded_action) {
+	public msg_time_estimate_to_target(int safe_return, int land, int mission_next_item, int mission_end, int commanded_action) {
 		this.msgid = MAVLINK_MSG_ID_TIME_ESTIMATE_TO_TARGET;
 
 		this.safe_return = safe_return;
@@ -122,14 +115,7 @@ public class msg_time_estimate_to_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_time_estimate_to_target(int safe_return,
-			int land,
-			int mission_next_item,
-			int mission_end,
-			int commanded_action,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_time_estimate_to_target(int safe_return, int land, int mission_next_item, int mission_end, int commanded_action, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_TIME_ESTIMATE_TO_TARGET;
 		this.sysid = sysid;
 		this.compid = compid;

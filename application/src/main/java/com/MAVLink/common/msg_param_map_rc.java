@@ -32,20 +32,17 @@ public class msg_param_map_rc extends MAVLinkMessage {
 	public float scale;
 
 	/**
-	 * Minimum param value. The protocol does not define if this overwrites an onboard minimum value. (Depends on
-	 * implementation)
+	 * Minimum param value. The protocol does not define if this overwrites an onboard minimum value. (Depends on implementation)
 	 */
 	public float param_value_min;
 
 	/**
-	 * Maximum param value. The protocol does not define if this overwrites an onboard maximum value. (Depends on
-	 * implementation)
+	 * Maximum param value. The protocol does not define if this overwrites an onboard maximum value. (Depends on implementation)
 	 */
 	public float param_value_max;
 
 	/**
-	 * Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored), send -2
-	 * to disable any existing map for this rc_channel_index.
+	 * Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored), send -2 to disable any existing map for this rc_channel_index.
 	 */
 	public short param_index;
 
@@ -60,15 +57,12 @@ public class msg_param_map_rc extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null
-	 * termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if
-	 * the ID is stored as string
+	 * Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
 	 */
-	public byte[] param_id = new byte[16];
+	public byte param_id[] = new byte[16];
 
 	/**
-	 * Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on
-	 * the RC.
+	 * Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.
 	 */
 	public short parameter_rc_channel_index;
 
@@ -81,8 +75,8 @@ public class msg_param_map_rc extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PARAM_MAP_RC;
 
 		packet.payload.putFloat(param_value0);
@@ -143,15 +137,7 @@ public class msg_param_map_rc extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_param_map_rc(float param_value0,
-			float scale,
-			float param_value_min,
-			float param_value_max,
-			short param_index,
-			short target_system,
-			short target_component,
-			byte[] param_id,
-			short parameter_rc_channel_index) {
+	public msg_param_map_rc(float param_value0, float scale, float param_value_min, float param_value_max, short param_index, short target_system, short target_component, byte[] param_id, short parameter_rc_channel_index) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_MAP_RC;
 
 		this.param_value0 = param_value0;
@@ -169,18 +155,7 @@ public class msg_param_map_rc extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_param_map_rc(float param_value0,
-			float scale,
-			float param_value_min,
-			float param_value_max,
-			short param_index,
-			short target_system,
-			short target_component,
-			byte[] param_id,
-			short parameter_rc_channel_index,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_param_map_rc(float param_value0, float scale, float param_value_min, float param_value_max, short param_index, short target_system, short target_component, byte[] param_id, short parameter_rc_channel_index, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_MAP_RC;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -227,7 +202,7 @@ public class msg_param_map_rc extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getParam_Id() {
 		StringBuffer buf = new StringBuffer();

@@ -12,11 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const
- * char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need
- * of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different
- * autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and
- * IMU code.
+ * Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and IMU code.
  */
 public class msg_param_request_read extends MAVLinkMessage {
 
@@ -41,11 +37,9 @@ public class msg_param_request_read extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null
-	 * termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if
-	 * the ID is stored as string
+	 * Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
 	 */
-	public byte[] param_id = new byte[16];
+	public byte param_id[] = new byte[16];
 
 
 	/**
@@ -56,8 +50,8 @@ public class msg_param_request_read extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PARAM_REQUEST_READ;
 
 		packet.payload.putShort(param_index);
@@ -121,13 +115,7 @@ public class msg_param_request_read extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_param_request_read(short param_index,
-			short target_system,
-			short target_component,
-			byte[] param_id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_param_request_read(short param_index, short target_system, short target_component, byte[] param_id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_REQUEST_READ;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -169,7 +157,7 @@ public class msg_param_request_read extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getParam_Id() {
 		StringBuffer buf = new StringBuffer();

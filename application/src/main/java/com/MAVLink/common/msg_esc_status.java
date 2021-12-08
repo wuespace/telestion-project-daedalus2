@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * ESC information for higher rate streaming. Recommended streaming rate is ~10 Hz. Information that changes more
- * slowly is sent in ESC_INFO. It should typically only be streamed on high-bandwidth links (i.e. to a companion
- * computer).
+ * ESC information for higher rate streaming. Recommended streaming rate is ~10 Hz. Information that changes more slowly is sent in ESC_INFO. It should typically only be streamed on high-bandwidth links (i.e. to a companion computer).
  */
 public class msg_esc_status extends MAVLinkMessage {
 
@@ -24,25 +22,24 @@ public class msg_esc_status extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
 	 */
 	public long time_usec;
 
 	/**
 	 * Reported motor RPM from each ESC (negative for reverse rotation).
 	 */
-	public int[] rpm = new int[4];
+	public int rpm[] = new int[4];
 
 	/**
 	 * Voltage measured from each ESC.
 	 */
-	public float[] voltage = new float[4];
+	public float voltage[] = new float[4];
 
 	/**
 	 * Current measured from each ESC.
 	 */
-	public float[] current = new float[4];
+	public float current[] = new float[4];
 
 	/**
 	 * Index of the first ESC in this message. minValue = 0, maxValue = 60, increment = 4.
@@ -58,8 +55,8 @@ public class msg_esc_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ESC_STATUS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -142,14 +139,7 @@ public class msg_esc_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_esc_status(long time_usec,
-			int[] rpm,
-			float[] voltage,
-			float[] current,
-			short index,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_esc_status(long time_usec, int[] rpm, float[] voltage, float[] current, short index, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ESC_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -182,8 +172,7 @@ public class msg_esc_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ESC_STATUS - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " rpm" +
-				":" + rpm + " voltage:" + voltage + " current:" + current + " index:" + index + "";
+		return "MAVLINK_MSG_ID_ESC_STATUS - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " rpm:" + rpm + " voltage:" + voltage + " current:" + current + " index:" + index + "";
 	}
 
 	/**

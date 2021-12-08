@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Data for filling the OpenDroneID System message. The System Message contains general system information including
- * the operator location and possible aircraft group information.
+ * Data for filling the OpenDroneID System message. The System Message contains general system information including the operator location and possible aircraft group information.
  */
 public class msg_open_drone_id_system extends MAVLinkMessage {
 
@@ -68,10 +67,9 @@ public class msg_open_drone_id_system extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink
-	 * .io/en/services/opendroneid.html.
+	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.
 	 */
-	public short[] id_or_mac = new short[20];
+	public short id_or_mac[] = new short[20];
 
 	/**
 	 * Specifies the operator location type.
@@ -102,8 +100,8 @@ public class msg_open_drone_id_system extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM;
 
 		packet.payload.putInt(operator_latitude);
@@ -174,20 +172,7 @@ public class msg_open_drone_id_system extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_open_drone_id_system(int operator_latitude,
-			int operator_longitude,
-			float area_ceiling,
-			float area_floor,
-			float operator_altitude_geo,
-			int area_count,
-			int area_radius,
-			short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short operator_location_type,
-			short classification_type,
-			short category_eu,
-			short class_eu) {
+	public msg_open_drone_id_system(int operator_latitude, int operator_longitude, float area_ceiling, float area_floor, float operator_altitude_geo, int area_count, int area_radius, short target_system, short target_component, short[] id_or_mac, short operator_location_type, short classification_type, short category_eu, short class_eu) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM;
 
 		this.operator_latitude = operator_latitude;
@@ -210,23 +195,7 @@ public class msg_open_drone_id_system extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_open_drone_id_system(int operator_latitude,
-			int operator_longitude,
-			float area_ceiling,
-			float area_floor,
-			float operator_altitude_geo,
-			int area_count,
-			int area_radius,
-			short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short operator_location_type,
-			short classification_type,
-			short category_eu,
-			short class_eu,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_open_drone_id_system(int operator_latitude, int operator_longitude, float area_ceiling, float area_floor, float operator_altitude_geo, int area_count, int area_radius, short target_system, short target_component, short[] id_or_mac, short operator_location_type, short classification_type, short category_eu, short class_eu, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM;
 		this.sysid = sysid;
 		this.compid = compid;

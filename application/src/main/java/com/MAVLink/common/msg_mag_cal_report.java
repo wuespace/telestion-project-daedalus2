@@ -120,8 +120,8 @@ public class msg_mag_cal_report extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MAG_CAL_REPORT;
 
 		packet.payload.putFloat(fitness);
@@ -192,24 +192,7 @@ public class msg_mag_cal_report extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_mag_cal_report(float fitness,
-			float ofs_x,
-			float ofs_y,
-			float ofs_z,
-			float diag_x,
-			float diag_y,
-			float diag_z,
-			float offdiag_x,
-			float offdiag_y,
-			float offdiag_z,
-			short compass_id,
-			short cal_mask,
-			short cal_status,
-			short autosaved,
-			float orientation_confidence,
-			short old_orientation,
-			short new_orientation,
-			float scale_factor) {
+	public msg_mag_cal_report(float fitness, float ofs_x, float ofs_y, float ofs_z, float diag_x, float diag_y, float diag_z, float offdiag_x, float offdiag_y, float offdiag_z, short compass_id, short cal_mask, short cal_status, short autosaved, float orientation_confidence, short old_orientation, short new_orientation, float scale_factor) {
 		this.msgid = MAVLINK_MSG_ID_MAG_CAL_REPORT;
 
 		this.fitness = fitness;
@@ -236,27 +219,7 @@ public class msg_mag_cal_report extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mag_cal_report(float fitness,
-			float ofs_x,
-			float ofs_y,
-			float ofs_z,
-			float diag_x,
-			float diag_y,
-			float diag_z,
-			float offdiag_x,
-			float offdiag_y,
-			float offdiag_z,
-			short compass_id,
-			short cal_mask,
-			short cal_status,
-			short autosaved,
-			float orientation_confidence,
-			short old_orientation,
-			short new_orientation,
-			float scale_factor,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mag_cal_report(float fitness, float ofs_x, float ofs_y, float ofs_z, float diag_x, float diag_y, float diag_z, float offdiag_x, float offdiag_y, float offdiag_z, short compass_id, short cal_mask, short cal_status, short autosaved, float orientation_confidence, short old_orientation, short new_orientation, float scale_factor, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MAG_CAL_REPORT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -302,8 +265,7 @@ public class msg_mag_cal_report extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_MAG_CAL_REPORT - sysid:" + sysid + " compid:" + compid + " fitness:" + fitness + " " +
-				"ofs_x:" + ofs_x + " ofs_y:" + ofs_y + " ofs_z:" + ofs_z + " diag_x:" + diag_x + " diag_y:" + diag_y + " diag_z:" + diag_z + " offdiag_x:" + offdiag_x + " offdiag_y:" + offdiag_y + " offdiag_z:" + offdiag_z + " compass_id:" + compass_id + " cal_mask:" + cal_mask + " cal_status:" + cal_status + " autosaved:" + autosaved + " orientation_confidence:" + orientation_confidence + " old_orientation:" + old_orientation + " new_orientation:" + new_orientation + " scale_factor:" + scale_factor + "";
+		return "MAVLINK_MSG_ID_MAG_CAL_REPORT - sysid:" + sysid + " compid:" + compid + " fitness:" + fitness + " ofs_x:" + ofs_x + " ofs_y:" + ofs_y + " ofs_z:" + ofs_z + " diag_x:" + diag_x + " diag_y:" + diag_y + " diag_z:" + diag_z + " offdiag_x:" + offdiag_x + " offdiag_y:" + offdiag_y + " offdiag_z:" + offdiag_z + " compass_id:" + compass_id + " cal_mask:" + cal_mask + " cal_status:" + cal_status + " autosaved:" + autosaved + " orientation_confidence:" + orientation_confidence + " old_orientation:" + old_orientation + " new_orientation:" + new_orientation + " scale_factor:" + scale_factor + "";
 	}
 
 	/**

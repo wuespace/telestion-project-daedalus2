@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request the information of the mission item with the sequence number seq. The response of the system to this
- * message should be a MISSION_ITEM_INT message. https://mavlink.io/en/services/mission.html
+ * Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM_INT message. https://mavlink.io/en/services/mission.html
  */
 public class msg_mission_request_int extends MAVLinkMessage {
 
@@ -51,8 +50,8 @@ public class msg_mission_request_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_REQUEST_INT;
 
 		packet.payload.putUnsignedShort(seq);
@@ -108,13 +107,7 @@ public class msg_mission_request_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_request_int(int seq,
-			short target_system,
-			short target_component,
-			short mission_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_request_int(int seq, short target_system, short target_component, short mission_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_REQUEST_INT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -146,8 +139,7 @@ public class msg_mission_request_int extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_MISSION_REQUEST_INT - sysid:" + sysid + " compid:" + compid + " seq:" + seq + " " +
-				"target_system:" + target_system + " target_component:" + target_component + " mission_type:" + mission_type + "";
+		return "MAVLINK_MSG_ID_MISSION_REQUEST_INT - sysid:" + sysid + " compid:" + compid + " seq:" + seq + " target_system:" + target_system + " target_component:" + target_component + " mission_type:" + mission_type + "";
 	}
 
 	/**

@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * An OpenDroneID message pack is a container for multiple encoded OpenDroneID messages (i.e. not in the format given
- * for the above messages descriptions but after encoding into the compressed OpenDroneID byte format). Used e.g.
- * when transmitting on Bluetooth 5.0 Long Range/Extended Advertising or on WiFi Neighbor Aware Networking.
+ * An OpenDroneID message pack is a container for multiple encoded OpenDroneID messages (i.e. not in the format given for the above messages descriptions but after encoding into the compressed OpenDroneID byte format). Used e.g. when transmitting on Bluetooth 5.0 Long Range/Extended Advertising or on WiFi Neighbor Aware Networking.
  */
 public class msg_open_drone_id_message_pack extends MAVLinkMessage {
 
@@ -34,14 +32,12 @@ public class msg_open_drone_id_message_pack extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink
-	 * .io/en/services/opendroneid.html.
+	 * Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.
 	 */
-	public short[] id_or_mac = new short[20];
+	public short id_or_mac[] = new short[20];
 
 	/**
-	 * This field must currently always be equal to 25 (bytes), since all encoded OpenDroneID messages are specificed
-	 * to have this length.
+	 * This field must currently always be equal to 25 (bytes), since all encoded OpenDroneID messages are specificed to have this length.
 	 */
 	public short single_message_size;
 
@@ -53,7 +49,7 @@ public class msg_open_drone_id_message_pack extends MAVLinkMessage {
 	/**
 	 * Concatenation of encoded OpenDroneID messages. Shall be filled with nulls in the unused portion of the field.
 	 */
-	public short[] messages = new short[225];
+	public short messages[] = new short[225];
 
 
 	/**
@@ -64,8 +60,8 @@ public class msg_open_drone_id_message_pack extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_MESSAGE_PACK;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -128,12 +124,7 @@ public class msg_open_drone_id_message_pack extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_open_drone_id_message_pack(short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short single_message_size,
-			short msg_pack_size,
-			short[] messages) {
+	public msg_open_drone_id_message_pack(short target_system, short target_component, short[] id_or_mac, short single_message_size, short msg_pack_size, short[] messages) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_MESSAGE_PACK;
 
 		this.target_system = target_system;
@@ -148,15 +139,7 @@ public class msg_open_drone_id_message_pack extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_open_drone_id_message_pack(short target_system,
-			short target_component,
-			short[] id_or_mac,
-			short single_message_size,
-			short msg_pack_size,
-			short[] messages,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_open_drone_id_message_pack(short target_system, short target_component, short[] id_or_mac, short single_message_size, short msg_pack_size, short[] messages, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_MESSAGE_PACK;
 		this.sysid = sysid;
 		this.compid = compid;
