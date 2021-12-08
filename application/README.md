@@ -171,21 +171,34 @@ And send data through the tunnel via telecommands etc.
    python -m pymavlink.tools.mavgen --lang=Java --wire-protocol=2.0 --output=generated/java message_definitions/v1.0/daedalus.xml
    ```
 
-6. Generate the source code for python:
+6. The Mavlink developers forgot to remove a reference to the common library in `com.MAVLink.Messages.MAVLinkStats`.
+   Please remove the import statement at the top of the file:
+
+   ```java
+   import com.MAVLink.common.msg_radio_status;
+   ```
+
+   and replace the constant `msg_radio_status.MAVLINK_MSG_ID_RADIO_STATUS` with the value `109`:
+
+   ```java
+   if (ignoreRadioPackets && packet.msgid == 109) {/*...*/}
+   ```
+
+7. Generate the source code for python:
 
    ```sh
    mkdir -p generated/python
    python -m pymavlink.tools.mavgen --lang=Python --wire-protocol=2.0 --output=generated/python/daedalus2.py message_definitions/v1.0/daedalus.xml
    ```
 
-7. Copy the generated source code into the project path:
+8. Copy the generated source code into the project path:
 
    ```sh
    cp -r generated/java/* /path/to/project/application/srv/main/com/MAVLink/
    cp generated/python/daedalus2.py /path/to/project/application/d2-tm-sim/
    ```
 
-8. Finished!
+9. Finished!
 
 ## Project Structure
 
