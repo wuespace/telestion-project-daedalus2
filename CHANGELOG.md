@@ -1,3 +1,17 @@
+# [0.19.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.18.0...v0.19.0) (2021-12-08)
+
+
+### Bug Fixes
+
+* **application:** Regenerate Mavlink code to fix generation from last version ([2fb4132](https://github.com/wuespace/telestion-project-daedalus2/commit/2fb413203592e74ff8f7c12442433b5562b2782b))
+
+
+### Features
+
+* **application:** Log Mavlink parser stats after every received message chunk ([ab4c765](https://github.com/wuespace/telestion-project-daedalus2/commit/ab4c765258e898d8bb3b3184e80e15cd1fcd28f0))
+
+
+
 # [0.18.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.17.0...v0.18.0) (2021-12-08)
 
 
