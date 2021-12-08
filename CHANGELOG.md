@@ -1,3 +1,18 @@
+# [0.20.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.19.0...v0.20.0) (2021-12-08)
+
+
+### Bug Fixes
+
+* **application:** Regenerate Mavlink code again ([4f09714](https://github.com/wuespace/telestion-project-daedalus2/commit/4f097146995a72f3a0a165a95393a88ea90cbcda))
+* **client:** Fix widget ids in Telecommand dashboard ([b518bb0](https://github.com/wuespace/telestion-project-daedalus2/commit/b518bb0c7204ed5b5e172d9ca18d36add14c3b45))
+
+
+### Features
+
+* **application:** Print source id on telecommand in D2 TM simulator ([0c8855c](https://github.com/wuespace/telestion-project-daedalus2/commit/0c8855c3acbb389ec79b04d9feeac5297a445db1))
+
+
+
 # [0.19.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.18.0...v0.19.0) (2021-12-08)
 
 
