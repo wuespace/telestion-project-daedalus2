@@ -6,7 +6,7 @@ export const telecommandDashboard: Dashboard = {
 	rows: 2,
 	widgets: [
 		{
-			id: 'telecommand--1',
+			id: 'telecommand-0',
 			widgetName: 'stateWidget',
 			width: 8,
 			height: 1,
@@ -17,7 +17,7 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-6',
+			id: 'telecommand-1',
 			widgetName: 'stateChangeWidget',
 			width: 4,
 			height: 1,
@@ -31,7 +31,7 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-0',
+			id: 'telecommand-2',
 			widgetName: 'timeSyncWidget',
 			width: 4,
 			height: 1,
@@ -40,7 +40,7 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-1',
+			id: 'telecommand-3',
 			widgetName: 'aGpsWidget',
 			width: 4,
 			height: 1,
@@ -53,7 +53,7 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-2',
+			id: 'telecommand-4',
 			widgetName: 'commonSeedTcsWidget',
 			width: 3,
 			height: 1,
@@ -64,7 +64,7 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-3',
+			id: 'telecommand-5',
 			widgetName: 'commonSeedTcsWidget',
 			width: 3,
 			height: 1,
@@ -75,7 +75,7 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-4',
+			id: 'telecommand-6',
 			widgetName: 'freitextTcWidget',
 			width: 3,
 			height: 1,
@@ -90,21 +90,21 @@ export const telecommandDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'telecommand-5',
+			id: 'telecommand-7',
 			widgetName: 'batHeatingTcWidget',
 			width: 4,
 			height: 1,
 			initialProps: {}
 		},
 		{
-			id: 'telecommand-radio-silence',
+			id: 'telecommand-8',
 			widgetName: 'radioSilenceWidget',
 			width: 3,
 			height: 1,
 			initialProps: {}
 		},
 		{
-			id: 'telecommand-radio-silence',
+			id: 'telecommand-9',
 			widgetName: 'ejectorCameraWidget',
 			width: 4,
 			height: 1,
