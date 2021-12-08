@@ -22,8 +22,7 @@ public class msg_onboard_computer_status extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -43,79 +42,74 @@ public class msg_onboard_computer_status extends MAVLinkMessage {
 	public long ram_total;
 
 	/**
-	 * Storage type: 0: HDD, 1: SSD, 2: EMMC, 3: SD card (non-removable), 4: SD card (removable). A value of
-	 * UINT32_MAX implies the field is unused.
+	 * Storage type: 0: HDD, 1: SSD, 2: EMMC, 3: SD card (non-removable), 4: SD card (removable). A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] storage_type = new long[4];
+	public long storage_type[] = new long[4];
 
 	/**
 	 * Amount of used storage space on the component system. A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] storage_usage = new long[4];
+	public long storage_usage[] = new long[4];
 
 	/**
 	 * Total amount of storage space on the component system. A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] storage_total = new long[4];
+	public long storage_total[] = new long[4];
 
 	/**
-	 * Link type: 0-9: UART, 10-19: Wired network, 20-29: Wifi, 30-39: Point-to-point proprietary, 40-49: Mesh
-	 * proprietary
+	 * Link type: 0-9: UART, 10-19: Wired network, 20-29: Wifi, 30-39: Point-to-point proprietary, 40-49: Mesh proprietary
 	 */
-	public long[] link_type = new long[6];
+	public long link_type[] = new long[6];
 
 	/**
 	 * Network traffic from the component system. A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] link_tx_rate = new long[6];
+	public long link_tx_rate[] = new long[6];
 
 	/**
 	 * Network traffic to the component system. A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] link_rx_rate = new long[6];
+	public long link_rx_rate[] = new long[6];
 
 	/**
 	 * Network capacity from the component system. A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] link_tx_max = new long[6];
+	public long link_tx_max[] = new long[6];
 
 	/**
 	 * Network capacity to the component system. A value of UINT32_MAX implies the field is unused.
 	 */
-	public long[] link_rx_max = new long[6];
+	public long link_rx_max[] = new long[6];
 
 	/**
 	 * Fan speeds. A value of INT16_MAX implies the field is unused.
 	 */
-	public short[] fan_speed = new short[4];
+	public short fan_speed[] = new short[4];
 
 	/**
-	 * Type of the onboard computer: 0: Mission computer primary, 1: Mission computer backup 1, 2: Mission computer
-	 * backup 2, 3: Compute node, 4-5: Compute spares, 6-9: Payload computers.
+	 * Type of the onboard computer: 0: Mission computer primary, 1: Mission computer backup 1, 2: Mission computer backup 2, 3: Compute node, 4-5: Compute spares, 6-9: Payload computers.
 	 */
 	public short type;
 
 	/**
 	 * CPU usage on the component in percent (100 - idle). A value of UINT8_MAX implies the field is unused.
 	 */
-	public short[] cpu_cores = new short[8];
+	public short cpu_cores[] = new short[8];
 
 	/**
-	 * Combined CPU usage as the last 10 slices of 100 MS (a histogram). This allows to identify spikes in load that
-	 * max out the system, but only for a short amount of time. A value of UINT8_MAX implies the field is unused.
+	 * Combined CPU usage as the last 10 slices of 100 MS (a histogram). This allows to identify spikes in load that max out the system, but only for a short amount of time. A value of UINT8_MAX implies the field is unused.
 	 */
-	public short[] cpu_combined = new short[10];
+	public short cpu_combined[] = new short[10];
 
 	/**
 	 * GPU usage on the component in percent (100 - idle). A value of UINT8_MAX implies the field is unused.
 	 */
-	public short[] gpu_cores = new short[4];
+	public short gpu_cores[] = new short[4];
 
 	/**
-	 * Combined GPU usage as the last 10 slices of 100 MS (a histogram). This allows to identify spikes in load that
-	 * max out the system, but only for a short amount of time. A value of UINT8_MAX implies the field is unused.
+	 * Combined GPU usage as the last 10 slices of 100 MS (a histogram). This allows to identify spikes in load that max out the system, but only for a short amount of time. A value of UINT8_MAX implies the field is unused.
 	 */
-	public short[] gpu_combined = new short[10];
+	public short gpu_combined[] = new short[10];
 
 	/**
 	 * Temperature of the board. A value of INT8_MAX implies the field is unused.
@@ -125,7 +119,7 @@ public class msg_onboard_computer_status extends MAVLinkMessage {
 	/**
 	 * Temperature of the CPU core. A value of INT8_MAX implies the field is unused.
 	 */
-	public byte[] temperature_core = new byte[8];
+	public byte temperature_core[] = new byte[8];
 
 
 	/**
@@ -136,8 +130,8 @@ public class msg_onboard_computer_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ONBOARD_COMPUTER_STATUS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -324,26 +318,7 @@ public class msg_onboard_computer_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_onboard_computer_status(long time_usec,
-			long uptime,
-			long ram_usage,
-			long ram_total,
-			long[] storage_type,
-			long[] storage_usage,
-			long[] storage_total,
-			long[] link_type,
-			long[] link_tx_rate,
-			long[] link_rx_rate,
-			long[] link_tx_max,
-			long[] link_rx_max,
-			short[] fan_speed,
-			short type,
-			short[] cpu_cores,
-			short[] cpu_combined,
-			short[] gpu_cores,
-			short[] gpu_combined,
-			byte temperature_board,
-			byte[] temperature_core) {
+	public msg_onboard_computer_status(long time_usec, long uptime, long ram_usage, long ram_total, long[] storage_type, long[] storage_usage, long[] storage_total, long[] link_type, long[] link_tx_rate, long[] link_rx_rate, long[] link_tx_max, long[] link_rx_max, short[] fan_speed, short type, short[] cpu_cores, short[] cpu_combined, short[] gpu_cores, short[] gpu_combined, byte temperature_board, byte[] temperature_core) {
 		this.msgid = MAVLINK_MSG_ID_ONBOARD_COMPUTER_STATUS;
 
 		this.time_usec = time_usec;
@@ -372,29 +347,7 @@ public class msg_onboard_computer_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_onboard_computer_status(long time_usec,
-			long uptime,
-			long ram_usage,
-			long ram_total,
-			long[] storage_type,
-			long[] storage_usage,
-			long[] storage_total,
-			long[] link_type,
-			long[] link_tx_rate,
-			long[] link_rx_rate,
-			long[] link_tx_max,
-			long[] link_rx_max,
-			short[] fan_speed,
-			short type,
-			short[] cpu_cores,
-			short[] cpu_combined,
-			short[] gpu_cores,
-			short[] gpu_combined,
-			byte temperature_board,
-			byte[] temperature_core,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_onboard_computer_status(long time_usec, long uptime, long ram_usage, long ram_total, long[] storage_type, long[] storage_usage, long[] storage_total, long[] link_type, long[] link_tx_rate, long[] link_rx_rate, long[] link_tx_max, long[] link_rx_max, short[] fan_speed, short type, short[] cpu_cores, short[] cpu_combined, short[] gpu_cores, short[] gpu_combined, byte temperature_board, byte[] temperature_core, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ONBOARD_COMPUTER_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Information about a high level gimbal manager. This message should be requested by a ground station using
- * MAV_CMD_REQUEST_MESSAGE.
+ * Information about a high level gimbal manager. This message should be requested by a ground station using MAV_CMD_REQUEST_MESSAGE.
  */
 public class msg_gimbal_manager_information extends MAVLinkMessage {
 
@@ -76,8 +75,8 @@ public class msg_gimbal_manager_information extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_INFORMATION;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -130,15 +129,7 @@ public class msg_gimbal_manager_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gimbal_manager_information(long time_boot_ms,
-			long cap_flags,
-			float roll_min,
-			float roll_max,
-			float pitch_min,
-			float pitch_max,
-			float yaw_min,
-			float yaw_max,
-			short gimbal_device_id) {
+	public msg_gimbal_manager_information(long time_boot_ms, long cap_flags, float roll_min, float roll_max, float pitch_min, float pitch_max, float yaw_min, float yaw_max, short gimbal_device_id) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_INFORMATION;
 
 		this.time_boot_ms = time_boot_ms;
@@ -156,18 +147,7 @@ public class msg_gimbal_manager_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gimbal_manager_information(long time_boot_ms,
-			long cap_flags,
-			float roll_min,
-			float roll_max,
-			float pitch_min,
-			float pitch_max,
-			float yaw_min,
-			float yaw_max,
-			short gimbal_device_id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gimbal_manager_information(long time_boot_ms, long cap_flags, float roll_min, float roll_max, float pitch_min, float pitch_max, float yaw_min, float yaw_max, short gimbal_device_id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_INFORMATION;
 		this.sysid = sysid;
 		this.compid = compid;

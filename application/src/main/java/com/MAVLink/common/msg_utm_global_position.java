@@ -99,7 +99,7 @@ public class msg_utm_global_position extends MAVLinkMessage {
 	/**
 	 * Unique UAS ID.
 	 */
-	public short[] uas_id = new short[18];
+	public short uas_id[] = new short[18];
 
 	/**
 	 * Flight state
@@ -120,8 +120,8 @@ public class msg_utm_global_position extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_UTM_GLOBAL_POSITION;
 
 		packet.payload.putUnsignedLong(time);
@@ -200,24 +200,7 @@ public class msg_utm_global_position extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_utm_global_position(long time,
-			int lat,
-			int lon,
-			int alt,
-			int relative_alt,
-			int next_lat,
-			int next_lon,
-			int next_alt,
-			short vx,
-			short vy,
-			short vz,
-			int h_acc,
-			int v_acc,
-			int vel_acc,
-			int update_rate,
-			short[] uas_id,
-			short flight_state,
-			short flags) {
+	public msg_utm_global_position(long time, int lat, int lon, int alt, int relative_alt, int next_lat, int next_lon, int next_alt, short vx, short vy, short vz, int h_acc, int v_acc, int vel_acc, int update_rate, short[] uas_id, short flight_state, short flags) {
 		this.msgid = MAVLINK_MSG_ID_UTM_GLOBAL_POSITION;
 
 		this.time = time;
@@ -244,27 +227,7 @@ public class msg_utm_global_position extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_utm_global_position(long time,
-			int lat,
-			int lon,
-			int alt,
-			int relative_alt,
-			int next_lat,
-			int next_lon,
-			int next_alt,
-			short vx,
-			short vy,
-			short vz,
-			int h_acc,
-			int v_acc,
-			int vel_acc,
-			int update_rate,
-			short[] uas_id,
-			short flight_state,
-			short flags,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_utm_global_position(long time, int lat, int lon, int alt, int relative_alt, int next_lat, int next_lon, int next_alt, short vx, short vy, short vz, int h_acc, int v_acc, int vel_acc, int update_rate, short[] uas_id, short flight_state, short flags, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_UTM_GLOBAL_POSITION;
 		this.sysid = sysid;
 		this.compid = compid;

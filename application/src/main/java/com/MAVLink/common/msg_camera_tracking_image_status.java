@@ -22,44 +22,37 @@ public class msg_camera_tracking_image_status extends MAVLinkMessage {
 
 
 	/**
-	 * Current tracked point x value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is left, 1 is right), NAN if
-	 * unknown
+	 * Current tracked point x value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is left, 1 is right), NAN if unknown
 	 */
 	public float point_x;
 
 	/**
-	 * Current tracked point y value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is top, 1 is bottom), NAN if
-	 * unknown
+	 * Current tracked point y value if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown
 	 */
 	public float point_y;
 
 	/**
-	 * Current tracked radius if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is image left, 1 is image right), NAN
-	 * if unknown
+	 * Current tracked radius if CAMERA_TRACKING_MODE_POINT (normalized 0..1, 0 is image left, 1 is image right), NAN if unknown
 	 */
 	public float radius;
 
 	/**
-	 * Current tracked rectangle top x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is
-	 * right), NAN if unknown
+	 * Current tracked rectangle top x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown
 	 */
 	public float rec_top_x;
 
 	/**
-	 * Current tracked rectangle top y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is
-	 * bottom), NAN if unknown
+	 * Current tracked rectangle top y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown
 	 */
 	public float rec_top_y;
 
 	/**
-	 * Current tracked rectangle bottom x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is
-	 * right), NAN if unknown
+	 * Current tracked rectangle bottom x value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is left, 1 is right), NAN if unknown
 	 */
 	public float rec_bottom_x;
 
 	/**
-	 * Current tracked rectangle bottom y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is
-	 * bottom), NAN if unknown
+	 * Current tracked rectangle bottom y value if CAMERA_TRACKING_MODE_RECTANGLE (normalized 0..1, 0 is top, 1 is bottom), NAN if unknown
 	 */
 	public float rec_bottom_y;
 
@@ -87,8 +80,8 @@ public class msg_camera_tracking_image_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CAMERA_TRACKING_IMAGE_STATUS;
 
 		packet.payload.putFloat(point_x);
@@ -143,16 +136,7 @@ public class msg_camera_tracking_image_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_camera_tracking_image_status(float point_x,
-			float point_y,
-			float radius,
-			float rec_top_x,
-			float rec_top_y,
-			float rec_bottom_x,
-			float rec_bottom_y,
-			short tracking_status,
-			short tracking_mode,
-			short target_data) {
+	public msg_camera_tracking_image_status(float point_x, float point_y, float radius, float rec_top_x, float rec_top_y, float rec_bottom_x, float rec_bottom_y, short tracking_status, short tracking_mode, short target_data) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_TRACKING_IMAGE_STATUS;
 
 		this.point_x = point_x;
@@ -171,19 +155,7 @@ public class msg_camera_tracking_image_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_camera_tracking_image_status(float point_x,
-			float point_y,
-			float radius,
-			float rec_top_x,
-			float rec_top_y,
-			float rec_bottom_x,
-			float rec_bottom_y,
-			short tracking_status,
-			short tracking_mode,
-			short target_data,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_camera_tracking_image_status(float point_x, float point_y, float radius, float rec_top_x, float rec_top_y, float rec_bottom_x, float rec_bottom_y, short tracking_status, short tracking_mode, short target_data, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_TRACKING_IMAGE_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

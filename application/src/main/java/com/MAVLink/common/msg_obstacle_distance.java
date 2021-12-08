@@ -22,18 +22,14 @@ public class msg_obstacle_distance extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
 	/**
-	 * Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise
-	 * specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A
-	 * value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array
-	 * element, one unit corresponds to 1cm.
+	 * Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.
 	 */
-	public int[] distances = new int[72];
+	public int distances[] = new int[72];
 
 	/**
 	 * Minimum distance the sensor can measure.
@@ -51,26 +47,22 @@ public class msg_obstacle_distance extends MAVLinkMessage {
 	public short sensor_type;
 
 	/**
-	 * Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if
-	 * increment_f is non-zero.
+	 * Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.
 	 */
 	public short increment;
 
 	/**
-	 * Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the
-	 * uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.
+	 * Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.
 	 */
 	public float increment_f;
 
 	/**
-	 * Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward.
-	 * Positive is clockwise direction, negative is counter-clockwise.
+	 * Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive is clockwise direction, negative is counter-clockwise.
 	 */
 	public float angle_offset;
 
 	/**
-	 * Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL,
-	 * which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned.
+	 * Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL, which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned.
 	 */
 	public short frame;
 
@@ -83,8 +75,8 @@ public class msg_obstacle_distance extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_OBSTACLE_DISTANCE;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -145,15 +137,7 @@ public class msg_obstacle_distance extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_obstacle_distance(long time_usec,
-			int[] distances,
-			int min_distance,
-			int max_distance,
-			short sensor_type,
-			short increment,
-			float increment_f,
-			float angle_offset,
-			short frame) {
+	public msg_obstacle_distance(long time_usec, int[] distances, int min_distance, int max_distance, short sensor_type, short increment, float increment_f, float angle_offset, short frame) {
 		this.msgid = MAVLINK_MSG_ID_OBSTACLE_DISTANCE;
 
 		this.time_usec = time_usec;
@@ -171,18 +155,7 @@ public class msg_obstacle_distance extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_obstacle_distance(long time_usec,
-			int[] distances,
-			int min_distance,
-			int max_distance,
-			short sensor_type,
-			short increment,
-			float increment_f,
-			float angle_offset,
-			short frame,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_obstacle_distance(long time_usec, int[] distances, int min_distance, int max_distance, short sensor_type, short increment, float increment_f, float angle_offset, short frame, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_OBSTACLE_DISTANCE;
 		this.sysid = sysid;
 		this.compid = compid;

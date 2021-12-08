@@ -42,15 +42,14 @@ public class msg_logging_data_acked extends MAVLinkMessage {
 	public short length;
 
 	/**
-	 * offset into data where first message starts. This can be used for recovery, when a previous message got lost
-	 * (set to UINT8_MAX if no start exists).
+	 * offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to UINT8_MAX if no start exists).
 	 */
 	public short first_message_offset;
 
 	/**
 	 * logged data
 	 */
-	public short[] data = new short[249];
+	public short data[] = new short[249];
 
 
 	/**
@@ -61,8 +60,8 @@ public class msg_logging_data_acked extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_LOGGING_DATA_ACKED;
 
 		packet.payload.putUnsignedShort(sequence);
@@ -117,12 +116,7 @@ public class msg_logging_data_acked extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_logging_data_acked(int sequence,
-			short target_system,
-			short target_component,
-			short length,
-			short first_message_offset,
-			short[] data) {
+	public msg_logging_data_acked(int sequence, short target_system, short target_component, short length, short first_message_offset, short[] data) {
 		this.msgid = MAVLINK_MSG_ID_LOGGING_DATA_ACKED;
 
 		this.sequence = sequence;
@@ -137,15 +131,7 @@ public class msg_logging_data_acked extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_logging_data_acked(int sequence,
-			short target_system,
-			short target_component,
-			short length,
-			short first_message_offset,
-			short[] data,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_logging_data_acked(int sequence, short target_system, short target_component, short length, short first_message_offset, short[] data, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_LOGGING_DATA_ACKED;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -179,9 +165,7 @@ public class msg_logging_data_acked extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_LOGGING_DATA_ACKED - sysid:" + sysid + " compid:" + compid + " sequence:" + sequence +
-				" target_system:" + target_system + " target_component:" + target_component + " length:" + length + " " +
-				"first_message_offset:" + first_message_offset + " data:" + data + "";
+		return "MAVLINK_MSG_ID_LOGGING_DATA_ACKED - sysid:" + sysid + " compid:" + compid + " sequence:" + sequence + " target_system:" + target_system + " target_component:" + target_component + " length:" + length + " first_message_offset:" + first_message_offset + " data:" + data + "";
 	}
 
 	/**

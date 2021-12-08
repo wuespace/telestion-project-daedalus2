@@ -6,15 +6,14 @@
 
 package com.MAVLink;
 
-import com.MAVLink.Messages.MAVLinkMessage;
-import com.MAVLink.Messages.MAVLinkPayload;
-import com.MAVLink.common.*;
-import com.MAVLink.daedalus.CRC;
-import com.MAVLink.daedalus.*;
-import com.MAVLink.minimal.msg_heartbeat;
-import com.MAVLink.minimal.msg_protocol_version;
-
 import java.io.Serializable;
+
+import com.MAVLink.Messages.MAVLinkPayload;
+import com.MAVLink.Messages.MAVLinkMessage;
+import com.MAVLink.common.CRC;
+
+import com.MAVLink.common.*;
+import com.MAVLink.minimal.*;
 
 /**
  * Common interface for all MAVLink Messages
@@ -24,23 +23,16 @@ import java.io.Serializable;
  * MAVLink 1 Packet Format
  * <p>
  * Byte Index  Content              Value       Explanation
- * 0            Packet start sign  v1.0: 0xFE   Indicates the start of a new packet.  (v0.9: 0x55; v1.0: 0xFE; v2.0
- * 0xFD)
+ * 0            Packet start sign  v1.0: 0xFE   Indicates the start of a new packet.  (v0.9: 0x55; v1.0: 0xFE; v2.0 0xFD)
  * 1            Payload length      0 - 255     Indicates length of the following payload.
  * 2            Packet sequence     0 - 255     Each component counts up its send sequence. Allows to detect packet loss
- * 3            System ID           1 - 255     ID of the SENDING system. Allows to differentiate different MAVs on
- * the same network.
- * 4            Component ID        0 - 255     ID of the SENDING component. Allows to differentiate different
- * components of the same system, e.g. the IMU and the autopilot.
- * 5            Message ID          0 - 255     ID of the message - the id defines what the payload means and how it
- * should be correctly decoded.
+ * 3            System ID           1 - 255     ID of the SENDING system. Allows to differentiate different MAVs on the same network.
+ * 4            Component ID        0 - 255     ID of the SENDING component. Allows to differentiate different components of the same system, e.g. the IMU and the autopilot.
+ * 5            Message ID          0 - 255     ID of the message - the id defines what the payload means and how it should be correctly decoded.
  * 6 to (n+6)   Payload             0 - 255     Data of the message, depends on the message id.
- * (n+7)to(n+8) Checksum (low byte, high byte)  CRC16/MCRF4XX hash, excluding packet start sign, so bytes 1..(n+6)
- * Note: The checksum also includes MAVLINK_CRC_EXTRA (Number computed from message fields. Protects the packet from
- * decoding a different version of the same packet but with different variables).
+ * (n+7)to(n+8) Checksum (low byte, high byte)  CRC16/MCRF4XX hash, excluding packet start sign, so bytes 1..(n+6) Note: The checksum also includes MAVLINK_CRC_EXTRA (Number computed from message fields. Protects the packet from decoding a different version of the same packet but with different variables).
  * <p>
- * The checksum is the CRC16/MCRF4XX. Please see the MAVLink source code for a documented C-implementation of it.
- * LINK TO CHECKSUM
+ * The checksum is the CRC16/MCRF4XX. Please see the MAVLink source code for a documented C-implementation of it. LINK TO CHECKSUM
  * The minimum packet length is 8 bytes for acknowledgement packets without payload
  * The maximum packet length is 263 bytes for full payload
  * <p>
@@ -48,33 +40,22 @@ import java.io.Serializable;
  * MAVLink 2 Packet Format
  * <p>
  * Byte Index     Content             Value              Explanation
- * 0              Packet start sign  v2.0: 0xFD          Indicates the start of a new packet.  (v0.9: 0x55; v1.0:
- * 0xFE; v2.0 0xFD)
+ * 0              Packet start sign  v2.0: 0xFD          Indicates the start of a new packet.  (v0.9: 0x55; v1.0: 0xFE; v2.0 0xFD)
  * 1              Payload length      0 - 255            Indicates length of the following payload.
  * 2              Incompatible Flags  0 - 255            Flags that must be understood
  * 3              Compatible Flags    0 - 255            Flags that can be ignored if not understood
- * 4              Packet sequence     0 - 255            Each component counts up its send sequence. Allows to detect
- * packet loss
- * 5              System ID           1 - 255            ID of the SENDING system. Allows to differentiate different
- * MAVs on the same network.
- * 6              Component ID        0 - 255            ID of the SENDING component. Allows to differentiate
- * different components of the same system, e.g. the IMU and the autopilot.
- * 7 to 9         Message ID          0 - 16777216       ID of the message - the id defines what the payload means
- * and how it should be correctly decoded.
- * 10             Target System ID    1 - 255            (OPTIONAL) ID of the TARGET system. Only used for
- * point-to-point mode
- * 11             Target Component ID 0 - 255            (OPTIONAL) ID of the TARGET component. Only used for
- * point-to-point mode
+ * 4              Packet sequence     0 - 255            Each component counts up its send sequence. Allows to detect packet loss
+ * 5              System ID           1 - 255            ID of the SENDING system. Allows to differentiate different MAVs on the same network.
+ * 6              Component ID        0 - 255            ID of the SENDING component. Allows to differentiate different components of the same system, e.g. the IMU and the autopilot.
+ * 7 to 9         Message ID          0 - 16777216       ID of the message - the id defines what the payload means and how it should be correctly decoded.
+ * 10             Target System ID    1 - 255            (OPTIONAL) ID of the TARGET system. Only used for point-to-point mode
+ * 11             Target Component ID 0 - 255            (OPTIONAL) ID of the TARGET component. Only used for point-to-point mode
  * 12 to (n+12)   Payload             0 - 255            Data of the message, depends on the message id.
- * (n+13)to(n+14) Checksum (low byte, high byte)         CRC16/MCRF4XX hash, excluding packet start sign, so bytes 1.
- * .(n+6) Note: The checksum also includes MAVLINK_CRC_EXTRA (Number computed from message fields. Protects the
- * packet from decoding a different version of the same packet but with different variables).
- * (n+15)to(n+27) Signature (typeid, timestamp, sha256)  (OPTIONAL) Signature which allows ensuring that the link is
- * tamper-proof; 13 bytes containing typeid (1 byte), timestamp (6 bytes), and last 6 bytes of SHA256 hash
+ * (n+13)to(n+14) Checksum (low byte, high byte)         CRC16/MCRF4XX hash, excluding packet start sign, so bytes 1..(n+6) Note: The checksum also includes MAVLINK_CRC_EXTRA (Number computed from message fields. Protects the packet from decoding a different version of the same packet but with different variables).
+ * (n+15)to(n+27) Signature (typeid, timestamp, sha256)  (OPTIONAL) Signature which allows ensuring that the link is tamper-proof; 13 bytes containing typeid (1 byte), timestamp (6 bytes), and last 6 bytes of SHA256 hash
  * <p>
  * The signature is a combination of a typeid, timestamp, and SHA256 hash.
- * OPTIONAL fields mean that, if they are not used, they do not exist in the MAVLink frame at all. Typically target
- * sysid and target compid are not used, and signature is only used if signing is set up between both ends.
+ * OPTIONAL fields mean that, if they are not used, they do not exist in the MAVLink frame at all. Typically target sysid and target compid are not used, and signature is only used if signing is set up between both ends.
  *
  * @see <a href="https://mavlink.io">mavlink.io</a> for more documentation on the MAVLink protocol
  */
@@ -208,7 +189,7 @@ public class MAVLinkPacket implements Serializable {
 	}
 
 	/**
-	 * Return length of actual data after trimming zeros at the end.
+	 * Return length of actual data after triming zeros at the end.
 	 *
 	 * @param payload
 	 * @return minimum length of valid data
@@ -897,12 +878,6 @@ public class MAVLinkPacket implements Serializable {
 			case msg_response_event_error.MAVLINK_MSG_ID_RESPONSE_EVENT_ERROR:
 				return new msg_response_event_error(this);
 
-			case msg_group_start.MAVLINK_MSG_ID_GROUP_START:
-				return new msg_group_start(this);
-
-			case msg_group_end.MAVLINK_MSG_ID_GROUP_END:
-				return new msg_group_end(this);
-
 			case msg_wheel_distance.MAVLINK_MSG_ID_WHEEL_DISTANCE:
 				return new msg_wheel_distance(this);
 
@@ -932,30 +907,6 @@ public class MAVLinkPacket implements Serializable {
 
 			case msg_hygrometer_sensor.MAVLINK_MSG_ID_HYGROMETER_SENSOR:
 				return new msg_hygrometer_sensor(this);
-
-			case msg_assist_now_upload.MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD:
-				return new msg_assist_now_upload(this);
-
-			case msg_ejector_log.MAVLINK_MSG_ID_EJECTOR_LOG:
-				return new msg_ejector_log(this);
-
-			case msg_ejector_system_t.MAVLINK_MSG_ID_EJECTOR_SYSTEM_T:
-				return new msg_ejector_system_t(this);
-
-			case msg_seed_heartbeat.MAVLINK_MSG_ID_SEED_HEARTBEAT:
-				return new msg_seed_heartbeat(this);
-
-			case msg_ejector_heartbeat.MAVLINK_MSG_ID_EJECTOR_HEARTBEAT:
-				return new msg_ejector_heartbeat(this);
-
-			case msg_con_cmd.MAVLINK_MSG_ID_CON_CMD:
-				return new msg_con_cmd(this);
-
-			case msg_seed_system_t.MAVLINK_MSG_ID_SEED_SYSTEM_T:
-				return new msg_seed_system_t(this);
-
-			case msg_seed_log.MAVLINK_MSG_ID_SEED_LOG:
-				return new msg_seed_log(this);
 
 			default:
 				return null;

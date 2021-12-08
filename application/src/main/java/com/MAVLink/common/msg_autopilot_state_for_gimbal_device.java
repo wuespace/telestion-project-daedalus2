@@ -12,10 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Low level message containing autopilot state relevant for a gimbal device. This message is to be sent from the
- * gimbal manager to the gimbal device component. The data of this message server for the gimbal's estimator
- * corrections in particular horizon compensation, as well as the autopilot's control intention e.g. feed forward
- * angular control in z-axis.
+ * Low level message containing autopilot state relevant for a gimbal device. This message is to be sent from the gimbal manager to the gimbal device component. The data of this message server for the gimbal's estimator corrections in particular horizon compensation, as well as the autopilot's control intention e.g. feed forward angular control in z-axis.
  */
 public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 
@@ -32,7 +29,7 @@ public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 	/**
 	 * Quaternion components of autopilot attitude: w, x, y, z (1 0 0 0 is the null-rotation, Hamilton convention).
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * Estimated delay of the attitude data.
@@ -60,8 +57,7 @@ public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 	public long v_estimated_delay_us;
 
 	/**
-	 * Feed forward Z component of angular velocity, positive is yawing to the right, NaN to be ignored. This is to
-	 * indicate if the autopilot is actively yawing.
+	 * Feed forward Z component of angular velocity, positive is yawing to the right, NaN to be ignored. This is to indicate if the autopilot is actively yawing.
 	 */
 	public float feed_forward_angular_velocity_z;
 
@@ -94,8 +90,8 @@ public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_AUTOPILOT_STATE_FOR_GIMBAL_DEVICE;
 
 		packet.payload.putUnsignedLong(time_boot_us);
@@ -162,18 +158,7 @@ public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_autopilot_state_for_gimbal_device(long time_boot_us,
-			float[] q,
-			long q_estimated_delay_us,
-			float vx,
-			float vy,
-			float vz,
-			long v_estimated_delay_us,
-			float feed_forward_angular_velocity_z,
-			int estimator_status,
-			short target_system,
-			short target_component,
-			short landed_state) {
+	public msg_autopilot_state_for_gimbal_device(long time_boot_us, float[] q, long q_estimated_delay_us, float vx, float vy, float vz, long v_estimated_delay_us, float feed_forward_angular_velocity_z, int estimator_status, short target_system, short target_component, short landed_state) {
 		this.msgid = MAVLINK_MSG_ID_AUTOPILOT_STATE_FOR_GIMBAL_DEVICE;
 
 		this.time_boot_us = time_boot_us;
@@ -194,21 +179,7 @@ public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_autopilot_state_for_gimbal_device(long time_boot_us,
-			float[] q,
-			long q_estimated_delay_us,
-			float vx,
-			float vy,
-			float vz,
-			long v_estimated_delay_us,
-			float feed_forward_angular_velocity_z,
-			int estimator_status,
-			short target_system,
-			short target_component,
-			short landed_state,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_autopilot_state_for_gimbal_device(long time_boot_us, float[] q, long q_estimated_delay_us, float vx, float vy, float vz, long v_estimated_delay_us, float feed_forward_angular_velocity_z, int estimator_status, short target_system, short target_component, short landed_state, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_AUTOPILOT_STATE_FOR_GIMBAL_DEVICE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -248,8 +219,7 @@ public class msg_autopilot_state_for_gimbal_device extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_AUTOPILOT_STATE_FOR_GIMBAL_DEVICE - sysid:" + sysid + " compid:" + compid + " " +
-				"time_boot_us:" + time_boot_us + " q:" + q + " q_estimated_delay_us:" + q_estimated_delay_us + " vx:" + vx + " vy:" + vy + " vz:" + vz + " v_estimated_delay_us:" + v_estimated_delay_us + " feed_forward_angular_velocity_z:" + feed_forward_angular_velocity_z + " estimator_status:" + estimator_status + " target_system:" + target_system + " target_component:" + target_component + " landed_state:" + landed_state + "";
+		return "MAVLINK_MSG_ID_AUTOPILOT_STATE_FOR_GIMBAL_DEVICE - sysid:" + sysid + " compid:" + compid + " time_boot_us:" + time_boot_us + " q:" + q + " q_estimated_delay_us:" + q_estimated_delay_us + " vx:" + vx + " vy:" + vy + " vz:" + vz + " v_estimated_delay_us:" + v_estimated_delay_us + " feed_forward_angular_velocity_z:" + feed_forward_angular_velocity_z + " estimator_status:" + estimator_status + " target_system:" + target_system + " target_component:" + target_component + " landed_state:" + landed_state + "";
 	}
 
 	/**

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Set the mission item with sequence number seq as current item. This means that the MAV will continue to this
- * mission item on the shortest path (not following the mission items in-between).
+ * Set the mission item with sequence number seq as current item. This means that the MAV will continue to this mission item on the shortest path (not following the mission items in-between).
  */
 public class msg_mission_set_current extends MAVLinkMessage {
 
@@ -46,8 +45,8 @@ public class msg_mission_set_current extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_SET_CURRENT;
 
 		packet.payload.putUnsignedShort(seq);
@@ -100,12 +99,7 @@ public class msg_mission_set_current extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_set_current(int seq,
-			short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_set_current(int seq, short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_SET_CURRENT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -136,8 +130,7 @@ public class msg_mission_set_current extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_MISSION_SET_CURRENT - sysid:" + sysid + " compid:" + compid + " seq:" + seq + " " +
-				"target_system:" + target_system + " target_component:" + target_component + "";
+		return "MAVLINK_MSG_ID_MISSION_SET_CURRENT - sysid:" + sysid + " compid:" + compid + " seq:" + seq + " target_system:" + target_system + " target_component:" + target_component + "";
 	}
 
 	/**

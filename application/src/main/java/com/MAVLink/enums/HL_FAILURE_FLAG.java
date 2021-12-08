@@ -22,8 +22,7 @@ public class HL_FAILURE_FLAG {
 	public static final int HL_FAILURE_FLAG_OFFBOARD_LINK = 512; /* Offboard link failure. | */
 	public static final int HL_FAILURE_FLAG_ENGINE = 1024; /* Engine failure. | */
 	public static final int HL_FAILURE_FLAG_GEOFENCE = 2048; /* Geofence violation. | */
-	public static final int HL_FAILURE_FLAG_ESTIMATOR = 4096; /* Estimator failure, for example measurement rejection
-	or large variances. | */
+	public static final int HL_FAILURE_FLAG_ESTIMATOR = 4096; /* Estimator failure, for example measurement rejection or large variances. | */
 	public static final int HL_FAILURE_FLAG_MISSION = 8192; /* Mission failure. | */
 	public static final int HL_FAILURE_FLAG_ENUM_END = 8193; /*  | */
 }

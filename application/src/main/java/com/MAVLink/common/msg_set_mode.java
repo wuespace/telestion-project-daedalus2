@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Set the system mode, as defined by enum MAV_MODE. There is no target component id as the mode is by definition for
- * the overall aircraft, not only for one component.
+ * Set the system mode, as defined by enum MAV_MODE. There is no target component id as the mode is by definition for the overall aircraft, not only for one component.
  */
 public class msg_set_mode extends MAVLinkMessage {
 
@@ -46,8 +45,8 @@ public class msg_set_mode extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SET_MODE;
 
 		packet.payload.putUnsignedInt(custom_mode);
@@ -100,12 +99,7 @@ public class msg_set_mode extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_set_mode(long custom_mode,
-			short target_system,
-			short base_mode,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_set_mode(long custom_mode, short target_system, short base_mode, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SET_MODE;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -136,8 +130,7 @@ public class msg_set_mode extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SET_MODE - sysid:" + sysid + " compid:" + compid + " custom_mode:" + custom_mode + " " +
-				"target_system:" + target_system + " base_mode:" + base_mode + "";
+		return "MAVLINK_MSG_ID_SET_MODE - sysid:" + sysid + " compid:" + compid + " custom_mode:" + custom_mode + " target_system:" + target_system + " base_mode:" + base_mode + "";
 	}
 
 	/**

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion.
- * Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
+ * The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
  */
 public class msg_attitude_quaternion_cov extends MAVLinkMessage {
 
@@ -23,15 +22,14 @@ public class msg_attitude_quaternion_cov extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
 	/**
 	 * Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * Roll angular speed
@@ -49,11 +47,9 @@ public class msg_attitude_quaternion_cov extends MAVLinkMessage {
 	public float yawspeed;
 
 	/**
-	 * Row-major representation of a 3x3 attitude covariance matrix (states: roll, pitch, yaw; first three entries are
-	 * the first ROW, next three entries are the second row, etc.). If unknown, assign NaN value to first element in
-	 * the array.
+	 * Row-major representation of a 3x3 attitude covariance matrix (states: roll, pitch, yaw; first three entries are the first ROW, next three entries are the second row, etc.). If unknown, assign NaN value to first element in the array.
 	 */
-	public float[] covariance = new float[9];
+	public float covariance[] = new float[9];
 
 
 	/**
@@ -64,8 +60,8 @@ public class msg_attitude_quaternion_cov extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION_COV;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -128,12 +124,7 @@ public class msg_attitude_quaternion_cov extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_attitude_quaternion_cov(long time_usec,
-			float[] q,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			float[] covariance) {
+	public msg_attitude_quaternion_cov(long time_usec, float[] q, float rollspeed, float pitchspeed, float yawspeed, float[] covariance) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION_COV;
 
 		this.time_usec = time_usec;
@@ -148,15 +139,7 @@ public class msg_attitude_quaternion_cov extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_attitude_quaternion_cov(long time_usec,
-			float[] q,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			float[] covariance,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_attitude_quaternion_cov(long time_usec, float[] q, float rollspeed, float pitchspeed, float yawspeed, float[] covariance, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION_COV;
 		this.sysid = sysid;
 		this.compid = compid;

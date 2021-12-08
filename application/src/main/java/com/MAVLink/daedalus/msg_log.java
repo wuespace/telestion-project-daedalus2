@@ -4,7 +4,7 @@
  * java mavlink generator tool. It should not be modified by hand.
  */
 
-// MESSAGE SEED_LOG PACKING
+// MESSAGE LOG PACKING
 package com.MAVLink.daedalus;
 
 import com.MAVLink.MAVLinkPacket;
@@ -14,11 +14,11 @@ import com.MAVLink.Messages.MAVLinkPayload;
 /**
  * Contains log data of the Seed
  */
-public class msg_seed_log extends MAVLinkMessage {
+public class msg_log extends MAVLinkMessage {
 
-	public static final int MAVLINK_MSG_ID_SEED_LOG = 88552;
-	public static final int MAVLINK_MSG_LENGTH = 259;
-	private static final long serialVersionUID = MAVLINK_MSG_ID_SEED_LOG;
+	public static final int MAVLINK_MSG_ID_LOG = 88552;
+	public static final int MAVLINK_MSG_LENGTH = 255;
+	private static final long serialVersionUID = MAVLINK_MSG_ID_LOG;
 
 
 	/**
@@ -34,7 +34,7 @@ public class msg_seed_log extends MAVLinkMessage {
 	/**
 	 * Logging data
 	 */
-	public byte[] log_msg = new byte[247];
+	public byte log_msg[] = new byte[243];
 
 
 	/**
@@ -45,9 +45,9 @@ public class msg_seed_log extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
-		packet.msgid = MAVLINK_MSG_ID_SEED_LOG;
+		packet.sysid = 255;
+		packet.compid = 190;
+		packet.msgid = MAVLINK_MSG_ID_LOG;
 
 		packet.payload.putLong(time_local);
 		packet.payload.putUnsignedInt(d2time);
@@ -64,7 +64,7 @@ public class msg_seed_log extends MAVLinkMessage {
 	}
 
 	/**
-	 * Decode a seed_log message into this class fields
+	 * Decode a log message into this class fields
 	 *
 	 * @param payload The message to decode
 	 */
@@ -88,15 +88,15 @@ public class msg_seed_log extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, just initializes the msgid
 	 */
-	public msg_seed_log() {
-		this.msgid = MAVLINK_MSG_ID_SEED_LOG;
+	public msg_log() {
+		this.msgid = MAVLINK_MSG_ID_LOG;
 	}
 
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_seed_log(long time_local, long d2time, byte[] log_msg) {
-		this.msgid = MAVLINK_MSG_ID_SEED_LOG;
+	public msg_log(long time_local, long d2time, byte[] log_msg) {
+		this.msgid = MAVLINK_MSG_ID_LOG;
 
 		this.time_local = time_local;
 		this.d2time = d2time;
@@ -107,8 +107,8 @@ public class msg_seed_log extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_seed_log(long time_local, long d2time, byte[] log_msg, int sysid, int compid, boolean isMavlink2) {
-		this.msgid = MAVLINK_MSG_ID_SEED_LOG;
+	public msg_log(long time_local, long d2time, byte[] log_msg, int sysid, int compid, boolean isMavlink2) {
+		this.msgid = MAVLINK_MSG_ID_LOG;
 		this.sysid = sysid;
 		this.compid = compid;
 		this.isMavlink2 = isMavlink2;
@@ -123,8 +123,8 @@ public class msg_seed_log extends MAVLinkMessage {
 	 * Constructor for a new message, initializes the message with the payload
 	 * from a mavlink packet
 	 */
-	public msg_seed_log(MAVLinkPacket mavLinkPacket) {
-		this.msgid = MAVLINK_MSG_ID_SEED_LOG;
+	public msg_log(MAVLinkPacket mavLinkPacket) {
+		this.msgid = MAVLINK_MSG_ID_LOG;
 
 		this.sysid = mavLinkPacket.sysid;
 		this.compid = mavLinkPacket.compid;
@@ -137,22 +137,22 @@ public class msg_seed_log extends MAVLinkMessage {
 	 * Sets the buffer of this message with a string, adds the necessary padding
 	 */
 	public void setLog_Msg(String str) {
-		int len = Math.min(str.length(), 247);
+		int len = Math.min(str.length(), 243);
 		for (int i = 0; i < len; i++) {
 			log_msg[i] = (byte) str.charAt(i);
 		}
 
-		for (int i = len; i < 247; i++) {            // padding for the rest of the buffer
+		for (int i = len; i < 243; i++) {            // padding for the rest of the buffer
 			log_msg[i] = 0;
 		}
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getLog_Msg() {
 		StringBuffer buf = new StringBuffer();
-		for (int i = 0; i < 247; i++) {
+		for (int i = 0; i < 243; i++) {
 			if (log_msg[i] != 0)
 				buf.append((char) log_msg[i]);
 			else
@@ -167,8 +167,7 @@ public class msg_seed_log extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SEED_LOG - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " " +
-				"d2time:" + d2time + " log_msg:" + log_msg + "";
+		return "MAVLINK_MSG_ID_LOG - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " d2time:" + d2time + " log_msg:" + log_msg + "";
 	}
 
 	/**
@@ -176,6 +175,6 @@ public class msg_seed_log extends MAVLinkMessage {
 	 */
 	@Override
 	public String name() {
-		return "MAVLINK_MSG_ID_SEED_LOG";
+		return "MAVLINK_MSG_ID_LOG";
 	}
 }

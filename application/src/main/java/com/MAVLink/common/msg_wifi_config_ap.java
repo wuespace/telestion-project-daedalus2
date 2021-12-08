@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Configure WiFi AP SSID, password, and mode. This message is re-emitted as an acknowledgement by the AP. The
- * message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE
+ * Configure WiFi AP SSID, password, and mode. This message is re-emitted as an acknowledgement by the AP. The message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE
  */
 public class msg_wifi_config_ap extends MAVLinkMessage {
 
@@ -23,15 +22,14 @@ public class msg_wifi_config_ap extends MAVLinkMessage {
 
 
 	/**
-	 * Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a
-	 * response.
+	 * Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a response.
 	 */
-	public byte[] ssid = new byte[32];
+	public byte ssid[] = new byte[32];
 
 	/**
 	 * Password. Blank for an open AP. MD5 hash when message is sent back as a response.
 	 */
-	public byte[] password = new byte[64];
+	public byte password[] = new byte[64];
 
 	/**
 	 * WiFi Mode.
@@ -52,8 +50,8 @@ public class msg_wifi_config_ap extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_WIFI_CONFIG_AP;
 
 
@@ -125,13 +123,7 @@ public class msg_wifi_config_ap extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_wifi_config_ap(byte[] ssid,
-			byte[] password,
-			byte mode,
-			byte response,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_wifi_config_ap(byte[] ssid, byte[] password, byte mode, byte response, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_WIFI_CONFIG_AP;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -173,7 +165,7 @@ public class msg_wifi_config_ap extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getSsid() {
 		StringBuffer buf = new StringBuffer();
@@ -202,7 +194,7 @@ public class msg_wifi_config_ap extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getPassword() {
 		StringBuffer buf = new StringBuffer();

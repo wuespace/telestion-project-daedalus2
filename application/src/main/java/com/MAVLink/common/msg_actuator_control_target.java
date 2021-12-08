@@ -22,22 +22,17 @@ public class msg_actuator_control_target extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
 	/**
-	 * Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors
-	 * is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7):
-	 * roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose
-	 * them as generic outputs.
+	 * Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.
 	 */
-	public float[] controls = new float[8];
+	public float controls[] = new float[8];
 
 	/**
-	 * Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this
-	 * field to difference between instances.
+	 * Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.
 	 */
 	public short group_mlx;
 
@@ -50,8 +45,8 @@ public class msg_actuator_control_target extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -112,12 +107,7 @@ public class msg_actuator_control_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_actuator_control_target(long time_usec,
-			float[] controls,
-			short group_mlx,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_actuator_control_target(long time_usec, float[] controls, short group_mlx, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET;
 		this.sysid = sysid;
 		this.compid = compid;

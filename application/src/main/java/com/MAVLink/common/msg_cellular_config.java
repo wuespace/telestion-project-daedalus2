@@ -12,8 +12,9 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Configure cellular modems. This message is re-emitted as an acknowledgement by the modem. The message may also be
- * explicitly requested using MAV_CMD_REQUEST_MESSAGE.
+ * Configure cellular modems.
+ * This message is re-emitted as an acknowledgement by the modem.
+ * The message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE.
  */
 public class msg_cellular_config extends MAVLinkMessage {
 
@@ -28,35 +29,32 @@ public class msg_cellular_config extends MAVLinkMessage {
 	public short enable_lte;
 
 	/**
-	 * Enable/disable PIN on the SIM card. 0: setting unchanged, 1: disabled, 2: enabled. Current setting when sent
-	 * back as a response.
+	 * Enable/disable PIN on the SIM card. 0: setting unchanged, 1: disabled, 2: enabled. Current setting when sent back as a response.
 	 */
 	public short enable_pin;
 
 	/**
 	 * PIN sent to the SIM card. Blank when PIN is disabled. Empty when message is sent back as a response.
 	 */
-	public byte[] pin = new byte[16];
+	public byte pin[] = new byte[16];
 
 	/**
 	 * New PIN when changing the PIN. Blank to leave it unchanged. Empty when message is sent back as a response.
 	 */
-	public byte[] new_pin = new byte[16];
+	public byte new_pin[] = new byte[16];
 
 	/**
 	 * Name of the cellular APN. Blank to leave it unchanged. Current APN when sent back as a response.
 	 */
-	public byte[] apn = new byte[32];
+	public byte apn[] = new byte[32];
 
 	/**
-	 * Required PUK code in case the user failed to authenticate 3 times with the PIN. Empty when message is sent back
-	 * as a response.
+	 * Required PUK code in case the user failed to authenticate 3 times with the PIN. Empty when message is sent back as a response.
 	 */
-	public byte[] puk = new byte[16];
+	public byte puk[] = new byte[16];
 
 	/**
-	 * Enable/disable roaming. 0: setting unchanged, 1: disabled, 2: enabled. Current setting when sent back as a
-	 * response.
+	 * Enable/disable roaming. 0: setting unchanged, 1: disabled, 2: enabled. Current setting when sent back as a response.
 	 */
 	public short roaming;
 
@@ -74,8 +72,8 @@ public class msg_cellular_config extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CELLULAR_CONFIG;
 
 		packet.payload.putUnsignedByte(enable_lte);
@@ -158,14 +156,7 @@ public class msg_cellular_config extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_cellular_config(short enable_lte,
-			short enable_pin,
-			byte[] pin,
-			byte[] new_pin,
-			byte[] apn,
-			byte[] puk,
-			short roaming,
-			short response) {
+	public msg_cellular_config(short enable_lte, short enable_pin, byte[] pin, byte[] new_pin, byte[] apn, byte[] puk, short roaming, short response) {
 		this.msgid = MAVLINK_MSG_ID_CELLULAR_CONFIG;
 
 		this.enable_lte = enable_lte;
@@ -182,17 +173,7 @@ public class msg_cellular_config extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_cellular_config(short enable_lte,
-			short enable_pin,
-			byte[] pin,
-			byte[] new_pin,
-			byte[] apn,
-			byte[] puk,
-			short roaming,
-			short response,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_cellular_config(short enable_lte, short enable_pin, byte[] pin, byte[] new_pin, byte[] apn, byte[] puk, short roaming, short response, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CELLULAR_CONFIG;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -238,7 +219,7 @@ public class msg_cellular_config extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getPin() {
 		StringBuffer buf = new StringBuffer();
@@ -267,7 +248,7 @@ public class msg_cellular_config extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getNew_Pin() {
 		StringBuffer buf = new StringBuffer();
@@ -296,7 +277,7 @@ public class msg_cellular_config extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getApn() {
 		StringBuffer buf = new StringBuffer();
@@ -325,7 +306,7 @@ public class msg_cellular_config extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getPuk() {
 		StringBuffer buf = new StringBuffer();

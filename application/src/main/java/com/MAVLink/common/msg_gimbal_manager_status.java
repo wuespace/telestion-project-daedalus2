@@ -65,8 +65,8 @@ public class msg_gimbal_manager_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_STATUS;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -115,13 +115,7 @@ public class msg_gimbal_manager_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gimbal_manager_status(long time_boot_ms,
-			long flags,
-			short gimbal_device_id,
-			short primary_control_sysid,
-			short primary_control_compid,
-			short secondary_control_sysid,
-			short secondary_control_compid) {
+	public msg_gimbal_manager_status(long time_boot_ms, long flags, short gimbal_device_id, short primary_control_sysid, short primary_control_compid, short secondary_control_sysid, short secondary_control_compid) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_STATUS;
 
 		this.time_boot_ms = time_boot_ms;
@@ -137,16 +131,7 @@ public class msg_gimbal_manager_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gimbal_manager_status(long time_boot_ms,
-			long flags,
-			short gimbal_device_id,
-			short primary_control_sysid,
-			short primary_control_compid,
-			short secondary_control_sysid,
-			short secondary_control_compid,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gimbal_manager_status(long time_boot_ms, long flags, short gimbal_device_id, short primary_control_sysid, short primary_control_compid, short secondary_control_sysid, short secondary_control_compid, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

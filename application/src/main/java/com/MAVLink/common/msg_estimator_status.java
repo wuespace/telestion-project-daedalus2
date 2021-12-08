@@ -12,14 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Estimator status message including flags, innovation test ratios and estimated accuracies. The flags message is an
- * integer bitmask containing information on which EKF outputs are valid. See the ESTIMATOR_STATUS_FLAGS enum
- * definition for further information. The innovation test ratios show the magnitude of the sensor innovation divided
- * by the innovation check threshold. Under normal operation the innovation test ratios should be below 0.5 with
- * occasional values up to 1.0. Values greater than 1.0 should be rare under normal operation and indicate that a
- * measurement has been rejected by the filter. The user should be notified if an innovation test ratio greater than
- * 1.0 is recorded. Notifications for values in the range between 0.5 and 1.0 should be optional and controllable by
- * the user.
+ * Estimator status message including flags, innovation test ratios and estimated accuracies. The flags message is an integer bitmask containing information on which EKF outputs are valid. See the ESTIMATOR_STATUS_FLAGS enum definition for further information. The innovation test ratios show the magnitude of the sensor innovation divided by the innovation check threshold. Under normal operation the innovation test ratios should be below 0.5 with occasional values up to 1.0. Values greater than 1.0 should be rare under normal operation and indicate that a measurement has been rejected by the filter. The user should be notified if an innovation test ratio greater than 1.0 is recorded. Notifications for values in the range between 0.5 and 1.0 should be optional and controllable by the user.
  */
 public class msg_estimator_status extends MAVLinkMessage {
 
@@ -29,8 +22,7 @@ public class msg_estimator_status extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -88,8 +80,8 @@ public class msg_estimator_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ESTIMATOR_STATUS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -144,16 +136,7 @@ public class msg_estimator_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_estimator_status(long time_usec,
-			float vel_ratio,
-			float pos_horiz_ratio,
-			float pos_vert_ratio,
-			float mag_ratio,
-			float hagl_ratio,
-			float tas_ratio,
-			float pos_horiz_accuracy,
-			float pos_vert_accuracy,
-			int flags) {
+	public msg_estimator_status(long time_usec, float vel_ratio, float pos_horiz_ratio, float pos_vert_ratio, float mag_ratio, float hagl_ratio, float tas_ratio, float pos_horiz_accuracy, float pos_vert_accuracy, int flags) {
 		this.msgid = MAVLINK_MSG_ID_ESTIMATOR_STATUS;
 
 		this.time_usec = time_usec;
@@ -172,19 +155,7 @@ public class msg_estimator_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_estimator_status(long time_usec,
-			float vel_ratio,
-			float pos_horiz_ratio,
-			float pos_vert_ratio,
-			float mag_ratio,
-			float hagl_ratio,
-			float tas_ratio,
-			float pos_horiz_accuracy,
-			float pos_vert_accuracy,
-			int flags,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_estimator_status(long time_usec, float vel_ratio, float pos_horiz_ratio, float pos_vert_ratio, float mag_ratio, float hagl_ratio, float tas_ratio, float pos_horiz_accuracy, float pos_vert_accuracy, int flags, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ESTIMATOR_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -222,8 +193,7 @@ public class msg_estimator_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_ESTIMATOR_STATUS - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec +
-				" vel_ratio:" + vel_ratio + " pos_horiz_ratio:" + pos_horiz_ratio + " pos_vert_ratio:" + pos_vert_ratio + " mag_ratio:" + mag_ratio + " hagl_ratio:" + hagl_ratio + " tas_ratio:" + tas_ratio + " pos_horiz_accuracy:" + pos_horiz_accuracy + " pos_vert_accuracy:" + pos_vert_accuracy + " flags:" + flags + "";
+		return "MAVLINK_MSG_ID_ESTIMATOR_STATUS - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " vel_ratio:" + vel_ratio + " pos_horiz_ratio:" + pos_horiz_ratio + " pos_vert_ratio:" + pos_vert_ratio + " mag_ratio:" + mag_ratio + " hagl_ratio:" + hagl_ratio + " tas_ratio:" + tas_ratio + " pos_horiz_accuracy:" + pos_horiz_accuracy + " pos_vert_accuracy:" + pos_vert_accuracy + " flags:" + flags + "";
 	}
 
 	/**

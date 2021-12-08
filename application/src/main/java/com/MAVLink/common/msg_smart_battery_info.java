@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Smart Battery information (static/infrequent update). Use for updates from: smart battery to flight stack, flight
- * stack to GCS. Use BATTERY_STATUS for smart battery frequent updates.
+ * Smart Battery information (static/infrequent update). Use for updates from: smart battery to flight stack, flight stack to GCS. Use BATTERY_STATUS for smart battery frequent updates.
  */
 public class msg_smart_battery_info extends MAVLinkMessage {
 
@@ -75,13 +74,12 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	/**
 	 * Serial number in ASCII characters, 0 terminated. All 0: field not provided.
 	 */
-	public byte[] serial_number = new byte[16];
+	public byte serial_number[] = new byte[16];
 
 	/**
-	 * Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name
-	 * then product name separated using an underscore.
+	 * Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name then product name separated using an underscore.
 	 */
-	public byte[] device_name = new byte[50];
+	public byte device_name[] = new byte[50];
 
 	/**
 	 * Maximum per-cell voltage when charged. 0: field not provided.
@@ -106,7 +104,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	/**
 	 * Manufacture date (DD/MM/YYYY) in ASCII characters, 0 terminated. All 0: field not provided.
 	 */
-	public byte[] manufacture_date = new byte[11];
+	public byte manufacture_date[] = new byte[11];
 
 
 	/**
@@ -117,8 +115,8 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_SMART_BATTERY_INFO;
 
 		packet.payload.putInt(capacity_full_specification);
@@ -211,23 +209,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_smart_battery_info(int capacity_full_specification,
-			int capacity_full,
-			int cycle_count,
-			int weight,
-			int discharge_minimum_voltage,
-			int charging_minimum_voltage,
-			int resting_minimum_voltage,
-			short id,
-			short battery_function,
-			short type,
-			byte[] serial_number,
-			byte[] device_name,
-			int charging_maximum_voltage,
-			short cells_in_series,
-			long discharge_maximum_current,
-			long discharge_maximum_burst_current,
-			byte[] manufacture_date) {
+	public msg_smart_battery_info(int capacity_full_specification, int capacity_full, int cycle_count, int weight, int discharge_minimum_voltage, int charging_minimum_voltage, int resting_minimum_voltage, short id, short battery_function, short type, byte[] serial_number, byte[] device_name, int charging_maximum_voltage, short cells_in_series, long discharge_maximum_current, long discharge_maximum_burst_current, byte[] manufacture_date) {
 		this.msgid = MAVLINK_MSG_ID_SMART_BATTERY_INFO;
 
 		this.capacity_full_specification = capacity_full_specification;
@@ -253,26 +235,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_smart_battery_info(int capacity_full_specification,
-			int capacity_full,
-			int cycle_count,
-			int weight,
-			int discharge_minimum_voltage,
-			int charging_minimum_voltage,
-			int resting_minimum_voltage,
-			short id,
-			short battery_function,
-			short type,
-			byte[] serial_number,
-			byte[] device_name,
-			int charging_maximum_voltage,
-			short cells_in_series,
-			long discharge_maximum_current,
-			long discharge_maximum_burst_current,
-			byte[] manufacture_date,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_smart_battery_info(int capacity_full_specification, int capacity_full, int cycle_count, int weight, int discharge_minimum_voltage, int charging_minimum_voltage, int resting_minimum_voltage, short id, short battery_function, short type, byte[] serial_number, byte[] device_name, int charging_maximum_voltage, short cells_in_series, long discharge_maximum_current, long discharge_maximum_burst_current, byte[] manufacture_date, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_SMART_BATTERY_INFO;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -327,7 +290,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getSerial_Number() {
 		StringBuffer buf = new StringBuffer();
@@ -356,7 +319,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getDevice_Name() {
 		StringBuffer buf = new StringBuffer();
@@ -385,7 +348,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getManufacture_Date() {
 		StringBuffer buf = new StringBuffer();
@@ -404,9 +367,7 @@ public class msg_smart_battery_info extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_SMART_BATTERY_INFO - sysid:" + sysid + " compid:" + compid + " " +
-				"capacity_full_specification:" + capacity_full_specification + " capacity_full:" + capacity_full + " " +
-				"cycle_count:" + cycle_count + " weight:" + weight + " discharge_minimum_voltage:" + discharge_minimum_voltage + " charging_minimum_voltage:" + charging_minimum_voltage + " resting_minimum_voltage:" + resting_minimum_voltage + " id:" + id + " battery_function:" + battery_function + " type:" + type + " serial_number:" + serial_number + " device_name:" + device_name + " charging_maximum_voltage:" + charging_maximum_voltage + " cells_in_series:" + cells_in_series + " discharge_maximum_current:" + discharge_maximum_current + " discharge_maximum_burst_current:" + discharge_maximum_burst_current + " manufacture_date:" + manufacture_date + "";
+		return "MAVLINK_MSG_ID_SMART_BATTERY_INFO - sysid:" + sysid + " compid:" + compid + " capacity_full_specification:" + capacity_full_specification + " capacity_full:" + capacity_full + " cycle_count:" + cycle_count + " weight:" + weight + " discharge_minimum_voltage:" + discharge_minimum_voltage + " charging_minimum_voltage:" + charging_minimum_voltage + " resting_minimum_voltage:" + resting_minimum_voltage + " id:" + id + " battery_function:" + battery_function + " type:" + type + " serial_number:" + serial_number + " device_name:" + device_name + " charging_maximum_voltage:" + charging_maximum_voltage + " cells_in_series:" + cells_in_series + " discharge_maximum_current:" + discharge_maximum_current + " discharge_maximum_burst_current:" + discharge_maximum_burst_current + " manufacture_date:" + manufacture_date + "";
 	}
 
 	/**

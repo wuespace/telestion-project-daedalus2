@@ -32,8 +32,7 @@ public class msg_generator_status extends MAVLinkMessage {
 	public float battery_current;
 
 	/**
-	 * Current going to the UAV. If battery current not available this is the DC current from the generator. Positive
-	 * for out. Negative for in. NaN: field not provided
+	 * Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided
 	 */
 	public float load_current;
 
@@ -43,8 +42,7 @@ public class msg_generator_status extends MAVLinkMessage {
 	public float power_generated;
 
 	/**
-	 * Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a
-	 * different voltage to main bus.
+	 * Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.
 	 */
 	public float bus_voltage;
 
@@ -59,8 +57,7 @@ public class msg_generator_status extends MAVLinkMessage {
 	public long runtime;
 
 	/**
-	 * Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due.
-	 * INT32_MAX: field not provided.
+	 * Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due. INT32_MAX: field not provided.
 	 */
 	public int time_until_maintenance;
 
@@ -88,8 +85,8 @@ public class msg_generator_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GENERATOR_STATUS;
 
 		packet.payload.putUnsignedLong(status);
@@ -146,17 +143,7 @@ public class msg_generator_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_generator_status(long status,
-			float battery_current,
-			float load_current,
-			float power_generated,
-			float bus_voltage,
-			float bat_current_setpoint,
-			long runtime,
-			int time_until_maintenance,
-			int generator_speed,
-			short rectifier_temperature,
-			short generator_temperature) {
+	public msg_generator_status(long status, float battery_current, float load_current, float power_generated, float bus_voltage, float bat_current_setpoint, long runtime, int time_until_maintenance, int generator_speed, short rectifier_temperature, short generator_temperature) {
 		this.msgid = MAVLINK_MSG_ID_GENERATOR_STATUS;
 
 		this.status = status;
@@ -176,20 +163,7 @@ public class msg_generator_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_generator_status(long status,
-			float battery_current,
-			float load_current,
-			float power_generated,
-			float bus_voltage,
-			float bat_current_setpoint,
-			long runtime,
-			int time_until_maintenance,
-			int generator_speed,
-			short rectifier_temperature,
-			short generator_temperature,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_generator_status(long status, float battery_current, float load_current, float power_generated, float bus_voltage, float bat_current_setpoint, long runtime, int time_until_maintenance, int generator_speed, short rectifier_temperature, short generator_temperature, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GENERATOR_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -228,8 +202,7 @@ public class msg_generator_status extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_GENERATOR_STATUS - sysid:" + sysid + " compid:" + compid + " status:" + status + " " +
-				"battery_current:" + battery_current + " load_current:" + load_current + " power_generated:" + power_generated + " bus_voltage:" + bus_voltage + " bat_current_setpoint:" + bat_current_setpoint + " runtime:" + runtime + " time_until_maintenance:" + time_until_maintenance + " generator_speed:" + generator_speed + " rectifier_temperature:" + rectifier_temperature + " generator_temperature:" + generator_temperature + "";
+		return "MAVLINK_MSG_ID_GENERATOR_STATUS - sysid:" + sysid + " compid:" + compid + " status:" + status + " battery_current:" + battery_current + " load_current:" + load_current + " power_generated:" + power_generated + " bus_voltage:" + bus_voltage + " bat_current_setpoint:" + bat_current_setpoint + " runtime:" + runtime + " time_until_maintenance:" + time_until_maintenance + " generator_speed:" + generator_speed + " rectifier_temperature:" + rectifier_temperature + " generator_temperature:" + generator_temperature + "";
 	}
 
 	/**

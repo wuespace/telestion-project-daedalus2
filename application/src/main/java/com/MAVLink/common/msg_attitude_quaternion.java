@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion.
- * Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
+ * The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
  */
 public class msg_attitude_quaternion extends MAVLinkMessage {
 
@@ -63,13 +62,9 @@ public class msg_attitude_quaternion extends MAVLinkMessage {
 	public float yawspeed;
 
 	/**
-	 * Rotation offset by which the attitude quaternion and angular speed vector should be rotated for user display
-	 * (quaternion with [w, x, y, z] order, zero-rotation is [1, 0, 0, 0], send [0, 0, 0, 0] if field not supported).
-	 * This field is intended for systems in which the reference attitude may change during flight. For example,
-	 * tailsitters VTOLs rotate their reference attitude by 90 degrees between hover mode and fixed wing mode, thus
-	 * repr_offset_q is equal to [1, 0, 0, 0] in hover mode and equal to [0.7071, 0, 0.7071, 0] in fixed wing mode.
+	 * Rotation offset by which the attitude quaternion and angular speed vector should be rotated for user display (quaternion with [w, x, y, z] order, zero-rotation is [1, 0, 0, 0], send [0, 0, 0, 0] if field not supported). This field is intended for systems in which the reference attitude may change during flight. For example, tailsitters VTOLs rotate their reference attitude by 90 degrees between hover mode and fixed wing mode, thus repr_offset_q is equal to [1, 0, 0, 0] in hover mode and equal to [0.7071, 0, 0.7071, 0] in fixed wing mode.
 	 */
-	public float[] repr_offset_q = new float[4];
+	public float repr_offset_q[] = new float[4];
 
 
 	/**
@@ -80,8 +75,8 @@ public class msg_attitude_quaternion extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -142,15 +137,7 @@ public class msg_attitude_quaternion extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_attitude_quaternion(long time_boot_ms,
-			float q1,
-			float q2,
-			float q3,
-			float q4,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			float[] repr_offset_q) {
+	public msg_attitude_quaternion(long time_boot_ms, float q1, float q2, float q3, float q4, float rollspeed, float pitchspeed, float yawspeed, float[] repr_offset_q) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION;
 
 		this.time_boot_ms = time_boot_ms;
@@ -168,18 +155,7 @@ public class msg_attitude_quaternion extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_attitude_quaternion(long time_boot_ms,
-			float q1,
-			float q2,
-			float q3,
-			float q4,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			float[] repr_offset_q,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_attitude_quaternion(long time_boot_ms, float q1, float q2, float q3, float q4, float rollspeed, float pitchspeed, float yawspeed, float[] repr_offset_q, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ATTITUDE_QUATERNION;
 		this.sysid = sysid;
 		this.compid = compid;

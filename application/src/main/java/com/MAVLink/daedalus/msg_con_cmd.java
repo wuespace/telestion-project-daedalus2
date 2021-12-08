@@ -24,7 +24,7 @@ public class msg_con_cmd extends MAVLinkMessage {
 	/**
 	 * CMD content
 	 */
-	public byte[] con_cmd = new byte[255];
+	public byte con_cmd[] = new byte[255];
 
 
 	/**
@@ -35,8 +35,8 @@ public class msg_con_cmd extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CON_CMD;
 
 
@@ -130,7 +130,7 @@ public class msg_con_cmd extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getCon_Cmd() {
 		StringBuffer buf = new StringBuffer();

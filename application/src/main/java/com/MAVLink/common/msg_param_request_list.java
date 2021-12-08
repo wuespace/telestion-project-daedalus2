@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request all parameters of this component. After this request, all parameters are emitted. The parameter
- * microservice is documented at https://mavlink.io/en/services/parameter.html
+ * Request all parameters of this component. After this request, all parameters are emitted. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html
  */
 public class msg_param_request_list extends MAVLinkMessage {
 
@@ -41,8 +40,8 @@ public class msg_param_request_list extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PARAM_REQUEST_LIST;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -92,11 +91,7 @@ public class msg_param_request_list extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_param_request_list(short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_param_request_list(short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_REQUEST_LIST;
 		this.sysid = sysid;
 		this.compid = compid;

@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The filtered local position (e.g. fused computer vision and accelerometers). Coordinate frame is right-handed,
- * Z-axis down (aeronautical frame, NED / north-east-down convention)
+ * The filtered local position (e.g. fused computer vision and accelerometers). Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention)
  */
 public class msg_local_position_ned extends MAVLinkMessage {
 
@@ -66,8 +65,8 @@ public class msg_local_position_ned extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -132,16 +131,7 @@ public class msg_local_position_ned extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_local_position_ned(long time_boot_ms,
-			float x,
-			float y,
-			float z,
-			float vx,
-			float vy,
-			float vz,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_local_position_ned(long time_boot_ms, float x, float y, float z, float vx, float vy, float vz, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED;
 		this.sysid = sysid;
 		this.compid = compid;

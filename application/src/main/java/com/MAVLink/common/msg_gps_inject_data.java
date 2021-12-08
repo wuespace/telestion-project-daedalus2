@@ -39,7 +39,7 @@ public class msg_gps_inject_data extends MAVLinkMessage {
 	/**
 	 * Raw data (110 is enough for 12 satellites of RTCMv2)
 	 */
-	public short[] data = new short[110];
+	public short data[] = new short[110];
 
 
 	/**
@@ -50,8 +50,8 @@ public class msg_gps_inject_data extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GPS_INJECT_DATA;
 
 		packet.payload.putUnsignedByte(target_system);
@@ -115,13 +115,7 @@ public class msg_gps_inject_data extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gps_inject_data(short target_system,
-			short target_component,
-			short len,
-			short[] data,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gps_inject_data(short target_system, short target_component, short len, short[] data, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GPS_INJECT_DATA;
 		this.sysid = sysid;
 		this.compid = compid;

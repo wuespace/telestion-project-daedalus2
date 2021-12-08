@@ -32,10 +32,9 @@ public class msg_resource_request extends MAVLinkMessage {
 	public short uri_type;
 
 	/**
-	 * The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the
-	 * URI type enum)
+	 * The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the URI type enum)
 	 */
-	public short[] uri = new short[120];
+	public short uri[] = new short[120];
 
 	/**
 	 * The way the autopilot wants to receive the URI. 0 = MAVLink FTP. 1 = binary stream.
@@ -43,10 +42,9 @@ public class msg_resource_request extends MAVLinkMessage {
 	public short transfer_type;
 
 	/**
-	 * The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a
-	 * storage associated (e.g. MAVLink FTP).
+	 * The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a storage associated (e.g. MAVLink FTP).
 	 */
-	public short[] storage = new short[120];
+	public short storage[] = new short[120];
 
 
 	/**
@@ -57,8 +55,8 @@ public class msg_resource_request extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
 
 		packet.payload.putUnsignedByte(request_id);
@@ -133,14 +131,7 @@ public class msg_resource_request extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_resource_request(short request_id,
-			short uri_type,
-			short[] uri,
-			short transfer_type,
-			short[] storage,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_resource_request(short request_id, short uri_type, short[] uri, short transfer_type, short[] storage, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_RESOURCE_REQUEST;
 		this.sysid = sysid;
 		this.compid = compid;

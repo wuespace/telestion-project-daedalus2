@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They
- * consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these
- * messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).
+ * Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).
  */
 public class msg_statustext extends MAVLinkMessage {
 
@@ -31,18 +29,15 @@ public class msg_statustext extends MAVLinkMessage {
 	/**
 	 * Status text message, without null termination character
 	 */
-	public byte[] text = new byte[50];
+	public byte text[] = new byte[50];
 
 	/**
-	 * Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext
-	 * message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the
-	 * message can be emitted immediately.
+	 * Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.
 	 */
 	public int id;
 
 	/**
-	 * This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean
-	 * this was the last chunk.
+	 * This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean this was the last chunk.
 	 */
 	public short chunk_seq;
 
@@ -55,8 +50,8 @@ public class msg_statustext extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_STATUSTEXT;
 
 		packet.payload.putUnsignedByte(severity);
@@ -120,13 +115,7 @@ public class msg_statustext extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_statustext(short severity,
-			byte[] text,
-			int id,
-			short chunk_seq,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_statustext(short severity, byte[] text, int id, short chunk_seq, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_STATUSTEXT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -168,7 +157,7 @@ public class msg_statustext extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getText() {
 		StringBuffer buf = new StringBuffer();

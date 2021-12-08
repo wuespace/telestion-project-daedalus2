@@ -17,7 +17,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
 public class msg_ejector_heartbeat extends MAVLinkMessage {
 
 	public static final int MAVLINK_MSG_ID_EJECTOR_HEARTBEAT = 66957;
-	public static final int MAVLINK_MSG_LENGTH = 14;
+	public static final int MAVLINK_MSG_LENGTH = 17;
 	private static final long serialVersionUID = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
 
@@ -41,6 +41,21 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	 */
 	public short state_cur;
 
+	/**
+	 * LED status
+	 */
+	public short led_enabled;
+
+	/**
+	 * Cam status
+	 */
+	public short cam_enabled;
+
+	/**
+	 * Seed Power status
+	 */
+	public short seed_power_enabled;
+
 
 	/**
 	 * Generates the payload for a mavlink message for a message of this type
@@ -50,14 +65,17 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
 		packet.payload.putLong(time_local);
 		packet.payload.putUnsignedInt(d2time);
 		packet.payload.putUnsignedByte(telecommand_cnt);
 		packet.payload.putUnsignedByte(state_cur);
+		packet.payload.putUnsignedByte(led_enabled);
+		packet.payload.putUnsignedByte(cam_enabled);
+		packet.payload.putUnsignedByte(seed_power_enabled);
 
 		if (isMavlink2) {
 
@@ -78,6 +96,9 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 		this.d2time = payload.getUnsignedInt();
 		this.telecommand_cnt = payload.getUnsignedByte();
 		this.state_cur = payload.getUnsignedByte();
+		this.led_enabled = payload.getUnsignedByte();
+		this.cam_enabled = payload.getUnsignedByte();
+		this.seed_power_enabled = payload.getUnsignedByte();
 
 		if (isMavlink2) {
 
@@ -94,26 +115,23 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_ejector_heartbeat(long time_local, long d2time, short telecommand_cnt, short state_cur) {
+	public msg_ejector_heartbeat(long time_local, long d2time, short telecommand_cnt, short state_cur, short led_enabled, short cam_enabled, short seed_power_enabled) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
 		this.time_local = time_local;
 		this.d2time = d2time;
 		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
+		this.led_enabled = led_enabled;
+		this.cam_enabled = cam_enabled;
+		this.seed_power_enabled = seed_power_enabled;
 
 	}
 
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_ejector_heartbeat(long time_local,
-			long d2time,
-			short telecommand_cnt,
-			short state_cur,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_ejector_heartbeat(long time_local, long d2time, short telecommand_cnt, short state_cur, short led_enabled, short cam_enabled, short seed_power_enabled, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -123,6 +141,9 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 		this.d2time = d2time;
 		this.telecommand_cnt = telecommand_cnt;
 		this.state_cur = state_cur;
+		this.led_enabled = led_enabled;
+		this.cam_enabled = cam_enabled;
+		this.seed_power_enabled = seed_power_enabled;
 
 	}
 
@@ -145,7 +166,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " d2time:" + d2time + " telecommand_cnt:" + telecommand_cnt + " state_cur:" + state_cur + "";
+		return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:" + sysid + " compid:" + compid + " time_local:" + time_local + " d2time:" + d2time + " telecommand_cnt:" + telecommand_cnt + " state_cur:" + state_cur + " led_enabled:" + led_enabled + " cam_enabled:" + cam_enabled + " seed_power_enabled:" + seed_power_enabled + "";
 	}
 
 	/**

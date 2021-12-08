@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * High level message to control a gimbal manually. The angles or angular rates are unitless; the actual rates will
- * depend on internal gimbal manager settings/configuration (e.g. set by parameters). This message is to be sent to
- * the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case.
+ * High level message to control a gimbal manually. The angles or angular rates are unitless; the actual rates will depend on internal gimbal manager settings/configuration (e.g. set by parameters). This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case.
  */
 public class msg_gimbal_manager_set_manual_control extends MAVLinkMessage {
 
@@ -59,8 +57,7 @@ public class msg_gimbal_manager_set_manual_control extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components.
-	 * Send command multiple times for more than one gimbal (but not all gimbals).
+	 * Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. Send command multiple times for more than one gimbal (but not all gimbals).
 	 */
 	public short gimbal_device_id;
 
@@ -73,8 +70,8 @@ public class msg_gimbal_manager_set_manual_control extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_SET_MANUAL_CONTROL;
 
 		packet.payload.putUnsignedInt(flags);
@@ -125,14 +122,7 @@ public class msg_gimbal_manager_set_manual_control extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_gimbal_manager_set_manual_control(long flags,
-			float pitch,
-			float yaw,
-			float pitch_rate,
-			float yaw_rate,
-			short target_system,
-			short target_component,
-			short gimbal_device_id) {
+	public msg_gimbal_manager_set_manual_control(long flags, float pitch, float yaw, float pitch_rate, float yaw_rate, short target_system, short target_component, short gimbal_device_id) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_SET_MANUAL_CONTROL;
 
 		this.flags = flags;
@@ -149,17 +139,7 @@ public class msg_gimbal_manager_set_manual_control extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_gimbal_manager_set_manual_control(long flags,
-			float pitch,
-			float yaw,
-			float pitch_rate,
-			float yaw_rate,
-			short target_system,
-			short target_component,
-			short gimbal_device_id,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_gimbal_manager_set_manual_control(long flags, float pitch, float yaw, float pitch_rate, float yaw_rate, short target_system, short target_component, short gimbal_device_id, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GIMBAL_MANAGER_SET_MANUAL_CONTROL;
 		this.sysid = sysid;
 		this.compid = compid;

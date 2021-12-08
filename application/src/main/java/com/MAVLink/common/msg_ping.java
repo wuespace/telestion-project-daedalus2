@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * A ping message either requesting or responding to a ping. This allows to measure the system latencies, including
- * serial port, radio modem and UDP connections. The ping microservice is documented at https://mavlink
- * .io/en/services/ping.html
+ * A ping message either requesting or responding to a ping. This allows to measure the system latencies, including serial port, radio modem and UDP connections. The ping microservice is documented at https://mavlink.io/en/services/ping.html
  */
 public class msg_ping extends MAVLinkMessage {
 
@@ -24,8 +22,7 @@ public class msg_ping extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -35,14 +32,12 @@ public class msg_ping extends MAVLinkMessage {
 	public long seq;
 
 	/**
-	 * 0: request ping from all receiving systems. If greater than 0: message is a ping response and number is the
-	 * system id of the requesting system
+	 * 0: request ping from all receiving systems. If greater than 0: message is a ping response and number is the system id of the requesting system
 	 */
 	public short target_system;
 
 	/**
-	 * 0: request ping from all receiving components. If greater than 0: message is a ping response and number is the
-	 * component id of the requesting component.
+	 * 0: request ping from all receiving components. If greater than 0: message is a ping response and number is the component id of the requesting component.
 	 */
 	public short target_component;
 
@@ -55,8 +50,8 @@ public class msg_ping extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PING;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -112,13 +107,7 @@ public class msg_ping extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_ping(long time_usec,
-			long seq,
-			short target_system,
-			short target_component,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_ping(long time_usec, long seq, short target_system, short target_component, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PING;
 		this.sysid = sysid;
 		this.compid = compid;

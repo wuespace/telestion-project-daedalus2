@@ -14,8 +14,7 @@ public class MAV_ODID_UA_TYPE {
 	public static final int MAV_ODID_UA_TYPE_AEROPLANE = 1; /* Aeroplane/Airplane. Fixed wing. | */
 	public static final int MAV_ODID_UA_TYPE_HELICOPTER_OR_MULTIROTOR = 2; /* Helicopter or multirotor. | */
 	public static final int MAV_ODID_UA_TYPE_GYROPLANE = 3; /* Gyroplane. | */
-	public static final int MAV_ODID_UA_TYPE_HYBRID_LIFT = 4; /* VTOL (Vertical Take-Off and Landing). Fixed wing
-	aircraft that can take off vertically. | */
+	public static final int MAV_ODID_UA_TYPE_HYBRID_LIFT = 4; /* VTOL (Vertical Take-Off and Landing). Fixed wing aircraft that can take off vertically. | */
 	public static final int MAV_ODID_UA_TYPE_ORNITHOPTER = 5; /* Ornithopter. | */
 	public static final int MAV_ODID_UA_TYPE_GLIDER = 6; /* Glider. | */
 	public static final int MAV_ODID_UA_TYPE_KITE = 7; /* Kite. | */

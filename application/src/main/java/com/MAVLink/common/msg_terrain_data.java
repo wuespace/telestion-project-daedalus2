@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Terrain data sent from GCS. The lat/lon and grid_spacing must be the same as a lat/lon from a TERRAIN_REQUEST. See
- * terrain protocol docs: https://mavlink.io/en/services/terrain.html
+ * Terrain data sent from GCS. The lat/lon and grid_spacing must be the same as a lat/lon from a TERRAIN_REQUEST. See terrain protocol docs: https://mavlink.io/en/services/terrain.html
  */
 public class msg_terrain_data extends MAVLinkMessage {
 
@@ -40,7 +39,7 @@ public class msg_terrain_data extends MAVLinkMessage {
 	/**
 	 * Terrain data MSL
 	 */
-	public short[] data = new short[16];
+	public short data[] = new short[16];
 
 	/**
 	 * bit within the terrain request mask
@@ -56,8 +55,8 @@ public class msg_terrain_data extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_TERRAIN_DATA;
 
 		packet.payload.putInt(lat);
@@ -124,14 +123,7 @@ public class msg_terrain_data extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_terrain_data(int lat,
-			int lon,
-			int grid_spacing,
-			short[] data,
-			short gridbit,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_terrain_data(int lat, int lon, int grid_spacing, short[] data, short gridbit, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_TERRAIN_DATA;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -164,8 +156,7 @@ public class msg_terrain_data extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_TERRAIN_DATA - sysid:" + sysid + " compid:" + compid + " lat:" + lat + " lon:" + lon +
-				" grid_spacing:" + grid_spacing + " data:" + data + " gridbit:" + gridbit + "";
+		return "MAVLINK_MSG_ID_TERRAIN_DATA - sysid:" + sysid + " compid:" + compid + " lat:" + lat + " lon:" + lon + " grid_spacing:" + grid_spacing + " data:" + data + " gridbit:" + gridbit + "";
 	}
 
 	/**

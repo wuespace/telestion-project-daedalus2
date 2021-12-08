@@ -22,8 +22,7 @@ public class msg_landing_target extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -80,7 +79,7 @@ public class msg_landing_target extends MAVLinkMessage {
 	/**
 	 * Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * Type of landing target
@@ -88,8 +87,7 @@ public class msg_landing_target extends MAVLinkMessage {
 	public short type;
 
 	/**
-	 * Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information
-	 * (valid: 1, invalid: 0). Default is 0 (invalid).
+	 * Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information (valid: 1, invalid: 0). Default is 0 (invalid).
 	 */
 	public short position_valid;
 
@@ -102,8 +100,8 @@ public class msg_landing_target extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_LANDING_TARGET;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -174,20 +172,7 @@ public class msg_landing_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_landing_target(long time_usec,
-			float angle_x,
-			float angle_y,
-			float distance,
-			float size_x,
-			float size_y,
-			short target_num,
-			short frame,
-			float x,
-			float y,
-			float z,
-			float[] q,
-			short type,
-			short position_valid) {
+	public msg_landing_target(long time_usec, float angle_x, float angle_y, float distance, float size_x, float size_y, short target_num, short frame, float x, float y, float z, float[] q, short type, short position_valid) {
 		this.msgid = MAVLINK_MSG_ID_LANDING_TARGET;
 
 		this.time_usec = time_usec;
@@ -210,23 +195,7 @@ public class msg_landing_target extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_landing_target(long time_usec,
-			float angle_x,
-			float angle_y,
-			float distance,
-			float size_x,
-			float size_y,
-			short target_num,
-			short frame,
-			float x,
-			float y,
-			float z,
-			float[] q,
-			short type,
-			short position_valid,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_landing_target(long time_usec, float angle_x, float angle_y, float distance, float size_x, float size_y, short target_num, short frame, float x, float y, float z, float[] q, short type, short position_valid, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_LANDING_TARGET;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -268,9 +237,7 @@ public class msg_landing_target extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_LANDING_TARGET - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"angle_x:" + angle_x + " angle_y:" + angle_y + " distance:" + distance + " size_x:" + size_x + " " +
-				"size_y:" + size_y + " target_num:" + target_num + " frame:" + frame + " x:" + x + " y:" + y + " z:" + z + " q:" + q + " type:" + type + " position_valid:" + position_valid + "";
+		return "MAVLINK_MSG_ID_LANDING_TARGET - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " angle_x:" + angle_x + " angle_y:" + angle_y + " distance:" + distance + " size_x:" + size_x + " size_y:" + size_y + " target_num:" + target_num + " frame:" + frame + " x:" + x + " y:" + y + " z:" + z + " q:" + q + " type:" + type + " position_valid:" + position_valid + "";
 	}
 
 	/**

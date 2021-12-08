@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The raw values of the actuator outputs (e.g. on Pixhawk, from MAIN, AUX ports). This message supersedes
- * SERVO_OUTPUT_RAW.
+ * The raw values of the actuator outputs (e.g. on Pixhawk, from MAIN, AUX ports). This message supersedes SERVO_OUTPUT_RAW.
  */
 public class msg_actuator_output_status extends MAVLinkMessage {
 
@@ -35,7 +34,7 @@ public class msg_actuator_output_status extends MAVLinkMessage {
 	/**
 	 * Servo / motor output array values. Zero values indicate unused channels.
 	 */
-	public float[] actuator = new float[32];
+	public float actuator[] = new float[32];
 
 
 	/**
@@ -46,8 +45,8 @@ public class msg_actuator_output_status extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ACTUATOR_OUTPUT_STATUS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -108,12 +107,7 @@ public class msg_actuator_output_status extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_actuator_output_status(long time_usec,
-			long active,
-			float[] actuator,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_actuator_output_status(long time_usec, long active, float[] actuator, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ACTUATOR_OUTPUT_STATUS;
 		this.sysid = sysid;
 		this.compid = compid;

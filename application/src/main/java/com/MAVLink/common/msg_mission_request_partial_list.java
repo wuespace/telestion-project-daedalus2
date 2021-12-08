@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Request a partial list of mission items from the system/component. https://mavlink.io/en/services/mission.html. If
- * start and end index are the same, just send one waypoint.
+ * Request a partial list of mission items from the system/component. https://mavlink.io/en/services/mission.html. If start and end index are the same, just send one waypoint.
  */
 public class msg_mission_request_partial_list extends MAVLinkMessage {
 
@@ -56,8 +55,8 @@ public class msg_mission_request_partial_list extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_REQUEST_PARTIAL_LIST;
 
 		packet.payload.putShort(start_index);
@@ -102,11 +101,7 @@ public class msg_mission_request_partial_list extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_mission_request_partial_list(short start_index,
-			short end_index,
-			short target_system,
-			short target_component,
-			short mission_type) {
+	public msg_mission_request_partial_list(short start_index, short end_index, short target_system, short target_component, short mission_type) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_REQUEST_PARTIAL_LIST;
 
 		this.start_index = start_index;
@@ -120,14 +115,7 @@ public class msg_mission_request_partial_list extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_request_partial_list(short start_index,
-			short end_index,
-			short target_system,
-			short target_component,
-			short mission_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_request_partial_list(short start_index, short end_index, short target_system, short target_component, short mission_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_REQUEST_PARTIAL_LIST;
 		this.sysid = sysid;
 		this.compid = compid;

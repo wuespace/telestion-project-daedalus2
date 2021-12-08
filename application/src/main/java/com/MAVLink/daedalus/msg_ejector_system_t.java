@@ -60,8 +60,8 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T;
 
 		packet.payload.putLong(time_local);
@@ -108,12 +108,7 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_ejector_system_t(long time_local,
-			long d2time,
-			long mainloop_itr_cnt,
-			long mainloop_itr_time,
-			short telecommand_cnt,
-			short state_cur) {
+	public msg_ejector_system_t(long time_local, long d2time, long mainloop_itr_cnt, long mainloop_itr_time, short telecommand_cnt, short state_cur) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T;
 
 		this.time_local = time_local;
@@ -128,15 +123,7 @@ public class msg_ejector_system_t extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_ejector_system_t(long time_local,
-			long d2time,
-			long mainloop_itr_cnt,
-			long mainloop_itr_time,
-			short telecommand_cnt,
-			short state_cur,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_ejector_system_t(long time_local, long d2time, long mainloop_itr_cnt, long mainloop_itr_time, short telecommand_cnt, short state_cur, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T;
 		this.sysid = sysid;
 		this.compid = compid;

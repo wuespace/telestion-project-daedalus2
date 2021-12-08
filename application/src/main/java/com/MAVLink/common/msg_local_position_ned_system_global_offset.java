@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The offset in X, Y, Z and yaw between the LOCAL_POSITION_NED messages of MAV X and the global coordinate frame in
- * NED coordinates. Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention)
+ * The offset in X, Y, Z and yaw between the LOCAL_POSITION_NED messages of MAV X and the global coordinate frame in NED coordinates. Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention)
  */
 public class msg_local_position_ned_system_global_offset extends MAVLinkMessage {
 
@@ -66,8 +65,8 @@ public class msg_local_position_ned_system_global_offset extends MAVLinkMessage 
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -116,13 +115,7 @@ public class msg_local_position_ned_system_global_offset extends MAVLinkMessage 
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_local_position_ned_system_global_offset(long time_boot_ms,
-			float x,
-			float y,
-			float z,
-			float roll,
-			float pitch,
-			float yaw) {
+	public msg_local_position_ned_system_global_offset(long time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw) {
 		this.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
 
 		this.time_boot_ms = time_boot_ms;
@@ -138,16 +131,7 @@ public class msg_local_position_ned_system_global_offset extends MAVLinkMessage 
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_local_position_ned_system_global_offset(long time_boot_ms,
-			float x,
-			float y,
-			float z,
-			float roll,
-			float pitch,
-			float yaw,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_local_position_ned_system_global_offset(long time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -182,8 +166,7 @@ public class msg_local_position_ned_system_global_offset extends MAVLinkMessage 
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET - sysid:" + sysid + " compid:" + compid + " " +
-				"time_boot_ms:" + time_boot_ms + " x:" + x + " y:" + y + " z:" + z + " roll:" + roll + " pitch:" + pitch + " yaw:" + yaw + "";
+		return "MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET - sysid:" + sysid + " compid:" + compid + " time_boot_ms:" + time_boot_ms + " x:" + x + " y:" + y + " z:" + z + " roll:" + roll + " pitch:" + pitch + " yaw:" + yaw + "";
 	}
 
 	/**

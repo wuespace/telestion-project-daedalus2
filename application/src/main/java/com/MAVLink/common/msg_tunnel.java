@@ -12,9 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Message for transporting "arbitrary" variable-length data from one component to another (broadcast is not
- * forbidden, but discouraged). The encoding of the data is usually extension specific, i.e. determined by the
- * source, and is usually not documented as part of the MAVLink specification.
+ * Message for transporting "arbitrary" variable-length data from one component to another (broadcast is not forbidden, but discouraged). The encoding of the data is usually extension specific, i.e. determined by the source, and is usually not documented as part of the MAVLink specification.
  */
 public class msg_tunnel extends MAVLinkMessage {
 
@@ -24,10 +22,7 @@ public class msg_tunnel extends MAVLinkMessage {
 
 
 	/**
-	 * A code that identifies the content of the payload (0 for unknown, which is the default). If this code is less
-	 * than 32768, it is a 'registered' payload type and the corresponding code should be added to the
-	 * MAV_TUNNEL_PAYLOAD_TYPE enum. Software creators can register blocks of types as needed. Codes greater than
-	 * 32767 are considered local experiments and should not be checked in to any widely distributed codebase.
+	 * A code that identifies the content of the payload (0 for unknown, which is the default). If this code is less than 32768, it is a 'registered' payload type and the corresponding code should be added to the MAV_TUNNEL_PAYLOAD_TYPE enum. Software creators can register blocks of types as needed. Codes greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.
 	 */
 	public int payload_type;
 
@@ -47,10 +42,9 @@ public class msg_tunnel extends MAVLinkMessage {
 	public short payload_length;
 
 	/**
-	 * Variable length payload. The payload length is defined by payload_length. The entire content of this block is
-	 * opaque unless you understand the encoding specified by payload_type.
+	 * Variable length payload. The payload length is defined by payload_length. The entire content of this block is opaque unless you understand the encoding specified by payload_type.
 	 */
-	public short[] payload = new short[128];
+	public short payload[] = new short[128];
 
 
 	/**
@@ -61,8 +55,8 @@ public class msg_tunnel extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_TUNNEL;
 
 		packet.payload.putUnsignedShort(payload_type);
@@ -115,11 +109,7 @@ public class msg_tunnel extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_tunnel(int payload_type,
-			short target_system,
-			short target_component,
-			short payload_length,
-			short[] payload) {
+	public msg_tunnel(int payload_type, short target_system, short target_component, short payload_length, short[] payload) {
 		this.msgid = MAVLINK_MSG_ID_TUNNEL;
 
 		this.payload_type = payload_type;
@@ -133,14 +123,7 @@ public class msg_tunnel extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_tunnel(int payload_type,
-			short target_system,
-			short target_component,
-			short payload_length,
-			short[] payload,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_tunnel(int payload_type, short target_system, short target_component, short payload_length, short[] payload, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_TUNNEL;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -173,8 +156,7 @@ public class msg_tunnel extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_TUNNEL - sysid:" + sysid + " compid:" + compid + " payload_type:" + payload_type + " " +
-				"target_system:" + target_system + " target_component:" + target_component + " payload_length:" + payload_length + " payload:" + payload + "";
+		return "MAVLINK_MSG_ID_TUNNEL - sysid:" + sysid + " compid:" + compid + " payload_type:" + payload_type + " target_system:" + target_system + " target_component:" + target_component + " payload_length:" + payload_length + " payload:" + payload + "";
 	}
 
 	/**

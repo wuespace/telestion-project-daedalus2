@@ -10,8 +10,7 @@ package com.MAVLink.enums;
  * Possible responses from a WIFI_CONFIG_AP message.
  */
 public class WIFI_CONFIG_AP_RESPONSE {
-	public static final int WIFI_CONFIG_AP_RESPONSE_UNDEFINED = 0; /* Undefined response. Likely an indicative of a
-	system that doesn't support this request. | */
+	public static final int WIFI_CONFIG_AP_RESPONSE_UNDEFINED = 0; /* Undefined response. Likely an indicative of a system that doesn't support this request. | */
 	public static final int WIFI_CONFIG_AP_RESPONSE_ACCEPTED = 1; /* Changes accepted. | */
 	public static final int WIFI_CONFIG_AP_RESPONSE_REJECTED = 2; /* Changes rejected. | */
 	public static final int WIFI_CONFIG_AP_RESPONSE_MODE_ERROR = 3; /* Invalid Mode. | */

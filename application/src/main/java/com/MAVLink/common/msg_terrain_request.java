@@ -50,8 +50,8 @@ public class msg_terrain_request extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_TERRAIN_REQUEST;
 
 		packet.payload.putUnsignedLong(mask);
@@ -107,13 +107,7 @@ public class msg_terrain_request extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_terrain_request(long mask,
-			int lat,
-			int lon,
-			int grid_spacing,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_terrain_request(long mask, int lat, int lon, int grid_spacing, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_TERRAIN_REQUEST;
 		this.sysid = sysid;
 		this.compid = compid;

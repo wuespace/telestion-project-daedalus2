@@ -13,8 +13,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
  * The global position, as returned by the Global Positioning System (GPS). This is
- * NOT the global position estimate of the sytem, but rather a RAW sensor value. See message GLOBAL_POSITION for the
- * global position estimate.
+ * NOT the global position estimate of the sytem, but rather a RAW sensor value. See message GLOBAL_POSITION_INT for the global position estimate.
  */
 public class msg_hil_gps extends MAVLinkMessage {
 
@@ -24,8 +23,7 @@ public class msg_hil_gps extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -80,8 +78,7 @@ public class msg_hil_gps extends MAVLinkMessage {
 	public int cog;
 
 	/**
-	 * 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least
-	 * two, so always correctly fill in the fix.
+	 * 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
 	 */
 	public short fix_type;
 
@@ -109,8 +106,8 @@ public class msg_hil_gps extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_HIL_GPS;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -175,21 +172,7 @@ public class msg_hil_gps extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_hil_gps(long time_usec,
-			int lat,
-			int lon,
-			int alt,
-			int eph,
-			int epv,
-			int vel,
-			short vn,
-			short ve,
-			short vd,
-			int cog,
-			short fix_type,
-			short satellites_visible,
-			short id,
-			int yaw) {
+	public msg_hil_gps(long time_usec, int lat, int lon, int alt, int eph, int epv, int vel, short vn, short ve, short vd, int cog, short fix_type, short satellites_visible, short id, int yaw) {
 		this.msgid = MAVLINK_MSG_ID_HIL_GPS;
 
 		this.time_usec = time_usec;
@@ -213,24 +196,7 @@ public class msg_hil_gps extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_hil_gps(long time_usec,
-			int lat,
-			int lon,
-			int alt,
-			int eph,
-			int epv,
-			int vel,
-			short vn,
-			short ve,
-			short vd,
-			int cog,
-			short fix_type,
-			short satellites_visible,
-			short id,
-			int yaw,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_hil_gps(long time_usec, int lat, int lon, int alt, int eph, int epv, int vel, short vn, short ve, short vd, int cog, short fix_type, short satellites_visible, short id, int yaw, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_HIL_GPS;
 		this.sysid = sysid;
 		this.compid = compid;

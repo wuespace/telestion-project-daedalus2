@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for
- * aerial vehicles (http://www.ros.org/reps/rep-0147.html).
+ * Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for aerial vehicles (http://www.ros.org/reps/rep-0147.html).
  */
 public class msg_odometry extends MAVLinkMessage {
 
@@ -23,8 +22,7 @@ public class msg_odometry extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -46,7 +44,7 @@ public class msg_odometry extends MAVLinkMessage {
 	/**
 	 * Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)
 	 */
-	public float[] q = new float[4];
+	public float q[] = new float[4];
 
 	/**
 	 * X linear speed
@@ -79,18 +77,14 @@ public class msg_odometry extends MAVLinkMessage {
 	public float yawspeed;
 
 	/**
-	 * Row-major representation of a 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll,
-	 * pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown,
-	 * assign NaN value to first element in the array.
+	 * Row-major representation of a 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.
 	 */
-	public float[] pose_covariance = new float[21];
+	public float pose_covariance[] = new float[21];
 
 	/**
-	 * Row-major representation of a 6x6 velocity cross-covariance matrix upper right triangle (states: vx, vy, vz,
-	 * rollspeed, pitchspeed, yawspeed; first six entries are the first ROW, next five entries are the second ROW, etc
-	 * .). If unknown, assign NaN value to first element in the array.
+	 * Row-major representation of a 6x6 velocity cross-covariance matrix upper right triangle (states: vx, vy, vz, rollspeed, pitchspeed, yawspeed; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.
 	 */
-	public float[] velocity_covariance = new float[21];
+	public float velocity_covariance[] = new float[21];
 
 	/**
 	 * Coordinate frame of reference for the pose data.
@@ -103,9 +97,7 @@ public class msg_odometry extends MAVLinkMessage {
 	public short child_frame_id;
 
 	/**
-	 * Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position,
-	 * velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a
-	 * loop-closure and the estimate jumps.
+	 * Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.
 	 */
 	public short reset_counter;
 
@@ -123,8 +115,8 @@ public class msg_odometry extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_ODOMETRY;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -217,23 +209,7 @@ public class msg_odometry extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_odometry(long time_usec,
-			float x,
-			float y,
-			float z,
-			float[] q,
-			float vx,
-			float vy,
-			float vz,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			float[] pose_covariance,
-			float[] velocity_covariance,
-			short frame_id,
-			short child_frame_id,
-			short reset_counter,
-			short estimator_type) {
+	public msg_odometry(long time_usec, float x, float y, float z, float[] q, float vx, float vy, float vz, float rollspeed, float pitchspeed, float yawspeed, float[] pose_covariance, float[] velocity_covariance, short frame_id, short child_frame_id, short reset_counter, short estimator_type) {
 		this.msgid = MAVLINK_MSG_ID_ODOMETRY;
 
 		this.time_usec = time_usec;
@@ -259,26 +235,7 @@ public class msg_odometry extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_odometry(long time_usec,
-			float x,
-			float y,
-			float z,
-			float[] q,
-			float vx,
-			float vy,
-			float vz,
-			float rollspeed,
-			float pitchspeed,
-			float yawspeed,
-			float[] pose_covariance,
-			float[] velocity_covariance,
-			short frame_id,
-			short child_frame_id,
-			short reset_counter,
-			short estimator_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_odometry(long time_usec, float x, float y, float z, float[] q, float vx, float vy, float vz, float rollspeed, float pitchspeed, float yawspeed, float[] pose_covariance, float[] velocity_covariance, short frame_id, short child_frame_id, short reset_counter, short estimator_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_ODOMETRY;
 		this.sysid = sysid;
 		this.compid = compid;

@@ -27,8 +27,7 @@ public class msg_camera_information extends MAVLinkMessage {
 	public long time_boot_ms;
 
 	/**
-	 * Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 |
-	 * (Major & 0xff)
+	 * Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff)
 	 */
 	public long firmware_version;
 
@@ -70,12 +69,12 @@ public class msg_camera_information extends MAVLinkMessage {
 	/**
 	 * Name of the camera vendor
 	 */
-	public short[] vendor_name = new short[32];
+	public short vendor_name[] = new short[32];
 
 	/**
 	 * Name of the camera model
 	 */
-	public short[] model_name = new short[32];
+	public short model_name[] = new short[32];
 
 	/**
 	 * Reserved for a lens ID
@@ -83,12 +82,9 @@ public class msg_camera_information extends MAVLinkMessage {
 	public short lens_id;
 
 	/**
-	 * Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink
-	 * FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the
-	 * Camera Protocol). The definition file may be xz compressed, which will be indicated by the file extension .xml
-	 * .xz (a GCS that implements the protocol must support decompressing the file).
+	 * Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol). The definition file may be xz compressed, which will be indicated by the file extension .xml.xz (a GCS that implements the protocol must support decompressing the file).
 	 */
-	public byte[] cam_definition_uri = new byte[140];
+	public byte cam_definition_uri[] = new byte[140];
 
 
 	/**
@@ -99,8 +95,8 @@ public class msg_camera_information extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_CAMERA_INFORMATION;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -185,19 +181,7 @@ public class msg_camera_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_camera_information(long time_boot_ms,
-			long firmware_version,
-			float focal_length,
-			float sensor_size_h,
-			float sensor_size_v,
-			long flags,
-			int resolution_h,
-			int resolution_v,
-			int cam_definition_version,
-			short[] vendor_name,
-			short[] model_name,
-			short lens_id,
-			byte[] cam_definition_uri) {
+	public msg_camera_information(long time_boot_ms, long firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, long flags, int resolution_h, int resolution_v, int cam_definition_version, short[] vendor_name, short[] model_name, short lens_id, byte[] cam_definition_uri) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_INFORMATION;
 
 		this.time_boot_ms = time_boot_ms;
@@ -219,22 +203,7 @@ public class msg_camera_information extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_camera_information(long time_boot_ms,
-			long firmware_version,
-			float focal_length,
-			float sensor_size_h,
-			float sensor_size_v,
-			long flags,
-			int resolution_h,
-			int resolution_v,
-			int cam_definition_version,
-			short[] vendor_name,
-			short[] model_name,
-			short lens_id,
-			byte[] cam_definition_uri,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_camera_information(long time_boot_ms, long firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, long flags, int resolution_h, int resolution_v, int cam_definition_version, short[] vendor_name, short[] model_name, short lens_id, byte[] cam_definition_uri, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_CAMERA_INFORMATION;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -285,7 +254,7 @@ public class msg_camera_information extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getCam_Definition_Uri() {
 		StringBuffer buf = new StringBuffer();

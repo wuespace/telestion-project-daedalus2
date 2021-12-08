@@ -13,13 +13,8 @@ import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
  * Set a parameter value (write new value to permanent storage).
- * The receiving component should acknowledge the new parameter value by broadcasting a PARAM_VALUE message
- * (broadcasting ensures that multiple GCS all have an up-to-date list of all parameters). If the sending GCS did not
- * receive a PARAM_VALUE within its timeout time, it should re-send the PARAM_SET message. The parameter microservice
- * is documented at https://mavlink.io/en/services/parameter.html.
- * PARAM_SET may also be called within the context of a transaction (started with MAV_CMD_PARAM_TRANSACTION). Within
- * a transaction the receiving component should respond with PARAM_ACK_TRANSACTION to the setter component (instead
- * of broadcasting PARAM_VALUE), and PARAM_SET should be re-sent if this is ACK not received.
+ * The receiving component should acknowledge the new parameter value by broadcasting a PARAM_VALUE message (broadcasting ensures that multiple GCS all have an up-to-date list of all parameters). If the sending GCS did not receive a PARAM_VALUE within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html.
+ * PARAM_SET may also be called within the context of a transaction (started with MAV_CMD_PARAM_TRANSACTION). Within a transaction the receiving component should respond with PARAM_ACK_TRANSACTION to the setter component (instead of broadcasting PARAM_VALUE), and PARAM_SET should be re-sent if this is ACK not received.
  */
 public class msg_param_set extends MAVLinkMessage {
 
@@ -44,11 +39,9 @@ public class msg_param_set extends MAVLinkMessage {
 	public short target_component;
 
 	/**
-	 * Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null
-	 * termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if
-	 * the ID is stored as string
+	 * Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
 	 */
-	public byte[] param_id = new byte[16];
+	public byte param_id[] = new byte[16];
 
 	/**
 	 * Onboard parameter type.
@@ -64,8 +57,8 @@ public class msg_param_set extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_PARAM_SET;
 
 		packet.payload.putFloat(param_value);
@@ -118,11 +111,7 @@ public class msg_param_set extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_param_set(float param_value,
-			short target_system,
-			short target_component,
-			byte[] param_id,
-			short param_type) {
+	public msg_param_set(float param_value, short target_system, short target_component, byte[] param_id, short param_type) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_SET;
 
 		this.param_value = param_value;
@@ -136,14 +125,7 @@ public class msg_param_set extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_param_set(float param_value,
-			short target_system,
-			short target_component,
-			byte[] param_id,
-			short param_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_param_set(float param_value, short target_system, short target_component, byte[] param_id, short param_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_PARAM_SET;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -186,7 +168,7 @@ public class msg_param_set extends MAVLinkMessage {
 	}
 
 	/**
-	 * Gets the message, formatted as a string
+	 * Gets the message, formated as a string
 	 */
 	public String getParam_Id() {
 		StringBuffer buf = new StringBuffer();
@@ -205,8 +187,7 @@ public class msg_param_set extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_PARAM_SET - sysid:" + sysid + " compid:" + compid + " param_value:" + param_value + " " +
-				"target_system:" + target_system + " target_component:" + target_component + " param_id:" + param_id + " param_type:" + param_type + "";
+		return "MAVLINK_MSG_ID_PARAM_SET - sysid:" + sysid + " compid:" + compid + " param_value:" + param_value + " target_system:" + target_system + " target_component:" + target_component + " param_id:" + param_id + " param_type:" + param_type + "";
 	}
 
 	/**

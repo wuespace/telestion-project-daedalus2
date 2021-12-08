@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The
- * GCS can then request the individual mission item based on the knowledge of the total number of waypoints.
+ * This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of waypoints.
  */
 public class msg_mission_count extends MAVLinkMessage {
 
@@ -51,8 +50,8 @@ public class msg_mission_count extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_MISSION_COUNT;
 
 		packet.payload.putUnsignedShort(count);
@@ -108,13 +107,7 @@ public class msg_mission_count extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_mission_count(int count,
-			short target_system,
-			short target_component,
-			short mission_type,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_mission_count(int count, short target_system, short target_component, short mission_type, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_MISSION_COUNT;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -146,8 +139,7 @@ public class msg_mission_count extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_MISSION_COUNT - sysid:" + sysid + " compid:" + compid + " count:" + count + " " +
-				"target_system:" + target_system + " target_component:" + target_component + " mission_type:" + mission_type + "";
+		return "MAVLINK_MSG_ID_MISSION_COUNT - sysid:" + sysid + " compid:" + compid + " count:" + count + " target_system:" + target_system + " target_component:" + target_component + " mission_type:" + mission_type + "";
 	}
 
 	/**

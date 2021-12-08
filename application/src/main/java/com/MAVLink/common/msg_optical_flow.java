@@ -22,8 +22,7 @@ public class msg_optical_flow extends MAVLinkMessage {
 
 
 	/**
-	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1
-	 * .1970 or since system boot) by checking for the magnitude of the number.
+	 * Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
 	 */
 	public long time_usec;
 
@@ -81,8 +80,8 @@ public class msg_optical_flow extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
 
 		packet.payload.putUnsignedLong(time_usec);
@@ -137,16 +136,7 @@ public class msg_optical_flow extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_optical_flow(long time_usec,
-			float flow_comp_m_x,
-			float flow_comp_m_y,
-			float ground_distance,
-			short flow_x,
-			short flow_y,
-			short sensor_id,
-			short quality,
-			float flow_rate_x,
-			float flow_rate_y) {
+	public msg_optical_flow(long time_usec, float flow_comp_m_x, float flow_comp_m_y, float ground_distance, short flow_x, short flow_y, short sensor_id, short quality, float flow_rate_x, float flow_rate_y) {
 		this.msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
 
 		this.time_usec = time_usec;
@@ -165,19 +155,7 @@ public class msg_optical_flow extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_optical_flow(long time_usec,
-			float flow_comp_m_x,
-			float flow_comp_m_y,
-			float ground_distance,
-			short flow_x,
-			short flow_y,
-			short sensor_id,
-			short quality,
-			float flow_rate_x,
-			float flow_rate_y,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_optical_flow(long time_usec, float flow_comp_m_x, float flow_comp_m_y, float ground_distance, short flow_x, short flow_y, short sensor_id, short quality, float flow_rate_x, float flow_rate_y, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
 		this.sysid = sysid;
 		this.compid = compid;
@@ -215,8 +193,7 @@ public class msg_optical_flow extends MAVLinkMessage {
 	 */
 	@Override
 	public String toString() {
-		return "MAVLINK_MSG_ID_OPTICAL_FLOW - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " " +
-				"flow_comp_m_x:" + flow_comp_m_x + " flow_comp_m_y:" + flow_comp_m_y + " ground_distance:" + ground_distance + " flow_x:" + flow_x + " flow_y:" + flow_y + " sensor_id:" + sensor_id + " quality:" + quality + " flow_rate_x:" + flow_rate_x + " flow_rate_y:" + flow_rate_y + "";
+		return "MAVLINK_MSG_ID_OPTICAL_FLOW - sysid:" + sysid + " compid:" + compid + " time_usec:" + time_usec + " flow_comp_m_x:" + flow_comp_m_x + " flow_comp_m_y:" + flow_comp_m_y + " ground_distance:" + ground_distance + " flow_x:" + flow_x + " flow_y:" + flow_y + " sensor_id:" + sensor_id + " quality:" + quality + " flow_rate_x:" + flow_rate_x + " flow_rate_y:" + flow_rate_y + "";
 	}
 
 	/**

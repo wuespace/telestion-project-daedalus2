@@ -12,8 +12,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
 
 /**
- * The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed,
- * Z-up). It
+ * The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It
  * is designed as scaled integer message since the resolution of float is not sufficient.
  */
 public class msg_global_position_int extends MAVLinkMessage {
@@ -77,8 +76,8 @@ public class msg_global_position_int extends MAVLinkMessage {
 	@Override
 	public MAVLinkPacket pack() {
 		MAVLinkPacket packet = new MAVLinkPacket(MAVLINK_MSG_LENGTH, isMavlink2);
-		packet.sysid = sysid;
-		packet.compid = compid;
+		packet.sysid = 255;
+		packet.compid = 190;
 		packet.msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_INT;
 
 		packet.payload.putUnsignedInt(time_boot_ms);
@@ -131,15 +130,7 @@ public class msg_global_position_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes msgid and all payload variables
 	 */
-	public msg_global_position_int(long time_boot_ms,
-			int lat,
-			int lon,
-			int alt,
-			int relative_alt,
-			short vx,
-			short vy,
-			short vz,
-			int hdg) {
+	public msg_global_position_int(long time_boot_ms, int lat, int lon, int alt, int relative_alt, short vx, short vy, short vz, int hdg) {
 		this.msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_INT;
 
 		this.time_boot_ms = time_boot_ms;
@@ -157,18 +148,7 @@ public class msg_global_position_int extends MAVLinkMessage {
 	/**
 	 * Constructor for a new message, initializes everything
 	 */
-	public msg_global_position_int(long time_boot_ms,
-			int lat,
-			int lon,
-			int alt,
-			int relative_alt,
-			short vx,
-			short vy,
-			short vz,
-			int hdg,
-			int sysid,
-			int compid,
-			boolean isMavlink2) {
+	public msg_global_position_int(long time_boot_ms, int lat, int lon, int alt, int relative_alt, short vx, short vy, short vz, int hdg, int sysid, int compid, boolean isMavlink2) {
 		this.msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_INT;
 		this.sysid = sysid;
 		this.compid = compid;
