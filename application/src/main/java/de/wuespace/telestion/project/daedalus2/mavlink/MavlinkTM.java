@@ -14,11 +14,12 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public class MavlinkTM extends AbstractVerticle {
@@ -31,8 +32,7 @@ public class MavlinkTM extends AbstractVerticle {
 	public static void main(String[] args) throws InterruptedException {
 		var vertx = Vertx.vertx();
 
-		Logger logger = Logger.getLogger("MavlinkTM Test");
-		logger.setLevel(Level.ALL);
+		Logger logger = LoggerFactory.getLogger("MavlinkTM Test");
 
 		vertx.eventBus().consumer("unknown/SEED_SYSTEM_T", event -> {
 			logger.info("=== RECEIVED: ===");
@@ -113,6 +113,8 @@ public class MavlinkTM extends AbstractVerticle {
 					}
 				}
 			}
+
+			logger.info("Received: {}, Lost: {}, CRC-Error: {}", parser.stats.receivedPacketCount, parser.stats.lostPacketCount, parser.stats.crcErrorCount);
 		}));
 
 
@@ -133,4 +135,6 @@ public class MavlinkTM extends AbstractVerticle {
 			this(null, DEFAULT_IN_ADDRESS);
 		}
 	}
+
+	private static final Logger logger = LoggerFactory.getLogger(MavlinkTM.class);
 }
