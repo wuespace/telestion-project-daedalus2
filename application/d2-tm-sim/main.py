@@ -71,8 +71,8 @@ def loop():
 
 			seed_a.seed_heartbeat_send(int(time.time()), 312321, 3, 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], [1,2,3,4,5,6,7,8], 5, 5)
 			seed_b.seed_heartbeat_send(int(time.time()), 123123, 3, 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], [1,2,3,4,5,6,7,8], 5, 5)
-			ejector.ejector_log_send(int(time.time()), 1561, b'Hallo Welt')
-			ejector.ejector_heartbeat_send(int(time.time()), 156165, 5, 5)
+			ejector.log_send(int(time.time()), 1561, b'Hallo Welt')
+			ejector.ejector_heartbeat_send(int(time.time()), 156165, 5, 5, 0, 0, 0)
 
 			# seed_a.seed_system_t_send(
 			# 	int(time.time()),
