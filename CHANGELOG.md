@@ -1,3 +1,25 @@
+# [0.18.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.17.0...v0.18.0) (2021-12-08)
+
+
+### Bug Fixes
+
+* **application:** Add Message Chunker information to Redis check list ([5eb0865](https://github.com/wuespace/telestion-project-daedalus2/commit/5eb0865c88b5ebc7883c6f922429f57c98da09f8))
+
+
+### Features
+
+* **application:** Add Telecommand Generator verticle to generate a bunch of telecommands ([a9751b8](https://github.com/wuespace/telestion-project-daedalus2/commit/a9751b8261422c5774b0438499acf746658baaef))
+* **application:** Update D2 TM simulator ([cb3445c](https://github.com/wuespace/telestion-project-daedalus2/commit/cb3445cde15a2ee3d760c5b8de5f4064455be847))
+* **application:** Update mavlink definition file and regenerate python and Java files ([96248b1](https://github.com/wuespace/telestion-project-daedalus2/commit/96248b1d14ea85e921b2c86876b23fa63e9aac27))
+* **client:** Add debug dashboard with Eventbus debug widget to user config ([1d9c2aa](https://github.com/wuespace/telestion-project-daedalus2/commit/1d9c2aa1ac47fb77f7c0565d5286b0bd30c47c58))
+* **client:** Add ejector camera widget for `camrec` and `camled` TCs to the ejector ([828f3f7](https://github.com/wuespace/telestion-project-daedalus2/commit/828f3f72a17824daf3b0358e707f4d0d8fe99792))
+* **client:** Add radio silence and ejector camera widgets to the Telecommands dashboard ([49baf9d](https://github.com/wuespace/telestion-project-daedalus2/commit/49baf9dc086113afb71e82466af94ef7bb7f0727))
+* **client:** Add radio silence widget to easily trigger and abort the radio silence sequence using buttons (with confirmation dialogs) ([4037ca7](https://github.com/wuespace/telestion-project-daedalus2/commit/4037ca700c08c0d16994bcb22444f548ee226844))
+* **client:** Remove outdated/invalid default values for the current values and graph widget ([d4d752f](https://github.com/wuespace/telestion-project-daedalus2/commit/d4d752f66d9480f393d7cfa1da2e4267c79ba00e))
+* **widget:** Filter out invalid and entry and exit states from state change widget ([0781f0c](https://github.com/wuespace/telestion-project-daedalus2/commit/0781f0cd30857cbb3e08e077d6304c5105606f58))
+
+
+
 # [0.17.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.16.4...v0.17.0) (2021-12-02)
 
 
