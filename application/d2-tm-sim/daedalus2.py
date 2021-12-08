@@ -6,19 +6,12 @@ Generated from: daedalus.xml
 Note: this file has been auto-generated. DO NOT EDIT
 '''
 from __future__ import print_function
-
-import array
-import hashlib
-import json
-import os
-import platform
-import struct
-import sys
-import time
-from builtins import object
 from builtins import range
+from builtins import object
+import struct, array, time, json, os, sys, platform
 
 from pymavlink.generator.mavcrc import x25crc
+import hashlib
 
 WIRE_PROTOCOL_VERSION = '2.0'
 DIALECT = 'daedalus2'
@@ -32,9 +25,9 @@ MAVLINK_SIGNATURE_BLOCK_LEN = 13
 
 MAVLINK_IFLAG_SIGNED = 0x01
 
-native_supported = platform.system() != 'Windows'  # Not yet supported on other dialects
-native_force = 'MAVNATIVE_FORCE' in os.environ  # Will force use of native code regardless of what client app wants
-native_testing = 'MAVNATIVE_TESTING' in os.environ  # Will force both native and legacy code to be used and their results compared
+native_supported = platform.system() != 'Windows' # Not yet supported on other dialects
+native_force = 'MAVNATIVE_FORCE' in os.environ # Will force use of native code regardless of what client app wants
+native_testing = 'MAVNATIVE_TESTING' in os.environ # Will force both native and legacy code to be used and their results compared
 
 if native_supported and float(WIRE_PROTOCOL_VERSION) <= 1:
     try:
@@ -48,20 +41,20 @@ else:
 
 # allow MAV_IGNORE_CRC=1 to ignore CRC, allowing some
 # corrupted msgs to be seen
-MAVLINK_IGNORE_CRC = os.environ.get("MAV_IGNORE_CRC", 0)
+MAVLINK_IGNORE_CRC = os.environ.get("MAV_IGNORE_CRC",0)
 
 # some base types from mavlink_types.h
-MAVLINK_TYPE_CHAR = 0
-MAVLINK_TYPE_UINT8_T = 1
-MAVLINK_TYPE_INT8_T = 2
+MAVLINK_TYPE_CHAR     = 0
+MAVLINK_TYPE_UINT8_T  = 1
+MAVLINK_TYPE_INT8_T   = 2
 MAVLINK_TYPE_UINT16_T = 3
-MAVLINK_TYPE_INT16_T = 4
+MAVLINK_TYPE_INT16_T  = 4
 MAVLINK_TYPE_UINT32_T = 5
-MAVLINK_TYPE_INT32_T = 6
+MAVLINK_TYPE_INT32_T  = 6
 MAVLINK_TYPE_UINT64_T = 7
-MAVLINK_TYPE_INT64_T = 8
-MAVLINK_TYPE_FLOAT = 9
-MAVLINK_TYPE_DOUBLE = 10
+MAVLINK_TYPE_INT64_T  = 8
+MAVLINK_TYPE_FLOAT    = 9
+MAVLINK_TYPE_DOUBLE   = 10
 
 
 # swiped from DFReader.py
@@ -92,7 +85,6 @@ def to_string(s):
 
 class MAVLink_header(object):
     '''MAVLink message header'''
-
     def __init__(self, msgId, incompat_flags=0, compat_flags=0, mlen=0, seq=0, srcSystem=0, srcComponent=0):
         self.mlen = mlen
         self.seq = seq
@@ -107,29 +99,27 @@ class MAVLink_header(object):
             return struct.pack('<BBBBBBBHB', 253, self.mlen,
                                self.incompat_flags, self.compat_flags,
                                self.seq, self.srcSystem, self.srcComponent,
-                               self.msgId & 0xFFFF, self.msgId >> 16)
+                               self.msgId&0xFFFF, self.msgId>>16)
         return struct.pack('<BBBBBB', PROTOCOL_MARKER_V1, self.mlen, self.seq,
                            self.srcSystem, self.srcComponent, self.msgId)
 
-
 class MAVLink_message(object):
     '''base MAVLink message class'''
-
     def __init__(self, msgId, name):
-        self._header = MAVLink_header(msgId)
-        self._payload = None
-        self._msgbuf = None
-        self._crc = None
+        self._header     = MAVLink_header(msgId)
+        self._payload    = None
+        self._msgbuf     = None
+        self._crc        = None
         self._fieldnames = []
-        self._type = name
-        self._signed = False
-        self._link_id = None
-        self._instances = None
+        self._type       = name
+        self._signed     = False
+        self._link_id    = None
+        self._instances  = None
         self._instance_field = None
 
     def format_attr(self, field):
         '''override field getter'''
-        raw_attr = getattr(self, field)
+        raw_attr = getattr(self,field)
         if isinstance(raw_attr, bytes):
             raw_attr = to_string(raw_attr).rstrip("\00")
         return raw_attr
@@ -191,7 +181,7 @@ class MAVLink_message(object):
             return False
 
         # We do not compare CRC because native code doesn't provide it
-        # if self.get_crc() != other.get_crc():
+        #if self.get_crc() != other.get_crc():
         #    return False
 
         if self.get_seq() != other.get_seq():
@@ -213,7 +203,7 @@ class MAVLink_message(object):
         d = dict({})
         d['mavpackettype'] = self._type
         for a in self._fieldnames:
-            d[a] = self.format_attr(a)
+          d[a] = self.format_attr(a)
         return d
 
     def to_json(self):
@@ -237,19 +227,19 @@ class MAVLink_message(object):
             # in Python2, type("fred') is str but also type("fred")==bytes
             if str(type(payload)) == "<class 'bytes'>":
                 nullbyte = 0
-            while plen > 1 and payload[plen - 1] == nullbyte:
+            while plen > 1 and payload[plen-1] == nullbyte:
                 plen -= 1
         self._payload = payload[:plen]
         incompat_flags = 0
         if mav.signing.sign_outgoing:
             incompat_flags |= MAVLINK_IFLAG_SIGNED
-        self._header = MAVLink_header(self._header.msgId,
-                                      incompat_flags=incompat_flags, compat_flags=0,
-                                      mlen=len(self._payload), seq=mav.seq,
-                                      srcSystem=mav.srcSystem, srcComponent=mav.srcComponent)
+        self._header  = MAVLink_header(self._header.msgId,
+                                       incompat_flags=incompat_flags, compat_flags=0,
+                                       mlen=len(self._payload), seq=mav.seq,
+                                       srcSystem=mav.srcSystem, srcComponent=mav.srcComponent)
         self._msgbuf = self._header.pack(force_mavlink1=force_mavlink1) + self._payload
         crc = x25crc(self._msgbuf[1:])
-        if True:  # using CRC extra
+        if True: # using CRC extra
             crc.accumulate_str(struct.pack('B', crc_extra))
         self._crc = crc.crc
         self._msgbuf += struct.pack('<H', self._crc)
@@ -274,7 +264,6 @@ class EnumEntry(object):
         self.description = description
         self.param = {}
 
-
 enums = {}
 
 # message IDs
@@ -287,510 +276,335 @@ MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD = 21513
 MAVLINK_MSG_ID_EJECTOR_SYSTEM_T = 37033
 MAVLINK_MSG_ID_EJECTOR_HEARTBEAT = 66957
 
-
 class MAVLink_seed_heartbeat_message(MAVLink_message):
-    '''
-    Contains information about the current state and local time.
-    '''
-    id = MAVLINK_MSG_ID_SEED_HEARTBEAT
-    name = 'SEED_HEARTBEAT'
-    fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'imu_gyro_z', 'lidar_cover_open',
-                  'bat_heater_fault', 'adc_measurements_sbc', 'adc_measurements_cop', 'available_status', 'bat_status']
-    ordered_fieldnames = ['time_local', 'd2time', 'imu_gyro_z', 'adc_measurements_sbc', 'adc_measurements_cop',
-                          'telecommand_cnt', 'state_cur', 'lidar_cover_open', 'bat_heater_fault', 'available_status',
-                          'bat_status']
-    fieldtypes = ['int64_t', 'uint32_t', 'uint8_t', 'uint8_t', 'float', 'uint8_t', 'uint8_t', 'uint16_t', 'uint16_t',
-                  'uint8_t', 'uint8_t']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<qIf8H8HBBBBBB'
-    native_format = bytearray('<qIfHHBBBBBB', 'ascii')
-    orders = [0, 1, 5, 6, 2, 7, 8, 3, 4, 9, 10]
-    lengths = [1, 1, 1, 8, 8, 1, 1, 1, 1, 1, 1]
-    array_lengths = [0, 0, 0, 8, 8, 0, 0, 0, 0, 0, 0]
-    crc_extra = 120
-    unpacker = struct.Struct('<qIf8H8HBBBBBB')
-    instance_field = None
-    instance_offset = -1
+        '''
+        Contains information about the current state and local time.
+        '''
+        id = MAVLINK_MSG_ID_SEED_HEARTBEAT
+        name = 'SEED_HEARTBEAT'
+        fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'imu_gyro_z', 'lidar_cover_open', 'bat_heater_fault', 'adc_measurements_sbc', 'adc_measurements_cop', 'available_status', 'bat_status']
+        ordered_fieldnames = ['time_local', 'd2time', 'imu_gyro_z', 'adc_measurements_sbc', 'adc_measurements_cop', 'telecommand_cnt', 'state_cur', 'lidar_cover_open', 'bat_heater_fault', 'available_status', 'bat_status']
+        fieldtypes = ['int64_t', 'uint32_t', 'uint8_t', 'uint8_t', 'float', 'uint8_t', 'uint8_t', 'uint16_t', 'uint16_t', 'uint8_t', 'uint8_t']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<qIf8H8HBBBBBB'
+        native_format = bytearray('<qIfHHBBBBBB', 'ascii')
+        orders = [0, 1, 5, 6, 2, 7, 8, 3, 4, 9, 10]
+        lengths = [1, 1, 1, 8, 8, 1, 1, 1, 1, 1, 1]
+        array_lengths = [0, 0, 0, 8, 8, 0, 0, 0, 0, 0, 0]
+        crc_extra = 120
+        unpacker = struct.Struct('<qIf8H8HBBBBBB')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open, bat_heater_fault,
-                 adc_measurements_sbc, adc_measurements_cop, available_status, bat_status):
-        MAVLink_message.__init__(self, MAVLink_seed_heartbeat_message.id, MAVLink_seed_heartbeat_message.name)
-        self._fieldnames = MAVLink_seed_heartbeat_message.fieldnames
-        self._instance_field = MAVLink_seed_heartbeat_message.instance_field
-        self._instance_offset = MAVLink_seed_heartbeat_message.instance_offset
-        self.time_local = time_local
-        self.d2time = d2time
-        self.telecommand_cnt = telecommand_cnt
-        self.state_cur = state_cur
-        self.imu_gyro_z = imu_gyro_z
-        self.lidar_cover_open = lidar_cover_open
-        self.bat_heater_fault = bat_heater_fault
-        self.adc_measurements_sbc = adc_measurements_sbc
-        self.adc_measurements_cop = adc_measurements_cop
-        self.available_status = available_status
-        self.bat_status = bat_status
+        def __init__(self, time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open, bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status, bat_status):
+                MAVLink_message.__init__(self, MAVLink_seed_heartbeat_message.id, MAVLink_seed_heartbeat_message.name)
+                self._fieldnames = MAVLink_seed_heartbeat_message.fieldnames
+                self._instance_field = MAVLink_seed_heartbeat_message.instance_field
+                self._instance_offset = MAVLink_seed_heartbeat_message.instance_offset
+                self.time_local = time_local
+                self.d2time = d2time
+                self.telecommand_cnt = telecommand_cnt
+                self.state_cur = state_cur
+                self.imu_gyro_z = imu_gyro_z
+                self.lidar_cover_open = lidar_cover_open
+                self.bat_heater_fault = bat_heater_fault
+                self.adc_measurements_sbc = adc_measurements_sbc
+                self.adc_measurements_cop = adc_measurements_cop
+                self.available_status = available_status
+                self.bat_status = bat_status
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 120,
-                                    struct.pack('<qIf8H8HBBBBBB', self.time_local, self.d2time, self.imu_gyro_z,
-                                                self.adc_measurements_sbc[0], self.adc_measurements_sbc[1],
-                                                self.adc_measurements_sbc[2], self.adc_measurements_sbc[3],
-                                                self.adc_measurements_sbc[4], self.adc_measurements_sbc[5],
-                                                self.adc_measurements_sbc[6], self.adc_measurements_sbc[7],
-                                                self.adc_measurements_cop[0], self.adc_measurements_cop[1],
-                                                self.adc_measurements_cop[2], self.adc_measurements_cop[3],
-                                                self.adc_measurements_cop[4], self.adc_measurements_cop[5],
-                                                self.adc_measurements_cop[6], self.adc_measurements_cop[7],
-                                                self.telecommand_cnt, self.state_cur, self.lidar_cover_open,
-                                                self.bat_heater_fault, self.available_status, self.bat_status),
-                                    force_mavlink1=force_mavlink1)
-
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 120, struct.pack('<qIf8H8HBBBBBB', self.time_local, self.d2time, self.imu_gyro_z, self.adc_measurements_sbc[0], self.adc_measurements_sbc[1], self.adc_measurements_sbc[2], self.adc_measurements_sbc[3], self.adc_measurements_sbc[4], self.adc_measurements_sbc[5], self.adc_measurements_sbc[6], self.adc_measurements_sbc[7], self.adc_measurements_cop[0], self.adc_measurements_cop[1], self.adc_measurements_cop[2], self.adc_measurements_cop[3], self.adc_measurements_cop[4], self.adc_measurements_cop[5], self.adc_measurements_cop[6], self.adc_measurements_cop[7], self.telecommand_cnt, self.state_cur, self.lidar_cover_open, self.bat_heater_fault, self.available_status, self.bat_status), force_mavlink1=force_mavlink1)
 
 class MAVLink_log_message(MAVLink_message):
-    '''
-    Contains log data of the Seed
-    '''
-    id = MAVLINK_MSG_ID_LOG
-    name = 'LOG'
-    fieldnames = ['time_local', 'd2time', 'log_msg']
-    ordered_fieldnames = ['time_local', 'd2time', 'log_msg']
-    fieldtypes = ['int64_t', 'uint32_t', 'char']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<qI243s'
-    native_format = bytearray('<qIc', 'ascii')
-    orders = [0, 1, 2]
-    lengths = [1, 1, 1]
-    array_lengths = [0, 0, 243]
-    crc_extra = 38
-    unpacker = struct.Struct('<qI243s')
-    instance_field = None
-    instance_offset = -1
+        '''
+        Contains log data of the Seed
+        '''
+        id = MAVLINK_MSG_ID_LOG
+        name = 'LOG'
+        fieldnames = ['time_local', 'd2time', 'log_msg']
+        ordered_fieldnames = ['time_local', 'd2time', 'log_msg']
+        fieldtypes = ['int64_t', 'uint32_t', 'char']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<qI243s'
+        native_format = bytearray('<qIc', 'ascii')
+        orders = [0, 1, 2]
+        lengths = [1, 1, 1]
+        array_lengths = [0, 0, 243]
+        crc_extra = 38
+        unpacker = struct.Struct('<qI243s')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, time_local, d2time, log_msg):
-        MAVLink_message.__init__(self, MAVLink_log_message.id, MAVLink_log_message.name)
-        self._fieldnames = MAVLink_log_message.fieldnames
-        self._instance_field = MAVLink_log_message.instance_field
-        self._instance_offset = MAVLink_log_message.instance_offset
-        self.time_local = time_local
-        self.d2time = d2time
-        self.log_msg = log_msg
+        def __init__(self, time_local, d2time, log_msg):
+                MAVLink_message.__init__(self, MAVLink_log_message.id, MAVLink_log_message.name)
+                self._fieldnames = MAVLink_log_message.fieldnames
+                self._instance_field = MAVLink_log_message.instance_field
+                self._instance_offset = MAVLink_log_message.instance_offset
+                self.time_local = time_local
+                self.d2time = d2time
+                self.log_msg = log_msg
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 38, struct.pack('<qI243s', self.time_local, self.d2time, self.log_msg),
-                                    force_mavlink1=force_mavlink1)
-
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 38, struct.pack('<qI243s', self.time_local, self.d2time, self.log_msg), force_mavlink1=force_mavlink1)
 
 class MAVLink_seed_system_t_message(MAVLink_message):
-    '''
-    Contains the whole Seeds system_t information + local time +
-    state.
-    '''
-    id = MAVLINK_MSG_ID_SEED_SYSTEM_T
-    name = 'SEED_SYSTEM_T'
-    fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'telecommand_cnt', 'state_cur',
-                  'iridium_RSSI', 'imu_acc_x', 'imu_acc_y', 'imu_acc_z', 'imu_gyro_x', 'imu_gyro_y', 'imu_gyro_z',
-                  'baro_press', 'baro_temp', 'adc_measurements_sbc', 'adc_measurements_cop', 'vacuum_baro_press',
-                  'tacho_rot_rate', 'lidar_cover_open', 'bat_heater_fault', 'bat_status', 'gps_lat', 'gps_long',
-                  'gps_quality', 'gps_satsUsed', 'gps_hdop', 'gps_alt', 'filter_vel_vertical', 'filter_height_ground',
-                  'filter_rotor_rot_rate', 'fiter_body_rot_rate', 'controller_blade_pitch', 'controller_fin_angle',
-                  'controller_ids', 'available_status']
-    ordered_fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'imu_acc_x', 'imu_acc_y',
-                          'imu_acc_z', 'imu_gyro_x', 'imu_gyro_y', 'imu_gyro_z', 'baro_press', 'baro_temp',
-                          'vacuum_baro_press', 'tacho_rot_rate', 'gps_lat', 'gps_long', 'gps_hdop', 'gps_alt',
-                          'filter_vel_vertical', 'filter_height_ground', 'filter_rotor_rot_rate', 'fiter_body_rot_rate',
-                          'controller_blade_pitch', 'controller_fin_angle', 'adc_measurements_sbc',
-                          'adc_measurements_cop', 'telecommand_cnt', 'state_cur', 'iridium_RSSI', 'lidar_cover_open',
-                          'bat_heater_fault', 'bat_status', 'gps_quality', 'gps_satsUsed', 'controller_ids',
-                          'available_status']
-    fieldtypes = ['int64_t', 'uint32_t', 'uint32_t', 'uint32_t', 'uint8_t', 'uint8_t', 'uint8_t', 'float', 'float',
-                  'float', 'float', 'float', 'float', 'float', 'float', 'uint16_t', 'uint16_t', 'float', 'float',
-                  'uint8_t', 'uint8_t', 'uint8_t', 'float', 'float', 'uint8_t', 'uint8_t', 'float', 'float', 'float',
-                  'float', 'float', 'float', 'float', 'float', 'uint8_t', 'uint8_t']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<qIIIffffffffffffffffffff8H8HBBBBBBBBBB'
-    native_format = bytearray('<qIIIffffffffffffffffffffHHBBBBBBBBBB', 'ascii')
-    orders = [0, 1, 2, 3, 26, 27, 28, 4, 5, 6, 7, 8, 9, 10, 11, 24, 25, 12, 13, 29, 30, 31, 14, 15, 32, 33, 16, 17, 18,
-              19, 20, 21, 22, 23, 34, 35]
-    lengths = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-               1]
-    array_lengths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 0, 0, 0, 0, 0, 0, 0,
-                     0, 0, 0]
-    crc_extra = 77
-    unpacker = struct.Struct('<qIIIffffffffffffffffffff8H8HBBBBBBBBBB')
-    instance_field = None
-    instance_offset = -1
+        '''
+        Contains the whole Seeds system_t information + local time +
+        state.
+        '''
+        id = MAVLINK_MSG_ID_SEED_SYSTEM_T
+        name = 'SEED_SYSTEM_T'
+        fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'telecommand_cnt', 'state_cur', 'iridium_RSSI', 'imu_acc_x', 'imu_acc_y', 'imu_acc_z', 'imu_gyro_x', 'imu_gyro_y', 'imu_gyro_z', 'baro_press', 'baro_temp', 'adc_measurements_sbc', 'adc_measurements_cop', 'vacuum_baro_press', 'tacho_rot_rate', 'lidar_cover_open', 'bat_heater_fault', 'bat_status', 'gps_lat', 'gps_long', 'gps_quality', 'gps_satsUsed', 'gps_hdop', 'gps_alt', 'filter_vel_vertical', 'filter_height_ground', 'filter_rotor_rot_rate', 'fiter_body_rot_rate', 'controller_blade_pitch', 'controller_fin_angle', 'controller_ids', 'available_status']
+        ordered_fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'imu_acc_x', 'imu_acc_y', 'imu_acc_z', 'imu_gyro_x', 'imu_gyro_y', 'imu_gyro_z', 'baro_press', 'baro_temp', 'vacuum_baro_press', 'tacho_rot_rate', 'gps_lat', 'gps_long', 'gps_hdop', 'gps_alt', 'filter_vel_vertical', 'filter_height_ground', 'filter_rotor_rot_rate', 'fiter_body_rot_rate', 'controller_blade_pitch', 'controller_fin_angle', 'adc_measurements_sbc', 'adc_measurements_cop', 'telecommand_cnt', 'state_cur', 'iridium_RSSI', 'lidar_cover_open', 'bat_heater_fault', 'bat_status', 'gps_quality', 'gps_satsUsed', 'controller_ids', 'available_status']
+        fieldtypes = ['int64_t', 'uint32_t', 'uint32_t', 'uint32_t', 'uint8_t', 'uint8_t', 'uint8_t', 'float', 'float', 'float', 'float', 'float', 'float', 'float', 'float', 'uint16_t', 'uint16_t', 'float', 'float', 'uint8_t', 'uint8_t', 'uint8_t', 'float', 'float', 'uint8_t', 'uint8_t', 'float', 'float', 'float', 'float', 'float', 'float', 'float', 'float', 'uint8_t', 'uint8_t']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<qIIIffffffffffffffffffff8H8HBBBBBBBBBB'
+        native_format = bytearray('<qIIIffffffffffffffffffffHHBBBBBBBBBB', 'ascii')
+        orders = [0, 1, 2, 3, 26, 27, 28, 4, 5, 6, 7, 8, 9, 10, 11, 24, 25, 12, 13, 29, 30, 31, 14, 15, 32, 33, 16, 17, 18, 19, 20, 21, 22, 23, 34, 35]
+        lengths = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        array_lengths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        crc_extra = 77
+        unpacker = struct.Struct('<qIIIffffffffffffffffffff8H8HBBBBBBBBBB')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur,
-                 iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z, baro_press,
-                 baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press, tacho_rot_rate,
-                 lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop,
-                 gps_alt, filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate, fiter_body_rot_rate,
-                 controller_blade_pitch, controller_fin_angle, controller_ids, available_status):
-        MAVLink_message.__init__(self, MAVLink_seed_system_t_message.id, MAVLink_seed_system_t_message.name)
-        self._fieldnames = MAVLink_seed_system_t_message.fieldnames
-        self._instance_field = MAVLink_seed_system_t_message.instance_field
-        self._instance_offset = MAVLink_seed_system_t_message.instance_offset
-        self.time_local = time_local
-        self.d2time = d2time
-        self.mainloop_itr_cnt = mainloop_itr_cnt
-        self.mainloop_itr_time = mainloop_itr_time
-        self.telecommand_cnt = telecommand_cnt
-        self.state_cur = state_cur
-        self.iridium_RSSI = iridium_RSSI
-        self.imu_acc_x = imu_acc_x
-        self.imu_acc_y = imu_acc_y
-        self.imu_acc_z = imu_acc_z
-        self.imu_gyro_x = imu_gyro_x
-        self.imu_gyro_y = imu_gyro_y
-        self.imu_gyro_z = imu_gyro_z
-        self.baro_press = baro_press
-        self.baro_temp = baro_temp
-        self.adc_measurements_sbc = adc_measurements_sbc
-        self.adc_measurements_cop = adc_measurements_cop
-        self.vacuum_baro_press = vacuum_baro_press
-        self.tacho_rot_rate = tacho_rot_rate
-        self.lidar_cover_open = lidar_cover_open
-        self.bat_heater_fault = bat_heater_fault
-        self.bat_status = bat_status
-        self.gps_lat = gps_lat
-        self.gps_long = gps_long
-        self.gps_quality = gps_quality
-        self.gps_satsUsed = gps_satsUsed
-        self.gps_hdop = gps_hdop
-        self.gps_alt = gps_alt
-        self.filter_vel_vertical = filter_vel_vertical
-        self.filter_height_ground = filter_height_ground
-        self.filter_rotor_rot_rate = filter_rotor_rot_rate
-        self.fiter_body_rot_rate = fiter_body_rot_rate
-        self.controller_blade_pitch = controller_blade_pitch
-        self.controller_fin_angle = controller_fin_angle
-        self.controller_ids = controller_ids
-        self.available_status = available_status
+        def __init__(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press, tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle, controller_ids, available_status):
+                MAVLink_message.__init__(self, MAVLink_seed_system_t_message.id, MAVLink_seed_system_t_message.name)
+                self._fieldnames = MAVLink_seed_system_t_message.fieldnames
+                self._instance_field = MAVLink_seed_system_t_message.instance_field
+                self._instance_offset = MAVLink_seed_system_t_message.instance_offset
+                self.time_local = time_local
+                self.d2time = d2time
+                self.mainloop_itr_cnt = mainloop_itr_cnt
+                self.mainloop_itr_time = mainloop_itr_time
+                self.telecommand_cnt = telecommand_cnt
+                self.state_cur = state_cur
+                self.iridium_RSSI = iridium_RSSI
+                self.imu_acc_x = imu_acc_x
+                self.imu_acc_y = imu_acc_y
+                self.imu_acc_z = imu_acc_z
+                self.imu_gyro_x = imu_gyro_x
+                self.imu_gyro_y = imu_gyro_y
+                self.imu_gyro_z = imu_gyro_z
+                self.baro_press = baro_press
+                self.baro_temp = baro_temp
+                self.adc_measurements_sbc = adc_measurements_sbc
+                self.adc_measurements_cop = adc_measurements_cop
+                self.vacuum_baro_press = vacuum_baro_press
+                self.tacho_rot_rate = tacho_rot_rate
+                self.lidar_cover_open = lidar_cover_open
+                self.bat_heater_fault = bat_heater_fault
+                self.bat_status = bat_status
+                self.gps_lat = gps_lat
+                self.gps_long = gps_long
+                self.gps_quality = gps_quality
+                self.gps_satsUsed = gps_satsUsed
+                self.gps_hdop = gps_hdop
+                self.gps_alt = gps_alt
+                self.filter_vel_vertical = filter_vel_vertical
+                self.filter_height_ground = filter_height_ground
+                self.filter_rotor_rot_rate = filter_rotor_rot_rate
+                self.fiter_body_rot_rate = fiter_body_rot_rate
+                self.controller_blade_pitch = controller_blade_pitch
+                self.controller_fin_angle = controller_fin_angle
+                self.controller_ids = controller_ids
+                self.available_status = available_status
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 77,
-                                    struct.pack('<qIIIffffffffffffffffffff8H8HBBBBBBBBBB', self.time_local, self.d2time,
-                                                self.mainloop_itr_cnt, self.mainloop_itr_time, self.imu_acc_x,
-                                                self.imu_acc_y, self.imu_acc_z, self.imu_gyro_x, self.imu_gyro_y,
-                                                self.imu_gyro_z, self.baro_press, self.baro_temp,
-                                                self.vacuum_baro_press, self.tacho_rot_rate, self.gps_lat,
-                                                self.gps_long, self.gps_hdop, self.gps_alt, self.filter_vel_vertical,
-                                                self.filter_height_ground, self.filter_rotor_rot_rate,
-                                                self.fiter_body_rot_rate, self.controller_blade_pitch,
-                                                self.controller_fin_angle, self.adc_measurements_sbc[0],
-                                                self.adc_measurements_sbc[1], self.adc_measurements_sbc[2],
-                                                self.adc_measurements_sbc[3], self.adc_measurements_sbc[4],
-                                                self.adc_measurements_sbc[5], self.adc_measurements_sbc[6],
-                                                self.adc_measurements_sbc[7], self.adc_measurements_cop[0],
-                                                self.adc_measurements_cop[1], self.adc_measurements_cop[2],
-                                                self.adc_measurements_cop[3], self.adc_measurements_cop[4],
-                                                self.adc_measurements_cop[5], self.adc_measurements_cop[6],
-                                                self.adc_measurements_cop[7], self.telecommand_cnt, self.state_cur,
-                                                self.iridium_RSSI, self.lidar_cover_open, self.bat_heater_fault,
-                                                self.bat_status, self.gps_quality, self.gps_satsUsed,
-                                                self.controller_ids, self.available_status),
-                                    force_mavlink1=force_mavlink1)
-
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 77, struct.pack('<qIIIffffffffffffffffffff8H8HBBBBBBBBBB', self.time_local, self.d2time, self.mainloop_itr_cnt, self.mainloop_itr_time, self.imu_acc_x, self.imu_acc_y, self.imu_acc_z, self.imu_gyro_x, self.imu_gyro_y, self.imu_gyro_z, self.baro_press, self.baro_temp, self.vacuum_baro_press, self.tacho_rot_rate, self.gps_lat, self.gps_long, self.gps_hdop, self.gps_alt, self.filter_vel_vertical, self.filter_height_ground, self.filter_rotor_rot_rate, self.fiter_body_rot_rate, self.controller_blade_pitch, self.controller_fin_angle, self.adc_measurements_sbc[0], self.adc_measurements_sbc[1], self.adc_measurements_sbc[2], self.adc_measurements_sbc[3], self.adc_measurements_sbc[4], self.adc_measurements_sbc[5], self.adc_measurements_sbc[6], self.adc_measurements_sbc[7], self.adc_measurements_cop[0], self.adc_measurements_cop[1], self.adc_measurements_cop[2], self.adc_measurements_cop[3], self.adc_measurements_cop[4], self.adc_measurements_cop[5], self.adc_measurements_cop[6], self.adc_measurements_cop[7], self.telecommand_cnt, self.state_cur, self.iridium_RSSI, self.lidar_cover_open, self.bat_heater_fault, self.bat_status, self.gps_quality, self.gps_satsUsed, self.controller_ids, self.available_status), force_mavlink1=force_mavlink1)
 
 class MAVLink_con_cmd_message(MAVLink_message):
-    '''
-    Freetext command input, one command per message.
-    '''
-    id = MAVLINK_MSG_ID_CON_CMD
-    name = 'CON_CMD'
-    fieldnames = ['con_cmd']
-    ordered_fieldnames = ['con_cmd']
-    fieldtypes = ['char']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<255s'
-    native_format = bytearray('<c', 'ascii')
-    orders = [0]
-    lengths = [1]
-    array_lengths = [255]
-    crc_extra = 124
-    unpacker = struct.Struct('<255s')
-    instance_field = None
-    instance_offset = -1
+        '''
+        Freetext command input, one command per message.
+        '''
+        id = MAVLINK_MSG_ID_CON_CMD
+        name = 'CON_CMD'
+        fieldnames = ['con_cmd']
+        ordered_fieldnames = ['con_cmd']
+        fieldtypes = ['char']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<255s'
+        native_format = bytearray('<c', 'ascii')
+        orders = [0]
+        lengths = [1]
+        array_lengths = [255]
+        crc_extra = 124
+        unpacker = struct.Struct('<255s')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, con_cmd):
-        MAVLink_message.__init__(self, MAVLink_con_cmd_message.id, MAVLink_con_cmd_message.name)
-        self._fieldnames = MAVLink_con_cmd_message.fieldnames
-        self._instance_field = MAVLink_con_cmd_message.instance_field
-        self._instance_offset = MAVLink_con_cmd_message.instance_offset
-        self.con_cmd = con_cmd
+        def __init__(self, con_cmd):
+                MAVLink_message.__init__(self, MAVLink_con_cmd_message.id, MAVLink_con_cmd_message.name)
+                self._fieldnames = MAVLink_con_cmd_message.fieldnames
+                self._instance_field = MAVLink_con_cmd_message.instance_field
+                self._instance_offset = MAVLink_con_cmd_message.instance_offset
+                self.con_cmd = con_cmd
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 124, struct.pack('<255s', self.con_cmd), force_mavlink1=force_mavlink1)
-
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 124, struct.pack('<255s', self.con_cmd), force_mavlink1=force_mavlink1)
 
 class MAVLink_assist_now_upload_message(MAVLink_message):
-    '''
-    contains ublox_msg
-    '''
-    id = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD
-    name = 'ASSIST_NOW_UPLOAD'
-    fieldnames = ['ublox_msg']
-    ordered_fieldnames = ['ublox_msg']
-    fieldtypes = ['uint8_t']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<255B'
-    native_format = bytearray('<B', 'ascii')
-    orders = [0]
-    lengths = [255]
-    array_lengths = [255]
-    crc_extra = 88
-    unpacker = struct.Struct('<255B')
-    instance_field = None
-    instance_offset = -1
+        '''
+        contains ublox_msg
+        '''
+        id = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD
+        name = 'ASSIST_NOW_UPLOAD'
+        fieldnames = ['ublox_msg']
+        ordered_fieldnames = ['ublox_msg']
+        fieldtypes = ['uint8_t']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<255B'
+        native_format = bytearray('<B', 'ascii')
+        orders = [0]
+        lengths = [255]
+        array_lengths = [255]
+        crc_extra = 88
+        unpacker = struct.Struct('<255B')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, ublox_msg):
-        MAVLink_message.__init__(self, MAVLink_assist_now_upload_message.id, MAVLink_assist_now_upload_message.name)
-        self._fieldnames = MAVLink_assist_now_upload_message.fieldnames
-        self._instance_field = MAVLink_assist_now_upload_message.instance_field
-        self._instance_offset = MAVLink_assist_now_upload_message.instance_offset
-        self.ublox_msg = ublox_msg
+        def __init__(self, ublox_msg):
+                MAVLink_message.__init__(self, MAVLink_assist_now_upload_message.id, MAVLink_assist_now_upload_message.name)
+                self._fieldnames = MAVLink_assist_now_upload_message.fieldnames
+                self._instance_field = MAVLink_assist_now_upload_message.instance_field
+                self._instance_offset = MAVLink_assist_now_upload_message.instance_offset
+                self.ublox_msg = ublox_msg
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 88,
-                                    struct.pack('<255B', self.ublox_msg[0], self.ublox_msg[1], self.ublox_msg[2],
-                                                self.ublox_msg[3], self.ublox_msg[4], self.ublox_msg[5],
-                                                self.ublox_msg[6], self.ublox_msg[7], self.ublox_msg[8],
-                                                self.ublox_msg[9], self.ublox_msg[10], self.ublox_msg[11],
-                                                self.ublox_msg[12], self.ublox_msg[13], self.ublox_msg[14],
-                                                self.ublox_msg[15], self.ublox_msg[16], self.ublox_msg[17],
-                                                self.ublox_msg[18], self.ublox_msg[19], self.ublox_msg[20],
-                                                self.ublox_msg[21], self.ublox_msg[22], self.ublox_msg[23],
-                                                self.ublox_msg[24], self.ublox_msg[25], self.ublox_msg[26],
-                                                self.ublox_msg[27], self.ublox_msg[28], self.ublox_msg[29],
-                                                self.ublox_msg[30], self.ublox_msg[31], self.ublox_msg[32],
-                                                self.ublox_msg[33], self.ublox_msg[34], self.ublox_msg[35],
-                                                self.ublox_msg[36], self.ublox_msg[37], self.ublox_msg[38],
-                                                self.ublox_msg[39], self.ublox_msg[40], self.ublox_msg[41],
-                                                self.ublox_msg[42], self.ublox_msg[43], self.ublox_msg[44],
-                                                self.ublox_msg[45], self.ublox_msg[46], self.ublox_msg[47],
-                                                self.ublox_msg[48], self.ublox_msg[49], self.ublox_msg[50],
-                                                self.ublox_msg[51], self.ublox_msg[52], self.ublox_msg[53],
-                                                self.ublox_msg[54], self.ublox_msg[55], self.ublox_msg[56],
-                                                self.ublox_msg[57], self.ublox_msg[58], self.ublox_msg[59],
-                                                self.ublox_msg[60], self.ublox_msg[61], self.ublox_msg[62],
-                                                self.ublox_msg[63], self.ublox_msg[64], self.ublox_msg[65],
-                                                self.ublox_msg[66], self.ublox_msg[67], self.ublox_msg[68],
-                                                self.ublox_msg[69], self.ublox_msg[70], self.ublox_msg[71],
-                                                self.ublox_msg[72], self.ublox_msg[73], self.ublox_msg[74],
-                                                self.ublox_msg[75], self.ublox_msg[76], self.ublox_msg[77],
-                                                self.ublox_msg[78], self.ublox_msg[79], self.ublox_msg[80],
-                                                self.ublox_msg[81], self.ublox_msg[82], self.ublox_msg[83],
-                                                self.ublox_msg[84], self.ublox_msg[85], self.ublox_msg[86],
-                                                self.ublox_msg[87], self.ublox_msg[88], self.ublox_msg[89],
-                                                self.ublox_msg[90], self.ublox_msg[91], self.ublox_msg[92],
-                                                self.ublox_msg[93], self.ublox_msg[94], self.ublox_msg[95],
-                                                self.ublox_msg[96], self.ublox_msg[97], self.ublox_msg[98],
-                                                self.ublox_msg[99], self.ublox_msg[100], self.ublox_msg[101],
-                                                self.ublox_msg[102], self.ublox_msg[103], self.ublox_msg[104],
-                                                self.ublox_msg[105], self.ublox_msg[106], self.ublox_msg[107],
-                                                self.ublox_msg[108], self.ublox_msg[109], self.ublox_msg[110],
-                                                self.ublox_msg[111], self.ublox_msg[112], self.ublox_msg[113],
-                                                self.ublox_msg[114], self.ublox_msg[115], self.ublox_msg[116],
-                                                self.ublox_msg[117], self.ublox_msg[118], self.ublox_msg[119],
-                                                self.ublox_msg[120], self.ublox_msg[121], self.ublox_msg[122],
-                                                self.ublox_msg[123], self.ublox_msg[124], self.ublox_msg[125],
-                                                self.ublox_msg[126], self.ublox_msg[127], self.ublox_msg[128],
-                                                self.ublox_msg[129], self.ublox_msg[130], self.ublox_msg[131],
-                                                self.ublox_msg[132], self.ublox_msg[133], self.ublox_msg[134],
-                                                self.ublox_msg[135], self.ublox_msg[136], self.ublox_msg[137],
-                                                self.ublox_msg[138], self.ublox_msg[139], self.ublox_msg[140],
-                                                self.ublox_msg[141], self.ublox_msg[142], self.ublox_msg[143],
-                                                self.ublox_msg[144], self.ublox_msg[145], self.ublox_msg[146],
-                                                self.ublox_msg[147], self.ublox_msg[148], self.ublox_msg[149],
-                                                self.ublox_msg[150], self.ublox_msg[151], self.ublox_msg[152],
-                                                self.ublox_msg[153], self.ublox_msg[154], self.ublox_msg[155],
-                                                self.ublox_msg[156], self.ublox_msg[157], self.ublox_msg[158],
-                                                self.ublox_msg[159], self.ublox_msg[160], self.ublox_msg[161],
-                                                self.ublox_msg[162], self.ublox_msg[163], self.ublox_msg[164],
-                                                self.ublox_msg[165], self.ublox_msg[166], self.ublox_msg[167],
-                                                self.ublox_msg[168], self.ublox_msg[169], self.ublox_msg[170],
-                                                self.ublox_msg[171], self.ublox_msg[172], self.ublox_msg[173],
-                                                self.ublox_msg[174], self.ublox_msg[175], self.ublox_msg[176],
-                                                self.ublox_msg[177], self.ublox_msg[178], self.ublox_msg[179],
-                                                self.ublox_msg[180], self.ublox_msg[181], self.ublox_msg[182],
-                                                self.ublox_msg[183], self.ublox_msg[184], self.ublox_msg[185],
-                                                self.ublox_msg[186], self.ublox_msg[187], self.ublox_msg[188],
-                                                self.ublox_msg[189], self.ublox_msg[190], self.ublox_msg[191],
-                                                self.ublox_msg[192], self.ublox_msg[193], self.ublox_msg[194],
-                                                self.ublox_msg[195], self.ublox_msg[196], self.ublox_msg[197],
-                                                self.ublox_msg[198], self.ublox_msg[199], self.ublox_msg[200],
-                                                self.ublox_msg[201], self.ublox_msg[202], self.ublox_msg[203],
-                                                self.ublox_msg[204], self.ublox_msg[205], self.ublox_msg[206],
-                                                self.ublox_msg[207], self.ublox_msg[208], self.ublox_msg[209],
-                                                self.ublox_msg[210], self.ublox_msg[211], self.ublox_msg[212],
-                                                self.ublox_msg[213], self.ublox_msg[214], self.ublox_msg[215],
-                                                self.ublox_msg[216], self.ublox_msg[217], self.ublox_msg[218],
-                                                self.ublox_msg[219], self.ublox_msg[220], self.ublox_msg[221],
-                                                self.ublox_msg[222], self.ublox_msg[223], self.ublox_msg[224],
-                                                self.ublox_msg[225], self.ublox_msg[226], self.ublox_msg[227],
-                                                self.ublox_msg[228], self.ublox_msg[229], self.ublox_msg[230],
-                                                self.ublox_msg[231], self.ublox_msg[232], self.ublox_msg[233],
-                                                self.ublox_msg[234], self.ublox_msg[235], self.ublox_msg[236],
-                                                self.ublox_msg[237], self.ublox_msg[238], self.ublox_msg[239],
-                                                self.ublox_msg[240], self.ublox_msg[241], self.ublox_msg[242],
-                                                self.ublox_msg[243], self.ublox_msg[244], self.ublox_msg[245],
-                                                self.ublox_msg[246], self.ublox_msg[247], self.ublox_msg[248],
-                                                self.ublox_msg[249], self.ublox_msg[250], self.ublox_msg[251],
-                                                self.ublox_msg[252], self.ublox_msg[253], self.ublox_msg[254]),
-                                    force_mavlink1=force_mavlink1)
-
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 88, struct.pack('<255B', self.ublox_msg[0], self.ublox_msg[1], self.ublox_msg[2], self.ublox_msg[3], self.ublox_msg[4], self.ublox_msg[5], self.ublox_msg[6], self.ublox_msg[7], self.ublox_msg[8], self.ublox_msg[9], self.ublox_msg[10], self.ublox_msg[11], self.ublox_msg[12], self.ublox_msg[13], self.ublox_msg[14], self.ublox_msg[15], self.ublox_msg[16], self.ublox_msg[17], self.ublox_msg[18], self.ublox_msg[19], self.ublox_msg[20], self.ublox_msg[21], self.ublox_msg[22], self.ublox_msg[23], self.ublox_msg[24], self.ublox_msg[25], self.ublox_msg[26], self.ublox_msg[27], self.ublox_msg[28], self.ublox_msg[29], self.ublox_msg[30], self.ublox_msg[31], self.ublox_msg[32], self.ublox_msg[33], self.ublox_msg[34], self.ublox_msg[35], self.ublox_msg[36], self.ublox_msg[37], self.ublox_msg[38], self.ublox_msg[39], self.ublox_msg[40], self.ublox_msg[41], self.ublox_msg[42], self.ublox_msg[43], self.ublox_msg[44], self.ublox_msg[45], self.ublox_msg[46], self.ublox_msg[47], self.ublox_msg[48], self.ublox_msg[49], self.ublox_msg[50], self.ublox_msg[51], self.ublox_msg[52], self.ublox_msg[53], self.ublox_msg[54], self.ublox_msg[55], self.ublox_msg[56], self.ublox_msg[57], self.ublox_msg[58], self.ublox_msg[59], self.ublox_msg[60], self.ublox_msg[61], self.ublox_msg[62], self.ublox_msg[63], self.ublox_msg[64], self.ublox_msg[65], self.ublox_msg[66], self.ublox_msg[67], self.ublox_msg[68], self.ublox_msg[69], self.ublox_msg[70], self.ublox_msg[71], self.ublox_msg[72], self.ublox_msg[73], self.ublox_msg[74], self.ublox_msg[75], self.ublox_msg[76], self.ublox_msg[77], self.ublox_msg[78], self.ublox_msg[79], self.ublox_msg[80], self.ublox_msg[81], self.ublox_msg[82], self.ublox_msg[83], self.ublox_msg[84], self.ublox_msg[85], self.ublox_msg[86], self.ublox_msg[87], self.ublox_msg[88], self.ublox_msg[89], self.ublox_msg[90], self.ublox_msg[91], self.ublox_msg[92], self.ublox_msg[93], self.ublox_msg[94], self.ublox_msg[95], self.ublox_msg[96], self.ublox_msg[97], self.ublox_msg[98], self.ublox_msg[99], self.ublox_msg[100], self.ublox_msg[101], self.ublox_msg[102], self.ublox_msg[103], self.ublox_msg[104], self.ublox_msg[105], self.ublox_msg[106], self.ublox_msg[107], self.ublox_msg[108], self.ublox_msg[109], self.ublox_msg[110], self.ublox_msg[111], self.ublox_msg[112], self.ublox_msg[113], self.ublox_msg[114], self.ublox_msg[115], self.ublox_msg[116], self.ublox_msg[117], self.ublox_msg[118], self.ublox_msg[119], self.ublox_msg[120], self.ublox_msg[121], self.ublox_msg[122], self.ublox_msg[123], self.ublox_msg[124], self.ublox_msg[125], self.ublox_msg[126], self.ublox_msg[127], self.ublox_msg[128], self.ublox_msg[129], self.ublox_msg[130], self.ublox_msg[131], self.ublox_msg[132], self.ublox_msg[133], self.ublox_msg[134], self.ublox_msg[135], self.ublox_msg[136], self.ublox_msg[137], self.ublox_msg[138], self.ublox_msg[139], self.ublox_msg[140], self.ublox_msg[141], self.ublox_msg[142], self.ublox_msg[143], self.ublox_msg[144], self.ublox_msg[145], self.ublox_msg[146], self.ublox_msg[147], self.ublox_msg[148], self.ublox_msg[149], self.ublox_msg[150], self.ublox_msg[151], self.ublox_msg[152], self.ublox_msg[153], self.ublox_msg[154], self.ublox_msg[155], self.ublox_msg[156], self.ublox_msg[157], self.ublox_msg[158], self.ublox_msg[159], self.ublox_msg[160], self.ublox_msg[161], self.ublox_msg[162], self.ublox_msg[163], self.ublox_msg[164], self.ublox_msg[165], self.ublox_msg[166], self.ublox_msg[167], self.ublox_msg[168], self.ublox_msg[169], self.ublox_msg[170], self.ublox_msg[171], self.ublox_msg[172], self.ublox_msg[173], self.ublox_msg[174], self.ublox_msg[175], self.ublox_msg[176], self.ublox_msg[177], self.ublox_msg[178], self.ublox_msg[179], self.ublox_msg[180], self.ublox_msg[181], self.ublox_msg[182], self.ublox_msg[183], self.ublox_msg[184], self.ublox_msg[185], self.ublox_msg[186], self.ublox_msg[187], self.ublox_msg[188], self.ublox_msg[189], self.ublox_msg[190], self.ublox_msg[191], self.ublox_msg[192], self.ublox_msg[193], self.ublox_msg[194], self.ublox_msg[195], self.ublox_msg[196], self.ublox_msg[197], self.ublox_msg[198], self.ublox_msg[199], self.ublox_msg[200], self.ublox_msg[201], self.ublox_msg[202], self.ublox_msg[203], self.ublox_msg[204], self.ublox_msg[205], self.ublox_msg[206], self.ublox_msg[207], self.ublox_msg[208], self.ublox_msg[209], self.ublox_msg[210], self.ublox_msg[211], self.ublox_msg[212], self.ublox_msg[213], self.ublox_msg[214], self.ublox_msg[215], self.ublox_msg[216], self.ublox_msg[217], self.ublox_msg[218], self.ublox_msg[219], self.ublox_msg[220], self.ublox_msg[221], self.ublox_msg[222], self.ublox_msg[223], self.ublox_msg[224], self.ublox_msg[225], self.ublox_msg[226], self.ublox_msg[227], self.ublox_msg[228], self.ublox_msg[229], self.ublox_msg[230], self.ublox_msg[231], self.ublox_msg[232], self.ublox_msg[233], self.ublox_msg[234], self.ublox_msg[235], self.ublox_msg[236], self.ublox_msg[237], self.ublox_msg[238], self.ublox_msg[239], self.ublox_msg[240], self.ublox_msg[241], self.ublox_msg[242], self.ublox_msg[243], self.ublox_msg[244], self.ublox_msg[245], self.ublox_msg[246], self.ublox_msg[247], self.ublox_msg[248], self.ublox_msg[249], self.ublox_msg[250], self.ublox_msg[251], self.ublox_msg[252], self.ublox_msg[253], self.ublox_msg[254]), force_mavlink1=force_mavlink1)
 
 class MAVLink_ejector_system_t_message(MAVLink_message):
-    '''
-    Contains the whole Ejector system_t information + local time +
-    state.
-    '''
-    id = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T
-    name = 'EJECTOR_SYSTEM_T'
-    fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'telecommand_cnt', 'state_cur']
-    ordered_fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'telecommand_cnt',
-                          'state_cur']
-    fieldtypes = ['int64_t', 'uint32_t', 'uint32_t', 'uint32_t', 'uint8_t', 'uint8_t']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<qIIIBB'
-    native_format = bytearray('<qIIIBB', 'ascii')
-    orders = [0, 1, 2, 3, 4, 5]
-    lengths = [1, 1, 1, 1, 1, 1]
-    array_lengths = [0, 0, 0, 0, 0, 0]
-    crc_extra = 0
-    unpacker = struct.Struct('<qIIIBB')
-    instance_field = None
-    instance_offset = -1
+        '''
+        Contains the whole Ejector system_t information + local time +
+        state.
+        '''
+        id = MAVLINK_MSG_ID_EJECTOR_SYSTEM_T
+        name = 'EJECTOR_SYSTEM_T'
+        fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'telecommand_cnt', 'state_cur']
+        ordered_fieldnames = ['time_local', 'd2time', 'mainloop_itr_cnt', 'mainloop_itr_time', 'telecommand_cnt', 'state_cur']
+        fieldtypes = ['int64_t', 'uint32_t', 'uint32_t', 'uint32_t', 'uint8_t', 'uint8_t']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<qIIIBB'
+        native_format = bytearray('<qIIIBB', 'ascii')
+        orders = [0, 1, 2, 3, 4, 5]
+        lengths = [1, 1, 1, 1, 1, 1]
+        array_lengths = [0, 0, 0, 0, 0, 0]
+        crc_extra = 0
+        unpacker = struct.Struct('<qIIIBB')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur):
-        MAVLink_message.__init__(self, MAVLink_ejector_system_t_message.id, MAVLink_ejector_system_t_message.name)
-        self._fieldnames = MAVLink_ejector_system_t_message.fieldnames
-        self._instance_field = MAVLink_ejector_system_t_message.instance_field
-        self._instance_offset = MAVLink_ejector_system_t_message.instance_offset
-        self.time_local = time_local
-        self.d2time = d2time
-        self.mainloop_itr_cnt = mainloop_itr_cnt
-        self.mainloop_itr_time = mainloop_itr_time
-        self.telecommand_cnt = telecommand_cnt
-        self.state_cur = state_cur
+        def __init__(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur):
+                MAVLink_message.__init__(self, MAVLink_ejector_system_t_message.id, MAVLink_ejector_system_t_message.name)
+                self._fieldnames = MAVLink_ejector_system_t_message.fieldnames
+                self._instance_field = MAVLink_ejector_system_t_message.instance_field
+                self._instance_offset = MAVLink_ejector_system_t_message.instance_offset
+                self.time_local = time_local
+                self.d2time = d2time
+                self.mainloop_itr_cnt = mainloop_itr_cnt
+                self.mainloop_itr_time = mainloop_itr_time
+                self.telecommand_cnt = telecommand_cnt
+                self.state_cur = state_cur
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 0,
-                                    struct.pack('<qIIIBB', self.time_local, self.d2time, self.mainloop_itr_cnt,
-                                                self.mainloop_itr_time, self.telecommand_cnt, self.state_cur),
-                                    force_mavlink1=force_mavlink1)
-
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 0, struct.pack('<qIIIBB', self.time_local, self.d2time, self.mainloop_itr_cnt, self.mainloop_itr_time, self.telecommand_cnt, self.state_cur), force_mavlink1=force_mavlink1)
 
 class MAVLink_ejector_heartbeat_message(MAVLink_message):
-    '''
-    Contains information about the current state and local time.
-    '''
-    id = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT
-    name = 'EJECTOR_HEARTBEAT'
-    fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled',
-                  'seed_power_enabled']
-    ordered_fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled',
-                          'seed_power_enabled']
-    fieldtypes = ['int64_t', 'uint32_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t']
-    fielddisplays_by_name = {}
-    fieldenums_by_name = {}
-    fieldunits_by_name = {}
-    format = '<qIBBBBB'
-    native_format = bytearray('<qIBBBBB', 'ascii')
-    orders = [0, 1, 2, 3, 4, 5, 6]
-    lengths = [1, 1, 1, 1, 1, 1, 1]
-    array_lengths = [0, 0, 0, 0, 0, 0, 0]
-    crc_extra = 32
-    unpacker = struct.Struct('<qIBBBBB')
-    instance_field = None
-    instance_offset = -1
+        '''
+        Contains information about the current state and local time.
+        '''
+        id = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT
+        name = 'EJECTOR_HEARTBEAT'
+        fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled', 'seed_power_enabled']
+        ordered_fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled', 'seed_power_enabled']
+        fieldtypes = ['int64_t', 'uint32_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t']
+        fielddisplays_by_name = {}
+        fieldenums_by_name = {}
+        fieldunits_by_name = {}
+        format = '<qIBBBBB'
+        native_format = bytearray('<qIBBBBB', 'ascii')
+        orders = [0, 1, 2, 3, 4, 5, 6]
+        lengths = [1, 1, 1, 1, 1, 1, 1]
+        array_lengths = [0, 0, 0, 0, 0, 0, 0]
+        crc_extra = 32
+        unpacker = struct.Struct('<qIBBBBB')
+        instance_field = None
+        instance_offset = -1
 
-    def __init__(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled):
-        MAVLink_message.__init__(self, MAVLink_ejector_heartbeat_message.id, MAVLink_ejector_heartbeat_message.name)
-        self._fieldnames = MAVLink_ejector_heartbeat_message.fieldnames
-        self._instance_field = MAVLink_ejector_heartbeat_message.instance_field
-        self._instance_offset = MAVLink_ejector_heartbeat_message.instance_offset
-        self.time_local = time_local
-        self.d2time = d2time
-        self.telecommand_cnt = telecommand_cnt
-        self.state_cur = state_cur
-        self.led_enabled = led_enabled
-        self.cam_enabled = cam_enabled
-        self.seed_power_enabled = seed_power_enabled
+        def __init__(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled):
+                MAVLink_message.__init__(self, MAVLink_ejector_heartbeat_message.id, MAVLink_ejector_heartbeat_message.name)
+                self._fieldnames = MAVLink_ejector_heartbeat_message.fieldnames
+                self._instance_field = MAVLink_ejector_heartbeat_message.instance_field
+                self._instance_offset = MAVLink_ejector_heartbeat_message.instance_offset
+                self.time_local = time_local
+                self.d2time = d2time
+                self.telecommand_cnt = telecommand_cnt
+                self.state_cur = state_cur
+                self.led_enabled = led_enabled
+                self.cam_enabled = cam_enabled
+                self.seed_power_enabled = seed_power_enabled
 
-    def pack(self, mav, force_mavlink1=False):
-        return MAVLink_message.pack(self, mav, 32,
-                                    struct.pack('<qIBBBBB', self.time_local, self.d2time, self.telecommand_cnt,
-                                                self.state_cur, self.led_enabled, self.cam_enabled,
-                                                self.seed_power_enabled), force_mavlink1=force_mavlink1)
+        def pack(self, mav, force_mavlink1=False):
+                return MAVLink_message.pack(self, mav, 32, struct.pack('<qIBBBBB', self.time_local, self.d2time, self.telecommand_cnt, self.state_cur, self.led_enabled, self.cam_enabled, self.seed_power_enabled), force_mavlink1=force_mavlink1)
 
 
 mavlink_map = {
-    MAVLINK_MSG_ID_SEED_HEARTBEAT: MAVLink_seed_heartbeat_message,
-    MAVLINK_MSG_ID_LOG: MAVLink_log_message,
-    MAVLINK_MSG_ID_SEED_SYSTEM_T: MAVLink_seed_system_t_message,
-    MAVLINK_MSG_ID_CON_CMD: MAVLink_con_cmd_message,
-    MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD: MAVLink_assist_now_upload_message,
-    MAVLINK_MSG_ID_EJECTOR_SYSTEM_T: MAVLink_ejector_system_t_message,
-    MAVLINK_MSG_ID_EJECTOR_HEARTBEAT: MAVLink_ejector_heartbeat_message,
+        MAVLINK_MSG_ID_SEED_HEARTBEAT : MAVLink_seed_heartbeat_message,
+        MAVLINK_MSG_ID_LOG : MAVLink_log_message,
+        MAVLINK_MSG_ID_SEED_SYSTEM_T : MAVLink_seed_system_t_message,
+        MAVLINK_MSG_ID_CON_CMD : MAVLink_con_cmd_message,
+        MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD : MAVLink_assist_now_upload_message,
+        MAVLINK_MSG_ID_EJECTOR_SYSTEM_T : MAVLink_ejector_system_t_message,
+        MAVLINK_MSG_ID_EJECTOR_HEARTBEAT : MAVLink_ejector_heartbeat_message,
 }
 
-
 class MAVError(Exception):
-    '''MAVLink error class'''
-
-    def __init__(self, msg):
-        Exception.__init__(self, msg)
-        self.message = msg
-
+        '''MAVLink error class'''
+        def __init__(self, msg):
+            Exception.__init__(self, msg)
+            self.message = msg
 
 class MAVString(str):
-    '''NUL terminated string'''
-
-    def __init__(self, s):
-        str.__init__(self)
-
-    def __str__(self):
-        i = self.find(chr(0))
-        if i == -1:
-            return self[:]
-        return self[0:i]
-
+        '''NUL terminated string'''
+        def __init__(self, s):
+                str.__init__(self)
+        def __str__(self):
+            i = self.find(chr(0))
+            if i == -1:
+                return self[:]
+            return self[0:i]
 
 class MAVLink_bad_data(MAVLink_message):
-    '''
-    a piece of bad data in a mavlink stream
-    '''
+        '''
+        a piece of bad data in a mavlink stream
+        '''
+        def __init__(self, data, reason):
+                MAVLink_message.__init__(self, MAVLINK_MSG_ID_BAD_DATA, 'BAD_DATA')
+                self._fieldnames = ['data', 'reason']
+                self.data = data
+                self.reason = reason
+                self._msgbuf = data
+                self._instance_field = None
 
-    def __init__(self, data, reason):
-        MAVLink_message.__init__(self, MAVLINK_MSG_ID_BAD_DATA, 'BAD_DATA')
-        self._fieldnames = ['data', 'reason']
-        self.data = data
-        self.reason = reason
-        self._msgbuf = data
-        self._instance_field = None
-
-    def __str__(self):
-        '''Override the __str__ function from MAVLink_messages because non-printable characters are common in to be the reason for this message to exist.'''
-        return '%s {%s, data:%s}' % (
-            self._type, self.reason, [('%x' % ord(i) if isinstance(i, str) else '%x' % i) for i in self.data])
-
+        def __str__(self):
+            '''Override the __str__ function from MAVLink_messages because non-printable characters are common in to be the reason for this message to exist.'''
+            return '%s {%s, data:%s}' % (self._type, self.reason, [('%x' % ord(i) if isinstance(i, str) else '%x' % i) for i in self.data])
 
 class MAVLinkSigning(object):
     '''MAVLink signing state class'''
-
     def __init__(self):
         self.secret_key = None
         self.timestamp = 0
@@ -804,654 +618,601 @@ class MAVLinkSigning(object):
         self.unsigned_count = 0
         self.reject_count = 0
 
-
 class MAVLink(object):
-    '''MAVLink protocol handling class'''
-
-    def __init__(self, file, srcSystem=0, srcComponent=0, use_native=False):
-        self.seq = 0
-        self.file = file
-        self.srcSystem = srcSystem
-        self.srcComponent = srcComponent
-        self.callback = None
-        self.callback_args = None
-        self.callback_kwargs = None
-        self.send_callback = None
-        self.send_callback_args = None
-        self.send_callback_kwargs = None
-        self.buf = bytearray()
-        self.buf_index = 0
-        self.expected_length = HEADER_LEN_V1 + 2
-        self.have_prefix_error = False
-        self.robust_parsing = False
-        self.protocol_marker = 253
-        self.little_endian = True
-        self.crc_extra = True
-        self.sort_fields = True
-        self.total_packets_sent = 0
-        self.total_bytes_sent = 0
-        self.total_packets_received = 0
-        self.total_bytes_received = 0
-        self.total_receive_errors = 0
-        self.startup_time = time.time()
-        self.signing = MAVLinkSigning()
-        if native_supported and (use_native or native_testing or native_force):
-            print("NOTE: mavnative is currently beta-test code")
-            self.native = mavnative.NativeConnection(MAVLink_message, mavlink_map)
-        else:
-            self.native = None
-        if native_testing:
-            self.test_buf = bytearray()
-        self.mav20_unpacker = struct.Struct('<cBBBBBBHB')
-        self.mav10_unpacker = struct.Struct('<cBBBBB')
-        self.mav20_h3_unpacker = struct.Struct('BBB')
-        self.mav_csum_unpacker = struct.Struct('<H')
-        self.mav_sign_unpacker = struct.Struct('<IH')
-
-    def set_callback(self, callback, *args, **kwargs):
-        self.callback = callback
-        self.callback_args = args
-        self.callback_kwargs = kwargs
-
-    def set_send_callback(self, callback, *args, **kwargs):
-        self.send_callback = callback
-        self.send_callback_args = args
-        self.send_callback_kwargs = kwargs
-
-    def send(self, mavmsg, force_mavlink1=False):
-        '''send a MAVLink message'''
-        buf = mavmsg.pack(self, force_mavlink1=force_mavlink1)
-        self.file.write(buf)
-        self.seq = (self.seq + 1) % 256
-        self.total_packets_sent += 1
-        self.total_bytes_sent += len(buf)
-        if self.send_callback:
-            self.send_callback(mavmsg, *self.send_callback_args, **self.send_callback_kwargs)
-
-    def buf_len(self):
-        return len(self.buf) - self.buf_index
-
-    def bytes_needed(self):
-        '''return number of bytes needed for next parsing stage'''
-        if self.native:
-            ret = self.native.expected_length - self.buf_len()
-        else:
-            ret = self.expected_length - self.buf_len()
-
-        if ret <= 0:
-            return 1
-        return ret
-
-    def __parse_char_native(self, c):
-        '''this method exists only to see in profiling results'''
-        m = self.native.parse_chars(c)
-        return m
-
-    def __callbacks(self, msg):
-        '''this method exists only to make profiling results easier to read'''
-        if self.callback:
-            self.callback(msg, *self.callback_args, **self.callback_kwargs)
-
-    def parse_char(self, c):
-        '''input some data bytes, possibly returning a new message'''
-        self.buf.extend(c)
-
-        self.total_bytes_received += len(c)
-
-        if self.native:
-            if native_testing:
-                self.test_buf.extend(c)
-                m = self.__parse_char_native(self.test_buf)
-                m2 = self.__parse_char_legacy()
-                if m2 != m:
-                    print("Native: %s\nLegacy: %s\n" % (m, m2))
-                    raise Exception('Native vs. Legacy mismatch')
-            else:
-                m = self.__parse_char_native(self.buf)
-        else:
-            m = self.__parse_char_legacy()
-
-        if m is not None:
-            self.total_packets_received += 1
-            self.__callbacks(m)
-        else:
-            # XXX The idea here is if we've read something and there's nothing left in
-            # the buffer, reset it to 0 which frees the memory
-            if self.buf_len() == 0 and self.buf_index != 0:
+        '''MAVLink protocol handling class'''
+        def __init__(self, file, srcSystem=0, srcComponent=0, use_native=False):
+                self.seq = 0
+                self.file = file
+                self.srcSystem = srcSystem
+                self.srcComponent = srcComponent
+                self.callback = None
+                self.callback_args = None
+                self.callback_kwargs = None
+                self.send_callback = None
+                self.send_callback_args = None
+                self.send_callback_kwargs = None
                 self.buf = bytearray()
                 self.buf_index = 0
+                self.expected_length = HEADER_LEN_V1+2
+                self.have_prefix_error = False
+                self.robust_parsing = False
+                self.protocol_marker = 253
+                self.little_endian = True
+                self.crc_extra = True
+                self.sort_fields = True
+                self.total_packets_sent = 0
+                self.total_bytes_sent = 0
+                self.total_packets_received = 0
+                self.total_bytes_received = 0
+                self.total_receive_errors = 0
+                self.startup_time = time.time()
+                self.signing = MAVLinkSigning()
+                if native_supported and (use_native or native_testing or native_force):
+                    print("NOTE: mavnative is currently beta-test code")
+                    self.native = mavnative.NativeConnection(MAVLink_message, mavlink_map)
+                else:
+                    self.native = None
+                if native_testing:
+                    self.test_buf = bytearray()
+                self.mav20_unpacker = struct.Struct('<cBBBBBBHB')
+                self.mav10_unpacker = struct.Struct('<cBBBBB')
+                self.mav20_h3_unpacker = struct.Struct('BBB')
+                self.mav_csum_unpacker = struct.Struct('<H')
+                self.mav_sign_unpacker = struct.Struct('<IH')
 
-        return m
+        def set_callback(self, callback, *args, **kwargs):
+            self.callback = callback
+            self.callback_args = args
+            self.callback_kwargs = kwargs
 
-    def __parse_char_legacy(self):
-        '''input some data bytes, possibly returning a new message (uses no native code)'''
-        header_len = HEADER_LEN_V1
-        if self.buf_len() >= 1 and self.buf[self.buf_index] == PROTOCOL_MARKER_V2:
-            header_len = HEADER_LEN_V2
+        def set_send_callback(self, callback, *args, **kwargs):
+            self.send_callback = callback
+            self.send_callback_args = args
+            self.send_callback_kwargs = kwargs
 
-        if self.buf_len() >= 1 and self.buf[self.buf_index] != PROTOCOL_MARKER_V1 and self.buf[
-            self.buf_index] != PROTOCOL_MARKER_V2:
-            magic = self.buf[self.buf_index]
-            self.buf_index += 1
-            if self.robust_parsing:
-                m = MAVLink_bad_data(bytearray([magic]), 'Bad prefix')
-                self.expected_length = header_len + 2
-                self.total_receive_errors += 1
-                return m
-            if self.have_prefix_error:
-                return None
-            self.have_prefix_error = True
-            self.total_receive_errors += 1
-            raise MAVError("invalid MAVLink prefix '%s'" % magic)
-        self.have_prefix_error = False
-        if self.buf_len() >= 3:
-            sbuf = self.buf[self.buf_index:3 + self.buf_index]
-            if sys.version_info.major < 3:
-                sbuf = str(sbuf)
-            (magic, self.expected_length, incompat_flags) = self.mav20_h3_unpacker.unpack(sbuf)
-            if magic == PROTOCOL_MARKER_V2 and (incompat_flags & MAVLINK_IFLAG_SIGNED):
-                self.expected_length += MAVLINK_SIGNATURE_BLOCK_LEN
-            self.expected_length += header_len + 2
-        if self.expected_length >= (header_len + 2) and self.buf_len() >= self.expected_length:
-            mbuf = array.array('B', self.buf[self.buf_index:self.buf_index + self.expected_length])
-            self.buf_index += self.expected_length
-            self.expected_length = header_len + 2
-            if self.robust_parsing:
-                try:
-                    if magic == PROTOCOL_MARKER_V2 and (incompat_flags & ~MAVLINK_IFLAG_SIGNED) != 0:
-                        raise MAVError(
-                            'invalid incompat_flags 0x%x 0x%x %u' % (incompat_flags, magic, self.expected_length))
-                    m = self.decode(mbuf)
-                except MAVError as reason:
-                    m = MAVLink_bad_data(mbuf, reason.message)
-                    self.total_receive_errors += 1
+        def send(self, mavmsg, force_mavlink1=False):
+                '''send a MAVLink message'''
+                buf = mavmsg.pack(self, force_mavlink1=force_mavlink1)
+                self.file.write(buf)
+                self.seq = (self.seq + 1) % 256
+                self.total_packets_sent += 1
+                self.total_bytes_sent += len(buf)
+                if self.send_callback:
+                    self.send_callback(mavmsg, *self.send_callback_args, **self.send_callback_kwargs)
+
+        def buf_len(self):
+            return len(self.buf) - self.buf_index
+
+        def bytes_needed(self):
+            '''return number of bytes needed for next parsing stage'''
+            if self.native:
+                ret = self.native.expected_length - self.buf_len()
             else:
-                if magic == PROTOCOL_MARKER_V2 and (incompat_flags & ~MAVLINK_IFLAG_SIGNED) != 0:
-                    raise MAVError(
-                        'invalid incompat_flags 0x%x 0x%x %u' % (incompat_flags, magic, self.expected_length))
-                m = self.decode(mbuf)
+                ret = self.expected_length - self.buf_len()
+
+            if ret <= 0:
+                return 1
+            return ret
+
+        def __parse_char_native(self, c):
+            '''this method exists only to see in profiling results'''
+            m = self.native.parse_chars(c)
             return m
-        return None
 
-    def parse_buffer(self, s):
-        '''input some data bytes, possibly returning a list of new messages'''
-        m = self.parse_char(s)
-        if m is None:
-            return None
-        ret = [m]
-        while True:
-            m = self.parse_char("")
-            if m is None:
-                return ret
-            ret.append(m)
-        return ret
+        def __callbacks(self, msg):
+            '''this method exists only to make profiling results easier to read'''
+            if self.callback:
+                self.callback(msg, *self.callback_args, **self.callback_kwargs)
 
-    def check_signature(self, msgbuf, srcSystem, srcComponent):
-        '''check signature on incoming message'''
-        if isinstance(msgbuf, array.array):
-            msgbuf = msgbuf.tostring()
-        timestamp_buf = msgbuf[-12:-6]
-        link_id = msgbuf[-13]
-        (tlow, thigh) = self.mav_sign_unpacker.unpack(timestamp_buf)
-        timestamp = tlow + (thigh << 32)
+        def parse_char(self, c):
+            '''input some data bytes, possibly returning a new message'''
+            self.buf.extend(c)
 
-        # see if the timestamp is acceptable
-        stream_key = (link_id, srcSystem, srcComponent)
-        if stream_key in self.signing.stream_timestamps:
-            if timestamp <= self.signing.stream_timestamps[stream_key]:
-                # reject old timestamp
-                # print('old timestamp')
-                return False
-        else:
-            # a new stream has appeared. Accept the timestamp if it is at most
-            # one minute behind our current timestamp
-            if timestamp + 6000 * 1000 < self.signing.timestamp:
-                # print('bad new stream ', timestamp/(100.0*1000*60*60*24*365), self.signing.timestamp/(100.0*1000*60*60*24*365))
-                return False
-            self.signing.stream_timestamps[stream_key] = timestamp
-            # print('new stream')
+            self.total_bytes_received += len(c)
 
-        h = hashlib.new('sha256')
-        h.update(self.signing.secret_key)
-        h.update(msgbuf[:-6])
-        if str(type(msgbuf)) == "<class 'bytes'>" or str(type(msgbuf)) == "<class 'bytearray'>":
-            # Python 3
-            sig1 = h.digest()[:6]
-            sig2 = msgbuf[-6:]
-        else:
-            sig1 = str(h.digest())[:6]
-            sig2 = str(msgbuf)[-6:]
-        if sig1 != sig2:
-            # print('sig mismatch')
-            return False
-
-        # the timestamp we next send with is the max of the received timestamp and
-        # our current timestamp
-        self.signing.timestamp = max(self.signing.timestamp, timestamp)
-        return True
-
-    def decode(self, msgbuf):
-        '''decode a buffer as a MAVLink message'''
-        # decode the header
-        if msgbuf[0] != PROTOCOL_MARKER_V1:
-            headerlen = 10
-            try:
-                magic, mlen, incompat_flags, compat_flags, seq, srcSystem, srcComponent, msgIdlow, msgIdhigh = self.mav20_unpacker.unpack(
-                    msgbuf[:headerlen])
-            except struct.error as emsg:
-                raise MAVError('Unable to unpack MAVLink header: %s' % emsg)
-            msgId = msgIdlow | (msgIdhigh << 16)
-            mapkey = msgId
-        else:
-            headerlen = 6
-            try:
-                magic, mlen, seq, srcSystem, srcComponent, msgId = self.mav10_unpacker.unpack(msgbuf[:headerlen])
-                incompat_flags = 0
-                compat_flags = 0
-            except struct.error as emsg:
-                raise MAVError('Unable to unpack MAVLink header: %s' % emsg)
-            mapkey = msgId
-        if (incompat_flags & MAVLINK_IFLAG_SIGNED) != 0:
-            signature_len = MAVLINK_SIGNATURE_BLOCK_LEN
-        else:
-            signature_len = 0
-
-        if ord(magic) != PROTOCOL_MARKER_V1 and ord(magic) != PROTOCOL_MARKER_V2:
-            raise MAVError("invalid MAVLink prefix '%s'" % magic)
-        if mlen != len(msgbuf) - (headerlen + 2 + signature_len):
-            raise MAVError('invalid MAVLink message length. Got %u expected %u, msgId=%u headerlen=%u' % (
-                len(msgbuf) - (headerlen + 2 + signature_len), mlen, msgId, headerlen))
-
-        if not mapkey in mavlink_map:
-            raise MAVError('unknown MAVLink message ID %s' % str(mapkey))
-
-        # decode the payload
-        type = mavlink_map[mapkey]
-        fmt = type.format
-        order_map = type.orders
-        len_map = type.lengths
-        crc_extra = type.crc_extra
-
-        # decode the checksum
-        try:
-            crc, = self.mav_csum_unpacker.unpack(msgbuf[-(2 + signature_len):][:2])
-        except struct.error as emsg:
-            raise MAVError('Unable to unpack MAVLink CRC: %s' % emsg)
-        crcbuf = msgbuf[1:-(2 + signature_len)]
-        if True:  # using CRC extra
-            crcbuf.append(crc_extra)
-        crc2 = x25crc(crcbuf)
-        if crc != crc2.crc and not MAVLINK_IGNORE_CRC:
-            raise MAVError('invalid MAVLink CRC in msgID %u 0x%04x should be 0x%04x' % (msgId, crc, crc2.crc))
-
-        sig_ok = False
-        if signature_len == MAVLINK_SIGNATURE_BLOCK_LEN:
-            self.signing.sig_count += 1
-        if self.signing.secret_key is not None:
-            accept_signature = False
-            if signature_len == MAVLINK_SIGNATURE_BLOCK_LEN:
-                sig_ok = self.check_signature(msgbuf, srcSystem, srcComponent)
-                accept_signature = sig_ok
-                if sig_ok:
-                    self.signing.goodsig_count += 1
+            if self.native:
+                if native_testing:
+                    self.test_buf.extend(c)
+                    m = self.__parse_char_native(self.test_buf)
+                    m2 = self.__parse_char_legacy()
+                    if m2 != m:
+                        print("Native: %s\nLegacy: %s\n" % (m, m2))
+                        raise Exception('Native vs. Legacy mismatch')
                 else:
-                    self.signing.badsig_count += 1
-                if not accept_signature and self.signing.allow_unsigned_callback is not None:
-                    accept_signature = self.signing.allow_unsigned_callback(self, msgId)
-                    if accept_signature:
-                        self.signing.unsigned_count += 1
-                    else:
-                        self.signing.reject_count += 1
-            elif self.signing.allow_unsigned_callback is not None:
-                accept_signature = self.signing.allow_unsigned_callback(self, msgId)
-                if accept_signature:
-                    self.signing.unsigned_count += 1
-                else:
-                    self.signing.reject_count += 1
-            if not accept_signature:
-                raise MAVError('Invalid signature')
-
-        csize = type.unpacker.size
-        mbuf = msgbuf[headerlen:-(2 + signature_len)]
-        if len(mbuf) < csize:
-            # zero pad to give right size
-            mbuf.extend([0] * (csize - len(mbuf)))
-        if len(mbuf) < csize:
-            raise MAVError('Bad message of type %s length %u needs %s' % (
-                type, len(mbuf), csize))
-        mbuf = mbuf[:csize]
-        try:
-            t = type.unpacker.unpack(mbuf)
-        except struct.error as emsg:
-            raise MAVError('Unable to unpack MAVLink payload type=%s fmt=%s payloadLength=%u: %s' % (
-                type, fmt, len(mbuf), emsg))
-
-        tlist = list(t)
-        # handle sorted fields
-        if True:
-            t = tlist[:]
-            if sum(len_map) == len(len_map):
-                # message has no arrays in it
-                for i in range(0, len(tlist)):
-                    tlist[i] = t[order_map[i]]
+                    m = self.__parse_char_native(self.buf)
             else:
-                # message has some arrays
-                tlist = []
-                for i in range(0, len(order_map)):
-                    order = order_map[i]
-                    L = len_map[order]
-                    tip = sum(len_map[:order])
-                    field = t[tip]
-                    if L == 1 or isinstance(field, str):
-                        tlist.append(field)
+                m = self.__parse_char_legacy()
+
+            if m is not None:
+                self.total_packets_received += 1
+                self.__callbacks(m)
+            else:
+                # XXX The idea here is if we've read something and there's nothing left in
+                # the buffer, reset it to 0 which frees the memory
+                if self.buf_len() == 0 and self.buf_index != 0:
+                    self.buf = bytearray()
+                    self.buf_index = 0
+
+            return m
+
+        def __parse_char_legacy(self):
+            '''input some data bytes, possibly returning a new message (uses no native code)'''
+            header_len = HEADER_LEN_V1
+            if self.buf_len() >= 1 and self.buf[self.buf_index] == PROTOCOL_MARKER_V2:
+                header_len = HEADER_LEN_V2
+
+            if self.buf_len() >= 1 and self.buf[self.buf_index] != PROTOCOL_MARKER_V1 and self.buf[self.buf_index] != PROTOCOL_MARKER_V2:
+                magic = self.buf[self.buf_index]
+                self.buf_index += 1
+                if self.robust_parsing:
+                    m = MAVLink_bad_data(bytearray([magic]), 'Bad prefix')
+                    self.expected_length = header_len+2
+                    self.total_receive_errors += 1
+                    return m
+                if self.have_prefix_error:
+                    return None
+                self.have_prefix_error = True
+                self.total_receive_errors += 1
+                raise MAVError("invalid MAVLink prefix '%s'" % magic)
+            self.have_prefix_error = False
+            if self.buf_len() >= 3:
+                sbuf = self.buf[self.buf_index:3+self.buf_index]
+                if sys.version_info.major < 3:
+                    sbuf = str(sbuf)
+                (magic, self.expected_length, incompat_flags) = self.mav20_h3_unpacker.unpack(sbuf)
+                if magic == PROTOCOL_MARKER_V2 and (incompat_flags & MAVLINK_IFLAG_SIGNED):
+                        self.expected_length += MAVLINK_SIGNATURE_BLOCK_LEN
+                self.expected_length += header_len + 2
+            if self.expected_length >= (header_len+2) and self.buf_len() >= self.expected_length:
+                mbuf = array.array('B', self.buf[self.buf_index:self.buf_index+self.expected_length])
+                self.buf_index += self.expected_length
+                self.expected_length = header_len+2
+                if self.robust_parsing:
+                    try:
+                        if magic == PROTOCOL_MARKER_V2 and (incompat_flags & ~MAVLINK_IFLAG_SIGNED) != 0:
+                            raise MAVError('invalid incompat_flags 0x%x 0x%x %u' % (incompat_flags, magic, self.expected_length))
+                        m = self.decode(mbuf)
+                    except MAVError as reason:
+                        m = MAVLink_bad_data(mbuf, reason.message)
+                        self.total_receive_errors += 1
+                else:
+                    if magic == PROTOCOL_MARKER_V2 and (incompat_flags & ~MAVLINK_IFLAG_SIGNED) != 0:
+                        raise MAVError('invalid incompat_flags 0x%x 0x%x %u' % (incompat_flags, magic, self.expected_length))
+                    m = self.decode(mbuf)
+                return m
+            return None
+
+        def parse_buffer(self, s):
+            '''input some data bytes, possibly returning a list of new messages'''
+            m = self.parse_char(s)
+            if m is None:
+                return None
+            ret = [m]
+            while True:
+                m = self.parse_char("")
+                if m is None:
+                    return ret
+                ret.append(m)
+            return ret
+
+        def check_signature(self, msgbuf, srcSystem, srcComponent):
+            '''check signature on incoming message'''
+            if isinstance(msgbuf, array.array):
+                msgbuf = msgbuf.tostring()
+            timestamp_buf = msgbuf[-12:-6]
+            link_id = msgbuf[-13]
+            (tlow, thigh) = self.mav_sign_unpacker.unpack(timestamp_buf)
+            timestamp = tlow + (thigh<<32)
+
+            # see if the timestamp is acceptable
+            stream_key = (link_id,srcSystem,srcComponent)
+            if stream_key in self.signing.stream_timestamps:
+                if timestamp <= self.signing.stream_timestamps[stream_key]:
+                    # reject old timestamp
+                    # print('old timestamp')
+                    return False
+            else:
+                # a new stream has appeared. Accept the timestamp if it is at most
+                # one minute behind our current timestamp
+                if timestamp + 6000*1000 < self.signing.timestamp:
+                    # print('bad new stream ', timestamp/(100.0*1000*60*60*24*365), self.signing.timestamp/(100.0*1000*60*60*24*365))
+                    return False
+                self.signing.stream_timestamps[stream_key] = timestamp
+                # print('new stream')
+
+            h = hashlib.new('sha256')
+            h.update(self.signing.secret_key)
+            h.update(msgbuf[:-6])
+            if str(type(msgbuf)) == "<class 'bytes'>" or str(type(msgbuf)) == "<class 'bytearray'>":
+                # Python 3
+                sig1 = h.digest()[:6]
+                sig2 = msgbuf[-6:]
+            else:
+                sig1 = str(h.digest())[:6]
+                sig2 = str(msgbuf)[-6:]
+            if sig1 != sig2:
+                # print('sig mismatch')
+                return False
+
+            # the timestamp we next send with is the max of the received timestamp and
+            # our current timestamp
+            self.signing.timestamp = max(self.signing.timestamp, timestamp)
+            return True
+
+        def decode(self, msgbuf):
+                '''decode a buffer as a MAVLink message'''
+                # decode the header
+                if msgbuf[0] != PROTOCOL_MARKER_V1:
+                    headerlen = 10
+                    try:
+                        magic, mlen, incompat_flags, compat_flags, seq, srcSystem, srcComponent, msgIdlow, msgIdhigh = self.mav20_unpacker.unpack(msgbuf[:headerlen])
+                    except struct.error as emsg:
+                        raise MAVError('Unable to unpack MAVLink header: %s' % emsg)
+                    msgId = msgIdlow | (msgIdhigh<<16)
+                    mapkey = msgId
+                else:
+                    headerlen = 6
+                    try:
+                        magic, mlen, seq, srcSystem, srcComponent, msgId = self.mav10_unpacker.unpack(msgbuf[:headerlen])
+                        incompat_flags = 0
+                        compat_flags = 0
+                    except struct.error as emsg:
+                        raise MAVError('Unable to unpack MAVLink header: %s' % emsg)
+                    mapkey = msgId
+                if (incompat_flags & MAVLINK_IFLAG_SIGNED) != 0:
+                    signature_len = MAVLINK_SIGNATURE_BLOCK_LEN
+                else:
+                    signature_len = 0
+
+                if ord(magic) != PROTOCOL_MARKER_V1 and ord(magic) != PROTOCOL_MARKER_V2:
+                    raise MAVError("invalid MAVLink prefix '%s'" % magic)
+                if mlen != len(msgbuf)-(headerlen+2+signature_len):
+                    raise MAVError('invalid MAVLink message length. Got %u expected %u, msgId=%u headerlen=%u' % (len(msgbuf)-(headerlen+2+signature_len), mlen, msgId, headerlen))
+
+                if not mapkey in mavlink_map:
+                    raise MAVError('unknown MAVLink message ID %s' % str(mapkey))
+
+                # decode the payload
+                type = mavlink_map[mapkey]
+                fmt = type.format
+                order_map = type.orders
+                len_map = type.lengths
+                crc_extra = type.crc_extra
+
+                # decode the checksum
+                try:
+                    crc, = self.mav_csum_unpacker.unpack(msgbuf[-(2+signature_len):][:2])
+                except struct.error as emsg:
+                    raise MAVError('Unable to unpack MAVLink CRC: %s' % emsg)
+                crcbuf = msgbuf[1:-(2+signature_len)]
+                if True: # using CRC extra
+                    crcbuf.append(crc_extra)
+                crc2 = x25crc(crcbuf)
+                if crc != crc2.crc and not MAVLINK_IGNORE_CRC:
+                    raise MAVError('invalid MAVLink CRC in msgID %u 0x%04x should be 0x%04x' % (msgId, crc, crc2.crc))
+
+                sig_ok = False
+                if signature_len == MAVLINK_SIGNATURE_BLOCK_LEN:
+                    self.signing.sig_count += 1
+                if self.signing.secret_key is not None:
+                    accept_signature = False
+                    if signature_len == MAVLINK_SIGNATURE_BLOCK_LEN:
+                        sig_ok = self.check_signature(msgbuf, srcSystem, srcComponent)
+                        accept_signature = sig_ok
+                        if sig_ok:
+                            self.signing.goodsig_count += 1
+                        else:
+                            self.signing.badsig_count += 1
+                        if not accept_signature and self.signing.allow_unsigned_callback is not None:
+                            accept_signature = self.signing.allow_unsigned_callback(self, msgId)
+                            if accept_signature:
+                                self.signing.unsigned_count += 1
+                            else:
+                                self.signing.reject_count += 1
+                    elif self.signing.allow_unsigned_callback is not None:
+                        accept_signature = self.signing.allow_unsigned_callback(self, msgId)
+                        if accept_signature:
+                            self.signing.unsigned_count += 1
+                        else:
+                            self.signing.reject_count += 1
+                    if not accept_signature:
+                        raise MAVError('Invalid signature')
+
+                csize = type.unpacker.size
+                mbuf = msgbuf[headerlen:-(2+signature_len)]
+                if len(mbuf) < csize:
+                    # zero pad to give right size
+                    mbuf.extend([0]*(csize - len(mbuf)))
+                if len(mbuf) < csize:
+                    raise MAVError('Bad message of type %s length %u needs %s' % (
+                        type, len(mbuf), csize))
+                mbuf = mbuf[:csize]
+                try:
+                    t = type.unpacker.unpack(mbuf)
+                except struct.error as emsg:
+                    raise MAVError('Unable to unpack MAVLink payload type=%s fmt=%s payloadLength=%u: %s' % (
+                        type, fmt, len(mbuf), emsg))
+
+                tlist = list(t)
+                # handle sorted fields
+                if True:
+                    t = tlist[:]
+                    if sum(len_map) == len(len_map):
+                        # message has no arrays in it
+                        for i in range(0, len(tlist)):
+                            tlist[i] = t[order_map[i]]
                     else:
-                        tlist.append(t[tip:(tip + L)])
+                        # message has some arrays
+                        tlist = []
+                        for i in range(0, len(order_map)):
+                            order = order_map[i]
+                            L = len_map[order]
+                            tip = sum(len_map[:order])
+                            field = t[tip]
+                            if L == 1 or isinstance(field, str):
+                                tlist.append(field)
+                            else:
+                                tlist.append(t[tip:(tip + L)])
 
-        # terminate any strings
-        for i in range(0, len(tlist)):
-            if type.fieldtypes[i] == 'char':
-                if sys.version_info.major >= 3:
-                    tlist[i] = to_string(tlist[i])
-                tlist[i] = str(MAVString(tlist[i]))
-        t = tuple(tlist)
-        # construct the message object
-        try:
-            m = type(*t)
-        except Exception as emsg:
-            raise MAVError('Unable to instantiate MAVLink message of type %s : %s' % (type, emsg))
-        m._signed = sig_ok
-        if m._signed:
-            m._link_id = msgbuf[-13]
-        m._msgbuf = msgbuf
-        m._payload = msgbuf[6:-(2 + signature_len)]
-        m._crc = crc
-        m._header = MAVLink_header(msgId, incompat_flags, compat_flags, mlen, seq, srcSystem, srcComponent)
-        return m
+                # terminate any strings
+                for i in range(0, len(tlist)):
+                    if type.fieldtypes[i] == 'char':
+                        if sys.version_info.major >= 3:
+                            tlist[i] = to_string(tlist[i])
+                        tlist[i] = str(MAVString(tlist[i]))
+                t = tuple(tlist)
+                # construct the message object
+                try:
+                    m = type(*t)
+                except Exception as emsg:
+                    raise MAVError('Unable to instantiate MAVLink message of type %s : %s' % (type, emsg))
+                m._signed = sig_ok
+                if m._signed:
+                    m._link_id = msgbuf[-13]
+                m._msgbuf = msgbuf
+                m._payload = msgbuf[6:-(2+signature_len)]
+                m._crc = crc
+                m._header = MAVLink_header(msgId, incompat_flags, compat_flags, mlen, seq, srcSystem, srcComponent)
+                return m
+        def seed_heartbeat_encode(self, time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open, bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status, bat_status):
+                '''
+                Contains information about the current state and local time.
 
-    def seed_heartbeat_encode(self, time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open,
-                              bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status,
-                              bat_status):
-        '''
-        Contains information about the current state and local time.
+                time_local                : Seed local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
+                imu_gyro_z                : angular velocity around z-axis (type:float)
+                lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
+                bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
+                adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
+                adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
+                available_status          : imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
+                bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
 
-        time_local                : Seed local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
-        imu_gyro_z                : angular velocity around z-axis (type:float)
-        lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
-        bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
-        adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
-        adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
-        available_status          : imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
-        bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
+                '''
+                return MAVLink_seed_heartbeat_message(time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open, bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status, bat_status)
 
-        '''
-        return MAVLink_seed_heartbeat_message(time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z,
-                                              lidar_cover_open, bat_heater_fault, adc_measurements_sbc,
-                                              adc_measurements_cop, available_status, bat_status)
+        def seed_heartbeat_send(self, time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open, bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status, bat_status, force_mavlink1=False):
+                '''
+                Contains information about the current state and local time.
 
-    def seed_heartbeat_send(self, time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open,
-                            bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status, bat_status,
-                            force_mavlink1=False):
-        '''
-        Contains information about the current state and local time.
+                time_local                : Seed local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
+                imu_gyro_z                : angular velocity around z-axis (type:float)
+                lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
+                bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
+                adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
+                adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
+                available_status          : imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
+                bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
 
-        time_local                : Seed local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
-        imu_gyro_z                : angular velocity around z-axis (type:float)
-        lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
-        bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
-        adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
-        adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
-        available_status          : imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
-        bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
+                '''
+                return self.send(self.seed_heartbeat_encode(time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open, bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status, bat_status), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(
-            self.seed_heartbeat_encode(time_local, d2time, telecommand_cnt, state_cur, imu_gyro_z, lidar_cover_open,
-                                       bat_heater_fault, adc_measurements_sbc, adc_measurements_cop, available_status,
-                                       bat_status), force_mavlink1=force_mavlink1)
+        def log_encode(self, time_local, d2time, log_msg):
+                '''
+                Contains log data of the Seed
 
-    def log_encode(self, time_local, d2time, log_msg):
-        '''
-        Contains log data of the Seed
+                time_local                : Seed local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                log_msg                   : Logging data (type:char)
 
-        time_local                : Seed local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        log_msg                   : Logging data (type:char)
+                '''
+                return MAVLink_log_message(time_local, d2time, log_msg)
 
-        '''
-        return MAVLink_log_message(time_local, d2time, log_msg)
+        def log_send(self, time_local, d2time, log_msg, force_mavlink1=False):
+                '''
+                Contains log data of the Seed
 
-    def log_send(self, time_local, d2time, log_msg, force_mavlink1=False):
-        '''
-        Contains log data of the Seed
+                time_local                : Seed local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                log_msg                   : Logging data (type:char)
 
-        time_local                : Seed local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        log_msg                   : Logging data (type:char)
+                '''
+                return self.send(self.log_encode(time_local, d2time, log_msg), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(self.log_encode(time_local, d2time, log_msg), force_mavlink1=force_mavlink1)
+        def seed_system_t_encode(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press, tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle, controller_ids, available_status):
+                '''
+                Contains the whole Seeds system_t information + local time + state.
 
-    def seed_system_t_encode(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur,
-                             iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z,
-                             baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press,
-                             tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long,
-                             gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground,
-                             filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle,
-                             controller_ids, available_status):
-        '''
-        Contains the whole Seeds system_t information + local time + state.
+                time_local                : Seed local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
+                mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
+                iridium_RSSI              : Indicates the signal quality of Iridium (type:uint8_t)
+                imu_acc_x                 : acceleration along x-axis, multiple of g (type:float)
+                imu_acc_y                 : acceleration along y-axis, multiple of g (type:float)
+                imu_acc_z                 : acceleration along z-axis, multiple of g (type:float)
+                imu_gyro_x                : angular velocity around x-axis (type:float)
+                imu_gyro_y                : angular velocity around y-axis (type:float)
+                imu_gyro_z                : angular velocity around z-axis (type:float)
+                baro_press                : air pressure (type:float)
+                baro_temp                 : temperature in degrees Celsius (type:float)
+                adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
+                adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
+                vacuum_baro_press         : air pressure (type:float)
+                tacho_rot_rate            : rotation rate of the rotor in rad/s (type:float)
+                lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
+                bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
+                bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
+                gps_lat                   : current latitude (N is positiv, S is negativ) (type:float)
+                gps_long                  : current longitude (W is positiv, E is negativ) (type:float)
+                gps_quality               : indicator for gps fix (type:uint8_t)
+                gps_satsUsed              : number of used satellites (type:uint8_t)
+                gps_hdop                  : horizontal dilution of precision (type:float)
+                gps_alt                   : altitude above mean sea level (type:float)
+                filter_vel_vertical        : vertical velocity of the seed in m/s – negative if seed is falling (type:float)
+                filter_height_ground        : height above ground in m (type:float)
+                filter_rotor_rot_rate        : absolute (to air/world frame) rotation rate of the rotor in rad/s" (type:float)
+                fiter_body_rot_rate        : absolute (to air/world frame) rotation rate of the body in rad/s" (type:float)
+                controller_blade_pitch        : setpoint for the pitch angle for the servos (type:float)
+                controller_fin_angle        : desired fin angle (type:float)
+                controller_ids            : identifier for blade controller type and finn controller type in this order with individual size of 4 bit. (type:uint8_t)
+                available_status          : imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
 
-        time_local                : Seed local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
-        mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
-        iridium_RSSI              : Indicates the signal quality of Iridium (type:uint8_t)
-        imu_acc_x                 : acceleration along x-axis, multiple of g (type:float)
-        imu_acc_y                 : acceleration along y-axis, multiple of g (type:float)
-        imu_acc_z                 : acceleration along z-axis, multiple of g (type:float)
-        imu_gyro_x                : angular velocity around x-axis (type:float)
-        imu_gyro_y                : angular velocity around y-axis (type:float)
-        imu_gyro_z                : angular velocity around z-axis (type:float)
-        baro_press                : air pressure (type:float)
-        baro_temp                 : temperature in degrees Celsius (type:float)
-        adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
-        adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
-        vacuum_baro_press         : air pressure (type:float)
-        tacho_rot_rate            : rotation rate of the rotor in rad/s (type:float)
-        lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
-        bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
-        bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
-        gps_lat                   : current latitude (N is positiv, S is negativ) (type:float)
-        gps_long                  : current longitude (W is positiv, E is negativ) (type:float)
-        gps_quality               : indicator for gps fix (type:uint8_t)
-        gps_satsUsed              : number of used satellites (type:uint8_t)
-        gps_hdop                  : horizontal dilution of precision (type:float)
-        gps_alt                   : altitude above mean sea level (type:float)
-        filter_vel_vertical        : vertical velocity of the seed in m/s – negative if seed is falling (type:float)
-        filter_height_ground        : height above ground in m (type:float)
-        filter_rotor_rot_rate        : absolute (to air/world frame) rotation rate of the rotor in rad/s" (type:float)
-        fiter_body_rot_rate        : absolute (to air/world frame) rotation rate of the body in rad/s" (type:float)
-        controller_blade_pitch        : setpoint for the pitch angle for the servos (type:float)
-        controller_fin_angle        : desired fin angle (type:float)
-        controller_ids            : identifier for blade controller type and finn controller type in this order with individual size of 4 bit. (type:uint8_t)
-        available_status          : imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
+                '''
+                return MAVLink_seed_system_t_message(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press, tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle, controller_ids, available_status)
 
-        '''
-        return MAVLink_seed_system_t_message(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt,
-                                             state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x,
-                                             imu_gyro_y, imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc,
-                                             adc_measurements_cop, vacuum_baro_press, tacho_rot_rate, lidar_cover_open,
-                                             bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed,
-                                             gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground,
-                                             filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch,
-                                             controller_fin_angle, controller_ids, available_status)
+        def seed_system_t_send(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press, tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle, controller_ids, available_status, force_mavlink1=False):
+                '''
+                Contains the whole Seeds system_t information + local time + state.
 
-    def seed_system_t_send(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur,
-                           iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z,
-                           baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press,
-                           tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long,
-                           gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground,
-                           filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle,
-                           controller_ids, available_status, force_mavlink1=False):
-        '''
-        Contains the whole Seeds system_t information + local time + state.
+                time_local                : Seed local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
+                mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
+                iridium_RSSI              : Indicates the signal quality of Iridium (type:uint8_t)
+                imu_acc_x                 : acceleration along x-axis, multiple of g (type:float)
+                imu_acc_y                 : acceleration along y-axis, multiple of g (type:float)
+                imu_acc_z                 : acceleration along z-axis, multiple of g (type:float)
+                imu_gyro_x                : angular velocity around x-axis (type:float)
+                imu_gyro_y                : angular velocity around y-axis (type:float)
+                imu_gyro_z                : angular velocity around z-axis (type:float)
+                baro_press                : air pressure (type:float)
+                baro_temp                 : temperature in degrees Celsius (type:float)
+                adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
+                adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
+                vacuum_baro_press         : air pressure (type:float)
+                tacho_rot_rate            : rotation rate of the rotor in rad/s (type:float)
+                lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
+                bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
+                bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
+                gps_lat                   : current latitude (N is positiv, S is negativ) (type:float)
+                gps_long                  : current longitude (W is positiv, E is negativ) (type:float)
+                gps_quality               : indicator for gps fix (type:uint8_t)
+                gps_satsUsed              : number of used satellites (type:uint8_t)
+                gps_hdop                  : horizontal dilution of precision (type:float)
+                gps_alt                   : altitude above mean sea level (type:float)
+                filter_vel_vertical        : vertical velocity of the seed in m/s – negative if seed is falling (type:float)
+                filter_height_ground        : height above ground in m (type:float)
+                filter_rotor_rot_rate        : absolute (to air/world frame) rotation rate of the rotor in rad/s" (type:float)
+                fiter_body_rot_rate        : absolute (to air/world frame) rotation rate of the body in rad/s" (type:float)
+                controller_blade_pitch        : setpoint for the pitch angle for the servos (type:float)
+                controller_fin_angle        : desired fin angle (type:float)
+                controller_ids            : identifier for blade controller type and finn controller type in this order with individual size of 4 bit. (type:uint8_t)
+                available_status          : imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
 
-        time_local                : Seed local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
-        mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
-        iridium_RSSI              : Indicates the signal quality of Iridium (type:uint8_t)
-        imu_acc_x                 : acceleration along x-axis, multiple of g (type:float)
-        imu_acc_y                 : acceleration along y-axis, multiple of g (type:float)
-        imu_acc_z                 : acceleration along z-axis, multiple of g (type:float)
-        imu_gyro_x                : angular velocity around x-axis (type:float)
-        imu_gyro_y                : angular velocity around y-axis (type:float)
-        imu_gyro_z                : angular velocity around z-axis (type:float)
-        baro_press                : air pressure (type:float)
-        baro_temp                 : temperature in degrees Celsius (type:float)
-        adc_measurements_sbc        : adc measurements millivolts/milliamps (type:uint16_t)
-        adc_measurements_cop        : adc measurements millivolts/milliamps (type:uint16_t)
-        vacuum_baro_press         : air pressure (type:float)
-        tacho_rot_rate            : rotation rate of the rotor in rad/s (type:float)
-        lidar_cover_open          : Is the LIDAR Hole currently open? (type:uint8_t)
-        bat_heater_fault          : truthy if heater fault occurred (type:uint8_t)
-        bat_status                : rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit. (type:uint8_t)
-        gps_lat                   : current latitude (N is positiv, S is negativ) (type:float)
-        gps_long                  : current longitude (W is positiv, E is negativ) (type:float)
-        gps_quality               : indicator for gps fix (type:uint8_t)
-        gps_satsUsed              : number of used satellites (type:uint8_t)
-        gps_hdop                  : horizontal dilution of precision (type:float)
-        gps_alt                   : altitude above mean sea level (type:float)
-        filter_vel_vertical        : vertical velocity of the seed in m/s – negative if seed is falling (type:float)
-        filter_height_ground        : height above ground in m (type:float)
-        filter_rotor_rot_rate        : absolute (to air/world frame) rotation rate of the rotor in rad/s" (type:float)
-        fiter_body_rot_rate        : absolute (to air/world frame) rotation rate of the body in rad/s" (type:float)
-        controller_blade_pitch        : setpoint for the pitch angle for the servos (type:float)
-        controller_fin_angle        : desired fin angle (type:float)
-        controller_ids            : identifier for blade controller type and finn controller type in this order with individual size of 4 bit. (type:uint8_t)
-        available_status          : imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit (type:uint8_t)
+                '''
+                return self.send(self.seed_system_t_encode(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y, imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop, vacuum_baro_press, tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status, gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop, gps_alt, filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate, fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle, controller_ids, available_status), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(
-            self.seed_system_t_encode(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt,
-                                      state_cur, iridium_RSSI, imu_acc_x, imu_acc_y, imu_acc_z, imu_gyro_x, imu_gyro_y,
-                                      imu_gyro_z, baro_press, baro_temp, adc_measurements_sbc, adc_measurements_cop,
-                                      vacuum_baro_press, tacho_rot_rate, lidar_cover_open, bat_heater_fault, bat_status,
-                                      gps_lat, gps_long, gps_quality, gps_satsUsed, gps_hdop, gps_alt,
-                                      filter_vel_vertical, filter_height_ground, filter_rotor_rot_rate,
-                                      fiter_body_rot_rate, controller_blade_pitch, controller_fin_angle, controller_ids,
-                                      available_status), force_mavlink1=force_mavlink1)
+        def con_cmd_encode(self, con_cmd):
+                '''
+                Freetext command input, one command per message.
 
-    def con_cmd_encode(self, con_cmd):
-        '''
-        Freetext command input, one command per message.
+                con_cmd                   : CMD content (type:char)
 
-        con_cmd                   : CMD content (type:char)
+                '''
+                return MAVLink_con_cmd_message(con_cmd)
 
-        '''
-        return MAVLink_con_cmd_message(con_cmd)
+        def con_cmd_send(self, con_cmd, force_mavlink1=False):
+                '''
+                Freetext command input, one command per message.
 
-    def con_cmd_send(self, con_cmd, force_mavlink1=False):
-        '''
-        Freetext command input, one command per message.
+                con_cmd                   : CMD content (type:char)
 
-        con_cmd                   : CMD content (type:char)
+                '''
+                return self.send(self.con_cmd_encode(con_cmd), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(self.con_cmd_encode(con_cmd), force_mavlink1=force_mavlink1)
+        def assist_now_upload_encode(self, ublox_msg):
+                '''
+                contains ublox_msg
 
-    def assist_now_upload_encode(self, ublox_msg):
-        '''
-        contains ublox_msg
+                ublox_msg                 : ublox_msg (type:uint8_t)
 
-        ublox_msg                 : ublox_msg (type:uint8_t)
+                '''
+                return MAVLink_assist_now_upload_message(ublox_msg)
 
-        '''
-        return MAVLink_assist_now_upload_message(ublox_msg)
+        def assist_now_upload_send(self, ublox_msg, force_mavlink1=False):
+                '''
+                contains ublox_msg
 
-    def assist_now_upload_send(self, ublox_msg, force_mavlink1=False):
-        '''
-        contains ublox_msg
+                ublox_msg                 : ublox_msg (type:uint8_t)
 
-        ublox_msg                 : ublox_msg (type:uint8_t)
+                '''
+                return self.send(self.assist_now_upload_encode(ublox_msg), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(self.assist_now_upload_encode(ublox_msg), force_mavlink1=force_mavlink1)
+        def ejector_system_t_encode(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur):
+                '''
+                Contains the whole Ejector system_t information + local time + state.
 
-    def ejector_system_t_encode(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt,
-                                state_cur):
-        '''
-        Contains the whole Ejector system_t information + local time + state.
+                time_local                : Ejector local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
+                mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
 
-        time_local                : Ejector local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
-        mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
+                '''
+                return MAVLink_ejector_system_t_message(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur)
 
-        '''
-        return MAVLink_ejector_system_t_message(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time,
-                                                telecommand_cnt, state_cur)
+        def ejector_system_t_send(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur, force_mavlink1=False):
+                '''
+                Contains the whole Ejector system_t information + local time + state.
 
-    def ejector_system_t_send(self, time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur,
-                              force_mavlink1=False):
-        '''
-        Contains the whole Ejector system_t information + local time + state.
+                time_local                : Ejector local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
+                mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
 
-        time_local                : Ejector local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        mainloop_itr_cnt          : number of the current iteration of the mainloop (type:uint32_t)
-        mainloop_itr_time         : time the last mainloop iteration took (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
+                '''
+                return self.send(self.ejector_system_t_encode(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(
-            self.ejector_system_t_encode(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt,
-                                         state_cur), force_mavlink1=force_mavlink1)
+        def ejector_heartbeat_encode(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled):
+                '''
+                Contains information about the current state and local time.
 
-    def ejector_heartbeat_encode(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled,
-                                 seed_power_enabled):
-        '''
-        Contains information about the current state and local time.
+                time_local                : Ejector local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
+                led_enabled               : LED status (type:uint8_t)
+                cam_enabled               : Cam status (type:uint8_t)
+                seed_power_enabled        : Seed Power status (type:uint8_t)
 
-        time_local                : Ejector local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
-        led_enabled               : LED status (type:uint8_t)
-        cam_enabled               : Cam status (type:uint8_t)
-        seed_power_enabled        : Seed Power status (type:uint8_t)
+                '''
+                return MAVLink_ejector_heartbeat_message(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled)
 
-        '''
-        return MAVLink_ejector_heartbeat_message(time_local, d2time, telecommand_cnt, state_cur, led_enabled,
-                                                 cam_enabled, seed_power_enabled)
+        def ejector_heartbeat_send(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, force_mavlink1=False):
+                '''
+                Contains information about the current state and local time.
 
-    def ejector_heartbeat_send(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled,
-                               seed_power_enabled, force_mavlink1=False):
-        '''
-        Contains information about the current state and local time.
+                time_local                : Ejector local time (type:int64_t)
+                d2time                    : system time (type:uint32_t)
+                telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
+                state_cur                 : current System state (type:uint8_t)
+                led_enabled               : LED status (type:uint8_t)
+                cam_enabled               : Cam status (type:uint8_t)
+                seed_power_enabled        : Seed Power status (type:uint8_t)
 
-        time_local                : Ejector local time (type:int64_t)
-        d2time                    : system time (type:uint32_t)
-        telecommand_cnt           : number of received and executed telecommands (type:uint8_t)
-        state_cur                 : current System state (type:uint8_t)
-        led_enabled               : LED status (type:uint8_t)
-        cam_enabled               : Cam status (type:uint8_t)
-        seed_power_enabled        : Seed Power status (type:uint8_t)
+                '''
+                return self.send(self.ejector_heartbeat_encode(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled), force_mavlink1=force_mavlink1)
 
-        '''
-        return self.send(
-            self.ejector_heartbeat_encode(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled,
-                                          seed_power_enabled), force_mavlink1=force_mavlink1)
