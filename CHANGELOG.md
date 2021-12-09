@@ -1,3 +1,12 @@
+## [0.20.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.20.0...v0.20.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* **application:** Fix Telecommand Sender verticle correctly casting a signed byte array to an unsigned short array to successfully send Assist Now Upload Mavlink messages with valid payload ([016c554](https://github.com/wuespace/telestion-project-daedalus2/commit/016c554fae0627f619ce9dc1bc6270431fa7cffb))
+
+
+
 # [0.20.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.19.0...v0.20.0) (2021-12-08)
 
 
