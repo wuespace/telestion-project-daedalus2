@@ -26,26 +26,30 @@ def receive(name, s: socket.socket, file: BinaryIO):
 	print("Starting receive thread " + str(name))
 	tc_receiver = daedalus2.MAVLink(file)
 	try:
-		while not STOP_FLAG:
-			if file.closed:
-				break
-			raw = s.recv(1)
-# 			print(raw)
-			message = tc_receiver.parse_char(raw)
-			if message:
-				sourceId = message.get_header().srcComponent
-				msgSource = sourceIds.get(sourceId, "unknown") + " " + str(sourceId)
-				if hasattr(message, "ublox_msg"):
-					msgType = "ublox_msg"
-					msgContent = bytearray(message.ublox_msg)
-				elif hasattr(message, "con_cmd"):
-					msgType = "con_cmd"
-					msgContent = message.con_cmd
-				else:
-					msgType = "generic"
-					msgContent = message
 
-				print("\nReceived a '{0}' message to '{1}' with: {2}".format(msgType, msgSource, msgContent))
+		with open('assist-now-data.bin', 'wb') as assistNowFile:
+			while not STOP_FLAG:
+				if file.closed:
+					break
+				raw = s.recv(1)
+	# 			print(raw)
+				message = tc_receiver.parse_char(raw)
+				if message:
+					sourceId = message.get_header().srcComponent
+					msgSource = sourceIds.get(sourceId, "unknown") + " " + str(sourceId)
+					if hasattr(message, "ublox_msg"):
+						msgType = "ublox_msg"
+						msgContent = bytearray(message.ublox_msg)
+						assistNowFile.write(msgContent)
+						assistNowFile.flush()
+					elif hasattr(message, "con_cmd"):
+						msgType = "con_cmd"
+						msgContent = message.con_cmd
+					else:
+						msgType = "generic"
+						msgContent = message
+
+					print("\nReceived a '{0}' message to '{1}' with: {2}".format(msgType, msgSource, msgContent))
 	except:
 		return None
 
