@@ -242,16 +242,33 @@
 				"magnitude": 1,
 				"config": {
 					"checklist": {
-						"Before start": {
-							"Hydraulics": false,
-							"Ignition": false,
-							"Elec": {
-								"Volts": false,
-								"Amps": false
-							}
+						"Before lift off": {
+							"Inventory": {
+								"RBC is present": false,
+								"SBC-A is present": false,
+								"SBC-B is present": false
+							},
+							"Power": {
+								"Power on": false,
+								"Verify on TV": false
+							},
+							"Commands": {
+								"RBC sync clock": false,
+								"SBC-A sync clock": false,
+								"SBC-B sync clock": false,
+								"In flight configuration": false,
+								"Start logging": false
+							},
+							"Lift off": false
 						},
-						"After start": {
-							"Ops notified": false
+						"After lift off": {
+							"Seeds ejection ready": false,
+							"Switch TV channel": false,
+							"Seed-A check for deploy": false,
+							"Seed-B check for deploy": false,
+							"TV channel stop": false,
+							"Wait for Iridium": false,
+							"Enjoy": false
 						}
 					}
 				}
