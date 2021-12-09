@@ -5,13 +5,15 @@ import {
 	telecommandDashboard,
 	notesDashboard,
 	electricalDashboard,
-	debugDashboard
+	debugDashboard,
+	currentValuesDashboard
 } from './dashboards';
 
 export const userConfig: UserConfig = {
 	admin: {
 		dashboards: [
 			overviewDashboard,
+			currentValuesDashboard,
 			graphDashboard,
 			electricalDashboard,
 			telecommandDashboard,
