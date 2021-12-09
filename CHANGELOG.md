@@ -1,3 +1,15 @@
+# [0.21.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.20.1...v0.21.0) (2021-12-09)
+
+
+### Features
+
+* **application:** Add assist-now binary exporter to D2 TM simulator ([28bbb87](https://github.com/wuespace/telestion-project-daedalus2/commit/28bbb87a1e8ad247e4b145a41b5af35cdc37d530))
+* **application:** Publish parser stats to redis in `mavlink/parser` section ([47a6d53](https://github.com/wuespace/telestion-project-daedalus2/commit/47a6d5349a916178c8351784223bcab899e72806))
+* **application:** Update checklist configuration ([9197194](https://github.com/wuespace/telestion-project-daedalus2/commit/9197194353b6e1025c38b83fc68520a6ff6ce0c5))
+* **client:** Add current values dashboard ([0519248](https://github.com/wuespace/telestion-project-daedalus2/commit/05192481a6bbf0cd4f428e6063eaa194485b4e27))
+
+
+
 ## [0.20.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.20.0...v0.20.1) (2021-12-09)
 
 
