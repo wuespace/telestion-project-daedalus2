@@ -97,7 +97,6 @@ public class TelecommandSender extends AbstractVerticle {
 	}
 
 	private void handleAssistNowTC(String target, byte[] payload) {
-		logger.debug("Received AssistNowTC from {} with payload: {}", target, payload);
 		var message = new msg_assist_now_upload(
 				toShort(payload),
 				config.sysId(),
@@ -109,13 +108,9 @@ public class TelecommandSender extends AbstractVerticle {
 	}
 
 	private void sendMAVLinkMessage(MAVLinkMessage message, String target) {
-		// pack and encode
+		logger.debug("Send new Mavlink message to {}: {}", target, message);
+		// pack, encode and publish package
 		byte[] bytes = message.pack().encodePacket();
-		// convert to byte string to allow transfer over event bus
-		String byteString = new BigInteger(1, bytes).toString(16);
-
-		// publish package
-		logger.debug("Publishing encoded MAVLink packet: {}", byteString);
 		vertx.eventBus().publish(config.outAddress(), new RawMessage(bytes).json());
 
 		// notify others
@@ -135,7 +130,7 @@ public class TelecommandSender extends AbstractVerticle {
 	private static short[] toShort(byte[] array) {
 		short[] conv = new short[array.length];
 		for (int i = 0; i < array.length; i++) {
-			conv[i] = array[i];
+			conv[i] = (short) Byte.toUnsignedInt(array[i]);
 		}
 		return conv;
 	}
