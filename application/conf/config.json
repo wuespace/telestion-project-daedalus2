@@ -91,7 +91,7 @@
 					"notifyAddress": "a-gps-transmitter#notify",
 					"requestAddress": "a-gps-transmitter#request",
 					"outAddress": "tc-sender",
-					"bytesPerMessage": 30,
+					"bytesPerMessage": 255,
 					"delay": 3000
 				}
 			},
