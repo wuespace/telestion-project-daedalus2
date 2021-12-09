@@ -26,8 +26,13 @@ public class MavlinkTM extends AbstractVerticle {
 	public static final String DEFAULT_IN_ADDRESS = "raw-mavlink";
 	private Configuration config;
 
-	public MavlinkTM(Configuration config) { this.config = config; }
-	public MavlinkTM() { this(null); }
+	public MavlinkTM(Configuration config) {
+		this.config = config;
+	}
+
+	public MavlinkTM() {
+		this(null);
+	}
 
 	public static void main(String[] args) throws InterruptedException {
 		var vertx = Vertx.vertx();
@@ -114,9 +119,20 @@ public class MavlinkTM extends AbstractVerticle {
 				}
 			}
 
+			var parseTime = System.currentTimeMillis();
+			var options = new DeliveryOptions()
+					.addHeader("receive-time", Json.encode(parseTime))
+					.addHeader("time", Json.encode(parseTime));
+
+			var parserInformation = new JsonObject()
+					.put("received", parser.stats.receivedPacketCount)
+					.put("lost", parser.stats.lostPacketCount)
+					.put("crc-error", parser.stats.crcErrorCount);
+
+			eb.publish("mavlink/parser", parserInformation, options);
+
 			logger.info("Received: {}, Lost: {}, CRC-Error: {}", parser.stats.receivedPacketCount, parser.stats.lostPacketCount, parser.stats.crcErrorCount);
 		}));
-
 
 		startPromise.complete();
 	}
@@ -130,7 +146,8 @@ public class MavlinkTM extends AbstractVerticle {
 		}
 	}
 
-	public record Configuration(@JsonProperty Map<String, String> sysIdMapping, @JsonProperty String inAddress) implements JsonMessage {
+	public record Configuration(@JsonProperty Map<String, String> sysIdMapping,
+								@JsonProperty String inAddress) implements JsonMessage {
 		public Configuration() {
 			this(null, DEFAULT_IN_ADDRESS);
 		}

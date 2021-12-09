@@ -191,7 +191,8 @@
 						"ejector/EJECTOR_SYSTEM_T",
 						"ejector/tc-counter",
 						"simulator/iridium",
-						"message-chunker/information"
+						"message-chunker/information",
+						"mavlink/parser"
 					]
 				}
 			},
