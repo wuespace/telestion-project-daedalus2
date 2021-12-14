@@ -15,8 +15,10 @@ const initialDimensions: GraphDimensions = {
 	maxY: 1
 };
 
-const selector: StateSelector<EventBusState, EventBusState['eventBus']> =
-	store => store.eventBus;
+const selector: StateSelector<
+	EventBusState,
+	EventBusState['eventBus']
+> = store => store.eventBus;
 
 /**
  * Registers to given event bus channel,
