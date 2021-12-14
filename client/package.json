@@ -47,7 +47,7 @@
 	},
 	"dependencies": {
 		"@adobe/react-spectrum": "^3.15.0",
-		"@react-spectrum/color": "^3.0.0-beta.4",
+		"@react-spectrum/color": "^3.0.0-beta.5",
 		"@react-spectrum/table": "3.0.0-beta.1",
 		"@react-spectrum/tabs": "^3.1.0",
 		"@spectrum-icons/illustrations": "^3.2.2",
