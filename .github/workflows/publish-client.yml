@@ -99,7 +99,7 @@ jobs:
 
       - name: Compress generated client build
         if: ${{ env.skipped == 'false' && matrix.os == 'ubuntu-latest' }}
-        run: zip -r "$ARCHIVE" build
+        run: zip -r "${ARCHIVE}.zip" build
         env:
           ARCHIVE: telestion-project-daedalus2-client-build-${{ env.version }}
 
