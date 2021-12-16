@@ -1,3 +1,12 @@
+## [0.22.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.22.0...v0.22.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* **ci:** Fix upload issues in release actions ([74bb2bc](https://github.com/wuespace/telestion-project-daedalus2/commit/74bb2bc9e67c4f2c6d92ae75b787c0d91338a99d))
+
+
+
 # [0.22.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.21.0...v0.22.0) (2021-12-16)
 
 
