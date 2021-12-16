@@ -97,20 +97,20 @@ jobs:
       - name: Build binaries 🗜
         run: npm run build
 
-      # - name: Compress generated client build
-      #   if: ${{ env.skipped == 'false' && matrix.os == 'ubuntu-latest' }}
-      #   uses: TheDoctor0/zip-release@0.6.0
-      #   with:
-      #     type: "zip"
-      #     filename: "telestion-project-daedalus2-client-build.zip"
-      #     path: "build"
+      - name: Compress generated client build
+        if: ${{ env.skipped == 'false' && matrix.os == 'ubuntu-latest' }}
+        run: zip -r "$ARCHIVE" build
+        env:
+          ARCHIVE: telestion-project-daedalus2-client-build-${{ env.version }}
 
-      # - name: Upload generated client build
-      #   if: ${{ env.skipped == 'false' && matrix.os == 'ubuntu-latest' }}
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     artifacts: "telestion-project-daedalus2-client-build.zip"
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload generated client build
+        if: ${{ env.skipped == 'false' && matrix.os == 'ubuntu-latest' }}
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.tag }}
+          file: ./client/telestion-project-daedalus2-client-build-*.zip
+          file_glob: true
 
       - name: Upload release assets 🪡
         if: ${{ env.skipped == 'false' }}

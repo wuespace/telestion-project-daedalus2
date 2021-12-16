@@ -48,14 +48,14 @@ jobs:
           mv "${TEMP_DIR}/${BUILD_DIR}/production.yml" "${TEMP_DIR}/${BUILD_DIR}/docker-compose.yml"
         env:
           TEMP_DIR: ${{ runner.temp }}
-          BUILD_DIR: telestion-project-daedalus2-${{ env.tag }}
+          BUILD_DIR: telestion-project-daedalus2-${{ env.version }}
 
       - name: Compress production workspace 📦
         working-directory: ${{ runner.temp }}
         run: zip -r "${BUILD_DIR}.zip" "${BUILD_DIR}"
         env:
           TEMP_DIR: ${{ runner.temp }}
-          BUILD_DIR: telestion-project-daedalus2-${{ env.tag }}
+          BUILD_DIR: telestion-project-daedalus2-${{ env.version }}
 
       - name: Upload release workspace 🪡
         if: ${{ env.skipped == 'false' }}
