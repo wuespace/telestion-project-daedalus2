@@ -63,4 +63,4 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.tag }}
-          file: ${{ runner.temp }}/telestion-project-daedalus2-${{ env.tag }}.zip
+          file: ${{ runner.temp }}/telestion-project-daedalus2-${{ env.version }}.zip
