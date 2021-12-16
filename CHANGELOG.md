@@ -1,3 +1,12 @@
+# [0.22.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.21.0...v0.22.0) (2021-12-16)
+
+
+### Features
+
+* **ci:** Add step to compress and upload client build as static webpage ([6520c6a](https://github.com/wuespace/telestion-project-daedalus2/commit/6520c6a8dd8adc86088e5cec8bf27994569aa699))
+
+
+
 # [0.21.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.20.1...v0.21.0) (2021-12-09)
 
 
