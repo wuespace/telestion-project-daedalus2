@@ -1,3 +1,12 @@
+# [0.23.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.22.2...v0.23.0) (2021-12-17)
+
+
+### Features
+
+* **client:** Add configuration that loads synchronous with the initial page and reads the `config.json` in the webroot to initially configure the web client ([0b124dd](https://github.com/wuespace/telestion-project-daedalus2/commit/0b124dd525c9bc02166cfd0dc89f33ff48793ead))
+
+
+
 ## [0.22.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.22.1...v0.22.2) (2021-12-17)
 
 
