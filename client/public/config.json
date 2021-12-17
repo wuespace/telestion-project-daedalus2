@@ -1,0 +1,4 @@
+{
+	"initialServerURL": "http://localhost:9870/bridge",
+	"initialUsername": "admin"
+}

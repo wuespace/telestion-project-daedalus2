@@ -5,16 +5,19 @@ import {
 	LoginDescription,
 	LoginForm
 } from '@wuespace/telestion-client-common';
+import { useConfig } from '../hooks/use-config';
 
 export function LoginPage() {
+	const config = useConfig();
+
 	return (
 		<TCLoginPage>
 			<LoginLogo />
 			<LoginTitle />
 			<LoginDescription />
 			<LoginForm
-				initialServerURL="http://localhost:9870/bridge"
-				initialUsername="admin"
+				initialServerURL={config.initialServerURL}
+				initialUsername={config.initialUsername}
 			/>
 		</TCLoginPage>
 	);
