@@ -1,3 +1,12 @@
+## [0.22.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.22.1...v0.22.2) (2021-12-17)
+
+
+### Bug Fixes
+
+* **ci:** Add `docker-compose` postfix to published setup archive ([9779150](https://github.com/wuespace/telestion-project-daedalus2/commit/97791509766c62c211bd8b5eae0bed89ef765fdd))
+
+
+
 ## [0.22.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.22.0...v0.22.1) (2021-12-16)
 
 
