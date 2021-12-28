@@ -6,9 +6,9 @@ from typing import BinaryIO
 
 import daedalus2
 
-MESSAGE_INTERVAL = 1
+MESSAGE_INTERVAL = 2 # seconds
 
-TELESTION_CONNECTION = "localhost", 9871
+TELESTION_CONNECTION = "localhost", 9871 # host, port
 
 EJECTOR_ID = 3
 SEED_A_ID = 4
@@ -62,21 +62,39 @@ def loop():
 	print("Connection to {0} established.".format(str(TELESTION_CONNECTION)))
 	print("Sending TM every {0} seconds until you stop the script by pressing Ctrl+C.".format(str(MESSAGE_INTERVAL)))
 	print()
-	print("(every '*' indicates that a batch of messages has been sent)")
+	print("(every '*' indicates that a status message of every component has been sent)")
 
 	receiver = threading.Thread(target=receive, args=(1, s, file))
 	receiver.start()
 
 	try:
+		rodos_time = 0
+
+		seed_a_state = 0
+		seed_b_state = 0
+		ejector_state = 0
+
 		while not STOP_FLAG:
-			ejector = daedalus2.MAVLink(file, srcSystem=EJECTOR_ID, srcComponent=192)  # Ejector
+			d2time = int(time.time() - 1420070400)
+
+			ejector = daedalus2.MAVLink(file, srcSystem=EJECTOR_ID, srcComponent=192)
 			seed_a = daedalus2.MAVLink(file, srcSystem=SEED_A_ID, srcComponent=192)
 			seed_b = daedalus2.MAVLink(file, srcSystem=SEED_B_ID, srcComponent=192)
 
-			seed_a.seed_heartbeat_send(int(time.time()), 312321, 3, 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], [1,2,3,4,5,6,7,8], 5, 5)
-			seed_b.seed_heartbeat_send(int(time.time()), 123123, 3, 2, random.random(), 1, 0, [1, 2, 3, 4, 5, 6, 7, 8], [1,2,3,4,5,6,7,8], 5, 5)
-			ejector.log_send(int(time.time()), 1561, b'Hallo Welt')
-			ejector.ejector_heartbeat_send(int(time.time()), 156165, 5, 5, 0, 0, 0)
+			# time_local, d2time, tc_count, state, imu_gyro_z, lidar_cover_open, bat_heater_fault, adc_meas_sbc, adc_meas_cop, avail_status, bat_status
+			seed_a.seed_heartbeat_send(rodos_time, d2time, 3, seed_a_state, random.random(), 1, 0, [1,2,3,4,5,6,7,8], [1,2,3,4,5,6,7,8], 5, 5)
+			seed_b.seed_heartbeat_send(rodos_time, d2time, 3, seed_b_state, random.random(), 1, 0, [1,2,3,4,5,6,7,8], [1,2,3,4,5,6,7,8], 5, 5)
+			# time_local, d2time, log_msg
+			ejector.log_send(rodos_time, d2time, b'Hallo Welt')
+			# time_local, d2time, tc_count, state, led_enabled, cam_enabled, seed_power_enabled
+			ejector.ejector_heartbeat_send(rodos_time, d2time, 5, ejector_state, 0, 0, 0)
+
+			# update variables for next round
+			rodos_time = rodos_time + 1000
+
+			seed_a_state = (seed_a_state + 1) % 34
+			seed_b_state = (seed_b_state + 1) % 34
+			ejector_state = (ejector_state + 1) % 19
 
 			# seed_a.seed_system_t_send(
 			# 	int(time.time()),
@@ -111,7 +129,7 @@ def loop():
 
 			file.flush()
 
-			print("*", end='')
+			print("*", end='', flush=True)
 
 			time.sleep(MESSAGE_INTERVAL)
 	except Exception as e:
