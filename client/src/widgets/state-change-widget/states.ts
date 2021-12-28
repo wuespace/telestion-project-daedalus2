@@ -1,16 +1,25 @@
-import { states } from '../../model/state';
+import { ejectorStates, seedStates, State } from '../../model/state';
 
-const nonVisibleStateNames = ['N/A', 'kInvalid'];
+const nonVisibleStateNames = ['N/A', 'Invalid', '*'];
 
-export const statesList = Object.entries(states)
-	.map(([id, state]) => ({
-		id,
-		...state
-	}))
-	.filter(
-		entry => !entry.name.endsWith('Entry') && !entry.name.endsWith('Exit')
-	)
-	.filter(entry => !nonVisibleStateNames.includes(entry.name));
+function createStateIds(states: Record<number, State>): number[] {
+	return Object.keys(states) as unknown as number[];
+}
 
-// @ts-ignore
-window['statesList'] = statesList;
+function createStatesList(states: Record<number, State>) {
+	return Object.entries(states)
+		.map(([id, state]) => ({
+			id,
+			...state
+		}))
+		.filter(
+			entry => !entry.name.endsWith('Entry') && !entry.name.endsWith('Exit')
+		)
+		.filter(entry => !nonVisibleStateNames.includes(entry.name));
+}
+
+export const ejectorStatesList = createStatesList(ejectorStates);
+export const ejectorStateIds = createStateIds(ejectorStates);
+
+export const seedStatesList = createStatesList(seedStates);
+export const seedStateIds = createStateIds(seedStates);
