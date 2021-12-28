@@ -1,6 +1,6 @@
 import { Content, Divider, Flex, Heading, Well } from '@adobe/react-spectrum';
 import { JsonSerializable } from '@wuespace/telestion-client-types';
-import { formatDeltaTime } from '../lib';
+import { formatDeltaTime } from '../../lib/format-delta-time';
 import { formatTitle } from '../lib/format-title';
 
 export interface LiveDisplayProps {

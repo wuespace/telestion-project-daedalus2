@@ -1,11 +1,8 @@
 import { Heading, View } from '@adobe/react-spectrum';
 import { BaseConfigControlsProps } from '@wuespace/telestion-client-types';
-import { WidgetProps } from './model';
 import { useHljs } from '../hooks';
 
-export function ConfigControls({
-	currentProps
-}: BaseConfigControlsProps<WidgetProps>) {
+export function ConfigControls({ currentProps }: BaseConfigControlsProps) {
 	useHljs();
 
 	const value = JSON.stringify(currentProps, null, 2);

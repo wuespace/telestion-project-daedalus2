@@ -21,14 +21,7 @@ export const telecommandDashboard: Dashboard = {
 			widgetName: 'stateChangeWidget',
 			width: 4,
 			height: 1,
-			initialProps: {
-				title: 'State Change',
-				targets: {
-					seedA: 'Seed A',
-					seedB: 'Seed B',
-					ejector: 'Ejector'
-				}
-			}
+			initialProps: {}
 		},
 		{
 			id: 'telecommand-2',

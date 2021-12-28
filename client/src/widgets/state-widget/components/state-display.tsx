@@ -1,18 +1,11 @@
 import { Heading, View, Divider, Flex } from '@adobe/react-spectrum';
-import { State } from '../../../model/state';
-import { StateRenderer } from './state-renderer';
+import { ReactElement } from 'react';
 
 export interface StateDisplayProps {
-	seedAState: State;
-	seedBState: State;
-	ejectorState: State;
+	children: ReactElement | ReactElement[];
 }
 
-export function StateDisplay({
-	seedAState,
-	seedBState,
-	ejectorState
-}: StateDisplayProps) {
+export function StateDisplay({ children }: StateDisplayProps) {
 	return (
 		<View padding="size-200" width="100%">
 			<Flex direction="column" alignItems="start">
@@ -23,9 +16,7 @@ export function StateDisplay({
 
 				<View width="100%" overflow={'auto'}>
 					<Flex direction="row" width="100%" minWidth={500} gap={'size-200'}>
-						<StateRenderer title="Seed A" state={seedAState} />
-						<StateRenderer title="Seed B" state={seedBState} />
-						<StateRenderer title="Ejector State" state={ejectorState} />
+						{children}
 					</Flex>
 				</View>
 			</Flex>

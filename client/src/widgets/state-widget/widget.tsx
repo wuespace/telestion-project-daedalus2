@@ -1,30 +1,57 @@
 import { LoadingIndicator } from '@wuespace/telestion-client-common';
 
-import { fallbackState, states } from '../../model/state';
 import { useCachedLatest } from '../hooks';
 import { WidgetProps } from './model';
 import { StateDisplay } from './components/state-display';
+import { StateRenderer } from './components/state-renderer';
 
 export function Widget({
 	seedASource,
 	seedBSource,
 	ejectorSource
 }: WidgetProps) {
-	const currentStates = useCachedLatest<[number, number, number]>([
+	const currentStates = useCachedLatest<
+		[number, number, number, number, number, number]
+	>([
 		`latest/seedA/${seedASource}/state_cur`,
+		`latest-time/seedA/${seedASource}/state_cur`,
 		`latest/seedB/${seedBSource}/state_cur`,
-		`latest/ejector/${ejectorSource}/state_cur`
+		`latest-time/seedB/${seedBSource}/state_cur`,
+		`latest/ejector/${ejectorSource}/state_cur`,
+		`latest-time/ejector/${ejectorSource}/state_cur`
 	]);
 
 	return (
 		// @ts-ignore
 		<LoadingIndicator timeout={0} dependencies={currentStates}>
-			{(seedA, seedB, ejector) => (
-				<StateDisplay
-					seedAState={states[seedA] || fallbackState}
-					seedBState={states[seedB] || fallbackState}
-					ejectorState={states[ejector] || fallbackState}
-				/>
+			{(
+				seedAState,
+				seedATime,
+				seedBState,
+				seedBTime,
+				ejectorState,
+				ejectorTime
+			) => (
+				<StateDisplay>
+					<StateRenderer
+						title="Seed A"
+						subsystem="seed"
+						stateId={seedAState}
+						time={seedATime}
+					/>
+					<StateRenderer
+						title="Seed B"
+						subsystem="seed"
+						stateId={seedBState}
+						time={seedBTime}
+					/>
+					<StateRenderer
+						title="Ejector State"
+						subsystem="ejector"
+						stateId={ejectorState}
+						time={ejectorTime}
+					/>
+				</StateDisplay>
 			)}
 		</LoadingIndicator>
 	);
