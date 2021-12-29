@@ -12,6 +12,7 @@ import {
 } from '@wuespace/telestion-client-common';
 import { PerformanceAction } from './performance-action';
 import { MissionTimeAction } from './mission-time-action';
+import { ConnectionStatusPanel } from './connection-status-panel';
 
 export function Header() {
 	return (
@@ -20,6 +21,7 @@ export function Header() {
 				<>
 					<AppLogo />
 					<NavBar />
+					<ConnectionStatusPanel />
 				</>
 			}
 			center={<DashboardPicker />}
