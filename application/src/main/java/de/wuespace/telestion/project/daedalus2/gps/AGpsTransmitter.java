@@ -1,16 +1,14 @@
 package de.wuespace.telestion.project.daedalus2.gps;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.wuespace.telestion.api.config.Config;
-import de.wuespace.telestion.api.message.JsonMessage;
+import de.wuespace.telestion.api.verticle.TelestionConfiguration;
+import de.wuespace.telestion.api.verticle.TelestionVerticle;
+import de.wuespace.telestion.api.verticle.trait.WithEventBus;
+import de.wuespace.telestion.api.verticle.trait.WithSharedData;
 import de.wuespace.telestion.project.daedalus2.gps.message.*;
-import de.wuespace.telestion.project.daedalus2.mavlink.internal.AssistNowTelecommand;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
+import de.wuespace.telestion.project.daedalus2.mavlink.message.AssistNowTelecommand;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.shareddata.LocalMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +16,9 @@ import java.util.Base64;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class AGpsTransmitter extends AbstractVerticle {
+public class AGpsTransmitter extends TelestionVerticle<AGpsTransmitter.Configuration>
+		implements WithEventBus, WithSharedData {
+
 	/**
 	 * The configuration for the A-GPS transmitter verticle.
 	 *
@@ -28,65 +28,23 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @param bytesPerMessage the maximum number of bytes per Telecommands
 	 * @param delay           the delay between Telecommands in milliseconds
 	 */
-	public static record Configuration(
+	public record Configuration(
 			@JsonProperty String notifyAddress,
 			@JsonProperty String requestAddress,
 			@JsonProperty String outAddress,
 			@JsonProperty int bytesPerMessage,
 			@JsonProperty int delay
-	) {
+	) implements TelestionConfiguration {
 		public Configuration() {
 			this(null, null, null, 30, 2000);
 		}
 	}
 
 	@Override
-	public void start(Promise<Void> startPromise) throws Exception {
-		config = Config.get(forcedConfig, new Configuration(), config(), Configuration.class);
-
-		// register request handler
-		vertx.eventBus()
-				.consumer(
-						config.requestAddress(),
-						message -> JsonMessage.on(
-								AGpsRequest.class,
-								message.body(),
-								request -> handleRequest(request, message)
-						)
-				);
-
-		startPromise.complete();
+	public void onStart() {
+		setDefaultConfig(new Configuration());
+		register(getConfig().requestAddress(), this::handle, AGpsRequest.class);
 	}
-
-	public AGpsTransmitter(String notifyAddress, String requestAddress, String outAddress, int bytesPerMessage, int delay) {
-		this.forcedConfig = new Configuration(notifyAddress, requestAddress, outAddress, bytesPerMessage, delay);
-	}
-
-	public AGpsTransmitter() {
-		this.forcedConfig = null;
-	}
-
-	/**
-	 * Returns the current configuration for this verticle.
-	 * If the verticle is not started yet, the configuration is {@code null}.
-	 *
-	 * @return the current configuration for this verticle
-	 */
-	public Configuration getConfig() {
-		return config;
-	}
-
-	/**
-	 * The forced configuration from constructor.
-	 * It will override the configuration of the verticle once it is started.
-	 */
-	private final Configuration forcedConfig;
-
-	/**
-	 * The configuration for this verticle.
-	 * If the verticle is not started yet, it is {@code null}.
-	 */
-	private Configuration config;
 
 	/**
 	 * Timer ID to store the timeout id for the next chunk send
@@ -109,14 +67,12 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 */
 	private int currentChunk = -1;
 
-	private final Logger logger = LoggerFactory.getLogger(AGpsTransmitter.class);
-
 	/**
 	 * Handles incoming requests for state or state changes in the verticle.
 	 *
 	 * @param request the decoded request from the channel
 	 */
-	private void handleRequest(AGpsRequest request, Message<Object> message) {
+	private void handle(AGpsRequest request, Message<Object> message) {
 		if (request instanceof RequestState) {
 			logger.debug("State request received");
 			message.reply(new ResponseState(getState()).json());
@@ -213,7 +169,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 		}
 		// split binary blob
 		try {
-			chunks = splitBinaryBlob(binaryBlob, config.bytesPerMessage());
+			chunks = splitBinaryBlob(binaryBlob, getConfig().bytesPerMessage());
 		} catch (Exception e) {
 			logger.warn("Cannot split binary blob.");
 			setTransmitting(false);
@@ -261,16 +217,13 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 */
 	private void sendChunk(Long id) {
 		logger.debug("Sending chunk {}", currentChunk);
-		vertx.eventBus().publish(
-				config.outAddress(),
-				new AssistNowTelecommand(target, chunks.get(currentChunk)).json()
-		);
+		publish(getConfig().outAddress(), new AssistNowTelecommand(target, chunks.get(currentChunk)));
 		notifyConsumers();
 
 		currentChunk++;
 		if (currentChunk < chunks.size()) {
 			// indirect self call
-			timerId = vertx.setTimer(config.delay(), this::sendChunk);
+			timerId = vertx.setTimer(getConfig().delay(), this::sendChunk);
 		} else {
 			// finished -> clean up
 			timerId = null;
@@ -288,7 +241,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 */
 	private void notifyConsumers() {
 		logger.debug("Notify consumers");
-		vertx.eventBus().publish(config.notifyAddress(), getState().json());
+		publish(getConfig().notifyAddress(), getState());
 	}
 
 	/**
@@ -298,12 +251,14 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 */
 	private AGpsState getState() {
 		logger.debug("Gathering state information");
+
 		final var data = getData();
 		final var currentTarget = getTarget();
 		final var isTransmitting = isTransmitting();
 		final String state = isTransmitting ? "transmitting" : "idle";
 		final String dataName = data == null ? null : data.name(); // where is the ?. operator...
 		final double progress = isTransmitting ? currentChunk * 1.0 / chunks.size() : -1.0;
+
 		return new AGpsState(state, dataName, currentTarget, progress);
 	}
 
@@ -313,7 +268,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @return <code>true</code> when the verticle is transmitting
 	 */
 	private boolean isTransmitting() {
-		final LocalMap<String, Boolean> map = vertx.sharedData().getLocalMap(LOCAL_MAP_NAME);
+		var map = this.<Boolean>getLocalMap();
 		return map.getOrDefault(MAP_KEY_IS_TRANSMITTING, false);
 	}
 
@@ -323,7 +278,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @param newState the new transmission state
 	 */
 	private void setTransmitting(boolean newState) {
-		final LocalMap<String, Boolean> map = vertx.sharedData().getLocalMap(LOCAL_MAP_NAME);
+		var map = this.<Boolean>getLocalMap();
 		map.put(MAP_KEY_IS_TRANSMITTING, newState);
 	}
 
@@ -333,7 +288,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @return the target for current chunk
 	 */
 	private String getTarget() {
-		final LocalMap<String, String> map = vertx.sharedData().getLocalMap(LOCAL_MAP_NAME);
+		var map = this.<String>getLocalMap();
 		return map.getOrDefault(MAP_KEY_TARGET, null);
 	}
 
@@ -343,7 +298,7 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @param target the new target
 	 */
 	private void setTarget(String target) {
-		final LocalMap<String, String> map = vertx.sharedData().getLocalMap(LOCAL_MAP_NAME);
+		var map = this.<String>getLocalMap();
 		map.put(MAP_KEY_TARGET, target);
 	}
 
@@ -353,11 +308,12 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @return the stored A-GPS data
 	 */
 	private AGpsData getData() {
-		final LocalMap<String, String> map = vertx.sharedData().getLocalMap(LOCAL_MAP_NAME);
-		final var name = map.getOrDefault(MAP_KEY_DATA_NAME, null);
-		final var encoded = map.getOrDefault(MAP_KEY_DATA_ENCODED, null);
-		if (encoded != null && name != null) return new AGpsData(name, encoded);
-		return null;
+		var map = this.<String>getLocalMap();
+
+		var name = map.getOrDefault(MAP_KEY_DATA_NAME, null);
+		var encoded = map.getOrDefault(MAP_KEY_DATA_ENCODED, null);
+
+		return encoded == null || name == null ? null : new AGpsData(name, encoded);
 	}
 
 	/**
@@ -366,9 +322,14 @@ public class AGpsTransmitter extends AbstractVerticle {
 	 * @param data the new A-GPS data to store
 	 */
 	private void setData(AGpsData data) {
-		final LocalMap<String, String> map = vertx.sharedData().getLocalMap(LOCAL_MAP_NAME);
+		var map = this.<String>getLocalMap();
+
 		map.put(MAP_KEY_DATA_NAME, data.name());
 		map.put(MAP_KEY_DATA_ENCODED, data.encodedData());
+	}
+
+	private <V> LocalMap<String, V> getLocalMap() {
+		return localMap(LOCAL_MAP_NAME);
 	}
 
 	/**

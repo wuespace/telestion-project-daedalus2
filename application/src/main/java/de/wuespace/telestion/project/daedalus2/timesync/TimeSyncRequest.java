@@ -1,4 +1,4 @@
-package de.wuespace.telestion.project.daedalus2;
+package de.wuespace.telestion.project.daedalus2.timesync;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.wuespace.telestion.api.message.JsonMessage;

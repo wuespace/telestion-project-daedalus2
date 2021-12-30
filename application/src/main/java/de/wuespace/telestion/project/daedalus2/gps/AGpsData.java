@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.wuespace.telestion.api.message.JsonMessage;
 
 @SuppressWarnings("unused")
-public record AGpsData(@JsonProperty String name, @JsonProperty String encodedData) implements JsonMessage {
+public record AGpsData(
+		@JsonProperty String name,
+		@JsonProperty String encodedData
+) implements JsonMessage {
 	public AGpsData() {
 		this(null, null);
 	}

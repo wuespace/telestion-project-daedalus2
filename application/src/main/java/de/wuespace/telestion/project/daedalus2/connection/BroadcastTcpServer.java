@@ -1,30 +1,25 @@
 package de.wuespace.telestion.project.daedalus2.connection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.wuespace.telestion.api.config.Config;
-import de.wuespace.telestion.api.message.JsonMessage;
+import de.wuespace.telestion.api.verticle.TelestionConfiguration;
+import de.wuespace.telestion.api.verticle.TelestionVerticle;
+import de.wuespace.telestion.api.verticle.trait.WithEventBus;
 import de.wuespace.telestion.services.connection.rework.ConnectionData;
 import de.wuespace.telestion.services.connection.rework.SenderData;
 import de.wuespace.telestion.services.connection.rework.tcp.TcpDetails;
 import de.wuespace.telestion.services.connection.rework.tcp.TcpTimeouts;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
-import io.vertx.core.Promise;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
 import io.vertx.core.net.NetSocket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BroadcastTcpServer extends AbstractVerticle {
-	private static final Logger logger = LoggerFactory.getLogger(BroadcastTcpServer.class);
+@SuppressWarnings("unused")
+public class BroadcastTcpServer extends TelestionVerticle<BroadcastTcpServer.Configuration> implements WithEventBus {
 
 	/**
 	 * Configuration for the {@link BroadcastTcpServer} verticle.
@@ -33,89 +28,66 @@ public class BroadcastTcpServer extends AbstractVerticle {
 	 * @param outAddress    the address the verticle publishes messages received from a client
 	 * @param host          the hostname of the server. Defaults to {@code "0.0.0.0"}.
 	 *                      (which is equivalent to open)
-	 * @param port          the port the server is listen
+	 * @param port          the port on which the server is listening
 	 * @param clientTimeout the time until clients are kicked due to inactivity.
 	 *                      Defaults to {@code 0}. ({@code 0} means no timeout)
 	 */
-	public record Configuration(@JsonProperty String inAddress, @JsonProperty String outAddress,
-								@JsonProperty String host, @JsonProperty int port,
-								@JsonProperty long clientTimeout) implements JsonMessage {
+	public record Configuration(
+			@JsonProperty String inAddress,
+			@JsonProperty String outAddress,
+			@JsonProperty String host,
+			@JsonProperty int port,
+			@JsonProperty long clientTimeout
+	) implements TelestionConfiguration {
 		public Configuration() {
 			this(null, null, "0.0.0.0", 0, 0);
 		}
 	}
 
-	private Configuration config;
-	private NetServer server;
-	private Set<NetSocket> connections;
-
 	public BroadcastTcpServer() {
-		this(null);
-	}
-
-	public BroadcastTcpServer(Configuration forced) {
-		this.config = forced;
+		this.connections = new HashSet<>();
 	}
 
 	@Override
-	public void start(Promise<Void> startPromise) throws Exception {
-		config = Config.get(config, new Configuration(), config(), Configuration.class);
-		connections = new HashSet<>();
+	public void onStart(Promise<Void> startPromise) {
+		setDefaultConfig(new Configuration());
+		register(getConfig().inAddress(), this::handleBroadcast, SenderData.class);
+		setupServer().map(server -> (Void) null).onComplete(startPromise);
+	}
 
+	@Override
+	public void onStop(Promise<Void> stopPromise) {
+		if (server == null) {
+			stopPromise.complete();
+			return;
+		}
+
+		logger.info("Closing now on {}:{}", getConfig().host(), getConfig().port());
+		server.close().onComplete(stopPromise);
+	}
+
+	private NetServer server;
+	private final Set<NetSocket> connections;
+
+	private Future<NetServer> setupServer() {
 		// build server options based on configuration
 		var options = new NetServerOptions();
-		options.setHost(config.host());
-		options.setPort(config.port());
+		options.setHost(getConfig().host());
+		options.setPort(getConfig().port());
 		options.setIdleTimeout(
-				config.clientTimeout() == TcpTimeouts.NO_RESPONSES
+				getConfig().clientTimeout() == TcpTimeouts.NO_RESPONSES
 						? (int) TcpTimeouts.NO_TIMEOUT
-						: (int) config.clientTimeout()
+						: (int) getConfig().clientTimeout()
 		);
 
 		// setup server
 		server = vertx.createNetServer(options);
 		server.connectHandler(this::onConnected);
 		server.exceptionHandler(handler ->
-				logger.error("Unexpected error (Config: {})", config.json(), handler)
+				logger.error("Unexpected error (Config: {})", getConfig(), handler.getCause())
 		);
-		server.listen(handler ->
-				complete(handler, startPromise, result ->
-						logger.info("Successfully started. Running on {}:{}", config.host(), result.actualPort())
-				)
-		);
-
-		// connect to eventbus
-		vertx.eventBus().consumer(config.inAddress(), raw -> {
-			if (!JsonMessage.on(SenderData.class, raw, this::handleBroadcast)) {
-				logger.warn("Received invalid message type. Packet will be dropped.");
-			}
-		});
-
-		startPromise.complete();
-	}
-
-	@Override
-	public void stop(Promise<Void> stopPromise) {
-		if (server != null) {
-			// try to gracefully close connections with every client
-			connections.forEach(socket -> socket.close(handler -> {
-				if (handler.failed()) {
-					stopPromise.fail(handler.cause());
-				}
-			}));
-
-			String host = config.host();
-			int port = config.port();
-			logger.info("Closing now on {}:{}", host, port);
-			server.close();
-		}
-
-		// Wait for all Tcp connections to be closed successfully or fail in the process
-		vertx.setTimer(Duration.ofSeconds(2).toMillis(), handler -> stopPromise.tryComplete());
-	}
-
-	public Configuration getConfig() {
-		return config;
+		return server.listen()
+				.onSuccess(server -> logger.info("Successfully started. Running on {}:{}", getConfig().host(), server.actualPort()));
 	}
 
 	private void onConnected(NetSocket socket) {
@@ -131,12 +103,10 @@ public class BroadcastTcpServer extends AbstractVerticle {
 			var packetId = counter.getAndIncrement();
 
 			logger.debug("New message received from {}:{} with id={}", host, port, packetId);
-			vertx.eventBus().publish(config.outAddress, new ConnectionData(
-					buffer.getBytes(), new TcpDetails(host, port, packetId)).json()
-			);
+			publish(getConfig().outAddress(), new ConnectionData(buffer.getBytes(), new TcpDetails(host, port, packetId)));
 
 			// disconnect if no responses allowed
-			if (config.clientTimeout() == TcpTimeouts.NO_RESPONSES) {
+			if (getConfig().clientTimeout() == TcpTimeouts.NO_RESPONSES) {
 				socket.close();
 			}
 		});
@@ -164,23 +134,5 @@ public class BroadcastTcpServer extends AbstractVerticle {
 			}
 			socket.write(Buffer.buffer(message));
 		});
-	}
-
-	/**
-	 * Completes a promise based on the success of a {@link AsyncResult}.
-	 * If it was successful a handler will be called.
-	 *
-	 * @param result  the result which is observed
-	 * @param promise the promise which will be completed
-	 * @param handler the handler which will be executed on a successful result
-	 * @param <T>     the type of the result
-	 */
-	private static <T> void complete(AsyncResult<T> result, Promise<?> promise, Handler<T> handler) {
-		if (result.failed()) {
-			promise.fail(result.cause());
-			return;
-		}
-		handler.handle(result.result());
-		promise.tryComplete();
 	}
 }

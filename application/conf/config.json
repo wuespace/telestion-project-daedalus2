@@ -63,7 +63,7 @@
 			},
 			{
 				"name": "[RECV] Mavlink TM Parser",
-				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavlinkTM",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MavLinkTMParser",
 				"magnitude": 1,
 				"config": {
 					"inAddress": "raw-mavlink",
@@ -113,7 +113,7 @@
 			},
 			{
 				"name": "[SEND] Telecommand Chunker",
-				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.MessageChunker",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TelecommandChunker",
 				"magnitude": 1,
 				"config": {
 					"inAddress": "tc-chunker",
@@ -124,7 +124,7 @@
 			},
 			{
 				"name": "[SEND] Telecommand Counter",
-				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TCCounter",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.TelecommandCounter",
 				"magnitude": 1,
 				"config": {
 					"inAddress": "notify-on-send"
@@ -132,7 +132,7 @@
 			},
 			{
 				"name": "[SEND] TimeSync Initiator",
-				"verticle": "de.wuespace.telestion.project.daedalus2.TimeSync",
+				"verticle": "de.wuespace.telestion.project.daedalus2.timesync.TimeSyncInitiator",
 				"magnitude": 1,
 				"config": {
 					"inAddress": "request-time-sync",
@@ -282,7 +282,7 @@
 			},
 			{
 				"name": "[DEBUG] Serial Printer",
-				"verticle": "de.wuespace.telestion.project.daedalus2.SerialPrinter",
+				"verticle": "de.wuespace.telestion.project.daedalus2.connection.SerialPrinter",
 				"magnitude": 1,
 				"config": {
 					"inAddress": "raw-commands"
