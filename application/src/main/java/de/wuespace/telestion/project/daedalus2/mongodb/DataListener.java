@@ -1,13 +1,12 @@
 package de.wuespace.telestion.project.daedalus2.mongodb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.wuespace.telestion.api.config.Config;
+import de.wuespace.telestion.api.verticle.TelestionConfiguration;
+import de.wuespace.telestion.api.verticle.TelestionVerticle;
+import de.wuespace.telestion.api.verticle.trait.WithEventBus;
 import de.wuespace.telestion.services.message.Address;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,55 +14,27 @@ import java.util.List;
  * MongoDatabaseService.
  */
 @SuppressWarnings("unused")
-public final class DataListener extends AbstractVerticle {
-	private final Logger logger = LoggerFactory.getLogger(DataListener.class);
-	private final Configuration forcedConfig;
+public class DataListener extends TelestionVerticle<DataListener.Configuration> implements WithEventBus {
+
+	public record Configuration(
+			@JsonProperty List<String> listeningAddresses
+	) implements TelestionConfiguration {
+		private Configuration() {
+			this(new ArrayList<>());
+		}
+	}
+
+	@Override
+	public void onStart() {
+		setDefaultConfig(new Configuration());
+
+		// pass-through received data to MongoDatabaseSaver
+		getConfig().listeningAddresses().forEach(
+				address -> register(address, message -> publish(SAVE_ADDRESS, message.body())));
+	}
+
 	/**
 	 * Mongo Database Service save address
 	 */
-	private final String save = Address.incoming(MongoDatabaseSaver.class, "save");
-	private Configuration config;
-
-	/**
-	 * This constructor supplies default options.
-	 *
-	 * @param listeningAddresses List of addresses that should be saved
-	 */
-	public DataListener(List<String> listeningAddresses) {
-		this.forcedConfig = new Configuration(listeningAddresses);
-	}
-
-	/**
-	 * If this constructor is used, settings have to be specified in the config file.
-	 */
-	public DataListener() {
-		this.forcedConfig = null;
-	}
-
-	@Override
-	public void start(Promise<Void> startPromise) {
-		config = Config.get(forcedConfig, config(), Configuration.class);
-		registerConsumers();
-		startPromise.complete();
-	}
-
-	@Override
-	public void stop(Promise<Void> stopPromise) {
-		stopPromise.complete();
-	}
-
-	/**
-	 * Function to register consumers to the eventbus.
-	 */
-	private void registerConsumers() {
-		config.listeningAddresses().forEach(address
-				-> vertx.eventBus().consumer(address, document
-				-> vertx.eventBus().publish(save, document.body())));
-	}
-
-	private static record Configuration(@JsonProperty List<String> listeningAddresses) {
-		private Configuration() {
-			this(null);
-		}
-	}
+	private final String SAVE_ADDRESS = Address.incoming(MongoDatabaseSaver.class, "save");
 }
