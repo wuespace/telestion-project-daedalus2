@@ -1,12 +1,14 @@
 package de.wuespace.telestion.project.daedalus2.checklist;
 
-import de.wuespace.telestion.api.message.JsonMessage;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import de.wuespace.telestion.api.verticle.TelestionConfiguration;
+import de.wuespace.telestion.api.verticle.TelestionVerticle;
+import de.wuespace.telestion.api.verticle.trait.WithEventBus;
+import de.wuespace.telestion.api.verticle.trait.WithSharedData;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.pointer.JsonPointer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.vertx.core.shareddata.LocalMap;
 
 import java.util.List;
 
@@ -24,26 +26,26 @@ import java.util.List;
  * </pre>
  */
 @SuppressWarnings("unused")
-public class ChecklistManager extends AbstractVerticle {
+public class ChecklistManager extends TelestionVerticle<ChecklistManager.Configuration> implements WithEventBus, WithSharedData {
 
-	public static final String DEFAULT_OUT_ADDRESS = "checklist-state";
-	public static final String DEFAULT_DISPATCH_ADDRESS = "checklist-dispatch";
-	public static final String MAP_KEY = "checklist-state";
-	public static final String CHECKLIST_KEY = "checklist";
-
-	@Override
-	public void start(Promise<Void> startPromise) throws Exception {
-		reset();
-
-		var eb = vertx.eventBus();
-		eb.consumer(config().getString("dispatchAddress", DEFAULT_DISPATCH_ADDRESS),
-				raw -> JsonMessage.on(
-						ChecklistCommand.class, raw, this::op
-				)
-		);
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public record Configuration(
+			@JsonProperty String dispatchAddress,
+			@JsonProperty String outAddress
+	) implements TelestionConfiguration {
+		public Configuration() {
+			this("checklist-dispatch", "checklist-state");
+		}
 	}
 
-	private void op(ChecklistCommand command) {
+	@Override
+	public void onStart() {
+		setDefaultConfig(new Configuration());
+		resetState();
+		register(getConfig().dispatchAddress(), this::handle, ChecklistCommand.class);
+	}
+
+	private void handle(ChecklistCommand command) {
 		List<String> params = command.params() != null ? command.params() : List.of();
 
 		String op = command.op();
@@ -65,7 +67,7 @@ public class ChecklistManager extends AbstractVerticle {
 							.writeJson(getChecklistState(), false)
 					);
 				} else {
-					reset();
+					resetState();
 				}
 				break;
 			case "continue":
@@ -75,24 +77,33 @@ public class ChecklistManager extends AbstractVerticle {
 		}
 
 		// always broadcast new state after operation
-		getVertx().eventBus().publish(config().getString("outAddress", DEFAULT_OUT_ADDRESS), getChecklistState());
+		publish(getConfig().outAddress(), getChecklistState());
 	}
 
-	private void reset() {
-		setChecklistState(config().getJsonObject(CHECKLIST_KEY));
+	private void resetState() {
+		setChecklistState(getCheckList());
 	}
 
 	private JsonObject getChecklistState() {
-		return (JsonObject) vertx.sharedData()
-				.getLocalMap(MAP_KEY)
-				.getOrDefault(CHECKLIST_KEY, config().getJsonObject(CHECKLIST_KEY).copy());
+		return getLocalMap().getOrDefault(CHECKLIST_KEY, getCheckList().copy());
+	}
+
+	/**
+	 * Returns the configured checklist from the configuration.
+	 * @return the configured checklist
+	 */
+	private JsonObject getCheckList() {
+		return getGenericConfig().getJsonObject("checklist", new JsonObject());
 	}
 
 	private void setChecklistState(JsonObject checklistState) {
-		vertx.sharedData()
-				.getLocalMap(MAP_KEY)
-				.put(CHECKLIST_KEY, checklistState);
+		getLocalMap().put(CHECKLIST_KEY, checklistState);
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(ChecklistManager.class);
+	private LocalMap<String, JsonObject> getLocalMap() {
+		return this.localMap(MAP_KEY);
+	}
+
+	private static final String MAP_KEY = "checklist-state";
+	private static final String CHECKLIST_KEY = "checklist";
 }

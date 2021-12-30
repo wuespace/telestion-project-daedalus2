@@ -32,7 +32,8 @@ export function Widget() {
 				{
 					command,
 					target,
-					className: 'de.wuespace.telestion.project.daedalus2.TimeSyncRequest'
+					className:
+						'de.wuespace.telestion.project.daedalus2.timesync.TimeSyncRequest'
 				},
 				msg => {
 					setSyncResponse(msg);

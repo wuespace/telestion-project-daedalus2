@@ -1,55 +1,43 @@
 package de.wuespace.telestion.project.daedalus2.iridium;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.wuespace.telestion.api.config.Config;
-import de.wuespace.telestion.api.message.JsonMessage;
+import de.wuespace.telestion.api.verticle.TelestionConfiguration;
+import de.wuespace.telestion.api.verticle.TelestionVerticle;
+import de.wuespace.telestion.api.verticle.trait.WithEventBus;
 import de.wuespace.telestion.project.daedalus2.iridium.message.IEHeader;
 import de.wuespace.telestion.project.daedalus2.iridium.message.IELocation;
 import de.wuespace.telestion.project.daedalus2.iridium.message.IEPayload;
 import de.wuespace.telestion.project.daedalus2.iridium.message.IridiumMessage;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.Json;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MessageMapper extends AbstractVerticle {
-	private record Configuration(@JsonProperty String inAddress, @JsonProperty Map<String, String> imeiMapping) {
-		private Configuration() {
+@SuppressWarnings("unused")
+public class MessageMapper extends TelestionVerticle<MessageMapper.Configuration> implements WithEventBus {
+	public record Configuration(
+			@JsonProperty String inAddress,
+			@JsonProperty Map<String, String> imeiMapping
+	) implements TelestionConfiguration {
+		public Configuration() {
 			this(null, new HashMap<>());
 		}
 	}
 
 	@Override
-	public void start(Promise<Void> startPromise) throws Exception {
-		this.config = Config.get(this.config, new Configuration(), config(), Configuration.class);
-		vertx.eventBus().consumer(config.inAddress(),
-				raw -> JsonMessage.on(IridiumMessage.class, raw, this::handleMessage));
-		startPromise.complete();
+	public void onStart() {
+		setDefaultConfig(new Configuration());
+		register(getConfig().inAddress(), this::handle, IridiumMessage.class);
 	}
 
-	public MessageMapper(Configuration forcedConfig) {
-		this.config = forcedConfig;
-	}
-
-	public MessageMapper() {
-		this(null);
-	}
-
-	private final Logger logger = LoggerFactory.getLogger(MessageMapper.class);
-	private Configuration config;
-
-	private void handleMessage(IridiumMessage msg) {
+	private void handle(IridiumMessage message) {
 		final long receivedTime = System.currentTimeMillis();
 		IEHeader header = null;
 		IEPayload payload = null;
 		IELocation location = null;
 
-		for (var elem : msg.elements()) {
+		for (var elem : message.elements()) {
 			if (elem instanceof IEHeader) {
 				header = (IEHeader) elem;
 			} else if (elem instanceof IEPayload) {
@@ -75,16 +63,12 @@ public class MessageMapper extends AbstractVerticle {
 		}
 
 		var mapped = header != null
-				? config.imeiMapping().getOrDefault(header.imei(), "unknown")
+				? getConfig().imeiMapping().getOrDefault(header.imei(), "unknown")
 				: "unknown";
 		var options = new DeliveryOptions()
 				.addHeader("receive-time", Json.encode(receivedTime))
 				// from seconds to milliseconds
 				.addHeader("time", Json.encode(header != null ? header.time() * 1000 : receivedTime));
-		vertx.eventBus().publish(
-				mapped + "/iridium",
-				new MappedMessage(header, payload, location).json(),
-				options
-		);
+		publish(mapped + "/iridium", new MappedMessage(header, payload, location), options);
 	}
 }
