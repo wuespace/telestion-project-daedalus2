@@ -9,13 +9,13 @@ A text editor or IDE with auto-completion and gradle support is beneficial.
 
 ## Setup
 
-To fetch the dependencies locally you need a Github personal access token with `packages:read` rights.
-Either add your github user name and the token as `GITHUB_ACTOR` and `GITHUB_TOKEN` to your environment variables
+To fetch the dependencies locally you need a GitHub personal access token with `packages:read` rights.
+Either add your GitHub username and the token as `GITHUB_ACTOR` and `GITHUB_TOKEN` to your environment variables
 or make a copy of the `gradle.properties.example` and name it `gradle.properties`.
 Then insert your username and token into this file.
 No worries, this file should not be committed. (it's git ignored)
 
-Finally, resync gradle to download and set up the Telestion Core dependencies.
+Finally, re-sync gradle to download and set up the Telestion Core dependencies.
 
 ## Usage and Testing
 
@@ -52,7 +52,7 @@ or:
 
 If you want to test your changes directly in docker, you can package it and run it beside the MongoDB container.
 
-1. Please shutdown any running containers and services:
+1. Please shut down any running containers and services:
 
    ```sh
    docker-compose --profile devel-native down
