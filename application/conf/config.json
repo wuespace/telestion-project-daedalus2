@@ -243,33 +243,33 @@
 				"magnitude": 1,
 				"config": {
 					"checklist": {
-						"Before lift off": {
-							"Inventory": {
-								"RBC is present": false,
-								"SBC-A is present": false,
-								"SBC-B is present": false
-							},
-							"Power": {
-								"Power on": false,
-								"Verify on TV": false
-							},
-							"Commands": {
-								"RBC sync clock": false,
-								"SBC-A sync clock": false,
-								"SBC-B sync clock": false,
-								"In flight configuration": false,
-								"Start logging": false
-							},
-							"Lift off": false
+						"Pre Test": {
+							"Verify 'Connected' at Top Right": false,
+							"Overview - Current Values - Right Click - Configure": false,
+							"Search for 'd2time' - Add all Values": false
 						},
-						"After lift off": {
-							"Seeds ejection ready": false,
-							"Switch TV channel": false,
-							"Seed-A check for deploy": false,
-							"Seed-B check for deploy": false,
-							"TV channel stop": false,
-							"Wait for Iridium": false,
-							"Enjoy": false
+						"RadioSilence": {
+							"Current State = PreFlight": {
+								"Execute: RadioSilence Enter": false,
+								"Verify RadioSilence": false,
+								"Observe: Ejector Switches to RadioSilence Entry": false,
+								"Observe: Ejector Switches to RadioSilence": false,
+								"Observe: Values for SeedA and SeedB are out of Date": false
+							},
+							"Current State = ArmedForFlight": {
+								"Execute: Change Ejector State to Debug": false,
+								"Execute: Change SeedA State to Debug": false,
+								"Execute: Change SeedB State to Debug": false,
+								"Execute: Send 'reseteeprom' to SeedA": false,
+								"Execute: Send 'reseteeprom' to SeedB": false,
+								"Execute: Send 'reseteeprom' to Ejector": false,
+								"Execute: Send 'resetsighandler' to Ejector": false,
+								"Execute: Send 'poweren 0 0 1' to SeedA": false,
+								"Execute: Send 'poweren 0 0 1' to SeedB": false,
+								"Execute: Send 'sps 0' to Ejector": false,
+								"Verify RadioSilence": false,
+								"Observe: Same as for PreFlight above": false
+							}
 						}
 					}
 				}
