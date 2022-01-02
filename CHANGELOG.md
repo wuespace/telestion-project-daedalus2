@@ -1,3 +1,15 @@
+# [0.24.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.23.0...v0.24.0) (2022-01-02)
+
+
+### Features
+
+* **application:** Update configuration which adds telecommands to checklist ([bbf966d](https://github.com/wuespace/telestion-project-daedalus2/commit/bbf966d5db7d77d0961f996c67c4beaddee326ae))
+* **client:** Add connection status panel to the left side of the header which displays the connection status of Seed A, Seed B and Ejector ([b48e1f0](https://github.com/wuespace/telestion-project-daedalus2/commit/b48e1f06e7c7355a8e3f2efa2dc878cfc324363b))
+* **d2-sim:** Clean up telemetry and add some basic functionality like automatic state cycling and correct `time_local` and `d2time` ([500f023](https://github.com/wuespace/telestion-project-daedalus2/commit/500f0239332a8d9e3e9467643b1ebbb0f38a61e2))
+* **widget:** Update `state-widget` which now displays the last received time and state id next to the state name. The state name now comes without a "k" prefix. Ejector and Seed states are now separated. The state change widget selection now depends on the target. (ejector or seed) ([7d1fac5](https://github.com/wuespace/telestion-project-daedalus2/commit/7d1fac508757fad7200e4ef8b72263b4b014a554))
+
+
+
 # [0.23.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.22.2...v0.23.0) (2021-12-17)
 
 
