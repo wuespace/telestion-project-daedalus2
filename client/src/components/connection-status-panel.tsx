@@ -37,20 +37,20 @@ const connections: Connection[] = [
 	{
 		title: 'Seed A',
 		redisKey: 'seedA/SEED_HEARTBEAT',
-		warnTimeout: 3000,
-		errTimeout: 6000
+		warnTimeout: 5000,
+		errTimeout: 15000
 	},
 	{
 		title: 'Seed B',
 		redisKey: 'seedB/SEED_HEARTBEAT',
-		warnTimeout: 3000,
-		errTimeout: 6000
+		warnTimeout: 5000,
+		errTimeout: 15000
 	},
 	{
 		title: 'Ejector',
 		redisKey: 'ejector/EJECTOR_HEARTBEAT',
-		warnTimeout: 3000,
-		errTimeout: 6000
+		warnTimeout: 5000,
+		errTimeout: 15000
 	}
 ];
 
