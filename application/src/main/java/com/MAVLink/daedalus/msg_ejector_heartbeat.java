@@ -16,7 +16,7 @@ import com.MAVLink.Messages.MAVLinkPayload;
 public class msg_ejector_heartbeat extends MAVLinkMessage {
 
     public static final int MAVLINK_MSG_ID_EJECTOR_HEARTBEAT = 66957;
-    public static final int MAVLINK_MSG_LENGTH = 17;
+    public static final int MAVLINK_MSG_LENGTH = 19;
     private static final long serialVersionUID = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
       
@@ -54,6 +54,16 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
      * Seed Power status
      */
     public short seed_power_enabled;
+      
+    /**
+     * presence of Seed A
+     */
+    public short seed_a_present;
+      
+    /**
+     * presence of Seed B
+     */
+    public short seed_b_present;
     
 
     /**
@@ -74,6 +84,8 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         packet.payload.putUnsignedByte(led_enabled);
         packet.payload.putUnsignedByte(cam_enabled);
         packet.payload.putUnsignedByte(seed_power_enabled);
+        packet.payload.putUnsignedByte(seed_a_present);
+        packet.payload.putUnsignedByte(seed_b_present);
         
         if (isMavlink2) {
             
@@ -97,6 +109,8 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         this.led_enabled = payload.getUnsignedByte();
         this.cam_enabled = payload.getUnsignedByte();
         this.seed_power_enabled = payload.getUnsignedByte();
+        this.seed_a_present = payload.getUnsignedByte();
+        this.seed_b_present = payload.getUnsignedByte();
         
         if (isMavlink2) {
             
@@ -113,7 +127,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
     /**
      * Constructor for a new message, initializes msgid and all payload variables
      */
-    public msg_ejector_heartbeat( long time_local, long d2time, short telecommand_cnt, short state_cur, short led_enabled, short cam_enabled, short seed_power_enabled) {
+    public msg_ejector_heartbeat( long time_local, long d2time, short telecommand_cnt, short state_cur, short led_enabled, short cam_enabled, short seed_power_enabled, short seed_a_present, short seed_b_present) {
         this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
         this.time_local = time_local;
@@ -123,13 +137,15 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         this.led_enabled = led_enabled;
         this.cam_enabled = cam_enabled;
         this.seed_power_enabled = seed_power_enabled;
+        this.seed_a_present = seed_a_present;
+        this.seed_b_present = seed_b_present;
         
     }
     
     /**
      * Constructor for a new message, initializes everything
      */
-    public msg_ejector_heartbeat( long time_local, long d2time, short telecommand_cnt, short state_cur, short led_enabled, short cam_enabled, short seed_power_enabled, int sysid, int compid, boolean isMavlink2) {
+    public msg_ejector_heartbeat( long time_local, long d2time, short telecommand_cnt, short state_cur, short led_enabled, short cam_enabled, short seed_power_enabled, short seed_a_present, short seed_b_present, int sysid, int compid, boolean isMavlink2) {
         this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
         this.sysid = sysid;
         this.compid = compid;
@@ -142,6 +158,8 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         this.led_enabled = led_enabled;
         this.cam_enabled = cam_enabled;
         this.seed_power_enabled = seed_power_enabled;
+        this.seed_a_present = seed_a_present;
+        this.seed_b_present = seed_b_present;
         
     }
 
@@ -159,13 +177,13 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         unpack(mavLinkPacket.payload);
     }
 
-                  
+                      
     /**
      * Returns a string with the MSG name and data
      */
     @Override
     public String toString() {
-        return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:"+sysid+" compid:"+compid+" time_local:"+time_local+" d2time:"+d2time+" telecommand_cnt:"+telecommand_cnt+" state_cur:"+state_cur+" led_enabled:"+led_enabled+" cam_enabled:"+cam_enabled+" seed_power_enabled:"+seed_power_enabled+"";
+        return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:"+sysid+" compid:"+compid+" time_local:"+time_local+" d2time:"+d2time+" telecommand_cnt:"+telecommand_cnt+" state_cur:"+state_cur+" led_enabled:"+led_enabled+" cam_enabled:"+cam_enabled+" seed_power_enabled:"+seed_power_enabled+" seed_a_present:"+seed_a_present+" seed_b_present:"+seed_b_present+"";
     }
     
     /**

@@ -99,6 +99,8 @@
 		<field type="uint8_t" name="led_enabled">LED status</field>
 		<field type="uint8_t" name="cam_enabled">Cam status</field>
 		<field type="uint8_t" name="seed_power_enabled">Seed Power status</field>
+		<field type="uint8_t" name="seed_a_present">presence of Seed A</field>
+		<field type="uint8_t" name="seed_b_present">presence of Seed B</field>
 		</message>
 		
 	</messages>
