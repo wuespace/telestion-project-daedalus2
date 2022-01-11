@@ -70,7 +70,7 @@ def to_string(s):
         return s2
     except Exception:
         pass
-    # so its a nasty one. Let's grab as many characters as we can
+    # so it's a nasty one. Let's grab as many characters as we can
     r = ''
     try:
         for c in s:
@@ -528,23 +528,23 @@ class MAVLink_ejector_heartbeat_message(MAVLink_message):
         '''
         id = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT
         name = 'EJECTOR_HEARTBEAT'
-        fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled', 'seed_power_enabled']
-        ordered_fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled', 'seed_power_enabled']
-        fieldtypes = ['int64_t', 'uint32_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t']
+        fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled', 'seed_power_enabled', 'seed_a_present', 'seed_b_present']
+        ordered_fieldnames = ['time_local', 'd2time', 'telecommand_cnt', 'state_cur', 'led_enabled', 'cam_enabled', 'seed_power_enabled', 'seed_a_present', 'seed_b_present']
+        fieldtypes = ['int64_t', 'uint32_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t', 'uint8_t']
         fielddisplays_by_name = {}
         fieldenums_by_name = {}
         fieldunits_by_name = {}
-        format = '<qIBBBBB'
-        native_format = bytearray('<qIBBBBB', 'ascii')
-        orders = [0, 1, 2, 3, 4, 5, 6]
-        lengths = [1, 1, 1, 1, 1, 1, 1]
-        array_lengths = [0, 0, 0, 0, 0, 0, 0]
-        crc_extra = 32
-        unpacker = struct.Struct('<qIBBBBB')
+        format = '<qIBBBBBBB'
+        native_format = bytearray('<qIBBBBBBB', 'ascii')
+        orders = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        lengths = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        array_lengths = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        crc_extra = 87
+        unpacker = struct.Struct('<qIBBBBBBB')
         instance_field = None
         instance_offset = -1
 
-        def __init__(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled):
+        def __init__(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, seed_a_present, seed_b_present):
                 MAVLink_message.__init__(self, MAVLink_ejector_heartbeat_message.id, MAVLink_ejector_heartbeat_message.name)
                 self._fieldnames = MAVLink_ejector_heartbeat_message.fieldnames
                 self._instance_field = MAVLink_ejector_heartbeat_message.instance_field
@@ -556,9 +556,11 @@ class MAVLink_ejector_heartbeat_message(MAVLink_message):
                 self.led_enabled = led_enabled
                 self.cam_enabled = cam_enabled
                 self.seed_power_enabled = seed_power_enabled
+                self.seed_a_present = seed_a_present
+                self.seed_b_present = seed_b_present
 
         def pack(self, mav, force_mavlink1=False):
-                return MAVLink_message.pack(self, mav, 32, struct.pack('<qIBBBBB', self.time_local, self.d2time, self.telecommand_cnt, self.state_cur, self.led_enabled, self.cam_enabled, self.seed_power_enabled), force_mavlink1=force_mavlink1)
+                return MAVLink_message.pack(self, mav, 87, struct.pack('<qIBBBBBBB', self.time_local, self.d2time, self.telecommand_cnt, self.state_cur, self.led_enabled, self.cam_enabled, self.seed_power_enabled, self.seed_a_present, self.seed_b_present), force_mavlink1=force_mavlink1)
 
 
 mavlink_map = {
@@ -798,7 +800,10 @@ class MAVLink(object):
         def check_signature(self, msgbuf, srcSystem, srcComponent):
             '''check signature on incoming message'''
             if isinstance(msgbuf, array.array):
-                msgbuf = msgbuf.tostring()
+                try:
+                    msgbuf = msgbuf.tostring()
+                except:
+                    msgbuf = msgbuf.tobytes()
             timestamp_buf = msgbuf[-12:-6]
             link_id = msgbuf[-13]
             (tlow, thigh) = self.mav_sign_unpacker.unpack(timestamp_buf)
@@ -1186,7 +1191,7 @@ class MAVLink(object):
                 '''
                 return self.send(self.ejector_system_t_encode(time_local, d2time, mainloop_itr_cnt, mainloop_itr_time, telecommand_cnt, state_cur), force_mavlink1=force_mavlink1)
 
-        def ejector_heartbeat_encode(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled):
+        def ejector_heartbeat_encode(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, seed_a_present, seed_b_present):
                 '''
                 Contains information about the current state and local time.
 
@@ -1197,11 +1202,13 @@ class MAVLink(object):
                 led_enabled               : LED status (type:uint8_t)
                 cam_enabled               : Cam status (type:uint8_t)
                 seed_power_enabled        : Seed Power status (type:uint8_t)
+                seed_a_present            : presence of Seed A (type:uint8_t)
+                seed_b_present            : presence of Seed B (type:uint8_t)
 
                 '''
-                return MAVLink_ejector_heartbeat_message(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled)
+                return MAVLink_ejector_heartbeat_message(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, seed_a_present, seed_b_present)
 
-        def ejector_heartbeat_send(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, force_mavlink1=False):
+        def ejector_heartbeat_send(self, time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, seed_a_present, seed_b_present, force_mavlink1=False):
                 '''
                 Contains information about the current state and local time.
 
@@ -1212,7 +1219,9 @@ class MAVLink(object):
                 led_enabled               : LED status (type:uint8_t)
                 cam_enabled               : Cam status (type:uint8_t)
                 seed_power_enabled        : Seed Power status (type:uint8_t)
+                seed_a_present            : presence of Seed A (type:uint8_t)
+                seed_b_present            : presence of Seed B (type:uint8_t)
 
                 '''
-                return self.send(self.ejector_heartbeat_encode(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled), force_mavlink1=force_mavlink1)
+                return self.send(self.ejector_heartbeat_encode(time_local, d2time, telecommand_cnt, state_cur, led_enabled, cam_enabled, seed_power_enabled, seed_a_present, seed_b_present), force_mavlink1=force_mavlink1)
 
