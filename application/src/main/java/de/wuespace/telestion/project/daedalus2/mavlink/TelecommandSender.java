@@ -4,6 +4,7 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.daedalus.msg_con_cmd;
 import com.MAVLink.daedalus.msg_assist_now_upload;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.wuespace.telestion.api.message.JsonMessage;
 import de.wuespace.telestion.api.verticle.TelestionConfiguration;
 import de.wuespace.telestion.api.verticle.TelestionVerticle;
 import de.wuespace.telestion.api.verticle.trait.WithEventBus;
@@ -38,35 +39,38 @@ public class TelecommandSender extends TelestionVerticle<TelecommandSender.Confi
 	@Override
 	public void onStart() {
 		setDefaultConfig(new Configuration());
-		register(getConfig().inAddress(), (tc, message) -> {
-			try {
-				// convert String to ASCII byte code
-				handleConCmdTC(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1));
-				message.reply(0);
-			} catch (Exception e) {
-				message.fail(500, e.getMessage());
-			}
-		}, Telecommand.class);
 
-		register(getConfig().inAddress(), (rtc, message) -> {
-			try {
-				// pass through raw data from telecommand
-				handleConCmdTC(rtc.target(), rtc.rawData());
-				message.reply(0);
-			} catch (Exception e) {
-				message.fail(500, e.getMessage());
-			}
-		}, RawTelecommand.class);
+		register(getConfig().inAddress(), message -> {
+			JsonMessage.on(Telecommand.class, message, tc -> {
+				try {
+					// convert String to ASCII byte code
+					handleConCmdTC(tc.target(), tc.msg().getBytes(StandardCharsets.ISO_8859_1));
+					message.reply(0);
+				} catch (Exception e) {
+					message.fail(500, e.getMessage());
+				}
+			});
 
-		register(getConfig().inAddress(), (atc, message) -> {
-			try {
-				// pass through raw data from telecommand
-				handleAssistNowTC(atc.target(), atc.rawData());
-				message.reply(0);
-			} catch (Exception e) {
-				message.fail(500, e.getMessage());
-			}
-		}, AssistNowTelecommand.class);
+			JsonMessage.on(RawTelecommand.class, message, rtc -> {
+				try {
+					// pass through raw data from telecommand
+					handleConCmdTC(rtc.target(), rtc.rawData());
+					message.reply(0);
+				} catch (Exception e) {
+					message.fail(500, e.getMessage());
+				}
+			});
+
+			JsonMessage.on(AssistNowTelecommand.class, message, atc -> {
+				try {
+					// pass through raw data from telecommand
+					handleAssistNowTC(atc.target(), atc.rawData());
+					message.reply(0);
+				} catch (Exception e) {
+					message.fail(500, e.getMessage());
+				}
+			});
+		});
 	}
 
 	private void handleConCmdTC(String target, byte[] payload) {
