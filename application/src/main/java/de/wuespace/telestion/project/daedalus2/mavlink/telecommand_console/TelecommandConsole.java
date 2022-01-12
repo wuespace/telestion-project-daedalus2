@@ -11,6 +11,7 @@ import io.vertx.core.shareddata.LocalMap;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Configuration>
@@ -61,18 +62,20 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 	private final String mapKey = getClass().getName();
 
 	private void pushUpdate(String source) {
-		publish(getConfig().notifyAddress(), getLogMessages(source));
+		var log = getLogMessages(source);
+		publish(getConfig().notifyAddress(), log);
+		logger.debug("Source {} updated.", source);
 	}
 
 	private void addLogMessage(LogMessage log) {
 		var map = defaultLocalMap();
-		var messages = map.getOrDefault(log.source(), emptyStringArray);
+		var messages = decode(map.getOrDefault(log.source(), null));
 
 		var list = new LinkedList<>(List.of(messages));
 		list.addLast(log.message());
 		removeOldest(list, getConfig().maxNumberOfLines());
 
-		map.put(log.source(), list.toArray(String[]::new));
+		map.put(log.source(), encode(list.toArray(String[]::new)));
 		pushUpdate(log.source());
 	}
 
@@ -84,10 +87,10 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 	}
 
 	private Log getLogMessages(String source) {
-		return new Log(source, defaultLocalMap().getOrDefault(source, emptyStringArray));
+		return new Log(source, decode(defaultLocalMap().getOrDefault(source, null)));
 	}
 
-	private LocalMap<String, String[]> defaultLocalMap() {
+	private LocalMap<String, String> defaultLocalMap() {
 		return localMap(mapKey);
 	}
 
@@ -97,5 +100,16 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 		}
 	}
 
+	private static String encode(String[] messages) {
+		return String.join(TOTALLY_SECURE_SEPARATOR, messages);
+	}
+
+	private static String[] decode(String encoded) {
+		if (Objects.isNull(encoded)) return new String[]{};
+		return encoded.split(TOTALLY_SECURE_SEPARATOR);
+	}
+
 	private static final String[] emptyStringArray = new String[]{};
+
+	private static final String TOTALLY_SECURE_SEPARATOR = "separator-separator-separator";
 }
