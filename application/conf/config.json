@@ -34,9 +34,14 @@
 						"request-time-series",
 						"request-keys",
 						"request-time-sync",
-						"a-gps-transmitter#request"
+						"a-gps-transmitter#request",
+						"tc-console-request"
 					],
-					"outboundPermitted": ["a-gps-transmitter#notify", "checklist-state"]
+					"outboundPermitted": [
+						"a-gps-transmitter#notify",
+						"checklist-state",
+						"tc-console-notify"
+					]
 				}
 			},
 			{
