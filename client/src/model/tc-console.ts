@@ -1,4 +1,5 @@
 import { JavaMessage } from './java-message';
+import { hasOwnProperty, isObj } from '../lib/core-utils';
 
 export interface Log extends JavaMessage {
 	/**
@@ -68,3 +69,33 @@ export type ConsoleResponse = ResponseState | ResponseClear;
 
 export const requestChannel = 'tc-console-request';
 export const notifyChannel = 'tc-console-notify';
+
+export function requestStateMessage(source: string): RequestState {
+	return {
+		type: 'state',
+		source,
+		className:
+			'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.RequestState'
+	};
+}
+
+export function isLogMessage(value: unknown): value is Log {
+	return (
+		isObj(value) &&
+		hasOwnProperty(value, 'source') &&
+		hasOwnProperty(value, 'messages') &&
+		typeof value.source === 'string' &&
+		Array.isArray(value.messages)
+	);
+}
+
+export function isResponseState(value: unknown): value is ResponseState {
+	return (
+		isObj(value) &&
+		hasOwnProperty(value, 'type') &&
+		typeof value.type === 'string' &&
+		value.type === 'state' &&
+		hasOwnProperty(value, 'state') &&
+		isLogMessage(value.state)
+	);
+}
