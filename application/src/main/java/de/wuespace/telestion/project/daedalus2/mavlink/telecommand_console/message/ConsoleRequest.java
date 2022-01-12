@@ -7,7 +7,8 @@ import de.wuespace.telestion.api.message.JsonMessage;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = RequestState.class, name = "state"),
-		@JsonSubTypes.Type(value = RequestClear.class, name = "clear")
+		@JsonSubTypes.Type(value = RequestClear.class, name = "clear"),
+		@JsonSubTypes.Type(value = RequestClearAll.class, name = "clear-all")
 })
 public interface ConsoleRequest extends JsonMessage {
 }
