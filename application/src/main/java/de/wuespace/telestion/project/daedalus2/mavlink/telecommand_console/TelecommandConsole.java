@@ -44,14 +44,26 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 
 	public void handleRequest(ConsoleRequest request, Message<Object> message) {
 		if (request instanceof RequestState) {
-			logger.info("State request received.");
-			message.reply(new ResponseState(getLogMessages(((RequestState) request).source())).json());
-			logger.info("Current state sent.");
+			var source = ((RequestState) request).source();
+			logger.info("State request for source {} received.", source);
+
+			message.reply(new ResponseState(getLogMessages(source)).json());
+			logger.info("Sent state request for {}.", source);
 		} else if (request instanceof RequestClear) {
-			logger.info("Clear request received.");
-			clearLogMessages();
-			message.reply(new ResponseClear().json());
-			logger.info("Cleared log messages.");
+			var source = ((RequestClear) request).source();
+			logger.info("Clear request for source {} received.", source);
+
+			clearLogMessages(source);
+
+			message.reply(new ResponseClear(source).json());
+			logger.info("Cleared log messages for {}.", source);
+		} else if (request instanceof RequestClearAll) {
+			logger.info("Clear all request received.");
+
+			clearAllLogMessages();
+
+			message.reply(new ResponseClearAll().json());
+			logger.info("Cleared all log messages.");
 		} else {
 			logger.warn("Unsupported request received. (Expected: RequestState/RequestClear, Got: {}). " +
 					"Please register it in request handler to properly handle this request.",
@@ -79,11 +91,15 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 		pushUpdate(log.source());
 	}
 
-	private void clearLogMessages() {
+	private void clearLogMessages(String source) {
 		var map = defaultLocalMap();
-		var sources = map.keySet();
-		map.clear();
-		sources.forEach(this::pushUpdate);
+		map.put(source, encode(null));
+		pushUpdate(source);
+	}
+
+	private void clearAllLogMessages() {
+		var map = defaultLocalMap();
+		map.keySet().forEach(this::clearLogMessages);
 	}
 
 	private Log getLogMessages(String source) {
@@ -101,6 +117,7 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 	}
 
 	private static String encode(String[] messages) {
+		if (Objects.isNull(messages)) return "";
 		return String.join(TOTALLY_SECURE_SEPARATOR, messages);
 	}
 
