@@ -2,11 +2,13 @@ package de.wuespace.telestion.project.daedalus2.mavlink;
 
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Parser;
+import com.MAVLink.daedalus.msg_log;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.wuespace.telestion.api.verticle.TelestionConfiguration;
 import de.wuespace.telestion.api.verticle.TelestionVerticle;
 import de.wuespace.telestion.api.verticle.trait.WithEventBus;
+import de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.LogMessage;
 import de.wuespace.telestion.services.connection.rework.ConnectionData;
 import de.wuespace.telestion.services.monitoring.MessageLogger;
 import io.vertx.core.DeploymentOptions;
@@ -28,10 +30,11 @@ public class MavLinkTMParser extends TelestionVerticle<MavLinkTMParser.Configura
 
 	public record Configuration(
 			@JsonProperty Map<String, String> sysIdMapping,
-			@JsonProperty String inAddress
+			@JsonProperty String inAddress,
+			@JsonProperty String outAddressLog
 	) implements TelestionConfiguration {
 		public Configuration() {
-			this(new HashMap<>(), DEFAULT_IN_ADDRESS);
+			this(new HashMap<>(), DEFAULT_IN_ADDRESS, "mavlink-tm-log");
 		}
 	}
 
@@ -60,7 +63,7 @@ public class MavLinkTMParser extends TelestionVerticle<MavLinkTMParser.Configura
 
 		// TODO: Improve usage with ListDeployer (when released in core)
 		vertx.deployVerticle(MessageLogger.class, new DeploymentOptions());
-		var configuration = new Configuration(Map.of("0", "abc"), DEFAULT_IN_ADDRESS);
+		var configuration = new Configuration(Map.of("0", "abc"), DEFAULT_IN_ADDRESS, "mavlink-tm-log");
 		vertx.deployVerticle(MavLinkTMParser.class, new DeploymentOptions().setConfig(configuration.json()));
 
 		Thread.sleep(2000);
@@ -121,6 +124,11 @@ public class MavLinkTMParser extends TelestionVerticle<MavLinkTMParser.Configura
 					attachTimeHeader(msg, receiveTime, options);
 
 					publish(source + "/" + type, new JsonObject(json), options);
+
+					// extra for msg_log MavLink message type
+					if (msg instanceof msg_log) {
+						publish(getConfig().outAddressLog(), new LogMessage(source, ((msg_log) msg).getLog_Msg()));
+					}
 				} catch (Exception e) {
 					logger.error("Cannot unpack MavLink packet {}", packet, e.getCause());
 				}
