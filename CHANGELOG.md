@@ -1,3 +1,13 @@
+# [0.26.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.25.0...v0.26.0) (2022-01-12)
+
+
+### Features
+
+* **application:** Add clear and clear all support in Telecommand console ([8ef2b88](https://github.com/wuespace/telestion-project-daedalus2/commit/8ef2b886040bd43a71cf8d6e2129cc022c93ad93))
+* **widget:** Add clear and clear all support in TC console widget ([14c3858](https://github.com/wuespace/telestion-project-daedalus2/commit/14c3858c9809c32242edbd3c41d75bc56d7a60c2))
+
+
+
 # [0.25.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.24.0...v0.25.0) (2022-01-12)
 
 
