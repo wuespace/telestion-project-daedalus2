@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import {
+	ButtonGroup,
+	Button,
 	Divider,
 	Flex,
 	Heading,
@@ -14,10 +16,17 @@ import { ConsoleRenderer } from './console-renderer';
 import { TcCounterBar } from './tc-counter-bar';
 import { TelecommandBar } from './telecommand-bar';
 import { TCState } from '../../model/tc-state';
+import { useRequest } from '@wuespace/telestion-client-core';
+import {
+	requestChannel,
+	requestClearAllMessage,
+	requestClearMessage
+} from '../../model/tc-console';
 
 export function Widget() {
 	const [target, setTarget] = useState(definitions[0].name);
 	const [tcState, setTcState] = useState(TCState.IDLE);
+	const request = useRequest(requestChannel);
 
 	return (
 		<View padding="size-200" height="100%">
@@ -76,6 +85,22 @@ export function Widget() {
 							)}
 						</TabPanels>
 					</Tabs>
+				</View>
+				<View>
+					<ButtonGroup width="100%" orientation="horizontal" align="end">
+						<Button
+							variant="primary"
+							onPress={() => request(requestClearMessage(target), () => {})}
+						>
+							Clear
+						</Button>
+						<Button
+							variant="negative"
+							onPress={() => request(requestClearAllMessage(), () => {})}
+						>
+							Clear All
+						</Button>
+					</ButtonGroup>
 				</View>
 				<TelecommandBar
 					definitions={definitions}

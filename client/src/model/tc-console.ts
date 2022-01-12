@@ -19,7 +19,7 @@ interface ConsoleRequestBase extends JavaMessage {
 	/**
 	 * The type of the request you want to send to the verticle.
 	 */
-	type: 'state' | 'clear';
+	type: 'state' | 'clear' | 'clear-all';
 }
 
 export interface RequestState extends ConsoleRequestBase {
@@ -35,17 +35,25 @@ export interface RequestState extends ConsoleRequestBase {
 export interface RequestClear extends ConsoleRequestBase {
 	type: 'clear';
 
+	source: string;
+
 	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.RequestClear';
 }
 
-export type ConsoleRequest = RequestState | RequestClear;
+export interface RequestClearAll extends ConsoleRequestBase {
+	type: 'clear-all';
+
+	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.RequestClearAll';
+}
+
+export type ConsoleRequest = RequestState | RequestClear | RequestClearAll;
 
 interface ConsoleResponseBase extends JavaMessage {
 	/**
 	 * The type of the response you receive
 	 * when you send a request to the verticle.
 	 */
-	type: 'state' | 'clear';
+	type: 'state' | 'clear' | 'clear-all';
 }
 
 export interface ResponseState extends ConsoleResponseBase {
@@ -62,10 +70,18 @@ export interface ResponseState extends ConsoleResponseBase {
 export interface ResponseClear extends ConsoleResponseBase {
 	type: 'clear';
 
+	source: string;
+
 	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.ResponseClear';
 }
 
-export type ConsoleResponse = ResponseState | ResponseClear;
+export interface ResponseClearAll extends ConsoleResponseBase {
+	type: 'clear-all';
+
+	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.ResponseClearAll';
+}
+
+export type ConsoleResponse = ResponseState | ResponseClear | ResponseClearAll;
 
 export const requestChannel = 'tc-console-request';
 export const notifyChannel = 'tc-console-notify';
@@ -76,6 +92,23 @@ export function requestStateMessage(source: string): RequestState {
 		source,
 		className:
 			'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.RequestState'
+	};
+}
+
+export function requestClearMessage(source: string): RequestClear {
+	return {
+		type: 'clear',
+		source,
+		className:
+			'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.RequestClear'
+	};
+}
+
+export function requestClearAllMessage(): RequestClearAll {
+	return {
+		type: 'clear-all',
+		className:
+			'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.RequestClearAll'
 	};
 }
 
