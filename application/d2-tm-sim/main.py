@@ -85,9 +85,11 @@ def loop():
 			seed_a.seed_heartbeat_send(rodos_time, d2time, 3, seed_a_state, random.random(), 1, 0, [1,2,3,4,5,6,7,8], [1,2,3,4,5,6,7,8], 5, 5)
 			seed_b.seed_heartbeat_send(rodos_time, d2time, 3, seed_b_state, random.random(), 1, 0, [1,2,3,4,5,6,7,8], [1,2,3,4,5,6,7,8], 5, 5)
 			# time_local, d2time, log_msg
-			ejector.log_send(rodos_time, d2time, b'Hallo Welt')
-			# time_local, d2time, tc_count, state, led_enabled, cam_enabled, seed_power_enabled
-			ejector.ejector_heartbeat_send(rodos_time, d2time, 5, ejector_state, 0, 0, 0)
+			ejector.log_send(rodos_time, d2time, b'Ejector ist hier!')
+			seed_a.log_send(rodos_time, d2time, b'Seed A ist hier!')
+			seed_b.log_send(rodos_time, d2time, b'Seed B ist hier!')
+			# time_local, d2time, tc_count, state, led_enabled, cam_enabled, seed_power_enabled, seed_a_present, seed_b_present
+			ejector.ejector_heartbeat_send(rodos_time, d2time, 5, ejector_state, 0, 0, 0, 1, 1)
 
 			# update variables for next round
 			rodos_time = rodos_time + 1000
