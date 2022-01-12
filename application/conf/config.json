@@ -67,11 +67,23 @@
 				"magnitude": 1,
 				"config": {
 					"inAddress": "raw-mavlink",
+					"outAddressLog": "mavlink-tm-log",
 					"sysIdMapping": {
 						"4": "seedA",
 						"6": "seedB",
 						"3": "ejector"
 					}
+				}
+			},
+			{
+				"name": "[RECV] Mavlink Telecommand Console",
+				"verticle": "de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.TelecommandConsole",
+				"magnitude": 1,
+				"config": {
+					"inAddress": "mavlink-tm-log",
+					"notifyAddress": "tc-console-notify",
+					"requestAddress": "tc-console-request",
+					"maxNumberOfLines": 300
 				}
 			},
 			{
