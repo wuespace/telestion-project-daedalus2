@@ -29,7 +29,8 @@ export function TcCounterBar({ definitions }: TcCounterProps) {
 				{definitions.map((definition, index) => (
 					<>
 						<Text>
-							{definition.title}: {values[index] || 'N/A'}
+							{definition.title}:{' '}
+							{values[index] === null ? 'N/A' : values[index]}
 						</Text>
 						{/* add divider for all but last entry */}
 						{index < definitions.length - 1 && (
