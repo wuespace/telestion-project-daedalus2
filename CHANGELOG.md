@@ -1,3 +1,31 @@
+# [0.25.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.24.0...v0.25.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* **application:** Add TC Console addresses to permitted inbound and unbound addresses via EventbusTcpBridge ([5fc6dfe](https://github.com/wuespace/telestion-project-daedalus2/commit/5fc6dfe8a1fe10af7e64163b80678f54a413b66f))
+* **application:** Encode and decode String array manually because Vert.x shared data storage cannot ([25248e6](https://github.com/wuespace/telestion-project-daedalus2/commit/25248e6d62e587587745d8daf49a0f1c0fb03df7))
+* **application:** Move `JsonMessage.on` into one register call because send will use only one registered handler regardless which verticle and which handler. (see https://vertx.io/docs/vertx-core/java/#_sending_messages) ([e3d0979](https://github.com/wuespace/telestion-project-daedalus2/commit/e3d097902114827ff05161ec61994e0cb7015312))
+* **client:** Fix Telecommand class name due to previous refactor (see v0.6.2 integration) ([7bf9299](https://github.com/wuespace/telestion-project-daedalus2/commit/7bf92998b7eca049077b03dbedef76a2b3c4e88b))
+
+
+### Features
+
+* **application:** Add log messages to D2 TM simulator ([98ec2a9](https://github.com/wuespace/telestion-project-daedalus2/commit/98ec2a9bb9697e1d1ed8ed43df20d1d9f4403f7f))
+* **application:** Add Telecommand console to config.json ([7ef703d](https://github.com/wuespace/telestion-project-daedalus2/commit/7ef703d131e45953b2d6044990ede49dbbd52c70))
+* **application:** Implement Telecommand console verticle and message types ([1eae9c0](https://github.com/wuespace/telestion-project-daedalus2/commit/1eae9c0e782469755181443ba2864d7cdcf44a61))
+* **client:** Add client side type definitions for message types ([8fda822](https://github.com/wuespace/telestion-project-daedalus2/commit/8fda82293143f26547766e46eb0b831124b22c2c))
+* **client:** Add core-utils from `telestion-client-core` ([2828b65](https://github.com/wuespace/telestion-project-daedalus2/commit/2828b65878111d18976e4b931a4d0b4b297576b0))
+* **client:** Add some utility functions to `tc-console.ts` ([c422fd4](https://github.com/wuespace/telestion-project-daedalus2/commit/c422fd4482ba730994704a7394d0f62e93412301))
+* **client:** Add TC console widget ([ea0cf59](https://github.com/wuespace/telestion-project-daedalus2/commit/ea0cf5972223ae46022a5f55a7067795998a47d5))
+* **client:** Clean up telecommand dashboards ([79bb430](https://github.com/wuespace/telestion-project-daedalus2/commit/79bb43047b503c1d2234fc658f084e5ba704945f))
+* **client:** Update connection status panel timeouts ([1f480ae](https://github.com/wuespace/telestion-project-daedalus2/commit/1f480ae325741ae19ed0c89ef3c2f8f13b1638e5))
+* Migrate project to Telestion-Core v0.6.2 ([6e82865](https://github.com/wuespace/telestion-project-daedalus2/commit/6e828654b3a37fb10543b209a02e2e2d6c74dd5e))
+* Update MavLink XML definition and generated sources for Java and python ([c2eae95](https://github.com/wuespace/telestion-project-daedalus2/commit/c2eae952e7b02175cdee46c0fcd953c3ce092d88))
+* **widget:** Finalize TC console widget ([3ef7177](https://github.com/wuespace/telestion-project-daedalus2/commit/3ef7177fe8208cc6fa5ce763a2bd66ec132e4ea2))
+
+
+
 # [0.24.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.23.0...v0.24.0) (2022-01-02)
 
 
