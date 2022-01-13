@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 import {
 	EventBusState,
 	useEventBus,
@@ -19,9 +19,18 @@ const selector: StateSelector<
 	EventBusState['eventBus']
 > = state => state.eventBus;
 
-export function useConsoleLog(source: string, ref: RefObject<HTMLPreElement>) {
+export function useConsoleLog(
+	source: string,
+	ref: RefObject<HTMLPreElement>,
+	isScroll = true
+) {
 	const eventBus = useEventBus(selector);
 	const logger = useLogger('useConsoleLog');
+	const isScrollRef = useRef(isScroll);
+
+	useEffect(() => {
+		isScrollRef.current = isScroll;
+	}, [isScroll, logger]);
 
 	useEffect(() => {
 		if (eventBus) {
@@ -31,11 +40,9 @@ export function useConsoleLog(source: string, ref: RefObject<HTMLPreElement>) {
 					if (message.source === source) {
 						if (ref.current) {
 							ref.current.innerHTML = message.messages.join('\n');
-							ref.current.scrollIntoView({
-								behavior: 'smooth',
-								block: 'end',
-								inline: 'nearest'
-							});
+							if (isScrollRef.current) {
+								ref.current.scrollIntoView(false);
+							}
 						} else {
 							logger.warn('Pre-Ref not defined.');
 						}
@@ -60,11 +67,9 @@ export function useConsoleLog(source: string, ref: RefObject<HTMLPreElement>) {
 					if (message.state.source === source) {
 						if (ref.current) {
 							ref.current.innerHTML = message.state.messages.join('\n');
-							ref.current.scrollIntoView({
-								behavior: 'smooth',
-								block: 'end',
-								inline: 'nearest'
-							});
+							if (isScrollRef.current) {
+								ref.current.scrollIntoView(false);
+							}
 						}
 						logger.info('State update through request');
 					}

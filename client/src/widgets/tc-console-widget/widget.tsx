@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
-	ButtonGroup,
 	Button,
 	Divider,
 	Flex,
@@ -9,9 +8,10 @@ import {
 	TabList,
 	TabPanels,
 	Tabs,
-	View
+	View,
+	Checkbox
 } from '@adobe/react-spectrum';
-import { ConsoleDefinition, definitions } from './model';
+import { ConsoleDefinition, definitions as modelDefinitions } from './model';
 import { ConsoleRenderer } from './console-renderer';
 import { TcCounterBar } from './tc-counter-bar';
 import { TelecommandBar } from './telecommand-bar';
@@ -24,6 +24,11 @@ import {
 } from '../../model/tc-console';
 
 export function Widget() {
+	const [isScroll, setScroll] = useState(true);
+	const definitions = useMemo(
+		() => modelDefinitions.map(definition => ({ ...definition, isScroll })),
+		[isScroll]
+	);
 	const [target, setTarget] = useState(definitions[0].name);
 	const [tcState, setTcState] = useState(TCState.IDLE);
 	const request = useRequest(requestChannel);
@@ -62,7 +67,7 @@ export function Widget() {
 
 				<TcCounterBar definitions={definitions} />
 				<View flexGrow={1}>
-					<Tabs<ConsoleDefinition>
+					<Tabs
 						aria-label="TC Console Selection"
 						items={definitions}
 						selectedKey={target}
@@ -78,16 +83,23 @@ export function Widget() {
 							)}
 						</TabList>
 						<TabPanels height="100%">
-							{(item: ConsoleDefinition) => (
+							{(item: { isScroll: boolean; name: string; title: string }) => (
 								<Item key={item.name}>
-									<ConsoleRenderer source={item.name} />
+									<ConsoleRenderer
+										source={item.name}
+										isScroll={item.isScroll}
+									/>
 								</Item>
 							)}
 						</TabPanels>
 					</Tabs>
 				</View>
 				<View>
-					<ButtonGroup width="100%" orientation="horizontal" align="end">
+					<Flex direction="row" justifyContent="end" gap="size-100">
+						<Checkbox isSelected={isScroll} onChange={setScroll}>
+							Auto-Scroll
+						</Checkbox>
+
 						<Button
 							variant="primary"
 							onPress={() => request(requestClearMessage(target), () => {})}
@@ -100,7 +112,7 @@ export function Widget() {
 						>
 							Clear All
 						</Button>
-					</ButtonGroup>
+					</Flex>
 				</View>
 				<TelecommandBar
 					definitions={definitions}
