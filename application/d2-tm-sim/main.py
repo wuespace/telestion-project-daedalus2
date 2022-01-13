@@ -92,7 +92,7 @@ def loop():
 			ejector.ejector_heartbeat_send(rodos_time, d2time, 5, ejector_state, 0, 0, 0, 1, 1)
 
 			# update variables for next round
-			rodos_time = rodos_time + 1000
+			rodos_time = rodos_time + 1_000_000_000
 
 			seed_a_state = (seed_a_state + 1) % 34
 			seed_b_state = (seed_b_state + 1) % 34
