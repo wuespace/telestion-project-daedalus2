@@ -1,3 +1,12 @@
+# [0.28.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.27.0...v0.28.0) (2022-01-13)
+
+
+### Features
+
+* **widget:** Add auto-scroll checkbox to switch scroll-to-bottom on and off ([0e458b7](https://github.com/wuespace/telestion-project-daedalus2/commit/0e458b7d2b0dbada8b6f3231f38ef36080955f2d))
+
+
+
 # [0.27.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.26.1...v0.27.0) (2022-01-13)
 
 
