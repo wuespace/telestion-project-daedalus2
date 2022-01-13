@@ -9,6 +9,8 @@ import de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.messa
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.shareddata.LocalMap;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -73,6 +75,8 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 
 	private final String mapKey = getClass().getName();
 
+	private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ssX");
+
 	private void pushUpdate(String source) {
 		var log = getLogMessages(source);
 		publish(getConfig().notifyAddress(), log);
@@ -82,9 +86,11 @@ public class TelecommandConsole extends TelestionVerticle<TelecommandConsole.Con
 	private void addLogMessage(LogMessage log) {
 		var map = defaultLocalMap();
 		var messages = decode(map.getOrDefault(log.source(), null));
+		var receiveTime = new Date(log.receiveTime());
+		double time_local = log.time_local() / 1_000_000_000.0; // ns -> µs -> ms -> s
 
 		var list = new LinkedList<>(List.of(messages));
-		list.addLast(log.message());
+		list.addLast(String.format("%s %8.2fTL: %s", sdf.format(receiveTime), time_local, log.message()));
 		removeOldest(list, getConfig().maxNumberOfLines());
 
 		map.put(log.source(), encode(list.toArray(String[]::new)));

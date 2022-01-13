@@ -128,7 +128,8 @@ public class MavLinkTMParser extends TelestionVerticle<MavLinkTMParser.Configura
 					// extra for msg_log MavLink message type
 					if (msg instanceof msg_log) {
 						var message = ((msg_log) msg).getLog_Msg().trim();
-						publish(getConfig().outAddressLog(), new LogMessage(source, message));
+						var time_local = ((msg_log) msg).time_local;
+						publish(getConfig().outAddressLog(), new LogMessage(source, message, receiveTime, time_local));
 					}
 				} catch (Exception e) {
 					logger.error("Cannot unpack MavLink packet {}", packet, e.getCause());
