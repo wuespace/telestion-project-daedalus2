@@ -1,3 +1,15 @@
+# [0.27.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.26.1...v0.27.0) (2022-01-13)
+
+
+### Features
+
+* **application:** Add receive time and time_local to log message in telecommand console ([dff8751](https://github.com/wuespace/telestion-project-daedalus2/commit/dff8751760f11a6b7d03cf0a85b1caee1e1adafd))
+* **application:** Trim received log message before publishing in Mavlink TM parser ([e336d2b](https://github.com/wuespace/telestion-project-daedalus2/commit/e336d2be9222088b44ec87448e6b2a654ab3337f))
+* **widget:** Allow multiple sending of the same telecommand in TCSendButton ([2499d34](https://github.com/wuespace/telestion-project-daedalus2/commit/2499d34fffe981578431846fbcbf00a3e597d181))
+* **widget:** Enable smooth scrolling in TM/TC window ([0e77971](https://github.com/wuespace/telestion-project-daedalus2/commit/0e77971df168ded40bb0223b9bc3c30d08a84bc9))
+
+
+
 ## [0.26.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.26.0...v0.26.1) (2022-01-12)
 
 
