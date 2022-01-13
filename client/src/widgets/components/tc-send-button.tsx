@@ -41,7 +41,12 @@ export function TCSendButton({
 	return (
 		<DialogTrigger>
 			<TCButton
-				isDisabled={isDisabled || state !== TCState.IDLE || !command || !target}
+				isDisabled={
+					isDisabled ||
+					(state !== TCState.IDLE && state !== TCState.SENT) ||
+					!command ||
+					!target
+				}
 				isQuiet={isQuiet}
 			>
 				{children}
