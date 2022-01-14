@@ -55,7 +55,7 @@ export function useConsoleLog(
 					let boots = splitBoots(messages);
 
 					if (!showAllBootsRef.current) {
-						boots = [boots[boots.length - 1]]; // only show latest boot;
+						boots = [boots[boots.length - 1]]; // only show the latest boot
 					}
 
 					const formattedMessages = boots.reduce((acc, current, index, arr) => {
@@ -72,26 +72,40 @@ export function useConsoleLog(
 			};
 
 			const notifyHandler = (message: JsonSerializable) => {
-				if (isLogMessages(message)) {
-					if (message.source === source) {
-						messages = message.messages;
-						updateFuncRef.current();
-						logger.info('State update through notify.');
+				try {
+					if (isLogMessages(message)) {
+						if (message.source === source) {
+							messages = message.messages;
+							updateFuncRef.current();
+							logger.info('State update through notify.');
+						}
+					} else {
+						logger.warn('Received invalid message:', message);
 					}
-				} else {
-					logger.warn('Received invalid message:', message);
+				} catch (err) {
+					logger.error(
+						'Cannot successfully process notified state update:',
+						err
+					);
 				}
 			};
 
 			const requestHandler = (message: JsonSerializable) => {
-				if (isResponseState(message)) {
-					if (message.messages.source === source) {
-						messages = message.messages.messages;
-						updateFuncRef.current();
-						logger.info('State update through request.');
+				try {
+					if (isResponseState(message)) {
+						if (message.messages.source === source) {
+							messages = message.messages.messages;
+							updateFuncRef.current();
+							logger.info('State update through request.');
+						}
+					} else {
+						logger.warn('Received invalid response message:', message);
 					}
-				} else {
-					logger.warn('Received invalid response message:', message);
+				} catch (err) {
+					logger.error(
+						'Cannot successfully process received state request:',
+						err
+					);
 				}
 			};
 
