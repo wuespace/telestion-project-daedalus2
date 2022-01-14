@@ -1,3 +1,18 @@
+# [0.29.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.28.0...v0.29.0) (2022-01-14)
+
+
+### Bug Fixes
+
+* **application:** Fix in addresses in configuration for Redis and MongoDB verticles not capturing the received log messages via MavLink ([1c8ac07](https://github.com/wuespace/telestion-project-daedalus2/commit/1c8ac073ac9db9d8c742087d648f6ebe3b297c79))
+
+
+### Features
+
+* **application:** Send out all log information separately in TC console verticle ([3c3d64a](https://github.com/wuespace/telestion-project-daedalus2/commit/3c3d64a0e173ef1aca895982b18096794163782c))
+* **widget:** Update TC console widget now handling the rendering of the message and support for show all boots ([d0101ad](https://github.com/wuespace/telestion-project-daedalus2/commit/d0101ad7bc55bef9540ab3342e0ad2799a3c86a2))
+
+
+
 # [0.28.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.27.0...v0.28.0) (2022-01-13)
 
 
