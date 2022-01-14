@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.wuespace.telestion.api.verticle.TelestionConfiguration;
 import de.wuespace.telestion.api.verticle.TelestionVerticle;
 import de.wuespace.telestion.api.verticle.trait.WithEventBus;
-import de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.LogMessage;
+import de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.LogMessage;
 import de.wuespace.telestion.services.connection.rework.ConnectionData;
 import de.wuespace.telestion.services.monitoring.MessageLogger;
 import io.vertx.core.DeploymentOptions;
