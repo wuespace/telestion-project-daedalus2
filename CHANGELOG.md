@@ -1,3 +1,12 @@
+## [0.29.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.29.0...v0.29.1) (2022-01-14)
+
+
+### Bug Fixes
+
+* **widget:** Fix an error that happens when no log messages are present for a source in TC console widget ([7d25a0d](https://github.com/wuespace/telestion-project-daedalus2/commit/7d25a0d7a67cb16dd267d6698fc904c36ea65107))
+
+
+
 # [0.29.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.28.0...v0.29.0) (2022-01-14)
 
 
