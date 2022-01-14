@@ -26,6 +26,8 @@ export function splitBoots(messages: LogMessage[]): LogMessage[][] {
 	for (let i = 0; i < bootIndices.length - 1; i++) {
 		boots.push(messages.slice(bootIndices[i], bootIndices[i + 1]));
 	}
+	// no messages -> at least one boot exist
+	if (lastTimeLocal === -1) boots.push([]);
 	return boots;
 }
 
