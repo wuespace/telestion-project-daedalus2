@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import {
-	Button,
 	Divider,
 	Flex,
 	Heading,
@@ -9,29 +8,29 @@ import {
 	TabPanels,
 	Tabs,
 	View,
-	Checkbox
+	Switch
 } from '@adobe/react-spectrum';
+
+import { TCState } from '../../model/tc-state';
 import { ConsoleDefinition, definitions as modelDefinitions } from './model';
 import { ConsoleRenderer } from './console-renderer';
 import { TcCounterBar } from './tc-counter-bar';
 import { TelecommandBar } from './telecommand-bar';
-import { TCState } from '../../model/tc-state';
-import { useRequest } from '@wuespace/telestion-client-core';
-import {
-	requestChannel,
-	requestClearAllMessage,
-	requestClearMessage
-} from '../../model/tc-console';
 
 export function Widget() {
 	const [isScroll, setScroll] = useState(true);
+	const [showAllBoots, setShowAllBoots] = useState(false);
 	const definitions = useMemo(
-		() => modelDefinitions.map(definition => ({ ...definition, isScroll })),
-		[isScroll]
+		() =>
+			modelDefinitions.map(definition => ({
+				...definition,
+				isScroll,
+				showAllBoots
+			})),
+		[isScroll, showAllBoots]
 	);
 	const [target, setTarget] = useState(definitions[0].name);
 	const [tcState, setTcState] = useState(TCState.IDLE);
-	const request = useRequest(requestChannel);
 
 	return (
 		<View padding="size-200" height="100%">
@@ -66,6 +65,7 @@ export function Widget() {
 				</>
 
 				<TcCounterBar definitions={definitions} />
+
 				<View flexGrow={1}>
 					<Tabs
 						aria-label="TC Console Selection"
@@ -83,37 +83,40 @@ export function Widget() {
 							)}
 						</TabList>
 						<TabPanels height="100%">
-							{(item: { isScroll: boolean; name: string; title: string }) => (
+							{(item: {
+								isScroll: boolean;
+								showAllBoots: boolean;
+								name: string;
+								title: string;
+							}) => (
 								<Item key={item.name}>
 									<ConsoleRenderer
 										source={item.name}
 										isScroll={item.isScroll}
+										showAllBoots={item.showAllBoots}
 									/>
 								</Item>
 							)}
 						</TabPanels>
 					</Tabs>
 				</View>
-				<View>
-					<Flex direction="row" justifyContent="end" gap="size-100">
-						<Checkbox isSelected={isScroll} onChange={setScroll}>
-							Auto-Scroll
-						</Checkbox>
 
-						<Button
-							variant="primary"
-							onPress={() => request(requestClearMessage(target), () => {})}
-						>
-							Clear
-						</Button>
-						<Button
-							variant="negative"
-							onPress={() => request(requestClearAllMessage(), () => {})}
-						>
-							Clear All
-						</Button>
+				<View>
+					<Flex
+						direction="row"
+						width="100%"
+						justifyContent="end"
+						alignItems="center"
+					>
+						<Switch isSelected={showAllBoots} onChange={setShowAllBoots}>
+							Show previous boot messages
+						</Switch>
+						<Switch isSelected={isScroll} onChange={setScroll}>
+							Auto scroll
+						</Switch>
 					</Flex>
 				</View>
+
 				<TelecommandBar
 					definitions={definitions}
 					target={target}
