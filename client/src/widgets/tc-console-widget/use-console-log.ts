@@ -1,18 +1,21 @@
 import { RefObject, useEffect, useRef } from 'react';
+import { StateSelector } from 'zustand';
+import { JsonSerializable } from '@wuespace/telestion-client-types';
 import {
 	EventBusState,
 	useEventBus,
 	useLogger
 } from '@wuespace/telestion-client-core';
-import { StateSelector } from 'zustand';
+
 import {
-	isLogMessage,
+	isLogMessages,
 	isResponseState,
+	LogMessage,
 	notifyChannel,
 	requestChannel,
 	requestStateMessage
 } from '../../model/tc-console';
-import { JsonSerializable } from '@wuespace/telestion-client-types';
+import { formatMessage, genBootSeparator, splitBoots } from './lib';
 
 const selector: StateSelector<
 	EventBusState,
@@ -21,32 +24,58 @@ const selector: StateSelector<
 
 export function useConsoleLog(
 	source: string,
-	ref: RefObject<HTMLPreElement>,
-	isScroll = true
+	elementRef: RefObject<HTMLPreElement>,
+	isScroll = true,
+	showAllBoots = false
 ) {
 	const eventBus = useEventBus(selector);
 	const logger = useLogger('useConsoleLog');
-	const isScrollRef = useRef(isScroll);
 
+	const isScrollRef = useRef(isScroll);
+	const showAllBootsRef = useRef(showAllBoots);
+	const updateFuncRef = useRef(() => {});
+
+	// keep refs synced with given React state
 	useEffect(() => {
 		isScrollRef.current = isScroll;
-	}, [isScroll, logger]);
+	}, [isScroll]);
 
 	useEffect(() => {
-		if (eventBus) {
-			// update on notify
-			const handler = (message: JsonSerializable) => {
-				if (isLogMessage(message)) {
-					if (message.source === source) {
-						if (ref.current) {
-							ref.current.innerHTML = message.messages.join('\n');
-							if (isScrollRef.current) {
-								ref.current.scrollIntoView(false);
-							}
-						} else {
-							logger.warn('Pre-Ref not defined.');
-						}
+		showAllBootsRef.current = showAllBoots;
+		updateFuncRef.current();
+	}, [showAllBoots]);
 
+	// setup notify handler
+	useEffect(() => {
+		if (eventBus) {
+			let messages: LogMessage[] = [];
+
+			updateFuncRef.current = () => {
+				if (elementRef.current) {
+					let boots = splitBoots(messages);
+
+					if (!showAllBootsRef.current) {
+						boots = [boots[boots.length - 1]]; // only show latest boot;
+					}
+
+					const formattedMessages = boots.reduce((acc, current, index, arr) => {
+						acc.push(genBootSeparator(index, arr.length));
+						acc.push(...current.map(formatMessage));
+						return acc;
+					}, [] as string[]);
+
+					elementRef.current.innerHTML = formattedMessages.join('\n');
+					if (isScrollRef.current) {
+						elementRef.current.scrollIntoView(false);
+					}
+				}
+			};
+
+			const notifyHandler = (message: JsonSerializable) => {
+				if (isLogMessages(message)) {
+					if (message.source === source) {
+						messages = message.messages;
+						updateFuncRef.current();
 						logger.info('State update through notify.');
 					}
 				} else {
@@ -54,29 +83,25 @@ export function useConsoleLog(
 				}
 			};
 
-			eventBus.register(notifyChannel, handler);
-			return () => eventBus.unregister(notifyChannel, handler);
-		}
-	}, [eventBus, logger, ref, source]);
-
-	// actively request state on first render
-	useEffect(() => {
-		if (eventBus) {
-			const handler = (message: JsonSerializable) => {
+			const requestHandler = (message: JsonSerializable) => {
 				if (isResponseState(message)) {
-					if (message.state.source === source) {
-						if (ref.current) {
-							ref.current.innerHTML = message.state.messages.join('\n');
-							if (isScrollRef.current) {
-								ref.current.scrollIntoView(false);
-							}
-						}
-						logger.info('State update through request');
+					if (message.messages.source === source) {
+						messages = message.messages.messages;
+						updateFuncRef.current();
+						logger.info('State update through request.');
 					}
+				} else {
+					logger.warn('Received invalid response message:', message);
 				}
 			};
 
-			eventBus.send(requestChannel, requestStateMessage(source), handler);
+			eventBus.register(notifyChannel, notifyHandler);
+			eventBus.send(
+				requestChannel,
+				requestStateMessage(source),
+				requestHandler
+			);
+			return () => eventBus.unregister(notifyChannel, notifyHandler);
 		}
-	}, [eventBus, logger, ref, source]);
+	}, [eventBus, logger, elementRef, source]);
 }

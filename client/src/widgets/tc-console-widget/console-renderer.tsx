@@ -6,11 +6,16 @@ import { OverflowFix } from '@wuespace/telestion-client-common';
 export interface ConsoleRendererProps {
 	source: string;
 	isScroll: boolean;
+	showAllBoots: boolean;
 }
 
-export function ConsoleRenderer({ source, isScroll }: ConsoleRendererProps) {
+export function ConsoleRenderer({
+	source,
+	isScroll,
+	showAllBoots
+}: ConsoleRendererProps) {
 	const ref = useRef<HTMLPreElement>(null);
-	useConsoleLog(source, ref, isScroll);
+	useConsoleLog(source, ref, isScroll, showAllBoots);
 
 	return (
 		<View height="100%" paddingY="size-100">

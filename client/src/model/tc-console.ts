@@ -1,18 +1,42 @@
 import { JavaMessage } from './java-message';
 import { hasOwnProperty, isObj } from '../lib/core-utils';
 
-export interface Log extends JavaMessage {
+export interface LogMessage extends JavaMessage {
+	/**
+	 * The source of the log message.
+	 */
+	source: string;
+
+	/**
+	 * The message received from the source in the given time.
+	 */
+	message: string;
+
+	/**
+	 * The time at which the message was received in milliseconds UTC.
+	 */
+	receiveTime: number;
+
+	/**
+	 * The RODOS local time in nanoseconds since last reboot.
+	 */
+	time_local: number;
+
+	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.LogMessage';
+}
+
+export interface LogMessages extends JavaMessage {
 	/**
 	 * The source of the log messages.
 	 */
 	source: string;
 
 	/**
-	 * All messages received from the source separated by a newline '\n'.
+	 * All stored messages for this source.
 	 */
-	messages: string[];
+	messages: LogMessage[];
 
-	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.Log';
+	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.LogMessages';
 }
 
 interface ConsoleRequestBase extends JavaMessage {
@@ -62,7 +86,7 @@ export interface ResponseState extends ConsoleResponseBase {
 	/**
 	 * The current state of the requested source.
 	 */
-	state: Log;
+	messages: LogMessages;
 
 	className: 'de.wuespace.telestion.project.daedalus2.mavlink.telecommand_console.message.ResponseState';
 }
@@ -112,14 +136,30 @@ export function requestClearAllMessage(): RequestClearAll {
 	};
 }
 
-export function isLogMessage(value: unknown): value is Log {
+export function isLogMessage(value: unknown): value is LogMessage {
 	return (
 		isObj(value) &&
 		hasOwnProperty(value, 'source') &&
-		hasOwnProperty(value, 'messages') &&
+		hasOwnProperty(value, 'message') &&
+		hasOwnProperty(value, 'receiveTime') &&
+		hasOwnProperty(value, 'time_local') &&
 		typeof value.source === 'string' &&
-		Array.isArray(value.messages)
+		typeof value.message === 'string' &&
+		typeof value.receiveTime === 'number' &&
+		typeof value.time_local === 'number'
 	);
+}
+
+export function isLogMessages(value: unknown): value is LogMessages {
+	if (
+		isObj(value) &&
+		hasOwnProperty(value, 'messages') &&
+		Array.isArray(value.messages)
+	) {
+		return value.messages.every(message => isLogMessage(message));
+	}
+
+	return false;
 }
 
 export function isResponseState(value: unknown): value is ResponseState {
@@ -128,7 +168,7 @@ export function isResponseState(value: unknown): value is ResponseState {
 		hasOwnProperty(value, 'type') &&
 		typeof value.type === 'string' &&
 		value.type === 'state' &&
-		hasOwnProperty(value, 'state') &&
-		isLogMessage(value.state)
+		hasOwnProperty(value, 'messages') &&
+		isLogMessages(value.messages)
 	);
 }
