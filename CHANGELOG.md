@@ -1,3 +1,12 @@
+## [0.29.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.29.1...v0.29.2) (2022-01-15)
+
+
+### Bug Fixes
+
+* **widget:** Fix log messages splitter in TC console widget ([a69e29f](https://github.com/wuespace/telestion-project-daedalus2/commit/a69e29f78d0f6c89f5d9d4bf1836483ac7c57ba0))
+
+
+
 ## [0.29.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.29.0...v0.29.1) (2022-01-14)
 
 
