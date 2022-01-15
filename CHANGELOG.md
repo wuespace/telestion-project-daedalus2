@@ -1,3 +1,13 @@
+# [0.30.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.29.2...v0.30.0) (2022-01-15)
+
+
+### Features
+
+* **client:** Add timeline widget to all dashboards ([c98cf1a](https://github.com/wuespace/telestion-project-daedalus2/commit/c98cf1a1b7dabcfd75954d7f255a13fc9843dcef))
+* **widget:** Add timeline widget ([de1e42e](https://github.com/wuespace/telestion-project-daedalus2/commit/de1e42ed244180bdea6db85d2031e85ccca37749))
+
+
+
 ## [0.29.2](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.29.1...v0.29.2) (2022-01-15)
 
 
