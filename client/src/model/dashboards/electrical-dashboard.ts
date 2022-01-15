@@ -2,14 +2,14 @@ import { Dashboard } from '@wuespace/telestion-client-types';
 
 export const electricalDashboard: Dashboard = {
 	title: 'Electrical',
-	columns: 12,
-	rows: 12,
+	columns: 3,
+	rows: 21,
 	widgets: [
 		{
 			id: 'electrical-0',
 			widgetName: 'stateWidget',
-			width: 4,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				seedASource: 'SEED_HEARTBEAT',
 				seedBSource: 'SEED_HEARTBEAT',
@@ -19,8 +19,8 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-1',
 			widgetName: 'checklistWidget',
-			width: 4,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				title: 'Note 2'
 			}
@@ -28,8 +28,8 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-2',
 			widgetName: 'currentValuesWidget',
-			width: 4,
-			height: 12,
+			width: 1,
+			height: 20,
 			initialProps: {
 				title: 'Current values',
 				connections: []
@@ -38,8 +38,8 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-3',
 			widgetName: 'seedEcam',
-			width: 4,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				seed: 'seedA',
 				voltThreshold: 0.5,
@@ -49,13 +49,20 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-4',
 			widgetName: 'seedEcam',
-			width: 4,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				seed: 'seedB',
 				voltThreshold: 0.5,
 				ampsThreshold: 0.005
 			}
+		},
+		{
+			id: 'electrical-5',
+			widgetName: 'timelineWidget',
+			width: 3,
+			height: 1,
+			initialProps: {}
 		}
 	]
 };
