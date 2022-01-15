@@ -1,12 +1,7 @@
 import { LogMessage } from '../../model/tc-console';
 
-export type SplitBoot = readonly [
-	remaining: LogMessage[],
-	current: LogMessage[]
-];
-
 export function splitBoots(messages: LogMessage[]): LogMessage[][] {
-	const bootIndices: number[] = [];
+	const bootIndices: number[] = [0];
 	let lastTimeLocal = -1;
 	messages.forEach((message, index) => {
 		// when time_local jumps because of reboot,
@@ -26,8 +21,6 @@ export function splitBoots(messages: LogMessage[]): LogMessage[][] {
 	for (let i = 0; i < bootIndices.length - 1; i++) {
 		boots.push(messages.slice(bootIndices[i], bootIndices[i + 1]));
 	}
-	// no messages -> at least one boot exist
-	if (lastTimeLocal === -1) boots.push([]);
 	return boots;
 }
 
