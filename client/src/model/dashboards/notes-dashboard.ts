@@ -2,14 +2,14 @@ import { Dashboard } from '@wuespace/telestion-client-types';
 
 export const notesDashboard: Dashboard = {
 	title: 'Checklists/Notes',
-	columns: 12,
-	rows: 12,
+	columns: 2,
+	rows: 21,
 	widgets: [
 		{
 			id: 'notes-0',
 			widgetName: 'stateWidget',
-			width: 6,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				seedASource: 'SEED_HEARTBEAT',
 				seedBSource: 'SEED_HEARTBEAT',
@@ -19,8 +19,8 @@ export const notesDashboard: Dashboard = {
 		{
 			id: 'notes-1',
 			widgetName: 'checklistWidget',
-			width: 6,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				title: 'Note 2'
 			}
@@ -28,8 +28,8 @@ export const notesDashboard: Dashboard = {
 		{
 			id: 'notes-2',
 			widgetName: 'noteWidget',
-			width: 6,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				title: 'Your notes',
 				content: 'Telestion is beautiful!'
@@ -38,11 +38,18 @@ export const notesDashboard: Dashboard = {
 		{
 			id: 'notes-3',
 			widgetName: 'noteWidget',
-			width: 6,
-			height: 6,
+			width: 1,
+			height: 10,
 			initialProps: {
 				title: 'More notes'
 			}
+		},
+		{
+			id: 'notes-4',
+			widgetName: 'timelineWidget',
+			width: 2,
+			height: 1,
+			initialProps: {}
 		}
 	]
 };
