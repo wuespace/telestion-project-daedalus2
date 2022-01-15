@@ -25,10 +25,12 @@ import { widget as stateChangeWidget } from './state-change-widget';
 import { widget as radioSilenceWidget } from './radio-silence-widget';
 import { widget as ejectorCameraWidget } from './ejector-camera-widget';
 import { widget as tcConsoleWidget } from './tc-console-widget';
+import { widget as timelineWidget } from './timeline-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	timelineWidget,
 	tcConsoleWidget,
 	ejectorCameraWidget,
 	radioSilenceWidget,
