@@ -14,7 +14,7 @@ import io.vertx.core.file.OpenOptions;
  * It writes the raw mavlink messages to a file
  */
 public class RawFileLogger extends TelestionVerticle<RawFileLogger.Configuration> implements WithEventBus {
-	AsyncFile file;
+	private AsyncFile file;
 
 	public record Configuration(
 		@JsonProperty String inAddress,
