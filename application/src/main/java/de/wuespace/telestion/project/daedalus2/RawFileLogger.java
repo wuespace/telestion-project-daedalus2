@@ -24,7 +24,7 @@ public class RawFileLogger extends TelestionVerticle<RawFileLogger.Configuration
 
 	@Override
 	public void onStart() throws Exception {
-		// It creates a file and opens it in blocking mode.
+		// It creates a file (if it doesn't exist) and opens it
 		FileSystem fs = getVertx().fileSystem();
 		file = fs.openBlocking(getConfig().filename(), new OpenOptions()
 				.setAppend(true)
@@ -32,9 +32,9 @@ public class RawFileLogger extends TelestionVerticle<RawFileLogger.Configuration
 				.setSync(true)
 		);
 
-		// It registers a handler for the `raw-mavlink` event.
+		// It registers a handler for the given address.
 		register(getConfig().inAddress(), body -> {
-			// It writes the raw mavlink message to the file.
+			// It writes the raw message to the file.
 			Buffer newContent = Buffer.buffer("%n%d,%s".formatted(System.currentTimeMillis(), body.body().toString()));
 			file.write(newContent);
 		});
