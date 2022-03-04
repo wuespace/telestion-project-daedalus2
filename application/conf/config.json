@@ -59,7 +59,10 @@
 				"name": "[CONN] Mavlink Raw Logger",
 				"verticle": "de.wuespace.telestion.project.daedalus2.RawFileLogger",
 				"magnitude": 1,
-				"config": {}
+				"config": {
+				  "inAddress": "raw-mavlink",
+				  "filename": "data/mavlink-raw.bin"
+				}
 			},
 			{
 				"name": "[CONN] TCP Iridium JSON Server",

@@ -14,7 +14,6 @@ import io.vertx.core.file.OpenOptions;
  * It writes the raw mavlink messages to a file
  */
 public class RawFileLogger extends TelestionVerticle<RawFileLogger.Configuration> implements WithEventBus {
-
 	AsyncFile file;
 
 	public record Configuration(
@@ -27,14 +26,14 @@ public class RawFileLogger extends TelestionVerticle<RawFileLogger.Configuration
 	public void onStart() throws Exception {
 		// It creates a file and opens it in blocking mode.
 		FileSystem fs = getVertx().fileSystem();
-		file = fs.openBlocking("data/out.bin", new OpenOptions()
+		file = fs.openBlocking(getConfig().filename(), new OpenOptions()
 				.setAppend(true)
 				.setCreate(true)
 				.setSync(true)
 		);
 
 		// It registers a handler for the `raw-mavlink` event.
-		register("raw-mavlink", body -> {
+		register(getConfig().inAddress(), body -> {
 			// It writes the raw mavlink message to the file.
 			Buffer newContent = Buffer.buffer("%n%d,%s".formatted(System.currentTimeMillis(), body.body().toString()));
 			file.write(newContent);
