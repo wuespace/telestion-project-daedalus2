@@ -1,6 +1,7 @@
 package de.wuespace.telestion.project.daedalus2;
 
-import de.wuespace.telestion.api.verticle.GenericConfiguration;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import de.wuespace.telestion.api.verticle.TelestionConfiguration;
 import de.wuespace.telestion.api.verticle.TelestionVerticle;
 import de.wuespace.telestion.api.verticle.trait.WithEventBus;
 import io.vertx.core.Promise;
@@ -12,8 +13,15 @@ import io.vertx.core.file.OpenOptions;
 /**
  * It writes the raw mavlink messages to a file
  */
-public class RawFileLogger extends TelestionVerticle<GenericConfiguration> implements WithEventBus {
+public class RawFileLogger extends TelestionVerticle<RawFileLogger.Configuration> implements WithEventBus {
+
 	AsyncFile file;
+
+	public record Configuration(
+		@JsonProperty String inAddress,
+		@JsonProperty String filename
+	) implements TelestionConfiguration {
+	}
 
 	@Override
 	public void onStart() throws Exception {
@@ -35,6 +43,6 @@ public class RawFileLogger extends TelestionVerticle<GenericConfiguration> imple
 
 	@Override
 	public void onStop(Promise<Void> stopPromise) {
-		file.flush().onSuccess(evt -> file.close(stopPromise));
+		file.flush().compose(event -> file.close()).onComplete(stopPromise);
 	}
 }
