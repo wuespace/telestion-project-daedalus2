@@ -26,7 +26,7 @@ public class TelecommandCounter extends TelestionVerticle<TelecommandCounter.Con
 	@Override
 	public void onStart() {
 		register(getConfig().inAddress(), this::handle, TCSent.class);
-		register(getDefaultConfig().resetAddress(), this::handleReset, TCReset.class);
+		register(getConfig().resetAddress(), this::handleReset, TCReset.class);
 	}
 
 	private void handle(TCSent tcSent, Message<Object> message) {
