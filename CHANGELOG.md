@@ -1,3 +1,19 @@
+# [0.31.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.30.0...v0.31.0) (2022-03-10)
+
+
+### Bug Fixes
+
+* **application/tc-counter:** Fix using wrong configuration in `TelestionCounter` for reset address ([2538da8](https://github.com/wuespace/telestion-project-daedalus2/commit/2538da824b3e5d0e770afc9da1b32bf487e3bec3))
+
+
+### Features
+
+* **application:** Add `RawFileLogger` Verticle ([dbc9976](https://github.com/wuespace/telestion-project-daedalus2/commit/dbc9976b15006e67e7e38460008f9ad45fb55048))
+* **application:** Add reset option to TC counter verticle ([b5be570](https://github.com/wuespace/telestion-project-daedalus2/commit/b5be570b35ec7cb1a7f20a184c08ab9efc0e0270))
+* **client:** Add TC Counter types ([e3ee988](https://github.com/wuespace/telestion-project-daedalus2/commit/e3ee98834d33da083a9855966819f0b6bd6b00ca))
+
+
+
 # [0.30.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.29.2...v0.30.0) (2022-01-15)
 
 
