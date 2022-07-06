@@ -1,3 +1,3 @@
 ﻿future==0.18.2
-lxml==4.6.5
+lxml==4.9.1
 pymavlink==2.4.17
