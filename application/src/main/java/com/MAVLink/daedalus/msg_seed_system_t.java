@@ -9,7 +9,9 @@ package com.MAVLink.daedalus;
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
-        
+import com.MAVLink.Messages.Units;
+import com.MAVLink.Messages.Description;
+
 /**
  *  Contains the whole Seeds system_t information + local time + state.
  */
@@ -19,185 +21,257 @@ public class msg_seed_system_t extends MAVLinkMessage {
     public static final int MAVLINK_MSG_LENGTH = 142;
     private static final long serialVersionUID = MAVLINK_MSG_ID_SEED_SYSTEM_T;
 
-      
+    
     /**
      * Seed local time
      */
+    @Description("Seed local time")
+    @Units("")
     public long time_local;
-      
+    
     /**
      * system time
      */
+    @Description("system time")
+    @Units("")
     public long d2time;
-      
+    
     /**
      * number of the current iteration of the mainloop
      */
+    @Description("number of the current iteration of the mainloop")
+    @Units("")
     public long mainloop_itr_cnt;
-      
+    
     /**
      * time the last mainloop iteration took
      */
+    @Description("time the last mainloop iteration took")
+    @Units("")
     public long mainloop_itr_time;
-      
+    
     /**
      *  acceleration along x-axis, multiple of g
      */
+    @Description(" acceleration along x-axis, multiple of g")
+    @Units("")
     public float imu_acc_x;
-      
+    
     /**
      *  acceleration along y-axis, multiple of g
      */
+    @Description(" acceleration along y-axis, multiple of g")
+    @Units("")
     public float imu_acc_y;
-      
+    
     /**
      *  acceleration along z-axis, multiple of g
      */
+    @Description(" acceleration along z-axis, multiple of g")
+    @Units("")
     public float imu_acc_z;
-      
+    
     /**
      * angular velocity around x-axis 
      */
+    @Description("angular velocity around x-axis ")
+    @Units("")
     public float imu_gyro_x;
-      
+    
     /**
      * angular velocity around y-axis 
      */
+    @Description("angular velocity around y-axis ")
+    @Units("")
     public float imu_gyro_y;
-      
+    
     /**
      * angular velocity around z-axis 
      */
+    @Description("angular velocity around z-axis ")
+    @Units("")
     public float imu_gyro_z;
-      
+    
     /**
      * air pressure 
      */
+    @Description("air pressure ")
+    @Units("")
     public float baro_press;
-      
+    
     /**
      * temperature in degrees Celsius 
      */
+    @Description("temperature in degrees Celsius ")
+    @Units("")
     public float baro_temp;
-      
+    
     /**
      * air pressure 
      */
+    @Description("air pressure ")
+    @Units("")
     public float vacuum_baro_press;
-      
+    
     /**
      * rotation rate of the rotor in rad/s 
      */
+    @Description("rotation rate of the rotor in rad/s ")
+    @Units("")
     public float tacho_rot_rate;
-      
+    
     /**
      * current latitude (N is positiv, S is negativ) 
      */
+    @Description("current latitude (N is positiv, S is negativ) ")
+    @Units("")
     public float gps_lat;
-      
+    
     /**
      * current longitude (W is positiv, E is negativ) 
      */
+    @Description("current longitude (W is positiv, E is negativ) ")
+    @Units("")
     public float gps_long;
-      
+    
     /**
      * horizontal dilution of precision 
      */
+    @Description("horizontal dilution of precision ")
+    @Units("")
     public float gps_hdop;
-      
+    
     /**
      * altitude above mean sea level 
      */
+    @Description("altitude above mean sea level ")
+    @Units("")
     public float gps_alt;
-      
+    
     /**
      * vertical velocity of the seed in m/s – negative if seed is falling
      */
+    @Description("vertical velocity of the seed in m/s – negative if seed is falling")
+    @Units("")
     public float filter_vel_vertical;
-      
+    
     /**
      * height above ground in m
      */
+    @Description("height above ground in m")
+    @Units("")
     public float filter_height_ground;
-      
+    
     /**
-     * absolute (to air/world frame) rotation rate of the rotor in rad/s" 
+     * absolute (to air/world frame) rotation rate of the rotor in rad/s' 
      */
+    @Description("absolute (to air/world frame) rotation rate of the rotor in rad/s' ")
+    @Units("")
     public float filter_rotor_rot_rate;
-      
+    
     /**
-     * absolute (to air/world frame) rotation rate of the body in rad/s"
+     * absolute (to air/world frame) rotation rate of the body in rad/s'
      */
+    @Description("absolute (to air/world frame) rotation rate of the body in rad/s'")
+    @Units("")
     public float fiter_body_rot_rate;
-      
+    
     /**
      * setpoint for the pitch angle for the servos 
      */
+    @Description("setpoint for the pitch angle for the servos ")
+    @Units("")
     public float controller_blade_pitch;
-      
+    
     /**
      * desired fin angle 
      */
+    @Description("desired fin angle ")
+    @Units("")
     public float controller_fin_angle;
-      
+    
     /**
      * adc measurements millivolts/milliamps
      */
+    @Description("adc measurements millivolts/milliamps")
+    @Units("")
     public int adc_measurements_sbc[] = new int[8];
-      
+    
     /**
      * adc measurements millivolts/milliamps
      */
+    @Description("adc measurements millivolts/milliamps")
+    @Units("")
     public int adc_measurements_cop[] = new int[8];
-      
+    
     /**
      * number of received and executed telecommands
      */
+    @Description("number of received and executed telecommands")
+    @Units("")
     public short telecommand_cnt;
-      
+    
     /**
      * current System state
      */
+    @Description("current System state")
+    @Units("")
     public short state_cur;
-      
+    
     /**
      * Indicates the signal quality of Iridium
      */
+    @Description("Indicates the signal quality of Iridium")
+    @Units("")
     public short iridium_RSSI;
-      
+    
     /**
      * Is the LIDAR Hole currently open?
      */
+    @Description("Is the LIDAR Hole currently open?")
+    @Units("")
     public short lidar_cover_open;
-      
+    
     /**
      * truthy if heater fault occurred
      */
+    @Description("truthy if heater fault occurred")
+    @Units("")
     public short bat_heater_fault;
-      
+    
     /**
      * rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.
      */
+    @Description("rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.")
+    @Units("")
     public short bat_status;
-      
+    
     /**
      * indicator for gps fix 
      */
+    @Description("indicator for gps fix ")
+    @Units("")
     public short gps_quality;
-      
+    
     /**
      * number of used satellites 
      */
+    @Description("number of used satellites ")
+    @Units("")
     public short gps_satsUsed;
-      
+    
     /**
      * identifier for blade controller type and finn controller type in this order with individual size of 4 bit.
      */
+    @Description("identifier for blade controller type and finn controller type in this order with individual size of 4 bit.")
+    @Units("")
     public short controller_ids;
-      
+    
     /**
      * imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit
      */
+    @Description("imu_acc_avail, imu_gyro_avail, baro_avail, vacuum_baro_avail, tacho_rot_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit")
+    @Units("")
     public short available_status;
     
 
@@ -211,7 +285,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
         packet.sysid = sysid;
         packet.compid = compid;
         packet.msgid = MAVLINK_MSG_ID_SEED_SYSTEM_T;
-        
+
         packet.payload.putLong(time_local);
         packet.payload.putUnsignedInt(d2time);
         packet.payload.putUnsignedInt(mainloop_itr_cnt);
@@ -271,7 +345,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
     @Override
     public void unpack(MAVLinkPayload payload) {
         payload.resetIndex();
-        
+
         this.time_local = payload.getLong();
         this.d2time = payload.getUnsignedInt();
         this.mainloop_itr_cnt = payload.getUnsignedInt();
@@ -296,12 +370,12 @@ public class msg_seed_system_t extends MAVLinkMessage {
         this.fiter_body_rot_rate = payload.getFloat();
         this.controller_blade_pitch = payload.getFloat();
         this.controller_fin_angle = payload.getFloat();
-         
+        
         for (int i = 0; i < this.adc_measurements_sbc.length; i++) {
             this.adc_measurements_sbc[i] = payload.getUnsignedShort();
         }
                 
-         
+        
         for (int i = 0; i < this.adc_measurements_cop.length; i++) {
             this.adc_measurements_cop[i] = payload.getUnsignedShort();
         }
@@ -328,7 +402,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
     public msg_seed_system_t() {
         this.msgid = MAVLINK_MSG_ID_SEED_SYSTEM_T;
     }
-    
+
     /**
      * Constructor for a new message, initializes msgid and all payload variables
      */
@@ -373,7 +447,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
         this.available_status = available_status;
         
     }
-    
+
     /**
      * Constructor for a new message, initializes everything
      */
@@ -429,7 +503,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
      */
     public msg_seed_system_t(MAVLinkPacket mavLinkPacket) {
         this.msgid = MAVLINK_MSG_ID_SEED_SYSTEM_T;
-        
+
         this.sysid = mavLinkPacket.sysid;
         this.compid = mavLinkPacket.compid;
         this.isMavlink2 = mavLinkPacket.isMavlink2;
@@ -444,7 +518,7 @@ public class msg_seed_system_t extends MAVLinkMessage {
     public String toString() {
         return "MAVLINK_MSG_ID_SEED_SYSTEM_T - sysid:"+sysid+" compid:"+compid+" time_local:"+time_local+" d2time:"+d2time+" mainloop_itr_cnt:"+mainloop_itr_cnt+" mainloop_itr_time:"+mainloop_itr_time+" imu_acc_x:"+imu_acc_x+" imu_acc_y:"+imu_acc_y+" imu_acc_z:"+imu_acc_z+" imu_gyro_x:"+imu_gyro_x+" imu_gyro_y:"+imu_gyro_y+" imu_gyro_z:"+imu_gyro_z+" baro_press:"+baro_press+" baro_temp:"+baro_temp+" vacuum_baro_press:"+vacuum_baro_press+" tacho_rot_rate:"+tacho_rot_rate+" gps_lat:"+gps_lat+" gps_long:"+gps_long+" gps_hdop:"+gps_hdop+" gps_alt:"+gps_alt+" filter_vel_vertical:"+filter_vel_vertical+" filter_height_ground:"+filter_height_ground+" filter_rotor_rot_rate:"+filter_rotor_rot_rate+" fiter_body_rot_rate:"+fiter_body_rot_rate+" controller_blade_pitch:"+controller_blade_pitch+" controller_fin_angle:"+controller_fin_angle+" adc_measurements_sbc:"+adc_measurements_sbc+" adc_measurements_cop:"+adc_measurements_cop+" telecommand_cnt:"+telecommand_cnt+" state_cur:"+state_cur+" iridium_RSSI:"+iridium_RSSI+" lidar_cover_open:"+lidar_cover_open+" bat_heater_fault:"+bat_heater_fault+" bat_status:"+bat_status+" gps_quality:"+gps_quality+" gps_satsUsed:"+gps_satsUsed+" controller_ids:"+controller_ids+" available_status:"+available_status+"";
     }
-    
+
     /**
      * Returns a human-readable string of the name of the message
      */
