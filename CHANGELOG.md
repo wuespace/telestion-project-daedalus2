@@ -1,3 +1,7 @@
+## [0.31.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.31.0...v0.31.1) (2023-01-03)
+
+
+
 # [0.31.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.30.0...v0.31.0) (2022-03-10)
 
 
