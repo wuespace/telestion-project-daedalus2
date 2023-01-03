@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.31.1...v1.0.0) (2023-01-03)
+
+
+* feat!: Bump to stable version ([bd8bd44](https://github.com/wuespace/telestion-project-daedalus2/commit/bd8bd44d7b5c0edfa04793b61f1307f2bd8d57c9))
+
+
+### BREAKING CHANGES
+
+* Bump to stable version
+
+
+
 ## [0.31.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v0.31.0...v0.31.1) (2023-01-03)
 
 
