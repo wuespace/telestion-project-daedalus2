@@ -9,7 +9,9 @@ package com.MAVLink.daedalus;
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
-        
+import com.MAVLink.Messages.Units;
+import com.MAVLink.Messages.Description;
+
 /**
  *  Contains information about the current state and local time.
  */
@@ -19,50 +21,68 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
     public static final int MAVLINK_MSG_LENGTH = 19;
     private static final long serialVersionUID = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
 
-      
+    
     /**
      * Ejector local time
      */
+    @Description("Ejector local time")
+    @Units("")
     public long time_local;
-      
+    
     /**
      * system time
      */
+    @Description("system time")
+    @Units("")
     public long d2time;
-      
+    
     /**
      * number of received and executed telecommands
      */
+    @Description("number of received and executed telecommands")
+    @Units("")
     public short telecommand_cnt;
-      
+    
     /**
      * current System state
      */
+    @Description("current System state")
+    @Units("")
     public short state_cur;
-      
+    
     /**
      * LED status
      */
+    @Description("LED status")
+    @Units("")
     public short led_enabled;
-      
+    
     /**
      * Cam status
      */
+    @Description("Cam status")
+    @Units("")
     public short cam_enabled;
-      
+    
     /**
      * Seed Power status
      */
+    @Description("Seed Power status")
+    @Units("")
     public short seed_power_enabled;
-      
+    
     /**
      * presence of Seed A
      */
+    @Description("presence of Seed A")
+    @Units("")
     public short seed_a_present;
-      
+    
     /**
      * presence of Seed B
      */
+    @Description("presence of Seed B")
+    @Units("")
     public short seed_b_present;
     
 
@@ -76,7 +96,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         packet.sysid = sysid;
         packet.compid = compid;
         packet.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
-        
+
         packet.payload.putLong(time_local);
         packet.payload.putUnsignedInt(d2time);
         packet.payload.putUnsignedByte(telecommand_cnt);
@@ -101,7 +121,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
     @Override
     public void unpack(MAVLinkPayload payload) {
         payload.resetIndex();
-        
+
         this.time_local = payload.getLong();
         this.d2time = payload.getUnsignedInt();
         this.telecommand_cnt = payload.getUnsignedByte();
@@ -123,7 +143,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
     public msg_ejector_heartbeat() {
         this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
     }
-    
+
     /**
      * Constructor for a new message, initializes msgid and all payload variables
      */
@@ -141,7 +161,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
         this.seed_b_present = seed_b_present;
         
     }
-    
+
     /**
      * Constructor for a new message, initializes everything
      */
@@ -170,7 +190,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
      */
     public msg_ejector_heartbeat(MAVLinkPacket mavLinkPacket) {
         this.msgid = MAVLINK_MSG_ID_EJECTOR_HEARTBEAT;
-        
+
         this.sysid = mavLinkPacket.sysid;
         this.compid = mavLinkPacket.compid;
         this.isMavlink2 = mavLinkPacket.isMavlink2;
@@ -185,7 +205,7 @@ public class msg_ejector_heartbeat extends MAVLinkMessage {
     public String toString() {
         return "MAVLINK_MSG_ID_EJECTOR_HEARTBEAT - sysid:"+sysid+" compid:"+compid+" time_local:"+time_local+" d2time:"+d2time+" telecommand_cnt:"+telecommand_cnt+" state_cur:"+state_cur+" led_enabled:"+led_enabled+" cam_enabled:"+cam_enabled+" seed_power_enabled:"+seed_power_enabled+" seed_a_present:"+seed_a_present+" seed_b_present:"+seed_b_present+"";
     }
-    
+
     /**
      * Returns a human-readable string of the name of the message
      */

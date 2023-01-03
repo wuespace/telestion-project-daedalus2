@@ -9,7 +9,9 @@ package com.MAVLink.daedalus;
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
-        
+import com.MAVLink.Messages.Units;
+import com.MAVLink.Messages.Description;
+
 /**
  *  contains ublox_msg
  */
@@ -19,10 +21,12 @@ public class msg_assist_now_upload extends MAVLinkMessage {
     public static final int MAVLINK_MSG_LENGTH = 255;
     private static final long serialVersionUID = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD;
 
-      
+    
     /**
      * ublox_msg
      */
+    @Description("ublox_msg")
+    @Units("")
     public short ublox_msg[] = new short[255];
     
 
@@ -36,7 +40,7 @@ public class msg_assist_now_upload extends MAVLinkMessage {
         packet.sysid = sysid;
         packet.compid = compid;
         packet.msgid = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD;
-        
+
         
         for (int i = 0; i < ublox_msg.length; i++) {
             packet.payload.putUnsignedByte(ublox_msg[i]);
@@ -57,8 +61,8 @@ public class msg_assist_now_upload extends MAVLinkMessage {
     @Override
     public void unpack(MAVLinkPayload payload) {
         payload.resetIndex();
+
         
-         
         for (int i = 0; i < this.ublox_msg.length; i++) {
             this.ublox_msg[i] = payload.getUnsignedByte();
         }
@@ -75,7 +79,7 @@ public class msg_assist_now_upload extends MAVLinkMessage {
     public msg_assist_now_upload() {
         this.msgid = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD;
     }
-    
+
     /**
      * Constructor for a new message, initializes msgid and all payload variables
      */
@@ -85,7 +89,7 @@ public class msg_assist_now_upload extends MAVLinkMessage {
         this.ublox_msg = ublox_msg;
         
     }
-    
+
     /**
      * Constructor for a new message, initializes everything
      */
@@ -106,7 +110,7 @@ public class msg_assist_now_upload extends MAVLinkMessage {
      */
     public msg_assist_now_upload(MAVLinkPacket mavLinkPacket) {
         this.msgid = MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD;
-        
+
         this.sysid = mavLinkPacket.sysid;
         this.compid = mavLinkPacket.compid;
         this.isMavlink2 = mavLinkPacket.isMavlink2;
@@ -121,7 +125,7 @@ public class msg_assist_now_upload extends MAVLinkMessage {
     public String toString() {
         return "MAVLINK_MSG_ID_ASSIST_NOW_UPLOAD - sysid:"+sysid+" compid:"+compid+" ublox_msg:"+ublox_msg+"";
     }
-    
+
     /**
      * Returns a human-readable string of the name of the message
      */

@@ -9,7 +9,9 @@ package com.MAVLink.daedalus;
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPayload;
-        
+import com.MAVLink.Messages.Units;
+import com.MAVLink.Messages.Description;
+
 /**
  *  Contains information about the current state and local time.
  */
@@ -19,60 +21,82 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
     public static final int MAVLINK_MSG_LENGTH = 54;
     private static final long serialVersionUID = MAVLINK_MSG_ID_SEED_HEARTBEAT;
 
-      
+    
     /**
      * Seed local time
      */
+    @Description("Seed local time")
+    @Units("")
     public long time_local;
-      
+    
     /**
      * system time
      */
+    @Description("system time")
+    @Units("")
     public long d2time;
-      
+    
     /**
      * angular velocity around z-axis 
      */
+    @Description("angular velocity around z-axis ")
+    @Units("")
     public float imu_gyro_z;
-      
+    
     /**
      * adc measurements millivolts/milliamps
      */
+    @Description("adc measurements millivolts/milliamps")
+    @Units("")
     public int adc_measurements_sbc[] = new int[8];
-      
+    
     /**
      * adc measurements millivolts/milliamps
      */
+    @Description("adc measurements millivolts/milliamps")
+    @Units("")
     public int adc_measurements_cop[] = new int[8];
-      
+    
     /**
      * number of received and executed telecommands
      */
+    @Description("number of received and executed telecommands")
+    @Units("")
     public short telecommand_cnt;
-      
+    
     /**
      * current System state
      */
+    @Description("current System state")
+    @Units("")
     public short state_cur;
-      
+    
     /**
      * Is the LIDAR Hole currently open?
      */
+    @Description("Is the LIDAR Hole currently open?")
+    @Units("")
     public short lidar_cover_open;
-      
+    
     /**
      * truthy if heater fault occurred
      */
+    @Description("truthy if heater fault occurred")
+    @Units("")
     public short bat_heater_fault;
-      
+    
     /**
      * imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit
      */
+    @Description("imu_gyro_avail, copAdcAvail, sbcAdcAvail in this order with individual size of 1 bit")
+    @Units("")
     public short available_status;
-      
+    
     /**
      * rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.
      */
+    @Description("rxsm_allowed, bat1_allowed and bat2_allowed, rxsm_used, bat1_used, bat2_used and bat_heating_enabled in this order with individual size of 1 bit.")
+    @Units("")
     public short bat_status;
     
 
@@ -86,7 +110,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
         packet.sysid = sysid;
         packet.compid = compid;
         packet.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
-        
+
         packet.payload.putLong(time_local);
         packet.payload.putUnsignedInt(d2time);
         packet.payload.putFloat(imu_gyro_z);
@@ -121,16 +145,16 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
     @Override
     public void unpack(MAVLinkPayload payload) {
         payload.resetIndex();
-        
+
         this.time_local = payload.getLong();
         this.d2time = payload.getUnsignedInt();
         this.imu_gyro_z = payload.getFloat();
-         
+        
         for (int i = 0; i < this.adc_measurements_sbc.length; i++) {
             this.adc_measurements_sbc[i] = payload.getUnsignedShort();
         }
                 
-         
+        
         for (int i = 0; i < this.adc_measurements_cop.length; i++) {
             this.adc_measurements_cop[i] = payload.getUnsignedShort();
         }
@@ -153,7 +177,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
     public msg_seed_heartbeat() {
         this.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
     }
-    
+
     /**
      * Constructor for a new message, initializes msgid and all payload variables
      */
@@ -173,7 +197,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
         this.bat_status = bat_status;
         
     }
-    
+
     /**
      * Constructor for a new message, initializes everything
      */
@@ -204,7 +228,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
      */
     public msg_seed_heartbeat(MAVLinkPacket mavLinkPacket) {
         this.msgid = MAVLINK_MSG_ID_SEED_HEARTBEAT;
-        
+
         this.sysid = mavLinkPacket.sysid;
         this.compid = mavLinkPacket.compid;
         this.isMavlink2 = mavLinkPacket.isMavlink2;
@@ -219,7 +243,7 @@ public class msg_seed_heartbeat extends MAVLinkMessage {
     public String toString() {
         return "MAVLINK_MSG_ID_SEED_HEARTBEAT - sysid:"+sysid+" compid:"+compid+" time_local:"+time_local+" d2time:"+d2time+" imu_gyro_z:"+imu_gyro_z+" adc_measurements_sbc:"+adc_measurements_sbc+" adc_measurements_cop:"+adc_measurements_cop+" telecommand_cnt:"+telecommand_cnt+" state_cur:"+state_cur+" lidar_cover_open:"+lidar_cover_open+" bat_heater_fault:"+bat_heater_fault+" available_status:"+available_status+" bat_status:"+bat_status+"";
     }
-    
+
     /**
      * Returns a human-readable string of the name of the message
      */
