@@ -21,7 +21,7 @@ export function formatDeltaTime(deltaTime: number): string {
 	if (absDeltaTime < 1000) {
 		return 'now';
 	}
-	if (Math.abs(deltaTime) < 60_000) {
+	if (Math.abs(deltaTime) < 600_000) {
 		return `${Math.round(deltaTime / 1000)} sec`;
 	} else if (Math.abs(deltaTime) < 3600_000) {
 		return `${Math.round(deltaTime / 60_000)} min`;
