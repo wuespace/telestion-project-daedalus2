@@ -8,9 +8,8 @@ import { formatDeltaTime } from '../lib/format-delta-time';
 
 const SERVO_THRESHOLD_VOLTAGE = 8.75;
 
-export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
-	const { inactive, valve, onOffSwitch, activeInactive } =
-		useSvgVizPropsHelpers();
+export function Widget({ seed, voltThreshold }: WidgetProps) {
+	const { valve, onOffSwitch, activeInactive } = useSvgVizPropsHelpers();
 	const data = useSeedEcamData(seed);
 
 	return (
