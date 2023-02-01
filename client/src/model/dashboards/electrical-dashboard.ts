@@ -8,21 +8,12 @@ export const electricalDashboard: Dashboard = {
 		{
 			id: 'electrical-0',
 			widgetName: 'stateWidget',
-			width: 1,
+			width: 2,
 			height: 10,
 			initialProps: {
 				seedASource: 'SEED_HEARTBEAT',
 				seedBSource: 'SEED_HEARTBEAT',
 				ejectorSource: 'EJECTOR_HEARTBEAT'
-			}
-		},
-		{
-			id: 'electrical-1',
-			widgetName: 'checklistWidget',
-			width: 1,
-			height: 10,
-			initialProps: {
-				title: 'Note 2'
 			}
 		},
 		{
@@ -32,7 +23,43 @@ export const electricalDashboard: Dashboard = {
 			height: 20,
 			initialProps: {
 				title: 'Current values',
-				connections: []
+				connections: [
+					{
+						address: 'latest/seedA/SEED_HEARTBEAT/d2time',
+						title: 'latest/seedA/SEED_HEARTBEAT/d2time',
+						rps: 1
+					},
+					{
+						address: 'latest/seedB/SEED_HEARTBEAT/d2time',
+						title: 'latest/seedB/SEED_HEARTBEAT/d2time',
+						rps: 1
+					},
+					{
+						address: 'latest/ejector/EJECTOR_HEARTBEAT/d2time',
+						title: 'latest/ejector/EJECTOR_HEARTBEAT/d2time',
+						rps: 1
+					},
+					{
+						address: 'latest/ejector/EJECTOR_HEARTBEAT/seed_power_enabled',
+						title: 'latest/ejector/EJECTOR_HEARTBEAT/seed_power_enabled',
+						rps: 1
+					},
+					{
+						address: 'latest/ejector/EJECTOR_HEARTBEAT/seed_a_present',
+						title: 'latest/ejector/EJECTOR_HEARTBEAT/seed_a_present',
+						rps: 1
+					},
+					{
+						address: 'latest/ejector/EJECTOR_HEARTBEAT/seed_b_present',
+						title: 'latest/ejector/EJECTOR_HEARTBEAT/seed_b_present',
+						rps: 1
+					},
+					{
+						address: 'latest/ejector/EJECTOR_HEARTBEAT/cam_enabled',
+						title: 'latest/ejector/EJECTOR_HEARTBEAT/cam_enabled',
+						rps: 1
+					}
+				]
 			}
 		},
 		{
