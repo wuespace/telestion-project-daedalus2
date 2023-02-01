@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.1.0...v1.1.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* **client/widget:** Fix styling issues ([e9d258f](https://github.com/wuespace/telestion-project-daedalus2/commit/e9d258f5eb6cc9555e575e9691162541acfc2513))
+
+
+
 # [1.1.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.0.0...v1.1.0) (2023-02-01)
 
 
