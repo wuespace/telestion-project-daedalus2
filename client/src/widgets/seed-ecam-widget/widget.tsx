@@ -1,9 +1,12 @@
-import { Divider, Heading, View } from '@adobe/react-spectrum';
+import { Divider, Flex, Heading, View } from '@adobe/react-spectrum';
 import { LoadingIndicator } from '@wuespace/telestion-client-common';
 import SeedECAMSVG from './components/exported-ecam-svg';
 import { WidgetProps } from './model';
 import { useSvgVizPropsHelpers } from '../hooks/use-svg-viz-props-helpers';
 import { useSeedEcamData } from './hooks/use-seed-ecam-data';
+import { formatDeltaTime } from '../lib/format-delta-time';
+
+const SERVO_THRESHOLD_VOLTAGE = 8.75;
 
 export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
 	const { inactive, valve, onOffSwitch, activeInactive } =
@@ -12,9 +15,14 @@ export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
 
 	return (
 		<View padding={'size-200'}>
-			<Heading level={3} margin={0} marginBottom="size-200">
-				Seed {seed.substr(4)} ECAM
-			</Heading>
+			<Flex justifyContent="space-between">
+				<Heading level={3} margin={0} marginBottom="size-200">
+					Seed {seed.substr(4)} ECAM
+				</Heading>
+				<code>
+					{data?.time ? formatDeltaTime(Date.now() - data.time) : 'Waiting'}
+				</code>
+			</Flex>
 			<Divider size="S" />
 			<View marginTop={'size-200'}>
 				{/*@ts-ignore*/}
@@ -50,13 +58,12 @@ export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
 									)}
 									{...activeInactive('rxsmMainEffective', data.rxsmUsed)}
 									rxsmVolts={data.rxsmVolts.toFixed(2) + ' V'}
-									/* TODO: Add back in if suitable TM gets added
 									{...valve(
 										'heater',
-										true,
-										data.batHeatingAmps > ampsThreshold
-									)} */
-									heaterValveOffLine={''}
+										data.heaterAllowed,
+										data.rxsmVolts > voltThreshold
+									)}
+									/*heaterValveOffLine={''}
 									heaterValveBG={inactive}
 									{...activeInactive(
 										'heaterValveBorder',
@@ -65,12 +72,12 @@ export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
 									{...activeInactive(
 										'heaterValveOnLine',
 										data.rxsmVolts > voltThreshold
-									)}
+									)}*/
 									{...activeInactive(
 										'heaterBlock',
-										data.rxsmVolts > voltThreshold
+										data.rxsmVolts > voltThreshold && data.heaterAllowed
 									)}
-									heaterAmps={'-NoData-'}
+									heaterAmps={data.heaterFault ? '-Fault-' : '-Ok-'}
 									{...activeInactive(
 										'dcdcOutBlock',
 										data.rail3V3Volts > voltThreshold
@@ -79,12 +86,12 @@ export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
 									dcdcOut2Volts={data.rail5Volts.toFixed(2) + ' V'}
 									{...onOffSwitch(
 										'servoTrunk',
-										data.mainBusVoltage < 9.2,
+										data.mainBusVoltage <= SERVO_THRESHOLD_VOLTAGE,
 										data.mainBusVoltage > voltThreshold
 									)}
 									{...activeInactive(
 										'servoTrunk',
-										data.mainBusVoltage < 9.2 &&
+										data.mainBusVoltage <= SERVO_THRESHOLD_VOLTAGE &&
 											data.mainBusVoltage > voltThreshold
 									)}
 									vccVolts={data.mainBusVoltage.toFixed(2) + ' V'}
@@ -92,33 +99,25 @@ export function Widget({ seed, voltThreshold, ampsThreshold }: WidgetProps) {
 										'vccBus',
 										data.mainBusVoltage > voltThreshold
 									)}
-									sFinnenAmps={
-										(data.fin_servo_amps * 1000).toPrecision(3) + ' mA'
-									}
-									st1Amps={
-										(data.swashplate_servo1_amps * 1000).toPrecision(3) + ' mA'
-									}
-									st2Amps={
-										(data.swashplate_servo2_amps * 1000).toPrecision(3) + ' mA'
-									}
-									st3Amps={
-										(data.swashplate_servo3_amps * 1000).toPrecision(3) + ' mA'
-									}
+									sFinnenAmps={'0.0 mA'}
+									st1Amps={'0.0 mA'}
+									st2Amps={'0.0 mA'}
+									st3Amps={'0.0 mA'}
 									{...activeInactive(
 										'sFinnenBlock',
-										data.fin_servo_amps > ampsThreshold
+										data.mainBusVoltage <= SERVO_THRESHOLD_VOLTAGE
 									)}
 									{...activeInactive(
 										'st1Block',
-										data.swashplate_servo1_amps > ampsThreshold
+										data.mainBusVoltage <= SERVO_THRESHOLD_VOLTAGE
 									)}
 									{...activeInactive(
 										'st2Block',
-										data.swashplate_servo2_amps > ampsThreshold
+										data.mainBusVoltage <= SERVO_THRESHOLD_VOLTAGE
 									)}
 									{...activeInactive(
 										'st3Block',
-										data.swashplate_servo3_amps > ampsThreshold
+										data.mainBusVoltage <= SERVO_THRESHOLD_VOLTAGE
 									)}
 								/>
 							)}

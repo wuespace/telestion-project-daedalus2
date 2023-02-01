@@ -4,8 +4,12 @@ export function useSeedEcamData(seed: 'seedA' | 'seedB') {
 	const [seedHeartbeat] = useCachedLatest<Record<string, any>[]>([
 		`latest/${seed}/SEED_HEARTBEAT`
 	]);
+	const [time] = useCachedLatest<number[]>([
+		`latest-time/${seed}/SEED_HEARTBEAT`
+	]);
 
 	const data = seedHeartbeat && {
+		time,
 		// batHeatingAmps: Number.NaN,
 		fin_servo_amps: seedHeartbeat.adc_measurements_cop[0] / 1000,
 		swashplate_servo1_amps: seedHeartbeat.adc_measurements_cop[1] / 1000,
@@ -21,7 +25,9 @@ export function useSeedEcamData(seed: 'seedA' | 'seedB') {
 		bat2: seedHeartbeat?.adc_measurements_cop[6] / 1000,
 		rxsmVolts: seedHeartbeat?.adc_measurements_sbc[0] / 1000,
 		rail3V3Volts: seedHeartbeat.adc_measurements_sbc[1] / 1000,
-		rail5Volts: seedHeartbeat.adc_measurements_sbc[7] / 1000
+		rail5Volts: seedHeartbeat.adc_measurements_sbc[7] / 1000,
+		heaterAllowed: (seedHeartbeat?.bat_status & 0b1000000) > 0,
+		heaterFault: seedHeartbeat?.bat_heater_fault > 0
 	};
 
 	// TODO: Incorporate bat_used into mainBusVoltage calculation
