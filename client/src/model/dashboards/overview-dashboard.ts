@@ -17,19 +17,10 @@ export const overviewDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'overview-1',
-			widgetName: 'checklistWidget',
-			width: 1,
-			height: 10,
-			initialProps: {
-				title: 'Note 2'
-			}
-		},
-		{
 			id: 'overview-2',
 			widgetName: 'currentValuesWidget',
 			width: 1,
-			height: 10,
+			height: 20,
 			initialProps: {
 				title: 'Current values',
 				connections: []
