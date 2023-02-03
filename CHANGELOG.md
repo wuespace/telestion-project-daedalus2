@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.2.0...v1.2.1) (2023-02-03)
+
+
+### Bug Fixes
+
+* **client:** Remove payload appendix in recovery dashboard ([#399](https://github.com/wuespace/telestion-project-daedalus2/issues/399)) ([a47317d](https://github.com/wuespace/telestion-project-daedalus2/commit/a47317debf3af2ef0f2e22eba9f02fd8a5b97912))
+
+
+
 # [1.2.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.1.1...v1.2.0) (2023-02-03)
 
 
