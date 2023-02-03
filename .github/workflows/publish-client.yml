@@ -50,6 +50,111 @@ jobs:
           git commit -m "chore(client): Bump package version"
           git push
 
+  publish-docker-image:
+    name: "Build and push to Docker registry"
+    runs-on: ubuntu-latest
+    needs: update
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - name: Checkout 📥
+        uses: actions/checkout@v2.4.0
+      - name: Setup Node 💿
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: 14
+      - name: Set up Docker Buildx ⬆
+        uses: docker/setup-buildx-action@v1.6.0
+
+      # Remove, when checkout error is resolved
+      # See https://github.com/actions/checkout/issues/439
+      - name: Pull latest changes
+        run: git pull origin main
+
+      # Remove, when setup-node action supports specifying the node version
+      - name: Install npm v7 ⬆
+        run: npm install --global npm@v7
+
+      - name: Download build environment 📥
+        uses: dawidd6/action-download-artifact@v2.16.0
+        with:
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+          workflow_conclusion: success
+          name: build-env
+          path: ${{ github.workspace }}
+
+      - name: Import environment ⛓
+        shell: bash
+        run: cat "${GITHUB_WORKSPACE}/.build-env" >> $GITHUB_ENV
+
+      - name: Extract semver numbers ⛓
+        run: |
+          echo "major=$(echo "$VERSION" | cut -d '.' -f 1 -)" >> $GITHUB_ENV
+          echo "minor=$(echo "$VERSION" | cut -d '.' -f 2 -)" >> $GITHUB_ENV
+          echo "patch=$(echo "$VERSION" | cut -d '.' -f 3 -)" >> $GITHUB_ENV
+        env:
+          VERSION: ${{ env.version }}
+
+      - name: Cache Docker layers ♻️
+        uses: actions/cache@v2.1.7
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Install development dependencies 📚
+        run: npm ci
+
+      - name: Build binaries 🗜
+        run: npm run build
+
+      # You may need to manage write and read access of GitHub Actions
+      # for this repository in the container settings.
+      #
+      # You can also use a personal access token (PAT) with the appropriate scopes.
+      #
+      # Please see:
+      # https://github.com/marketplace/actions/docker-login#github-container-registry
+      - name: Login to GitHub Container Registry 🛂
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push docker image 🗜
+        id: docker_build
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: "${{ github.workspace }}/client"
+          pull: true
+          push: true
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          tags: |
+            ghcr.io/${{ github.repository }}-client:latest
+            ghcr.io/${{ github.repository }}-client:${{ env.version }}
+            ghcr.io/${{ github.repository }}-client:${{ env.major }}.${{ env.minor }}
+            ghcr.io/${{ github.repository }}-client:${{ env.major }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
+      # Temporary fix for growing caches
+      # https://github.com/docker/build-push-action/issues/252
+      # https://github.com/moby/buildkit/issues/1896
+      #
+      # Please see:
+      # https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md#github-cache
+      - name: Move cache ♻️
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
   publish:
     name: "Build and publish for ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
