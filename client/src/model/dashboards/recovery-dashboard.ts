@@ -60,11 +60,6 @@ export const recoveryDashboard: Dashboard = {
 						rps: 1
 					},
 					{
-						address: 'latest/seedA/iridium/payload/payload_appendix',
-						title: 'latest/seedA/iridium/payload/payload_appendix',
-						rps: 1
-					},
-					{
 						address: 'latest/seedB/iridium/payload/latitude',
 						title: 'latest/seedB/iridium/payload/latitude',
 						rps: 1
@@ -77,11 +72,6 @@ export const recoveryDashboard: Dashboard = {
 					{
 						address: 'latest/seedB/iridium/payload/altitude',
 						title: 'latest/seedB/iridium/payload/altitude',
-						rps: 1
-					},
-					{
-						address: 'latest/seedB/iridium/payload/payload_appendix',
-						title: 'latest/seedB/iridium/payload/payload_appendix',
 						rps: 1
 					}
 				]
