@@ -10,6 +10,7 @@ import {
 import { EventBusState, useEventBus } from '@wuespace/telestion-client-core';
 import { StateSelector } from 'zustand';
 import { formatDeltaTime } from '../widgets/lib/format-delta-time';
+import { getConfig } from '../hooks/use-config';
 
 const selector: StateSelector<EventBusState, boolean> = state =>
 	state.connectionState === 'connected' || state.connectionState === 'error';
@@ -33,7 +34,7 @@ interface Connection {
 	errTimeout: number;
 }
 
-const connections: Connection[] = [
+const localConnections: Connection[] = [
 	{
 		title: 'Seed A',
 		redisKey: 'seedA/SEED_HEARTBEAT',
@@ -53,6 +54,25 @@ const connections: Connection[] = [
 		errTimeout: 15000
 	}
 ];
+
+const iridiumConnections: Connection[] = [
+	{
+		title: 'Seed A',
+		redisKey: 'seedA/iridium',
+		warnTimeout: 5000,
+		errTimeout: 10000
+	},
+	{
+		title: 'Seed B',
+		redisKey: 'seedB/iridium',
+		warnTimeout: 5000,
+		errTimeout: 10000
+	}
+];
+
+const connections = getConfig().isIridium
+	? iridiumConnections
+	: localConnections;
 
 const redisKeys = connections.map(device => `latest-time/${device.redisKey}`);
 
