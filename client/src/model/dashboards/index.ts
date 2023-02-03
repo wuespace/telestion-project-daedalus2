@@ -6,3 +6,4 @@ export * from './notes-dashboard';
 export * from './overview-dashboard';
 export * from './system-telecommand-dashboard';
 export * from './misc-telecommand-dashboard';
+export * from './recovery-dashboard';

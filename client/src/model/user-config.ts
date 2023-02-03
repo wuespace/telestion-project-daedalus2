@@ -7,7 +7,8 @@ import {
 	electricalDashboard,
 	debugDashboard,
 	currentValuesDashboard,
-	systemTelecommandDashboard
+	systemTelecommandDashboard,
+	recoveryDashboard
 } from './dashboards';
 
 export const userConfig: UserConfig = {
@@ -22,5 +23,8 @@ export const userConfig: UserConfig = {
 			notesDashboard,
 			debugDashboard
 		]
+	},
+	iridium: {
+		dashboards: [recoveryDashboard, debugDashboard]
 	}
 };
