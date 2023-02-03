@@ -188,12 +188,7 @@
 				"magnitude": 1,
 				"config": {
 					"inAddress": "iridium-messages",
-					"imeiMapping": {
-						"***REMOVED***": "simulator",
-						"***REMOVED***": "testboard1",
-						"***REMOVED***": "seedA",
-						"???": "seedB"
-					}
+					"imeiMapping": {}
 				}
 			},
 			{
