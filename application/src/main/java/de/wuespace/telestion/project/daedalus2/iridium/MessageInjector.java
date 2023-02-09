@@ -9,7 +9,8 @@ import de.wuespace.telestion.project.daedalus2.iridium.message.*;
 import java.time.Instant;
 import java.util.List;
 
-public class IridiumMessageInjector extends TelestionVerticle<IridiumMessageInjector.Configuration>
+@SuppressWarnings("unused")
+public class MessageInjector extends TelestionVerticle<MessageInjector.Configuration>
 		implements WithEventBus {
 
 	public record Configuration(
@@ -35,7 +36,7 @@ public class IridiumMessageInjector extends TelestionVerticle<IridiumMessageInje
 	private void sendSeedAMessage(Instant sentTime) {
 		var header = new IEHeader(0, getConfig().seedAImei(), 0, 1, 1, sentTime.getEpochSecond());
 		var location = new IELocation(-1, -1, 67.887, 21.0851, 10);
-		var payload = new IEPayload(67.887, 21.0851, 4892, new AppendixNone());
+		var payload = new IEPayload(new ValidDaedalus2Payload(true, 32, false, 49.9, 9.9, 0));
 
 		var iridiumMessage = new IridiumMessage(List.of(header, location, payload));
 
@@ -45,7 +46,7 @@ public class IridiumMessageInjector extends TelestionVerticle<IridiumMessageInje
 	private void sendSeedBMessage(Instant sentTime) {
 		var header = new IEHeader(0, getConfig().seedBImei(), 0, 1, 1, sentTime.getEpochSecond());
 		var location = new IELocation(-1, -1, 67.921, 21.5422, 10);
-		var payload = new IEPayload(67.921, 21.5422, 4516, new AppendixNone());
+		var payload = new IEPayload(new ValidDaedalus2Payload(true, 32, false, 49.9, 9.9, 0));
 
 		var iridiumMessage = new IridiumMessage(List.of(header, location, payload));
 

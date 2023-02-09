@@ -37,9 +37,8 @@ public class MessageParser extends TelestionVerticle<MessageParser.Configuration
 
 	private void handle(ConnectionData data) {
 		try {
-			// the byte array contains the json-encoded message -> transform it to string
-			// next convert the string to a valid Java Object with Jackson
-			// next convert the object to our message types and send it out
+			// convert value from byte array to Java object
+			// we need a type reference here because we get a JSON array from the Iridium sbd receiver
 			var message = new IridiumMessage(objectMapper.readValue(data.rawData(), new TypeReference<>() {
 			}));
 			publish(getConfig().outAddress(), message);
