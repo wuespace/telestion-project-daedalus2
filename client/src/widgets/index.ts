@@ -27,10 +27,12 @@ import { widget as ejectorCameraWidget } from './ejector-camera-widget';
 import { widget as tcConsoleWidget } from './tc-console-widget';
 import { widget as timelineWidget } from './timeline-widget';
 import { widget as iridiumMapWidget } from './iridium-map-widget';
+import { widget as iridiumTimelineWidget } from './iridium-timeline-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	iridiumTimelineWidget,
 	iridiumMapWidget,
 	timelineWidget,
 	tcConsoleWidget,
