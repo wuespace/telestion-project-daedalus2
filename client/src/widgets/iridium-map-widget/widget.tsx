@@ -34,26 +34,29 @@ interface SeedPosition extends Record<string, JsonSerializable> {
 }
 
 export function Widget() {
-	const [seedAPos, seedBPos] = useCachedLatest<SeedPosition[]>([
-		'latest/seedA/iridium/payload',
-		'latest/seedB/iridium/payload'
-	]);
+	const [seedAPosValid, seedAPosLatest, seedBPosValid, seedBPosLatest] =
+		useCachedLatest<SeedPosition[]>([
+			'latest/seedA/iridium/payload/valid',
+			'latest/seedA/iridium/payload/latest',
+			'latest/seedB/iridium/payload/valid',
+			'latest/seedB/iridium/payload/latest'
+		]);
 	const [seedATime, seedBTime] = useCachedLatest<number[]>([
 		'latest-time/seedA/iridium/payload',
-		'latest-time/seedB/iridium/payload'
+		'latest-time/seedA/iridium/payload'
 	]);
 
 	const [map, setMap] = useState<Map>();
 
 	const panToSeedA = () => {
-		if (!!map && !!seedAPos) {
-			map.panTo([seedAPos.latitude, seedAPos.longitude]);
+		if (!!map && !!seedAPosValid) {
+			map.panTo([seedAPosValid.latitude, seedAPosValid.longitude]);
 		}
 	};
 
 	const panToSeedB = () => {
-		if (!!map && !!seedBPos) {
-			map.panTo([seedBPos.latitude, seedBPos.longitude]);
+		if (!!map && !!seedBPosValid) {
+			map.panTo([seedBPosValid.latitude, seedBPosValid.longitude]);
 		}
 	};
 
@@ -68,11 +71,11 @@ export function Widget() {
 				>
 					<Heading level={3}>Map</Heading>
 					<Flex direction="row" alignItems="center" justifyContent="center">
-						<ActionButton isDisabled={!seedAPos} onPress={panToSeedA}>
+						<ActionButton isDisabled={!seedAPosValid} onPress={panToSeedA}>
 							Seed A
 						</ActionButton>
 						<ActionButton
-							isDisabled={!seedBPos}
+							isDisabled={!seedBPosValid}
 							onPress={panToSeedB}
 							marginStart="size-100"
 						>
@@ -98,18 +101,39 @@ export function Widget() {
 					/>
 					<ScaleControl />
 
-					{seedAPos && (
+					{seedAPosLatest && (
 						<CircleMarker
-							center={[seedAPos.latitude, seedAPos.longitude]}
+							center={[seedAPosLatest.latitude, seedAPosLatest.longitude]}
 							radius={10}
 							color={SEED_A_COLOR}
+							dashArray="4"
+							opacity={0.5}
 						/>
 					)}
-					{seedBPos && (
+					{seedBPosLatest && (
 						<CircleMarker
-							center={[seedBPos.latitude, seedBPos.longitude]}
+							center={[seedBPosLatest.latitude, seedBPosLatest.longitude]}
 							radius={10}
 							color={SEED_B_COLOR}
+							dashArray="4"
+							opacity={0.5}
+						/>
+					)}
+
+					{seedAPosValid && (
+						<CircleMarker
+							center={[seedAPosValid.latitude, seedAPosValid.longitude]}
+							radius={10}
+							color={SEED_A_COLOR}
+							fillOpacity={0.7}
+						/>
+					)}
+					{seedBPosValid && (
+						<CircleMarker
+							center={[seedBPosValid.latitude, seedBPosValid.longitude]}
+							radius={10}
+							color={SEED_B_COLOR}
+							fillOpacity={0.7}
 						/>
 					)}
 				</MapContainer>
