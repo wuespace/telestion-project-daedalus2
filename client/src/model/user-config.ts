@@ -8,7 +8,8 @@ import {
 	debugDashboard,
 	currentValuesDashboard,
 	systemTelecommandDashboard,
-	recoveryDashboard
+	recoveryDashboard,
+	recovery2Dashboard
 } from './dashboards';
 
 export const userConfig: UserConfig = {
@@ -25,6 +26,6 @@ export const userConfig: UserConfig = {
 		]
 	},
 	iridium: {
-		dashboards: [recoveryDashboard, debugDashboard]
+		dashboards: [recoveryDashboard, recovery2Dashboard, debugDashboard]
 	}
 };
