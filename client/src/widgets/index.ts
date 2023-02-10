@@ -28,10 +28,12 @@ import { widget as tcConsoleWidget } from './tc-console-widget';
 import { widget as timelineWidget } from './timeline-widget';
 import { widget as iridiumMapWidget } from './iridium-map-widget';
 import { widget as iridiumTimelineWidget } from './iridium-timeline-widget';
+import { widget as iridiumStateWidget } from './iridium-state-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	iridiumStateWidget,
 	iridiumTimelineWidget,
 	iridiumMapWidget,
 	timelineWidget,
