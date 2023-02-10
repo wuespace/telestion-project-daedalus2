@@ -1,53 +1,25 @@
 import { Dashboard } from '@wuespace/telestion-client-types';
 
-export const recoveryDashboard: Dashboard = {
-	title: 'Recovery',
+export const recovery2Dashboard: Dashboard = {
+	title: 'Recovery 2',
 	columns: 2,
 	rows: 21,
 	widgets: [
 		{
-			id: 'recovery-0',
+			id: 'recovery-2-0',
 			widgetName: 'iridiumMapWidget',
 			width: 1,
 			height: 20
 		},
 		{
-			id: 'recovery-1',
-			widgetName: 'simpleGraphWidget',
+			id: 'recovery-2-1',
+			widgetName: 'iridiumStateWidget',
 			width: 1,
 			height: 10,
-			initialProps: {
-				seconds: 60,
-				maxSamples: 30,
-				title: 'Seed altitudes',
-				minY: 0,
-				maxY: 50000,
-				series: [
-					{
-						key: 'ts/seedA/iridium/payload/valid/altitude',
-						color: 'hsl(240, 100%, 50%)', // blue
-						minMax: true
-					},
-					{
-						key: 'ts/seedB/iridium/payload/valid/altitude',
-						color: 'hsl(30, 100%, 50%)', // orange
-						minMax: true
-					},
-					{
-						key: 'ts/seedA/iridium/payload/latest/altitude',
-						color: 'hsl(270, 100%, 50%)', // blue + 30°
-						minMax: true
-					},
-					{
-						key: 'ts/seedB/iridium/payload/latest/altitude',
-						color: 'hsl(60, 100%, 50%)', // orange + 30°
-						minMax: true
-					}
-				]
-			}
+			initialProps: {}
 		},
 		{
-			id: 'recovery-2',
+			id: 'recovery-2-2',
 			widgetName: 'currentValuesWidget',
 			width: 1,
 			height: 10,
@@ -118,7 +90,7 @@ export const recoveryDashboard: Dashboard = {
 			}
 		},
 		{
-			id: 'recovery-3',
+			id: 'recovery-2-3',
 			widgetName: 'iridiumTimelineWidget',
 			width: 2,
 			height: 1,
