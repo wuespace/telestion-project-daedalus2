@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.3.0...v1.4.0) (2023-02-10)
+
+
+### Features
+
+* Trigger release pipeline ([884f213](https://github.com/wuespace/telestion-project-daedalus2/commit/884f213b83cb25cf778b7be6b0f25b0a38b81ced))
+
+
+
 # [1.3.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.2.1...v1.3.0) (2023-02-10)
 
 
