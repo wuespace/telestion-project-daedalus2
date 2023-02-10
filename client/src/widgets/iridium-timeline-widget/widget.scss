@@ -1,0 +1,231 @@
+@import '~@spectrum-css/steplist/dist/index-vars.css';
+
+.spacing {
+	height: 16px;
+}
+
+.steplist-container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+
+	> * {
+		flex: 1 1 0;
+		height: 16px;
+	}
+}
+
+.steplist-text {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	font-size: 12px;
+	color: var(--spectrum-global-color-gray-600);
+
+	&.critical {
+		color: #efbfc5;
+	}
+
+	&.critical.dark {
+		color: #5b2c2e;
+	}
+
+	&.active {
+		color: var(--spectrum-global-color-gray-800);
+	}
+
+	&.active.critical {
+		color: var(--spectrum-global-color-red-600);
+	}
+
+	&.done {
+		color: var(--spectrum-global-color-gray-700);
+	}
+
+	&.done.critical {
+		color: var(--spectrum-global-color-red-400);
+	}
+}
+
+// critical-default-light: #fed7db
+// critical-default-dark:  #5b2c2e
+// critical-done-light: #dc727a
+// critical-done-dark:  #8a2125
+// critical-active-light: #c9252d
+// critical-active-dark:  #c9252d
+
+.steplist-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	/* for all */
+	> * {
+		flex: 1 1 auto;
+	}
+
+	> .dot {
+		flex: 0 0 auto;
+		display: block;
+		margin: 4px;
+		width: 8px;
+		height: 8px;
+		border: var(--spectrum-global-color-gray-300) 2px solid;
+		border-radius: 50%;
+	}
+
+	> .dot.critical {
+		border-color: #fed7db;
+	}
+
+	> .dot.dark.critical {
+		border-color: #5b2c2e;
+	}
+
+	> .dot.active {
+		box-shadow: 0 0 0 0 rgba(75, 75, 75, 1);
+		transform: scale(1);
+		animation: pulse 3s infinite;
+	}
+
+	> .dot.active.critical {
+		box-shadow: 0 0 0 0 rgba(201, 37, 45, 1);
+		transform: scale(1);
+		animation: pulse-critical 3s infinite;
+	}
+
+	> .dot.active.dark {
+		box-shadow: 0 0 0 0 rgba(200, 200, 200, 1);
+		transform: scale(1);
+		animation: pulse-dark 3s infinite;
+	}
+
+	> .dot.active.dark.critical {
+		box-shadow: 0 0 0 0 rgba(236, 91, 98, 1);
+		transform: scale(1);
+		animation: pulse-dark-critical 3s infinite;
+	}
+
+	@keyframes pulse-dark {
+		0% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(200, 200, 200, 0.7);
+		}
+
+		70% {
+			transform: scale(1);
+			box-shadow: 0 0 0 10px rgba(200, 200, 200, 0);
+		}
+
+		100% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(200, 200, 200, 0);
+		}
+	}
+
+	@keyframes pulse {
+		0% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(75, 75, 75, 0.7);
+		}
+
+		70% {
+			transform: scale(1);
+			box-shadow: 0 0 0 10px rgba(75, 75, 75, 0);
+		}
+
+		100% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(75, 75, 75, 0);
+		}
+	}
+
+	@keyframes pulse-critical {
+		0% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(201, 37, 45, 0.7);
+		}
+
+		70% {
+			transform: scale(1);
+			box-shadow: 0 0 0 10px rgba(201, 37, 45, 0);
+		}
+
+		100% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(201, 37, 45, 0);
+		}
+	}
+
+	@keyframes pulse-dark-critical {
+		0% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(236, 91, 98, 0.7);
+		}
+
+		70% {
+			transform: scale(1);
+			box-shadow: 0 0 0 10px rgba(236, 91, 98, 0);
+		}
+
+		100% {
+			transform: scale(0.95);
+			box-shadow: 0 0 0 0 rgba(236, 91, 98, 0);
+		}
+	}
+
+	/* only for connections */
+	> .dashed {
+		display: block;
+		height: 2px;
+		background-repeat: repeat;
+		background-image: url('resources/light-border.png');
+
+		&:nth-child(1) {
+			background-position-x: left;
+		}
+
+		&:nth-child(3) {
+			background-position-x: right;
+		}
+	}
+
+	> .dashed.critical {
+		background-image: url('resources/critical-border.png');
+	}
+
+	> .dashed.dark {
+		background-image: url('resources/dark-border.png');
+	}
+
+	> .dashed.dark.critical {
+		background-image: url('resources/dark-critical-border.png');
+	}
+
+	/* for connections and dots */
+	> .active {
+		border-width: 1px;
+		border-style: solid;
+		border-color: var(--spectrum-global-color-gray-800);
+		background-color: var(--spectrum-global-color-gray-800);
+	}
+
+	> .active.critical {
+		border-color: var(--spectrum-global-color-red-600) !important;
+		background-color: var(--spectrum-global-color-red-600);
+	}
+
+	/* for connections and dots */
+	> .done {
+		border-width: 1px;
+		border-style: solid;
+		border-color: var(--spectrum-global-color-gray-600);
+		background-color: var(--spectrum-global-color-gray-600);
+	}
+
+	> .done.critical {
+		border-color: var(--spectrum-global-color-red-400) !important;
+		background-color: var(--spectrum-global-color-red-400);
+	}
+}
