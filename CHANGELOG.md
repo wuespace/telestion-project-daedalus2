@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.2.1...v1.3.0) (2023-02-10)
+
+
+### Features
+
+* **application:** Update Iridium message injector to send both latest and valid positions ([85a1444](https://github.com/wuespace/telestion-project-daedalus2/commit/85a14441a942fb7e591d65521f835b753b413d53))
+* **application:** Update iridium message types to match iridium-sbd-receiver and update message mapper to represent new document structure ([715ec54](https://github.com/wuespace/telestion-project-daedalus2/commit/715ec54df46941a9511ed9dfa0d5873c9f8685f1))
+* **client/widget:** Add Iridium map widget ([f783a60](https://github.com/wuespace/telestion-project-daedalus2/commit/f783a6049504b6b7933855fcd7741e5df79e5e0a))
+* **client/widget:** Add Iridium state widget derived from the original state widget ([62b5da9](https://github.com/wuespace/telestion-project-daedalus2/commit/62b5da9ae3fbce92f23b89919e02b94262b70918))
+* **client/widget:** Add Iridium timeline widget derived from the original timeline widget ([2eba165](https://github.com/wuespace/telestion-project-daedalus2/commit/2eba1657d35d19a0b1d59d5fcc1cbf6e51b27da6))
+* **client:** Add Iridium widgets to recovery dashboards and make them available via the `iridium` user ([ed9be1d](https://github.com/wuespace/telestion-project-daedalus2/commit/ed9be1da966d2ce64ca6b9f39c2acd395f3bf365))
+
+
+
 ## [1.2.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.2.0...v1.2.1) (2023-02-03)
 
 
