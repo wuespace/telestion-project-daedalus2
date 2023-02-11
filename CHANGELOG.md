@@ -1,3 +1,21 @@
+# [1.5.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.4.0...v1.5.0) (2023-02-11)
+
+
+### Bug Fixes
+
+* **application:** Always reply to requests in Redis request handlers (even if no value is available for the requested storage slot) ([ca86e33](https://github.com/wuespace/telestion-project-daedalus2/commit/ca86e3312f42f000ce18f4b9abf842a86f9873d3))
+* **client/widget:** Fix wrong delay time in Iridium map widget ([6d9b297](https://github.com/wuespace/telestion-project-daedalus2/commit/6d9b297b468acc0f9ce400ba7d73b5494abdd4be))
+
+
+### Features
+
+* **client/widget:** Display heater temperature if heater is not faulty in seed ECAM widget ([55b7f21](https://github.com/wuespace/telestion-project-daedalus2/commit/55b7f210ea421cff574efe0514103feaa9890987))
+* **client/widget:** Increase abnormal timeout in Iridium timeline widget ([3278158](https://github.com/wuespace/telestion-project-daedalus2/commit/3278158b01f0835b90e9d9e35b853463c81b0357))
+* **client/widget:** Remove invalid/possible dangerous state from state change widget ([7f4558e](https://github.com/wuespace/telestion-project-daedalus2/commit/7f4558e7f3c35913c9764ca7f4a82c5fdca3fb5c))
+* **client:** Increase timeouts in connection status panel in Iridium mode ([3cecb85](https://github.com/wuespace/telestion-project-daedalus2/commit/3cecb8589cdca8f69f6fcbfc162bc93351a09416))
+
+
+
 # [1.4.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.3.0...v1.4.0) (2023-02-10)
 
 
