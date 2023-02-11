@@ -28,7 +28,7 @@ export function useSeedEcamData(seed: 'seedA' | 'seedB') {
 		rail5Volts: seedHeartbeat.adc_measurements_sbc[7] / 1000,
 		heaterAllowed: (seedHeartbeat?.bat_status & 0b1000000) > 0,
 		heaterFault: seedHeartbeat?.bat_heater_fault > 0,
-		heaterTemps: seedHeartbeat?.adc_measurements_cop[4] / 10
+		heaterTemps: seedHeartbeat?.adc_measurements_cop[4] / 100 - 273.15
 	};
 
 	// TODO: Incorporate bat_used into mainBusVoltage calculation

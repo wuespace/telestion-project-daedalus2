@@ -79,7 +79,7 @@ export function Widget({ seed, voltThreshold }: WidgetProps) {
 									heaterAmps={
 										data.heaterFault
 											? '-Fault-'
-											: `${data.heaterTemps.toFixed(1)} K`
+											: `${data.heaterTemps.toFixed(1)} °C`
 									}
 									{...activeInactive(
 										'dcdcOutBlock',
