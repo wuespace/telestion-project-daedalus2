@@ -53,7 +53,8 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 		}
 
 		redisApi.mget(request.fields())
-				.onSuccess(result -> message.reply(Json.decodeValue(result.toString())));
+				.onSuccess(result -> message.reply(Json.decodeValue(result.toString())))
+				.onFailure(err -> message.reply(Json.encode(null)));
 	}
 
 	private void handleKeysRequest(Message<Object> message) {
@@ -75,7 +76,8 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 						}
 
 						message.reply(result);
-					});
+					})
+					.onFailure(err -> message.reply(Json.encode(null)));
 		} else {
 			message.fail(1, "Body must be a string");
 		}
@@ -92,9 +94,9 @@ public class RedisRequestHandler extends RedisVerticle<RedisRequestHandler.Confi
 						.map(this::fetchTSAggregation)
 						.collect(Collectors.toList());
 
-		CompositeFuture.all(results).onSuccess(allResults ->
-				message.reply(new JsonArray(allResults.list()))
-		);
+		CompositeFuture.all(results)
+				.onSuccess(allResults -> message.reply(new JsonArray(allResults.list())))
+				.onFailure(err -> message.reply(Json.encode(null)));
 	}
 
 	/**
