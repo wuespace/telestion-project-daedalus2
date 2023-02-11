@@ -10,17 +10,19 @@
  * formatDeltaTime(500); // now
  * formatDeltaTime(1000); // 1 sec
  * formatDeltaTime(6000); // 6 sec
- * formatDeltaTime(-8000); // -8 sec
+ * formatDeltaTime(-8000); // now
  * formatDeltaTime(130000); // 2 min
  * formatDeltaTime(3610_000); // 1 hrs
  * formatDeltaTime(-3610_000); // -1 hrs
  * ```
  */
 export function formatDeltaTime(deltaTime: number): string {
-	const absDeltaTime = Math.abs(deltaTime);
-	if (absDeltaTime < 1000) {
+	// return "now" between +1s and -10s
+	if (1000 > deltaTime && deltaTime > -10000) {
 		return 'now';
 	}
+
+	// normal operation
 	if (Math.abs(deltaTime) < 600_000) {
 		return `${Math.round(deltaTime / 1000)} sec`;
 	} else if (Math.abs(deltaTime) < 3600_000) {
