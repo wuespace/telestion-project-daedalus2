@@ -43,7 +43,7 @@ export function Widget() {
 		]);
 	const [seedATime, seedBTime] = useCachedLatest<number[]>([
 		'latest-time/seedA/iridium/payload',
-		'latest-time/seedA/iridium/payload'
+		'latest-time/seedB/iridium/payload'
 	]);
 
 	const [map, setMap] = useState<Map>();
