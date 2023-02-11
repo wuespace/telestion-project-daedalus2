@@ -76,7 +76,11 @@ export function Widget({ seed, voltThreshold }: WidgetProps) {
 										'heaterBlock',
 										data.rxsmVolts > voltThreshold && data.heaterAllowed
 									)}
-									heaterAmps={data.heaterFault ? '-Fault-' : '-Ok-'}
+									heaterAmps={
+										data.heaterFault
+											? '-Fault-'
+											: `${data.heaterTemps.toFixed(1)} K`
+									}
 									{...activeInactive(
 										'dcdcOutBlock',
 										data.rail3V3Volts > voltThreshold
