@@ -1,3 +1,17 @@
+# [1.6.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.5.0...v1.6.0) (2023-02-11)
+
+
+### Bug Fixes
+
+* **client/widget:** Fix heater temps calculating wrong temperature ([978c08c](https://github.com/wuespace/telestion-project-daedalus2/commit/978c08cde5c22d8e503313d3da5b6c37e5c4b8d0))
+
+
+### Features
+
+* **client:** Update format delta time to show 'now' even if the received packet is 10 seconds from the future ([85e0d00](https://github.com/wuespace/telestion-project-daedalus2/commit/85e0d00a09890ff848b7e77c35480221e0bd8f05))
+
+
+
 # [1.5.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.4.0...v1.5.0) (2023-02-11)
 
 
