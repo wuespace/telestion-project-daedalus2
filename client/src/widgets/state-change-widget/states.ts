@@ -1,6 +1,13 @@
 import { ejectorStates, seedStates, State } from '../../model/state';
 
-const nonVisibleStateNames = ['N/A', 'Invalid', '*'];
+const nonVisibleStateNames = [
+	'N/A',
+	'Invalid',
+	'*',
+	'Post',
+	'STATIC_TEST_ENTRY',
+	'STATIC_TEST'
+];
 
 function createStateIds(states: Record<number, State>): number[] {
 	return Object.keys(states) as unknown as number[];
