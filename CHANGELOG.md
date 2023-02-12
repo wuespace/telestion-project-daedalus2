@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.6.0...v1.7.0) (2023-02-12)
+
+
+### Features
+
+* **client/widget:** Add focus selector to Iridium map widget ([5dc1604](https://github.com/wuespace/telestion-project-daedalus2/commit/5dc1604c1fd86861241b285812513519ad5c3ffd))
+* **client/widget:** Add legend to Iridium map widget ([e4fb049](https://github.com/wuespace/telestion-project-daedalus2/commit/e4fb04947ef286a57d20e86e110388bbabf97ebd))
+* **client:** Increase Iridium packet timeouts further ([624bc66](https://github.com/wuespace/telestion-project-daedalus2/commit/624bc66c5ab3939e8ac29256b9aba70708e1bd73))
+* **client:** Update format delta time to accept undefined and null values ([c738379](https://github.com/wuespace/telestion-project-daedalus2/commit/c738379494087cb788e66de96b9409d2e697e9fa))
+
+
+
 # [1.6.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.5.0...v1.6.0) (2023-02-11)
 
 
