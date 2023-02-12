@@ -1,12 +1,6 @@
 import { useState } from 'react';
-import {
-	ActionButton,
-	Divider,
-	Flex,
-	Heading,
-	View
-} from '@adobe/react-spectrum';
-import { Map } from 'leaflet';
+import { Divider, Flex, Heading, View } from '@adobe/react-spectrum';
+import { LatLng, Map } from 'leaflet';
 import {
 	MapContainer,
 	TileLayer,
@@ -14,40 +8,19 @@ import {
 	CircleMarker
 } from 'react-leaflet';
 
-import { useCachedLatest } from '../hooks';
 import { formatDeltaTime } from '../lib/format-delta-time';
-import { mapCenter, SEED_A_COLOR, SEED_B_COLOR, SeedPosition } from './model';
-import { Legend } from './legend';
+import { Legend, FocusSelector } from './components';
+import { useMapData } from './hooks';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
 
+// Esrange Space Center
+export const mapCenter = new LatLng(67.887, 21.0851);
+
 export function Widget() {
-	const [seedAPosValid, seedAPosLatest, seedBPosValid, seedBPosLatest] =
-		useCachedLatest<SeedPosition[]>([
-			'latest/seedA/iridium/payload/valid',
-			'latest/seedA/iridium/payload/latest',
-			'latest/seedB/iridium/payload/valid',
-			'latest/seedB/iridium/payload/latest'
-		]);
-	const [seedATime, seedBTime] = useCachedLatest<number[]>([
-		'latest-time/seedA/iridium/payload',
-		'latest-time/seedB/iridium/payload'
-	]);
-
+	const mapData = useMapData();
 	const [map, setMap] = useState<Map>();
-
-	const panToSeedA = () => {
-		if (!!map && !!seedAPosValid) {
-			map.panTo([seedAPosValid.latitude, seedAPosValid.longitude]);
-		}
-	};
-
-	const panToSeedB = () => {
-		if (!!map && !!seedBPosValid) {
-			map.panTo([seedBPosValid.latitude, seedBPosValid.longitude]);
-		}
-	};
 
 	return (
 		<View width="100%" height="100%">
@@ -59,21 +32,10 @@ export function Widget() {
 					marginX="size-200"
 				>
 					<Heading level={3}>Map</Heading>
-					<Flex direction="row" alignItems="center" justifyContent="center">
-						<ActionButton isDisabled={!seedAPosValid} onPress={panToSeedA}>
-							Seed A
-						</ActionButton>
-						<ActionButton
-							isDisabled={!seedBPosValid}
-							onPress={panToSeedB}
-							marginStart="size-100"
-						>
-							Seed B
-						</ActionButton>
-					</Flex>
+					<FocusSelector map={map} mapData={mapData} />
 					<code>
-						{seedATime ? formatDeltaTime(Date.now() - seedATime) : 'Waiting'} /{' '}
-						{seedBTime ? formatDeltaTime(Date.now() - seedBTime) : 'Waiting'}
+						{formatDeltaTime(mapData.seedALastTime)} /{' '}
+						{formatDeltaTime(mapData.seedBLastTime)}
 					</code>
 				</Flex>
 				<Divider size="S" />
@@ -90,38 +52,38 @@ export function Widget() {
 					/>
 					<ScaleControl />
 
-					{seedAPosLatest && (
+					{mapData.seedALatestPos && (
 						<CircleMarker
-							center={[seedAPosLatest.latitude, seedAPosLatest.longitude]}
+							center={mapData.seedALatestPos}
 							radius={10}
-							color={SEED_A_COLOR}
+							color="#1379f3"
 							dashArray="4"
 							opacity={0.5}
 						/>
 					)}
-					{seedBPosLatest && (
+					{mapData.seedBLatestPos && (
 						<CircleMarker
-							center={[seedBPosLatest.latitude, seedBPosLatest.longitude]}
+							center={mapData.seedBLatestPos}
 							radius={10}
-							color={SEED_B_COLOR}
+							color="#fe9a2e"
 							dashArray="4"
 							opacity={0.5}
 						/>
 					)}
 
-					{seedAPosValid && (
+					{mapData.seedAValidPos && (
 						<CircleMarker
-							center={[seedAPosValid.latitude, seedAPosValid.longitude]}
+							center={mapData.seedAValidPos}
 							radius={10}
-							color={SEED_A_COLOR}
+							color="#1379f3"
 							fillOpacity={0.7}
 						/>
 					)}
-					{seedBPosValid && (
+					{mapData.seedBValidPos && (
 						<CircleMarker
-							center={[seedBPosValid.latitude, seedBPosValid.longitude]}
+							center={mapData.seedBValidPos}
 							radius={10}
-							color={SEED_B_COLOR}
+							color="#fe9a2e"
 							fillOpacity={0.7}
 						/>
 					)}
