@@ -6,32 +6,21 @@ import {
 	Heading,
 	View
 } from '@adobe/react-spectrum';
-import { LatLng, Map } from 'leaflet';
+import { Map } from 'leaflet';
 import {
 	MapContainer,
 	TileLayer,
 	ScaleControl,
 	CircleMarker
 } from 'react-leaflet';
+
 import { useCachedLatest } from '../hooks';
-import { JsonSerializable } from '@wuespace/telestion-client-types';
 import { formatDeltaTime } from '../lib/format-delta-time';
+import { mapCenter, SEED_A_COLOR, SEED_B_COLOR, SeedPosition } from './model';
+import { Legend } from './legend';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.js';
-
-// Esrange Space Center
-const mapCenter = new LatLng(67.887, 21.0851);
-
-// see: https://spectrum.adobe.com/page/color-palette/
-const SEED_A_COLOR = '#1379f3'; // Adobe Spectrum: blue-600-dark
-const SEED_B_COLOR = '#fe9a2e'; // Adobe Spectrum: orange-900-dark
-
-interface SeedPosition extends Record<string, JsonSerializable> {
-	latitude: number;
-	longitude: number;
-	altitude: number;
-}
 
 export function Widget() {
 	const [seedAPosValid, seedAPosLatest, seedBPosValid, seedBPosLatest] =
@@ -136,6 +125,7 @@ export function Widget() {
 							fillOpacity={0.7}
 						/>
 					)}
+					<Legend map={map} />
 				</MapContainer>
 			</Flex>
 		</View>
