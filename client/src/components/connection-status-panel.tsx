@@ -59,14 +59,14 @@ const iridiumConnections: Connection[] = [
 	{
 		title: 'Seed A',
 		redisKey: 'seedA/iridium',
-		warnTimeout: 60000,
-		errTimeout: 90000
+		warnTimeout: 100000,
+		errTimeout: 200000
 	},
 	{
 		title: 'Seed B',
 		redisKey: 'seedB/iridium',
-		warnTimeout: 60000,
-		errTimeout: 90000
+		warnTimeout: 100000,
+		errTimeout: 200000
 	}
 ];
 

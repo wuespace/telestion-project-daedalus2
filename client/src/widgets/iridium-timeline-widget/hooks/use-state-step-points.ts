@@ -4,7 +4,7 @@ import { useExperimentDelay } from './use-experiment-delay';
 
 const MAX_SEED_NOMINAL_STATE = 33;
 
-const MAX_DELAY = 60000; /* ms */
+const MAX_DELAY = 100000; /* ms */
 
 function isDelayed(delay: number) {
 	return delay > MAX_DELAY;
