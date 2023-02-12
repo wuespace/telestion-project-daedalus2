@@ -7,6 +7,8 @@
  *
  * @example
  * ```ts
+ * formatDeltaTime(undefined); // waiting
+ * formatDeltaTime(null); // waiting
  * formatDeltaTime(500); // now
  * formatDeltaTime(1000); // 1 sec
  * formatDeltaTime(6000); // 6 sec
@@ -16,7 +18,11 @@
  * formatDeltaTime(-3610_000); // -1 hrs
  * ```
  */
-export function formatDeltaTime(deltaTime: number): string {
+export function formatDeltaTime(deltaTime: number | null | undefined): string {
+	if (typeof deltaTime !== 'number') {
+		return 'waiting';
+	}
+
 	// return "now" between +1s and -10s
 	if (1000 > deltaTime && deltaTime > -10000) {
 		return 'now';
