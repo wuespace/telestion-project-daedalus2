@@ -20,6 +20,8 @@ import java.util.Optional;
 public class MessageMapper extends TelestionVerticle<MessageMapper.Configuration>
 		implements WithEventBus, WithSharedData {
 
+	public static final String UNKNOWN_TARGET_NAME = "unknown";
+
 	public record MappedMessage(
 			@JsonProperty IEHeader header,
 			@JsonProperty IEPayload payload,
@@ -83,6 +85,7 @@ public class MessageMapper extends TelestionVerticle<MessageMapper.Configuration
 		final long receiveTime = getReceiveTime(mappedMessage, time);
 
 		if (Objects.isNull(mappedMessage)) {
+			incrementInvalid(targetName);
 			return;
 		}
 
@@ -131,6 +134,24 @@ public class MessageMapper extends TelestionVerticle<MessageMapper.Configuration
 		redisObj.put("stats", statsObj);
 
 		publish(targetName + "/iridium", redisObj, options);
+		publishUnknownStats(receiveTime, time);
+	}
+
+	private void publishUnknownStats(long receiveTime, long time) {
+		var targetName = getTargetName(null);
+		var redisObj = new JsonObject();
+
+		var options = new DeliveryOptions()
+				.addHeader("receive-time", Json.encode(receiveTime))
+				.addHeader("time", Json.encode(time));
+
+		// add statistics
+		var statsObj = new JsonObject()
+				.put("valid", getValid(targetName))
+				.put("invalid", getInvalid(targetName));
+		redisObj.put("stats", statsObj);
+
+		publish(targetName + "/iridium", redisObj, options);
 	}
 
 	/**
@@ -141,10 +162,14 @@ public class MessageMapper extends TelestionVerticle<MessageMapper.Configuration
 	 * @return the target name
 	 */
 	private String getTargetName(MappedMessage message) {
+		if (Objects.isNull(message)) {
+			return UNKNOWN_TARGET_NAME;
+		}
+
 		return Optional.of(message)
 				.map(MappedMessage::header)
 				.map(header -> getConfig().imeiMapping().get(header.imei())).
-				orElse("unknown");
+				orElse(UNKNOWN_TARGET_NAME);
 	}
 
 	private long getReceiveTime(MappedMessage message, long time) {
