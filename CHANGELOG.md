@@ -1,3 +1,12 @@
+## [1.7.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.7.0...v1.7.1) (2023-03-23)
+
+
+### Bug Fixes
+
+* **application:** Also publish iridium parse stats for unknown targets ([3b447c9](https://github.com/wuespace/telestion-project-daedalus2/commit/3b447c9263443f2c2e658f27e48f6231769a9bbb))
+
+
+
 # [1.7.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.6.0...v1.7.0) (2023-02-12)
 
 
