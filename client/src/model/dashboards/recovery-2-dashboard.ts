@@ -9,7 +9,7 @@ export const recovery2Dashboard: Dashboard = {
 			id: 'recovery-2-0',
 			widgetName: 'iridiumMapWidget',
 			width: 1,
-			height: 20
+			height: 15
 		},
 		{
 			id: 'recovery-2-1',
@@ -88,6 +88,12 @@ export const recovery2Dashboard: Dashboard = {
 					}
 				]
 			}
+		},
+		{
+			id: 'recovery-2-4',
+			widgetName: 'csvDataExportWidget',
+			width: 1,
+			height: 5
 		},
 		{
 			id: 'recovery-2-3',
