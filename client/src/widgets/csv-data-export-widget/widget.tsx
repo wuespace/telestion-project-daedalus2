@@ -60,7 +60,7 @@ export function Widget() {
 						</RadioGroup>
 						<div>Message count: {count}</div>
 					</Flex>
-					<Button variant="cta" onPress={handle}>
+					<Button variant="cta" onPress={handle} width="100%">
 						Download iridium messages
 					</Button>
 				</View>
