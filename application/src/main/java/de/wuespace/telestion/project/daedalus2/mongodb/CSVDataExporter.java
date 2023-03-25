@@ -79,9 +79,10 @@ public class CSVDataExporter extends TelestionVerticle<CSVDataExporter.Configura
 	private MongoClient client;
 
 	private void handle(CSVDataRequest request, Message<Object> message) {
+		logger.debug("Get CSV iridium messages for target: {}", request.target());
 		getAllIridiumMessages(request.target())
 				.map(this::createCSVData)
-				.onSuccess(message::reply)
+				.onSuccess(data -> message.reply(data.json()))
 				.onFailure(cause -> message.fail(500, cause.getMessage()));
 	}
 
@@ -92,7 +93,7 @@ public class CSVDataExporter extends TelestionVerticle<CSVDataExporter.Configura
 				.map(this::mergeInfos)
 				.collect(Collectors.joining("\n"));
 
-		return new CSVData(0, header + body);
+		return new CSVData(results.size(), header + body);
 	}
 
 	private Future<List<JsonObject>> getAllIridiumMessages(String target) {

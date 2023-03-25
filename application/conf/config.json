@@ -36,7 +36,8 @@
 						"request-time-sync",
 						"a-gps-transmitter#request",
 						"tc-console-request",
-						"reset-tc-counter"
+						"reset-tc-counter",
+						"csv-data-exporter#request"
 					],
 					"outboundPermitted": [
 						"a-gps-transmitter#notify",
