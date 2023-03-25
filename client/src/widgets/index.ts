@@ -29,10 +29,12 @@ import { widget as timelineWidget } from './timeline-widget';
 import { widget as iridiumMapWidget } from './iridium-map-widget';
 import { widget as iridiumTimelineWidget } from './iridium-timeline-widget';
 import { widget as iridiumStateWidget } from './iridium-state-widget';
+import { widget as csvDataExportWidget } from './csv-data-export-widget';
 // IMPORT_INSERT_MARK
 
 export const projectWidgets: Widget[] = [
 	// ARRAY_FIRST_ELEMENT_INSERT_MARK
+	csvDataExportWidget,
 	iridiumStateWidget,
 	iridiumTimelineWidget,
 	iridiumMapWidget,
