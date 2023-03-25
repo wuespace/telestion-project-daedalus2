@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.7.1...v1.8.0) (2023-03-25)
+
+
+### Features
+
+* **application/config:** Add CSV data exporter to main configuration ([6d9912c](https://github.com/wuespace/telestion-project-daedalus2/commit/6d9912c3b20766a28cb8cea631d0f25c5a21fe47))
+* **application:** Add CSV iridium message exporter ([3cd1d7e](https://github.com/wuespace/telestion-project-daedalus2/commit/3cd1d7e98c5b42bf4667f6ef07dbf9cd79eac336))
+* **client/dashboards:** Add CSV data exporter to recovery-2 dashboard ([765776f](https://github.com/wuespace/telestion-project-daedalus2/commit/765776f452166305baafb6b0f6e8c2ebeb7c8aa0))
+* **client/widget:** Add CSV data exporter widget ([289f736](https://github.com/wuespace/telestion-project-daedalus2/commit/289f736214975b55db1f0a36e97a5fab3d4182db))
+
+
+
 ## [1.7.1](https://github.com/wuespace/telestion-project-daedalus2/compare/v1.7.0...v1.7.1) (2023-03-23)
 
 
